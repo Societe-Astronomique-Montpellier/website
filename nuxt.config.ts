@@ -1,0 +1,17 @@
+// https://nuxt.com/docs/api/configuration/nuxt-config
+import { defineNuxtConfig } from 'nuxt'
+
+export default defineNuxtConfig({
+  devtools: { enabled: true },
+  "typescript": {
+    typeCheck: true
+  },
+  modules: [
+    "@nuxtjs/prismic",
+  ],
+  prismic: { endpoint: process.env.NUXT_PRISMIC_ENDPOINT },
+  build: {
+    transpile: ['vuetify']
+  }
+
+})

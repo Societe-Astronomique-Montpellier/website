@@ -1,0 +1,9 @@
+node_modules
+dist
+nitro
+.cache
+log
+logs
+.env
+.env.*
+!.env.dist

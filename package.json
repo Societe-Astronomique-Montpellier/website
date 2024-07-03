@@ -10,11 +10,14 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@mdi/font": "^7.4.47",
     "@nuxtjs/prismic": "^3.3.2",
     "nuxt": "^3.12.3",
     "vue": "latest"
   },
   "devDependencies": {
-    "@nuxtjs/vuetify": "^1.12.3"
+    "@nuxtjs/vuetify": "^1.12.3",
+    "vite-plugin-vuetify": "^2.0.3",
+    "vuetify": "^3.6.11"
   }
 }

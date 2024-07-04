@@ -6,12 +6,13 @@ definePageMeta({
 });
 
 // Components
-const HeroPresentation = defineAsyncComponent(() => import('@/components/home/HeroPresentation'))
+const HeroPresentation = defineAsyncComponent(() => import('@/components/home/HeroPresentation.vue'))
 
 // Prismic
 </script>
 
 <template>
+Site de la SAM
   <HeroPresentation />
 </template>
 

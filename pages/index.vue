@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+// https://tailwindflex.com/tag/call-to-action?page=6
 // Layout
 definePageMeta({
   layout: 'home',
@@ -8,7 +8,7 @@ definePageMeta({
 // Components
 const HeroPresentation = defineAsyncComponent(() => import('@/components/home/HeroPresentation.vue'))
 const Testimonial = defineAsyncComponent(() => import('@/components/home/Testimonial.vue'))
-const BlockCTA = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
+const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 
 // Prismic
 import type { IPrismicDocument } from '@/types/prismic'
@@ -32,11 +32,14 @@ const { data: document, pending, error } = await useAsyncData(
     />
 
     <!-- thematics block -->
+    <p>Liste des thématiques à venir...</p>
     
     <!-- Features -->
-    <BlockCTA
-      :id="document.data.bloc_cta.id"
+    <BlockCta
+      :id="document.data.block_cta.id"
     />  
+    
+    <!-- Evenements -->
   </div>
   <div v-else>
     <p>Load data...</p>

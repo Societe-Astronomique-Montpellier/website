@@ -7,6 +7,7 @@ definePageMeta({
 
 // Components
 const HeroPresentation = defineAsyncComponent(() => import('@/components/home/HeroPresentation.vue'))
+const Testimonial = defineAsyncComponent(() => import('@/components/home/Testimonial.vue'))
 
 // Prismic
 import type { IPrismicDocument } from '@/types/prismic'
@@ -23,7 +24,10 @@ const { data: document, pending, error } = await useAsyncData(
   <div v-if="document"> 
     <HeroPresentation
       :id="document.data.hero.id" 
-      :type="document.data.hero.type"
+    />
+
+    <Testimonial
+      :id="document.data.testimonial.id"
     />
   </div>
   <div v-else>

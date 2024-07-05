@@ -1,5 +1,6 @@
 <script setup lang="ts">
   // add shere button + top
+import Copyright from "~/components/Layouts/Copyright.vue";
 </script>
 
 <template>
@@ -8,6 +9,7 @@
       <slot />
     </div>
   </v-main>
+  <Copyright />
 </template>
 
 <style scoped>

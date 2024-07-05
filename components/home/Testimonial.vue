@@ -35,6 +35,10 @@ const { data: blockTestimonial, pending, error } = await useAsyncData(
                   :alt="blockTestimonial.data.image.alt" />
             </div>
             <div class="md:ms-6">
+            <p
+              class="mb-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
+              {{ blockTestimonial.data.title[0].text }}
+            </p>
               <p
                 class="mb-6 font-light text-neutral-500 dark:text-neutral-300"
               >

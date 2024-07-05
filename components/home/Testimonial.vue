@@ -15,61 +15,38 @@ const { data: blockTestimonial, pending, error } = await useAsyncData(
 </script>
 
 <template>
-  <div v-if="blockTestimonial">
-    <v-sheet
-        elevation="0"
-        class="mx-auto landing-warpper"
-        color="white"
-    >
-      <v-sheet
-        color="white"
-        elevation="0"
-        max-width="2100"
-        class="mx-auto pa-5"
-      >
-        <v-container
-            color="grey"
-        >
-          <v-sheet
-            color="grey"
-            elevation="0"
-            rounded-xl
-          >
-            <v-row
-              align="center"
-              justify="center"
-            >
-              <v-col
-                cols="2"
-                lg="2"
+  <!--Background-->
+  <section
+    v-if="blockTestimonial"
+      class="rounded-md p-6 text-center shadow-lg md:p-12 md:text-left"
+      style=""
+  >
+    <div class="flex justify-center">
+      <div class="max-w-3xl">
+        <div
+            class="m-4 block rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-800 dark:shadow-black/20">
+          <!--Testimonial-->
+          <div class="md:flex md:flex-row">
+            <div
+                class="mx-auto mb-6 flex w-36 items-center justify-center md:mx-0 md:w-96 lg:mb-0">
+              <img
+                  :src="blockTestimonial.data.image.url"
+                  class="rounded-full shadow-md dark:shadow-black/30"
+                  :alt="blockTestimonial.data.image.alt" />
+            </div>
+            <div class="md:ms-6">
+              <p
+                class="mb-6 font-light text-neutral-500 dark:text-neutral-300"
               >
-                <v-avatar size="200" class="mr-4">
-                  <v-img
-                      :src="blockTestimonial.data.image.url"
-                      width="200"
-                  />
-                </v-avatar>
-              </v-col>
-              <v-col
-                  cols="10"
-                  lg="10"
-                  style="align-self: baseline;"
-              >
-                <h3 class="text-h4 font-weight-regular text-center">
-                  <prismic-text :field="blockTestimonial.data.content" wrapper="p" />
-                </h3>
-              </v-col>
-            </v-row>
-          </v-sheet>
-        </v-container>
-      </v-sheet>
-    </v-sheet>
+                {{ blockTestimonial.data.content[0].text }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!--    <v-img-->
-<!--      :src="blockTestimonial.data.image.url"-->
-<!--    />-->
-
-  </div>
 </template>
 
 <style scoped>

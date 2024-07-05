@@ -24,7 +24,7 @@ const { data: blockHero, pending, error } = await useAsyncData(
     class="h-screen  bg-cover bg-no-repeat"
     :style="{backgroundImage: `url(${blockHero.data.image.url})`, height: '2100px' }"
   >
-    <div class="text-h2 font-weight-regular text-white">
+    <div class="... flex items-center justify-center">
       <prismic-text :field="blockHero.data.subtitle" wrapper="h2" />
       <prismic-text :field="blockHero.data.title" wrapper="h1" />
     </div>

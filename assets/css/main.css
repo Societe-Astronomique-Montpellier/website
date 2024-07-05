@@ -3,7 +3,7 @@
 
 @layer base {
     html {
-        @apply text-surface;
+        /*@apply text-surface;*/
         @apply bg-white;
     }
     html.dark {

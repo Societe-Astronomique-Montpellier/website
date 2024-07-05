@@ -19,21 +19,15 @@ const { data: blockHero, pending, error } = await useAsyncData(
 </script>
 
 <template>
-  <v-parallax
+  <div
     v-if="blockHero"
-    cover
-    :src="blockHero.data.image.url"
+    class="h-screen  bg-cover bg-no-repeat"
+    :style="{backgroundImage: `url(${blockHero.data.image.url})`, height: '2100px' }"
   >
-    <v-row
-      class="w-auto fill-height"
-      align="center"
-      justify="center"
-    >
-      <div class="text-h2 text-white">
-        <prismic-text :field="blockHero.data.subtitle" wrapper="h2" />
-        <prismic-text :field="blockHero.data.title" wrapper="h1" />
-      </div>  
-    </v-row>
-  </v-parallax>
+    <div class="text-h2 font-weight-regular text-white">
+      <prismic-text :field="blockHero.data.subtitle" wrapper="h2" />
+      <prismic-text :field="blockHero.data.title" wrapper="h1" />
+    </div>
+  </div>
 </template>
 

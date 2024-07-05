@@ -19,41 +19,48 @@ const { data: blockTestimonial, pending, error } = await useAsyncData(
     <v-sheet
         elevation="0"
         class="mx-auto landing-warpper"
-        rounded
-        color="primary"
+        color="white"
     >
       <v-sheet
-          color="transparent"
-          elevation="0"
-          max-width="2100"
-          class="mx-auto pa-5"
+        color="white"
+        elevation="0"
+        max-width="2100"
+        class="mx-auto pa-5"
       >
-        <v-container>
-          <v-row
+        <v-container
+            color="grey"
+        >
+          <v-sheet
+            color="grey"
+            elevation="0"
+            rounded-xl
+          >
+            <v-row
               align="center"
               justify="center"
-          >
-            <v-col
+            >
+              <v-col
                 cols="2"
                 lg="2"
-            >
-              <v-avatar size="200" class="mr-4">
-                <v-img
-                    :src="blockTestimonial.data.image.url"
-                    width="200"
-                />
-              </v-avatar>
-            </v-col>
-            <v-col
-                cols="10"
-                lg="10"
-                style="align-self: baseline;"
-            >
-              <h3 class="text-h5 font-weight-regular text-center">
-                <prismic-text :field="blockTestimonial.data.content" />
-              </h3>
-            </v-col>
-          </v-row>
+              >
+                <v-avatar size="200" class="mr-4">
+                  <v-img
+                      :src="blockTestimonial.data.image.url"
+                      width="200"
+                  />
+                </v-avatar>
+              </v-col>
+              <v-col
+                  cols="10"
+                  lg="10"
+                  style="align-self: baseline;"
+              >
+                <h3 class="text-h4 font-weight-regular text-center">
+                  <prismic-text :field="blockTestimonial.data.content" wrapper="p" />
+                </h3>
+              </v-col>
+            </v-row>
+          </v-sheet>
         </v-container>
       </v-sheet>
     </v-sheet>

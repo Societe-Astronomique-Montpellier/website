@@ -21,7 +21,7 @@ const { data: document, pending, error } = await useAsyncData(
 </script>
 
 <template>
-  <div v-if="document"> 
+  <div v-if="document">
     <HeroPresentation
       :id="document.data.hero.id" 
     />
@@ -29,12 +29,10 @@ const { data: document, pending, error } = await useAsyncData(
     <Testimonial
       :id="document.data.testimonial.id"
     />
+
+
   </div>
   <div v-else>
     <p>Load data...</p>
   </div>	
 </template>
-
-<style scoped>
-
-</style>

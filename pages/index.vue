@@ -8,7 +8,16 @@ definePageMeta({
 // Components
 const HeroPresentation = defineAsyncComponent(() => import('@/components/home/HeroPresentation.vue'))
 const Testimonial = defineAsyncComponent(() => import('@/components/home/Testimonial.vue'))
+const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
+
+interface IBlockThematic {
+  thematics: {
+    id: string
+  };
+}
+
+const blockThematicsIdsRef: Ref<string[]> = ref([])
 
 // Prismic
 import type { IPrismicDocument } from '@/types/prismic'
@@ -16,8 +25,16 @@ import type { IPrismicDocument } from '@/types/prismic'
 const { client } = usePrismic()
 const { data: document, pending, error } = await useAsyncData(
   "home", 
-  (): Promise<IPrismicDocument> => client.getSingle('sam_homepage', {lang: 'fr-fr'})  
+  async (): Promise<IPrismicDocument> => {
+    const document = await client.getSingle('sam_homepage', {lang: 'fr-fr'})
+    if (document.data.group_thematics) {
+      document.data.group_thematics.forEach((block: IBlockThematic) => blockThematicsIdsRef.value.push(block.thematics.id))
+    }
+    
+    return document;
+  }
 );
+
  
 </script>
 
@@ -32,7 +49,10 @@ const { data: document, pending, error } = await useAsyncData(
     />
 
     <!-- thematics block -->
-    <p>Liste des thématiques à venir...</p>
+    <BlockThematics
+      :blockIds="blockThematicsIdsRef"
+      title="Nos thématiques"
+    />
     
     <!-- Features -->
     <BlockCta

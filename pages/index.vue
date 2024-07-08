@@ -7,7 +7,7 @@ definePageMeta({
 
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
-const Testimonial = defineAsyncComponent(() => import('@/components/home/Testimonial.vue'))
+const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
 const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 
@@ -18,40 +18,31 @@ import type { IBlock } from '@/types/block';
 //import { useFillCommonProperties } from '@/composables/useFillCommonProperties';
 
 let blockHeroRef: IBlock = reactive({
-  id: '',
+  id: null,
   uid: null,
-  title: '',
+  title: null,
   subtitle: null,
-  image: null,
-  content: [], 
-  resume: null, 
-  showButton: null,
-  link: null
+  image: undefined
 });
 let blockTestimonialRef: IBlock = reactive({
-  id: '',
+  id: null,
   uid: null,
-  title: '',
-  subtitle: null,
-  image: null,
-  content: [], 
-  resume: null, 
-  showButton: null,
-  link: null
+  title: null,
+  image: undefined,
+  content: null,
 })
+let blockThematicsIdsRef: Ref<string[]> = ref([])
 let blockCtaRef: IBlock = reactive({
-  id: '',
+  id: null,
   uid: null,
-  title: '',
+  title: null,
   subtitle: null,
-  image: null,
-  content: [], 
-  resume: null, 
-  showButton: null,
+  image: undefined,
+  content: null,
+  showButton: false,
   link: null
 });
 
-let blockThematicsIdsRef: Ref<string[]> = ref([])
 
 // Prismic
 const { client } = usePrismic()
@@ -67,10 +58,16 @@ const { data: document, pending, error } = await useAsyncData(
         'sam_block_testimonial.title',
         'sam_block_testimonial.content',
         'sam_block_testimonial.image',
+        'sam_block_thematic.title',
+        'sam_block_thematic.subtitle',
+        'sam_block_thematic.image',
+        'sam_block_thematic.link',
         'sam_block_cta.title',
-        'sam_block_cta.image',
         'sam_block_cta.subtitle',
+        'sam_block_cta.image',
+        'sam_block_cta.resume',
         'sam_block_cta.content',
+        'sam_block_cta.show_button',
         'sam_block_cta.link',
       ]
     })
@@ -78,12 +75,20 @@ const { data: document, pending, error } = await useAsyncData(
     if (document.data.hero) {
       Object.keys(blockHeroRef).forEach(key => key in document.data.hero.data && (blockHeroRef[key] = document.data.hero.data[key]));
       blockHeroRef.id = document.data.hero.id;
-      //const { fillCommonProperties } = useFillCommonProperties<IBlock, T>();
-      //fillCommonProperties(blockHeroRef, sourceObject);
+    }
+
+    if (document.data.testimonial) {
+      Object.keys(blockTestimonialRef).forEach(key => key in document.data.testimonial.data && (blockTestimonialRef[key] = document.data.testimonial.data[key]));
+      blockTestimonialRef.id = document.data.testimonial.id;
     }
 
     if (document.data.group_thematics) {
-      // document.data.group_thematics.forEach((block: IBlockThematic) => blockThematicsIdsRef.value.push(block.thematics.id))
+      console.log(document.data.thematic.group_thematics)
+    }
+
+    if (document.data.block_cta) {
+      Object.keys(blockTestimonialRef).forEach(key => key in document.data.block_cta.data && (blockCtaRef[key] = document.data.block_cta.data[key]));
+      blockCtaRef.id = document.data.block_cta.id;
     }
     
     return document;
@@ -94,29 +99,32 @@ const { data: document, pending, error } = await useAsyncData(
 
 <template>
   <div v-if="document">
-    {{ blockHeroRef }}
-    <HeroPresentation
+    <BlockHeroPresentation
       :data="blockHeroRef" 
     />
 
-    <Testimonial
-      :id="document.data.testimonial.id"
+    <BlockTestimonial
+      :data="blockTestimonialRef"
     />
 
     <!-- thematics block -->
-    <BlockThematics
-      :blockIds="blockThematicsIdsRef"
-      title="Nos thématiques"
-    />
+<!--    <BlockThematics-->
+<!--      :blockIds="blockThematicsIdsRef"-->
+<!--      title="Nos thématiques"-->
+<!--    />-->
     
     <!-- Features -->
     <BlockCta
-      :id="document.data.block_cta.id"
-    />  
+      :data="blockCtaRef"
+    />
     
     <!-- Evenements -->
   </div>
-  <div v-else>
-    <p>Load data...</p>
-  </div>	
+  <div v-else-if="pending">
+    <p>Veuillez patienter durant le chargement des données</p>
+  </div>
+  <div v-else-if="error">
+    ERROR !!!!!!!!!!!!!
+  </div>
+
 </template>

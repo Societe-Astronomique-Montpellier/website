@@ -1,23 +1,19 @@
 <script setup lang="ts">
 import type {IPrismicDocument} from "~/types/prismic";
+import type {IBlock} from "~/types/block";
 
 export interface Props {
-  id: string
+  data: IBlock
 }
 const props = defineProps<Props>()
-const { id } = toRefs(props)
+const { data } = toRefs(props)
 
-const { client } = usePrismic();
-const { data: blockTestimonial, pending, error } = await useAsyncData(
-    "blockTestimonial",
-    (): Promise<IPrismicDocument> => client.getByID(id.value, {lang: 'fr-fr'})
-);
 </script>
 
 <template>
   <!--Background-->
   <section
-    v-if="blockTestimonial"
+    v-if="data"
       class="rounded-md p-6 text-center shadow-lg md:p-12 md:text-left"
       style=""
   >
@@ -29,20 +25,21 @@ const { data: blockTestimonial, pending, error } = await useAsyncData(
           <div class="md:flex md:flex-row">
             <div
                 class="mx-auto mb-6 flex w-36 items-center justify-center md:mx-0 md:w-96 lg:mb-0">
-              <img
-                  :src="blockTestimonial.data.image.url"
-                  class="rounded-full shadow-md dark:shadow-black/30"
-                  :alt="blockTestimonial.data.image.alt" />
+              <prismic-image
+                v-if="undefined !== data.image"
+                :field="data.image"
+                class="rounded-full shadow-md dark:shadow-black/30"
+              />
             </div>
             <div class="md:ms-6">
             <p
               class="mb-2 text-xl font-semibold text-neutral-800 dark:text-neutral-200">
-              {{ blockTestimonial.data.title[0].text }}
+              <prismic-text :field="data.title" />
             </p>
               <p
                 class="mb-6 font-light text-neutral-500 dark:text-neutral-300"
               >
-                {{ blockTestimonial.data.content[0].text }}
+                <prismic-rich-text :field="data.content" />
               </p>
             </div>
           </div>

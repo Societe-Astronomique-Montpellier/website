@@ -1,3 +1,4 @@
+import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import { defineNuxtConfig } from 'nuxt/config'
 
@@ -10,7 +11,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "@nuxtjs/prismic"
   ],
-  prismic: { endpoint: process.env.NUXT_PRISMIC_ENDPOINT },
+  prismic: { endpoint: apiEndpoint || repositoryName },
   imports: {
     dirs: [
       'composables',

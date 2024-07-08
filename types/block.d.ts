@@ -3,19 +3,8 @@ import type {RichTextField, ImageField, LinkField} from "@prismicio/client";
 type Nullable<T> = T | undefined | null;
 type Undefined<T> = T | undefined;
 
-interface IPrismicImage {
-    alt: Nullable<string>,
-    copyright: Nullable<string>,
-    dimensions?: {
-        width: Nullable<number>,
-        height: Nullable<number>
-    },
-    id : string,
-    url: string
-}
-
 interface IBlock {
-    id: Nullable<string>,
+    id?: Nullable<string>,
     uid?: Nullable<string>,
     title: RichTextField | null,
     subtitle?: Nullable<RichTextField>,

@@ -18,7 +18,6 @@ initTWE({ Collapse, Ripple });
 
 <template>
   <div
-    v-if="data"
     class="relative h-96 overflow-hidden bg-cover bg-no-repeat p-12 text-center lg:h-screen"
     :style="{backgroundImage: `url(${data.image?.url})`}"
   >

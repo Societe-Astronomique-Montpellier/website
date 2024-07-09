@@ -45,7 +45,7 @@ const { data: home, error} = await useAsyncData<HomepageDocument>("home", () => 
     })
 );
 
-const relatedBlockHero = home.data.block_hero as typeof home.data.block_hero & {
+const relatedBlockHero = home?.value?.data.block_hero /*as typeof foo.bar*/ & {
   data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'image'>
 }
 

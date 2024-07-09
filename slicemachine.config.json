@@ -1,0 +1,7 @@
+{
+  "apiEndpoint": "https://societe-astronomique-montpellier.cdn.prismic.io/api/v2",
+  "repositoryName": "societe-astronomique-montpellier",
+  "adapter": "@slicemachine/adapter-nuxt",
+  "libraries": ["./slices"],
+  "localSliceSimulatorURL": "http://localhost:3000/slice-simulator"
+}

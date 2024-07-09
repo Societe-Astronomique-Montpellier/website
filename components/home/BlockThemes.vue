@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import type {IBlock} from "~/types/block";
 
 export interface Props {
-  data: undefined | IBlock,
+  block:  undefined,
   title: string
 }
 

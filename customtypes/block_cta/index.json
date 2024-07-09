@@ -1,0 +1,83 @@
+{
+  "format": "page",
+  "id": "block_cta",
+  "label": "Bloc CallTo Action",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "titre": {
+        "type": "Text",
+        "config": {
+          "label": "Titre",
+          "placeholder": ""
+        }
+      },
+      "subtitle": {
+        "type": "Text",
+        "config": {
+          "label": "Sous-titre",
+          "placeholder": ""
+        }
+      },
+      "image": {
+        "type": "Image",
+        "config": {
+          "label": "Image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "resume": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Résumé",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "content": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Contenu",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "display_button_link": {
+        "type": "Boolean",
+        "config": {
+          "label": "Masquer bouton de lien",
+          "placeholder_false": "Masquer bouton",
+          "placeholder_true": "Afficher bouton",
+          "default_value": true
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "Lien",
+          "placeholder": "Lien",
+          "allowTargetBlank": true,
+          "select": null
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {}
+        }
+      }
+    },
+    "SEO & Metadata": {}
+  }
+}

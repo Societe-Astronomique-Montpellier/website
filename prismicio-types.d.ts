@@ -342,16 +342,16 @@ export type BlockTestimonialDocument<Lang extends string = string> =
 /**
  * Item in *Page d'accueil → Bloc thématiques*
  */
-export interface HomepageDocumentDataBlocThematiquesItem {
+export interface HomepageDocumentDataBlockThematiquesItem {
   /**
    * Bloc thématique field in *Page d'accueil → Bloc thématiques*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.bloc_thematiques[].bloc_thematique
+   * - **API ID Path**: homepage.block_thematiques[].block_thematique
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  bloc_thematique: prismic.ContentRelationshipField<"bloc_thematique">;
+  block_thematique: prismic.ContentRelationshipField<"bloc_thematique">;
 }
 
 type HomepageDocumentDataSlicesSlice = never;
@@ -376,34 +376,34 @@ interface HomepageDocumentData {
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.bloc_hero
+   * - **API ID Path**: homepage.block_hero
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  bloc_hero: prismic.ContentRelationshipField<"block_hero">;
+  block_hero: prismic.ContentRelationshipField<"block_hero">;
 
   /**
    * Bloc testimonial field in *Page d'accueil*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.bloc_testimonial
+   * - **API ID Path**: homepage.block_testimonial
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  bloc_testimonial: prismic.ContentRelationshipField<"block_testimonial">;
+  block_testimonial: prismic.ContentRelationshipField<"block_testimonial">;
 
   /**
    * Bloc thématiques field in *Page d'accueil*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.bloc_thematiques[]
+   * - **API ID Path**: homepage.block_thematiques[]
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#group
    */
-  bloc_thematiques: prismic.GroupField<
-    Simplify<HomepageDocumentDataBlocThematiquesItem>
+  block_thematiques: prismic.GroupField<
+    Simplify<HomepageDocumentDataBlockThematiquesItem>
   >;
 
   /**
@@ -650,7 +650,7 @@ declare module "@prismicio/client" {
       BlockTestimonialDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
-      HomepageDocumentDataBlocThematiquesItem,
+      HomepageDocumentDataBlockThematiquesItem,
       HomepageDocumentDataSlicesSlice,
       PageArticleDocument,
       PageArticleDocumentData,

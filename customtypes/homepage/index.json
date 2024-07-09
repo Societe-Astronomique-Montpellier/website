@@ -20,7 +20,7 @@
           "placeholder": ""
         }
       },
-      "bloc_hero": {
+      "block_hero": {
         "type": "Link",
         "config": {
           "label": "Bloc Hero",
@@ -28,7 +28,7 @@
           "customtypes": ["block_hero"]
         }
       },
-      "bloc_testimonial": {
+      "block_testimonial": {
         "type": "Link",
         "config": {
           "label": "Bloc testimonial",
@@ -36,13 +36,13 @@
           "customtypes": ["block_testimonial"]
         }
       },
-      "bloc_thematiques": {
+      "block_thematiques": {
         "type": "Group",
         "config": {
           "label": "Bloc thématiques",
           "repeat": true,
           "fields": {
-            "bloc_thematique": {
+            "block_thematique": {
               "type": "Link",
               "config": {
                 "label": "Bloc thématique",

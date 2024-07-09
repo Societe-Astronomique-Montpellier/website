@@ -1,5 +1,8 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
+
+import * as prismic from '@prismicio/client'
+
 // Layout
 import type {
   AllDocumentTypes,
@@ -14,14 +17,19 @@ definePageMeta({
 });
 
 // Components
-// const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
+const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 // const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
 // const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
 // const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 
 // Prismic
-const { client } = usePrismic()
-const { data: home, error} = await useAsyncData<HomepageDocument>("home", () => client.getSingle<HomepageDocument>('homepage', {
+// const { client } = usePrismic<AllDocumentTypes>()
+const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+
+const { data: home, error} = await useAsyncData(
+  "home",
+  async () => {
+    const response = await client.getSingle<HomepageDocument>('homepage', {
       lang: 'fr-fr',
       fetchLinks: [
         'block_hero.title',
@@ -43,19 +51,39 @@ const { data: home, error} = await useAsyncData<HomepageDocument>("home", () => 
         // 'block_cta.link'
       ]
     })
+
+    const relatedBlockHero = response.data.block_hero as typeof response.data.block_hero & {
+      data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'image'>
+    }
+
+    return {
+      data: response.data,
+      blocks: {
+        hero: relatedBlockHero
+      }
+    }
+  }
 );
 
-const relatedBlockHero = home?.value?.data.block_hero /*as typeof foo.bar*/ & {
-  data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'image'>
-}
+useHead({
+  title: computed(() => `${home.value?.data.meta_title} | ${home.value?.data.titre}`),
+  meta: [
+    { name: 'description', content: `${home.value?.data.meta_description}`}
+  ],
+})
 
+useSeoMeta({
+  title: computed(() => `${home.value?.data.meta_title} | ${home.value?.data.titre}`),
+  ogTitle: '',
+
+})
 </script>
 
 <template>
   <div v-if="home">
-<!--    <BlockHeroPresentation-->
-<!--      :block="home.data.bloc_hero as BlockHeroDocumentData"-->
-<!--    />-->
+    <BlockHeroPresentation
+      :block="home.blocks.hero"
+    />
 
 
 <!--    <BlockTestimonial-->

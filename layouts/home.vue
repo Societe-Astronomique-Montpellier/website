@@ -1,6 +1,8 @@
 <script setup lang="ts">
+const route = useRoute()
+
   // add shere button + top
-import Copyright from "~/components/Layouts/Copyright.vue";
+const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 </script>
 
 <template>

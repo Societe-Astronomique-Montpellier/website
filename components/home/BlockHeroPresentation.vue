@@ -29,11 +29,11 @@ initTWE({ Collapse, Ripple });
         class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed">
       <div class="flex h-full items-center justify-center">
         <div class="text-white">
-          <h2 class="mb-6 text-xl font-semibold">
+          <h2 class="mb-6 text-3xl font-semibold">
 <!--            <prismic-text :field="block.data.subtitle" />-->
             {{ block.data.subtitle }}
           </h2>
-          <h1 class="mb-4 text-4xl font-semibold">
+          <h1 class="mb-4 text-6xl font-semibold">
             {{ block.data.title }}
           </h1>
         </div>

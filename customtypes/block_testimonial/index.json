@@ -28,10 +28,47 @@
           "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
-      "image": {
+      "testimonial_text_1": {
+        "type": "Text",
+        "config": {
+          "label": "Testimonial texte 1",
+          "placeholder": ""
+        }
+      },
+      "testimonial_vignette_1": {
         "type": "Image",
         "config": {
-          "label": "Image",
+          "label": "Testimonial vignette 1",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "testimonial_text_2": {
+        "type": "Text",
+        "config": {
+          "label": "Testimonial texte 2",
+          "placeholder": ""
+        }
+      },
+      "testimonial_vignette_2": {
+        "type": "Image",
+        "config": {
+          "label": "Testimonial vignette 2",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "testimonial_text_3": {
+        "type": "Text",
+        "config": {
+          "label": "Testimonial texte 3",
+          "placeholder": ""
+        }
+      },
+      "testimonial_vignette_3": {
+        "type": "Image",
+        "config": {
+          "label": "Testimonial vignette 3",
           "constraint": {},
           "thumbnails": []
         }

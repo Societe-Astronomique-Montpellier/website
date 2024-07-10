@@ -212,15 +212,70 @@ interface BlockTestimonialDocumentData {
   content: prismic.RichTextField;
 
   /**
-   * Image field in *Bloc testimonial*
+   * Testimonial texte 1 field in *Bloc testimonial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_testimonial.testimonial_text_1
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  testimonial_text_1: prismic.KeyTextField;
+
+  /**
+   * Testimonial vignette 1 field in *Bloc testimonial*
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: block_testimonial.image
+   * - **API ID Path**: block_testimonial.testimonial_vignette_1
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image: prismic.ImageField<never>;
+  testimonial_vignette_1: prismic.ImageField<never>;
+
+  /**
+   * Testimonial texte 2 field in *Bloc testimonial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_testimonial.testimonial_text_2
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  testimonial_text_2: prismic.KeyTextField;
+
+  /**
+   * Testimonial vignette 2 field in *Bloc testimonial*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_testimonial.testimonial_vignette_2
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  testimonial_vignette_2: prismic.ImageField<never>;
+
+  /**
+   * Testimonial texte 3 field in *Bloc testimonial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_testimonial.testimonial_text_3
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  testimonial_text_3: prismic.KeyTextField;
+
+  /**
+   * Testimonial vignette 3 field in *Bloc testimonial*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_testimonial.testimonial_vignette_3
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  testimonial_vignette_3: prismic.ImageField<never>;
 
   /**
    * Slice Zone field in *Bloc testimonial*

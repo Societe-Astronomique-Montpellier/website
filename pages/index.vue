@@ -7,7 +7,8 @@ import * as prismic from '@prismicio/client'
 import type {
   AllDocumentTypes,
   BlockHeroDocument,
-  BlockHeroDocumentData,
+  BlockTestimonialDocument,
+  BlockCtaDocument,
   HomepageDocument,
   HomepageDocumentData
 } from "~/prismicio-types";
@@ -18,9 +19,9 @@ definePageMeta({
 
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
-// const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
+const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
 // const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
-// const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
+const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 
 // Prismic
 // const { client } = usePrismic<AllDocumentTypes>()
@@ -35,20 +36,20 @@ const { data: home, error} = await useAsyncData(
         'block_hero.title',
         'block_hero.subtitle',
         'block_hero.image',
-        // 'block_testimonial.title',
-        // 'block_testimonial.content',
-        // 'block_testimonial.image',
+        'block_testimonial.title',
+        'block_testimonial.content',
+        'block_testimonial.image',
         // 'block_thematic.title',
         // 'block_thematic.subtitle',
         // 'block_thematic.image',
         // 'block_thematic.link',
-        // 'block_cta.title',
-        // 'block_cta.subtitle',
-        // 'block_cta.image',
-        // 'block_cta.resume',
-        // 'block_cta.content',
-        // 'block_cta.show_button',
-        // 'block_cta.link'
+        'block_cta.title',
+        'block_cta.subtitle',
+        'block_cta.image',
+        'block_cta.resume',
+        'block_cta.content',
+        'block_cta.display_button_link',
+        'block_cta.link'
       ]
     })
 
@@ -56,10 +57,19 @@ const { data: home, error} = await useAsyncData(
       data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'image'>
     }
 
+    const relatedBlockTestimonial = response.data.block_testimonial as typeof response.data.block_testimonial & {
+      data: Pick<BlockTestimonialDocument['data'], 'title' | 'content' | 'image'>
+    }
+
+    const relatedBlockCta = response.data.block_cta as typeof response.data.block_cta & {
+      data: Pick<BlockCtaDocument['data'], 'title' | 'subtitle' | 'image' | 'resume' | 'content' | 'display_button_link' | 'link'>
+    }
     return {
       data: response.data,
       blocks: {
-        hero: relatedBlockHero
+        hero: relatedBlockHero,
+        testimonial: relatedBlockTestimonial,
+        cta: relatedBlockCta
       }
     }
   }
@@ -86,9 +96,9 @@ useSeoMeta({
     />
 
 
-<!--    <BlockTestimonial-->
-<!--      :block="blockHeroRef"-->
-<!--    />-->
+    <BlockTestimonial
+      :block="home.blocks.testimonial"
+    />
 
     <!-- thematics block -->
 <!--    <BlockThematics-->
@@ -97,9 +107,9 @@ useSeoMeta({
 <!--    />-->
     
     <!-- Features -->
-<!--    <BlockCta-->
-<!--      :block="blockCtaRef"-->
-<!--    />-->
+    <BlockCta
+      :block="home.blocks.cta"
+    />
     
     <!-- Evenements -->
   </div>

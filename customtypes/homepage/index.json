@@ -42,12 +42,12 @@
           "label": "Bloc thématiques",
           "repeat": true,
           "fields": {
-            "block_thematique": {
+            "thematics_list": {
               "type": "Link",
               "config": {
-                "label": "Bloc thématique",
+                "label": "Liste des thématiques",
                 "select": "document",
-                "customtypes": ["bloc_thematique"]
+                "customtypes": ["page_thematique"]
               }
             }
           }

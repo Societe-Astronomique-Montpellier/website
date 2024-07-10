@@ -1,6 +1,9 @@
 {
   "format": "page",
   "id": "page_thematique",
+  "label": "Page thématique",
+  "repeatable": true,
+  "status": true,
   "json": {
     "Main": {
       "uid": {
@@ -9,12 +12,83 @@
         },
         "type": "UID"
       },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Titre",
+          "placeholder": ""
+        }
+      },
+      "subtitle": {
+        "type": "Text",
+        "config": {
+          "label": "Sous-titre",
+          "placeholder": ""
+        }
+      },
+      "image_vignette": {
+        "type": "Image",
+        "config": {
+          "label": "Vignette (page d'accueil)",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "image_banner": {
+        "type": "Image",
+        "config": {
+          "label": "Bannière",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "resume": {
+        "type": "StructuredText",
+        "config": {
+          "label": "En-tête",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "content": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Contenu",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "articles": {
+        "type": "Group",
+        "config": {
+          "label": "Listes des articles",
+          "repeat": true,
+          "fields": {
+            "association_pages": {
+              "type": "Link",
+              "config": {
+                "label": "Association pages",
+                "select": "document"
+              }
+            }
+          }
+        }
+      },
+      "author": {
+        "type": "Text",
+        "config": {
+          "label": "Auteur",
+          "placeholder": ""
+        }
+      },
       "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
         "config": {
           "choices": {}
-        },
-        "fieldset": "Slice Zone",
-        "type": "Slices"
+        }
       }
     },
     "SEO & Metadata": {
@@ -31,21 +105,7 @@
           "placeholder": "A brief summary of the page"
         },
         "type": "Text"
-      },
-      "meta_image": {
-        "config": {
-          "constraint": {
-            "height": 1260,
-            "width": 2400
-          },
-          "label": "Meta Image",
-          "thumbnails": []
-        },
-        "type": "Image"
       }
     }
-  },
-  "label": "Page thématique",
-  "repeatable": true,
-  "status": true
+  }
 }

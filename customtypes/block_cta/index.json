@@ -12,11 +12,11 @@
         },
         "type": "UID"
       },
-      "titre": {
+      "title": {
         "type": "Text",
         "config": {
           "label": "Titre",
-          "placeholder": ""
+          "placeholder": "Titre"
         }
       },
       "subtitle": {

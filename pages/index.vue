@@ -20,7 +20,7 @@ definePageMeta({
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
-// const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
+const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 
 // Prismic
@@ -41,9 +41,9 @@ const { data: home, error} = await useAsyncData(
         'block_testimonial.testimonial_text_1',
         'block_testimonial.testimonial_text_2',
         'block_testimonial.testimonial_text_3',
-        'block_testimonial..testimonial_vignette_1',
-        'block_testimonial..testimonial_vignette_2',
-        'block_testimonial..testimonial_vignette_3',
+        'block_testimonial.testimonial_vignette_1',
+        'block_testimonial.testimonial_vignette_2',
+        'block_testimonial.testimonial_vignette_3',
         // 'block_thematic.title',
         // 'block_thematic.subtitle',
         // 'block_thematic.image',
@@ -106,10 +106,8 @@ useSeoMeta({
     />
 
     <!-- thematics block -->
-<!--    <BlockThematics-->
-<!--      :block="blockThematicsIdsRef"-->
-<!--      title="Nos thématiques"-->
-<!--    />-->
+    <BlockThematics
+    />
     
     <!-- Features -->
     <BlockCta
@@ -117,6 +115,8 @@ useSeoMeta({
     />
     
     <!-- Evenements -->
+
+    <!-- contact -->
   </div>
   <div v-else-if="error">
     <pre>{{ error }}</pre>

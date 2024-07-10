@@ -13,7 +13,7 @@ const { block } = toRefs(props)
 		<div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
 			<div class="lg:w-1/2">
 				<div class="lg:scale-110 h-80 bg-cover lg:h-full rounded-b-none border lg:rounded-lg"
-					:style="{ backgroundImage: `url(${block.data.image?.url})`, backgroundRepeat: 'no-repeat' }">
+					:style="{ backgroundImage: `url(${block.data.image?.url})` }">
 				</div>
 			</div>
 			<div class="py-12 px-6 lg:px-12 max-w-xl lg:max-w-5xl lg:w-1/2 rounded-t-none border lg:rounded-lg">
@@ -31,7 +31,7 @@ const { block } = toRefs(props)
 				<div v-if="true === block.display_button_link" class="mt-8">
 
           <pre>{{ block.data.link }}</pre>
-          
+
 				</div>
 			</div>
 		</div>

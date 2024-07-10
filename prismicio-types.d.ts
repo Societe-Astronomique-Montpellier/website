@@ -4,95 +4,6 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-type BlocThematiqueDocumentDataSlicesSlice = never;
-
-/**
- * Content for Bloc de page thématique documents
- */
-interface BlocThematiqueDocumentData {
-  /**
-   * Titre field in *Bloc de page thématique*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: bloc_thematique.title
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  title: prismic.KeyTextField;
-
-  /**
-   * Sous-titre field in *Bloc de page thématique*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: bloc_thematique.subtitle
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  subtitle: prismic.KeyTextField;
-
-  /**
-   * Image field in *Bloc de page thématique*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: bloc_thematique.image
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image: prismic.ImageField<never>;
-
-  /**
-   * Contenu field in *Bloc de page thématique*
-   *
-   * - **Field Type**: Rich Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: bloc_thematique.content
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
-   */
-  content: prismic.RichTextField;
-
-  /**
-   * Lien vers page thématique field in *Bloc de page thématique*
-   *
-   * - **Field Type**: Link
-   * - **Placeholder**: *None*
-   * - **API ID Path**: bloc_thematique.link
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  link: prismic.LinkField;
-
-  /**
-   * Slice Zone field in *Bloc de page thématique*
-   *
-   * - **Field Type**: Slice Zone
-   * - **Placeholder**: *None*
-   * - **API ID Path**: bloc_thematique.slices[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#slices
-   */
-  slices: prismic.SliceZone<BlocThematiqueDocumentDataSlicesSlice>;
-}
-
-/**
- * Bloc de page thématique document from Prismic
- *
- * - **API ID**: `bloc_thematique`
- * - **Repeatable**: `true`
- * - **Documentation**: https://prismic.io/docs/custom-types
- *
- * @typeParam Lang - Language API ID of the document.
- */
-export type BlocThematiqueDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithUID<
-    Simplify<BlocThematiqueDocumentData>,
-    "bloc_thematique",
-    Lang
-  >;
-
 type BlockCtaDocumentDataSlicesSlice = never;
 
 /**
@@ -103,12 +14,12 @@ interface BlockCtaDocumentData {
    * Titre field in *Bloc CallTo Action*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: block_cta.titre
+   * - **Placeholder**: Titre
+   * - **API ID Path**: block_cta.title
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  titre: prismic.KeyTextField;
+  title: prismic.KeyTextField;
 
   /**
    * Sous-titre field in *Bloc CallTo Action*
@@ -344,14 +255,14 @@ export type BlockTestimonialDocument<Lang extends string = string> =
  */
 export interface HomepageDocumentDataBlockThematiquesItem {
   /**
-   * Bloc thématique field in *Page d'accueil → Bloc thématiques*
+   * Liste des thématiques field in *Page d'accueil → Bloc thématiques*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.block_thematiques[].block_thematique
+   * - **API ID Path**: homepage.block_thematiques[].thematics_list
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  block_thematique: prismic.ContentRelationshipField<"bloc_thematique">;
+  thematics_list: prismic.ContentRelationshipField<"page_thematique">;
 }
 
 type HomepageDocumentDataSlicesSlice = never;
@@ -494,6 +405,72 @@ type PageArticleDocumentDataSlicesSlice = never;
  */
 interface PageArticleDocumentData {
   /**
+   * Titre field in *Page article*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Thématique field in *Page article*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.thematic
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  thematic: prismic.ContentRelationshipField<"page_thematique">;
+
+  /**
+   * Sous-titre field in *Page article*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subtitle: prismic.KeyTextField;
+
+  /**
+   * Bannière field in *Page article*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.banner_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  banner_image: prismic.ImageField<never>;
+
+  /**
+   * Contenu field in *Page article*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Auteur field in *Page article*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.author
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  author: prismic.KeyTextField;
+
+  /**
    * Slice Zone field in *Page article*
    *
    * - **Field Type**: Slice Zone
@@ -552,12 +529,117 @@ export type PageArticleDocument<Lang extends string = string> =
     Lang
   >;
 
+/**
+ * Item in *Page thématique → Listes des articles*
+ */
+export interface PageThematiqueDocumentDataArticlesItem {
+  /**
+   * Association pages field in *Page thématique → Listes des articles*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.articles[].association_pages
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  association_pages: prismic.ContentRelationshipField;
+}
+
 type PageThematiqueDocumentDataSlicesSlice = never;
 
 /**
  * Content for Page thématique documents
  */
 interface PageThematiqueDocumentData {
+  /**
+   * Titre field in *Page thématique*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Sous-titre field in *Page thématique*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subtitle: prismic.KeyTextField;
+
+  /**
+   * Vignette (page d'accueil) field in *Page thématique*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.image_vignette
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_vignette: prismic.ImageField<never>;
+
+  /**
+   * Bannière field in *Page thématique*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.image_banner
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_banner: prismic.ImageField<never>;
+
+  /**
+   * En-tête field in *Page thématique*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.resume
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  resume: prismic.RichTextField;
+
+  /**
+   * Contenu field in *Page thématique*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Listes des articles field in *Page thématique*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.articles[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  articles: prismic.GroupField<
+    Simplify<PageThematiqueDocumentDataArticlesItem>
+  >;
+
+  /**
+   * Auteur field in *Page thématique*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_thematique.author
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  author: prismic.KeyTextField;
+
   /**
    * Slice Zone field in *Page thématique*
    *
@@ -588,17 +670,6 @@ interface PageThematiqueDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   meta_description: prismic.KeyTextField;
-
-  /**
-   * Meta Image field in *Page thématique*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page_thematique.meta_image
-   * - **Tab**: SEO & Metadata
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  meta_image: prismic.ImageField<never>;
 }
 
 /**
@@ -618,7 +689,6 @@ export type PageThematiqueDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
-  | BlocThematiqueDocument
   | BlockCtaDocument
   | BlockHeroDocument
   | BlockTestimonialDocument
@@ -636,9 +706,6 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
-      BlocThematiqueDocument,
-      BlocThematiqueDocumentData,
-      BlocThematiqueDocumentDataSlicesSlice,
       BlockCtaDocument,
       BlockCtaDocumentData,
       BlockCtaDocumentDataSlicesSlice,
@@ -657,6 +724,7 @@ declare module "@prismicio/client" {
       PageArticleDocumentDataSlicesSlice,
       PageThematiqueDocument,
       PageThematiqueDocumentData,
+      PageThematiqueDocumentDataArticlesItem,
       PageThematiqueDocumentDataSlicesSlice,
       AllDocumentTypes,
     };

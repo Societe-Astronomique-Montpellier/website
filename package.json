@@ -21,6 +21,7 @@
     "vue": "latest"
   },
   "devDependencies": {
+    "@nuxtjs/google-fonts": "^3.2.0",
     "@nuxtjs/prismic": "^3.3.2",
     "@nuxtjs/vuetify": "^1.12.3",
     "@slicemachine/adapter-nuxt": "^0.3.42",

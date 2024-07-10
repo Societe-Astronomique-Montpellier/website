@@ -9,7 +9,10 @@ module.exports = {
         "./node_modules/tw-elements/js/**/*.js",
     ],
     theme: {
-        extend: {},
+        fontFamily: {
+            raleway: '"Raleway", sans-serif'
+        },
+        extend: { },
     },
     darkMode: "class",
     plugins: [require("tw-elements/plugin.cjs")],

@@ -9,9 +9,22 @@ export default defineNuxtConfig({
   },
   modules: [
     "@nuxtjs/tailwindcss",
-    "@nuxtjs/prismic"
+    "@nuxtjs/prismic",
+    "@nuxtjs/google-fonts"
   ],
-  prismic: { endpoint: apiEndpoint || repositoryName },
+  googleFonts: {
+    families: {
+      Raleway: true
+    }
+  },
+  prismic: {
+    endpoint: apiEndpoint || repositoryName,
+    clientConfig: {
+      routes: [
+
+      ]
+    }
+  },
   imports: {
     dirs: [
       'composables',
@@ -26,10 +39,18 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+
   app:{
     head: {
-      charset: 'utf-8',
-      viewport: 'width=device-width, initial-scale=1',      
+      title: 'Société Astronomique de Montpellier',
+      htmlAttrs: {
+        lang: 'fr'
+      },
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      ],
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }]
     }	  
   },
   compatibilityDate: '2024-07-04'

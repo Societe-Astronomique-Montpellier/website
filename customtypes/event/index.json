@@ -1,0 +1,85 @@
+{
+  "format": "page",
+  "id": "event",
+  "label": "Evenement",
+  "repeatable": true,
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Titre",
+          "placeholder": ""
+        }
+      },
+      "image_vignette": {
+        "type": "Image",
+        "config": {
+          "label": "Vignette",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
+      "resume": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Contenu",
+          "placeholder": "Contenu",
+          "allowTargetBlank": true,
+          "multi": "paragraph,heading4,heading5,heading6,strong,em,hyperlink,o-list-item,rtl,list-item"
+        }
+      },
+      "date_event": {
+        "type": "Date",
+        "config": {
+          "label": "Date de l'évenement",
+          "placeholder": ""
+        }
+      },
+      "place_event": {
+        "type": "GeoPoint",
+        "config": {
+          "label": "Lieu de l'évenement"
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "Lien",
+          "placeholder": "",
+          "select": null
+        }
+      },
+      "slices": {
+        "type": "Slices",
+        "fieldset": "Slice Zone",
+        "config": {
+          "choices": {}
+        }
+      }
+    },
+    "SEO & Metadata": {
+      "meta_title": {
+        "config": {
+          "label": "Meta Title",
+          "placeholder": "A title of the page used for social media and search engines"
+        },
+        "type": "Text"
+      },
+      "meta_description": {
+        "config": {
+          "label": "Meta Description",
+          "placeholder": "A brief summary of the page"
+        },
+        "type": "Text"
+      }
+    }
+  }
+}

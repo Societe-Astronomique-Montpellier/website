@@ -36,6 +36,20 @@
           "customtypes": ["block_testimonial"]
         }
       },
+      "block_thematics_title": {
+        "type": "Text",
+        "config": {
+          "label": "Titre bloc thématiques",
+          "placeholder": ""
+        }
+      },
+      "bloc_thematic_text": {
+        "type": "Text",
+        "config": {
+          "label": "Texte bloc thématique",
+          "placeholder": "Texte bloc thématique"
+        }
+      },
       "block_thematiques": {
         "type": "Group",
         "config": {
@@ -59,6 +73,20 @@
           "label": "Call to action",
           "select": "document",
           "customtypes": ["block_cta"]
+        }
+      },
+      "block_events_title": {
+        "type": "Text",
+        "config": {
+          "label": "Titre bloc évenements",
+          "placeholder": ""
+        }
+      },
+      "block_events_text": {
+        "type": "Text",
+        "config": {
+          "label": "Texte bloc évenements",
+          "placeholder": ""
         }
       },
       "contact": {

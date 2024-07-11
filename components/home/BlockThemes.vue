@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type {PageThematiqueDocument} from "~/prismicio-types";
+import type {EventDocument, PageThematiqueDocument} from "~/prismicio-types";
+import type {KeyTextField} from "@prismicio/client";
 
 export interface Props {
-  titleBlock: string | undefined
-  contentBlock?: string | undefined
-  items?: Array<PageThematiqueDocument>
+  titleBlock: KeyTextField | undefined
+  contentBlock?: KeyTextField | undefined
+  items?: Array<PageThematiqueDocument | EventDocument>
 }
 
 const props = defineProps<Props>()
@@ -27,12 +28,12 @@ const { items } = toRefs(props)
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
 
         <!-- Create a component card -->
-        <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="thematic in items">
+        <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="item in items">
           <div class="rounded-lg h-64 overflow-hidden">
-            <prismic-image :field="thematic.data.image_vignette" class="object-cover object-center h-full w-full" />
+            <prismic-image :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
           </div>
-          <h2 class="text-xl font-medium title-font text-white mt-5">{{ thematic.data.title }}</h2>
-          <prismic-rich-text :field="thematic.data.resume" class="text-base leading-relaxed mt-2" />
+          <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
+          <prismic-rich-text :field="item.data.resume" class="text-base leading-relaxed mt-2" />
           <NuxtLink
             class="text-indigo-400 inline-flex items-center mt-3"
           >

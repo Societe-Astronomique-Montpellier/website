@@ -1,0 +1,10 @@
+{
+  "format": "custom",
+  "id": "block_contact",
+  "json": {
+    "Main": {}
+  },
+  "label": "Contact",
+  "repeatable": false,
+  "status": true
+}

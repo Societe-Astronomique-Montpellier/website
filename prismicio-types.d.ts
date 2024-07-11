@@ -4,6 +4,24 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
+interface BlockContactDocumentData {}
+
+/**
+ * Contact document from Prismic
+ *
+ * - **API ID**: `block_contact`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type BlockContactDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<BlockContactDocumentData>,
+    "block_contact",
+    Lang
+  >;
+
 type BlockCtaDocumentDataSlicesSlice = never;
 
 /**
@@ -305,6 +323,122 @@ export type BlockTestimonialDocument<Lang extends string = string> =
     Lang
   >;
 
+type EventDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Evenement documents
+ */
+interface EventDocumentData {
+  /**
+   * Titre field in *Evenement*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Vignette field in *Evenement*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.image_vignette
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_vignette: prismic.ImageField<never>;
+
+  /**
+   * Contenu field in *Evenement*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Contenu
+   * - **API ID Path**: event.resume
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  resume: prismic.RichTextField;
+
+  /**
+   * Date de l'évenement field in *Evenement*
+   *
+   * - **Field Type**: Date
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.date_event
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#date
+   */
+  date_event: prismic.DateField;
+
+  /**
+   * Lieu de l'évenement field in *Evenement*
+   *
+   * - **Field Type**: GeoPoint
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.place_event
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#geopoint
+   */
+  place_event: prismic.GeoPointField;
+
+  /**
+   * Lien field in *Evenement*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
+   * Slice Zone field in *Evenement*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<EventDocumentDataSlicesSlice> /**
+   * Meta Title field in *Evenement*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: event.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Evenement*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: event.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField;
+}
+
+/**
+ * Evenement document from Prismic
+ *
+ * - **API ID**: `event`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EventDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<EventDocumentData>, "event", Lang>;
+
 /**
  * Item in *Page d'accueil → Bloc thématiques*
  */
@@ -360,6 +494,28 @@ interface HomepageDocumentData {
   block_testimonial: prismic.ContentRelationshipField<"block_testimonial">;
 
   /**
+   * Titre bloc thématiques field in *Page d'accueil*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.block_thematics_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  block_thematics_title: prismic.KeyTextField;
+
+  /**
+   * Texte bloc thématique field in *Page d'accueil*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Texte bloc thématique
+   * - **API ID Path**: homepage.bloc_thematic_text
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  bloc_thematic_text: prismic.KeyTextField;
+
+  /**
    * Bloc thématiques field in *Page d'accueil*
    *
    * - **Field Type**: Group
@@ -382,6 +538,28 @@ interface HomepageDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   block_cta: prismic.ContentRelationshipField<"block_cta">;
+
+  /**
+   * Titre bloc évenements field in *Page d'accueil*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.block_events_title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  block_events_title: prismic.KeyTextField;
+
+  /**
+   * Texte bloc évenements field in *Page d'accueil*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.block_events_text
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  block_events_text: prismic.KeyTextField;
 
   /**
    * Contact field in *Page d'accueil*
@@ -716,9 +894,11 @@ export type PageThematiqueDocument<Lang extends string = string> =
   >;
 
 export type AllDocumentTypes =
+  | BlockContactDocument
   | BlockCtaDocument
   | BlockHeroDocument
   | BlockTestimonialDocument
+  | EventDocument
   | HomepageDocument
   | PageArticleDocument
   | PageThematiqueDocument;
@@ -733,6 +913,8 @@ declare module "@prismicio/client" {
 
   namespace Content {
     export type {
+      BlockContactDocument,
+      BlockContactDocumentData,
       BlockCtaDocument,
       BlockCtaDocumentData,
       BlockCtaDocumentDataSlicesSlice,
@@ -742,6 +924,9 @@ declare module "@prismicio/client" {
       BlockTestimonialDocument,
       BlockTestimonialDocumentData,
       BlockTestimonialDocumentDataSlicesSlice,
+      EventDocument,
+      EventDocumentData,
+      EventDocumentDataSlicesSlice,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataBlockThematiquesItem,

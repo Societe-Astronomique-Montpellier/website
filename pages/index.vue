@@ -8,7 +8,7 @@ import type {
   AllDocumentTypes,
   BlockCtaDocument,
   BlockHeroDocument,
-  BlockTestimonialDocument,
+  BlockTestimonialDocument, EventDocument,
   HomepageDocument, PageThematiqueDocument
 } from "~/prismicio-types";
 
@@ -21,7 +21,7 @@ const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/ho
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
 const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
-
+const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
 // Prismic
 // const { client } = usePrismic<AllDocumentTypes>()
@@ -72,14 +72,15 @@ const { data: home, error} = await useAsyncData(
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
 
     const thematics = await client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
-
+    const events = await client.getAllByType<AllDocumentTypes>('event') as EventDocument[]
     return {
       data: response.data,
       blocks: {
         hero: relatedBlockHero,
         testimonial: relatedBlockTestimonial,
         thematics: thematics,
-        cta: relatedBlockCta
+        cta: relatedBlockCta,
+        events: events
       }
     }
   }
@@ -111,8 +112,8 @@ useSeoMeta({
 
     <!-- thematics block -->
     <BlockThematics
-      titleBlock="Nos thématiques"
-      contentBlock=""
+      :titleBlock="home.data.block_thematics_title"
+      :contentBlock="home.data.bloc_thematic_text"
       :items="home.blocks.thematics"
     />
     
@@ -123,12 +124,13 @@ useSeoMeta({
     
     <!-- Evenements -->
     <BlockThematics
-      titleBlock="Les prochains évenements"
-      contentBlock="Retrouvez les futurs évenements de la société Astronomique de Montpellier et peut-être nous rencontrer"
+      :titleBlock="home.data.block_events_title"
+      :contentBlock="home.data.block_events_text"
+      :items="home.blocks.events"
     />
 
     <!-- contact -->
-
+    <BlockContact />
   </div>
   <div v-else-if="error">
     <pre>{{ error }}</pre>

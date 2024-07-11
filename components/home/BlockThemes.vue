@@ -1,18 +1,21 @@
 <script setup lang="ts">
 
-// export interface Props {
-//   block: undefined,
-// }
-//
-// const props = defineProps<Props>()
-// const { block } = toRefs(props)
+export interface Props {
+  ids: Array<string>
+}
+
+const props = defineProps<Props>()
+const { ids } = toRefs(props)
+
+
 
 </script>
 
 <template>
+  <pre>{{ ids }}</pre>
   <div class="grid-cols-1 sm:grid md:grid-cols-3 bg-gray-700">
     <div
-        class="mx-3 mt-6 flex flex-col rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark sm:shrink-0 sm:grow sm:basis-0">
+        class="mx-8 mt-6 flex flex-col rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark sm:shrink-0 sm:grow sm:basis-0">
       <a href="#!">
         <img
             class="rounded-t-lg"
@@ -34,7 +37,7 @@
     </div>
 
     <div
-        class="mx-3 mt-6 flex flex-col rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark sm:shrink-0 sm:grow sm:basis-0">
+        class="mx-8 mt-6 flex flex-col rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark sm:shrink-0 sm:grow sm:basis-0">
       <a href="#!">
         <img
             class="rounded-t-lg"
@@ -55,7 +58,7 @@
     </div>
 
     <div
-        class="mx-3 mt-6 flex flex-col rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark sm:shrink-0 sm:grow sm:basis-0">
+        class="mx-8 mt-6 flex flex-col rounded-lg bg-white text-surface shadow-secondary-1 dark:bg-surface-dark sm:shrink-0 sm:grow sm:basis-0">
       <a href="#!">
         <img
             class="rounded-t-lg"

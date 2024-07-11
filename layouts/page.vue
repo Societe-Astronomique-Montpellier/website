@@ -1,5 +1,7 @@
 <script setup lang="ts">
  // add header + footer
+
+ const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 </script>
 
 <template>
@@ -8,6 +10,7 @@
       <slot />
     </div>
   </v-main>
+  <Copyright />
 </template>
 
 <style scoped>

@@ -21,7 +21,22 @@ export default defineNuxtConfig({
     endpoint: apiEndpoint || repositoryName,
     clientConfig: {
       routes: [
-
+        {
+          type: 'homepage',
+          uid: 'sam_homepage',
+          path: '/'
+        },
+        {
+          type: "page_thematique",
+          path: "/:uid",
+        },
+        // {
+        //   type: "page_article",
+        //   path: "/:thematic/:uid",
+        //   resolvers: {
+        //     category: "thematic"
+        //   }
+        // }
       ]
     }
   },

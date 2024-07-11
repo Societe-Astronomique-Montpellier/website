@@ -584,21 +584,6 @@ export type PageArticleDocument<Lang extends string = string> =
     Lang
   >;
 
-/**
- * Item in *Page thématique → Listes des articles*
- */
-export interface PageThematiqueDocumentDataArticlesItem {
-  /**
-   * Association pages field in *Page thématique → Listes des articles*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page_thematique.articles[].association_pages
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  association_pages: prismic.ContentRelationshipField;
-}
-
 type PageThematiqueDocumentDataSlicesSlice = never;
 
 /**
@@ -670,19 +655,6 @@ interface PageThematiqueDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
   content: prismic.RichTextField;
-
-  /**
-   * Listes des articles field in *Page thématique*
-   *
-   * - **Field Type**: Group
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page_thematique.articles[]
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#group
-   */
-  articles: prismic.GroupField<
-    Simplify<PageThematiqueDocumentDataArticlesItem>
-  >;
 
   /**
    * Auteur field in *Page thématique*
@@ -779,7 +751,6 @@ declare module "@prismicio/client" {
       PageArticleDocumentDataSlicesSlice,
       PageThematiqueDocument,
       PageThematiqueDocumentData,
-      PageThematiqueDocumentDataArticlesItem,
       PageThematiqueDocumentDataSlicesSlice,
       AllDocumentTypes,
     };

@@ -44,10 +44,9 @@ const { data: home, error} = await useAsyncData(
         'block_testimonial.testimonial_vignette_1',
         'block_testimonial.testimonial_vignette_2',
         'block_testimonial.testimonial_vignette_3',
-        // 'block_thematic.title',
-        // 'block_thematic.subtitle',
-        // 'block_thematic.image',
-        // 'block_thematic.link',
+        'data.block_thematiques',
+//        'item.thematics_list',
+
         'block_cta.title',
         'block_cta.subtitle',
         'block_cta.image',
@@ -69,11 +68,15 @@ const { data: home, error} = await useAsyncData(
     const relatedBlockCta = response.data.block_cta as typeof response.data.block_cta & {
       data: Pick<BlockCtaDocument['data'], 'title' | 'subtitle' | 'image' | 'resume' | 'content' | 'display_button_link' | 'link'>
     }
+
+    const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
+
     return {
       data: response.data,
       blocks: {
         hero: relatedBlockHero,
         testimonial: relatedBlockTestimonial,
+        thematics: listThematicsId,
         cta: relatedBlockCta
       }
     }
@@ -107,9 +110,10 @@ useSeoMeta({
 
     <!-- thematics block -->
     <BlockThematics
+      :ids="home.blocks.thematics"
     />
     
-    <!-- Features -->
+    <!-- Call to action -->
     <BlockCta
       :block="home.blocks.cta"
     />

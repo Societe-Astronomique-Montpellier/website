@@ -60,22 +60,6 @@
           "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
-      "articles": {
-        "type": "Group",
-        "config": {
-          "label": "Listes des articles",
-          "repeat": true,
-          "fields": {
-            "association_pages": {
-              "type": "Link",
-              "config": {
-                "label": "Association pages",
-                "select": "document"
-              }
-            }
-          }
-        }
-      },
       "author": {
         "type": "Text",
         "config": {

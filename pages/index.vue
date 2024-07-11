@@ -19,7 +19,7 @@ definePageMeta({
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
-const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
+const BlockThematics = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 

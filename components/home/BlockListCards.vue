@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {EventDocument, PageThematiqueDocument} from "~/prismicio-types";
 import type {KeyTextField} from "@prismicio/client";
+import ThematicCard from "~/components/content/ThematicCard.vue";
 
 export interface Props {
   titleBlock: KeyTextField | undefined
@@ -28,20 +29,13 @@ const { items } = toRefs(props)
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
 
         <!-- Create a component card -->
+<!--        <slot-->
+<!--          v-for="item in items"-->
+<!--          :item="item"-->
+<!--        >-->
+<!--        </slot>-->
         <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="item in items">
-          <div class="rounded-lg h-64 overflow-hidden">
-            <prismic-image :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
-          </div>
-          <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
-          <prismic-rich-text :field="item.data.resume" class="text-base leading-relaxed mt-2" />
-          <NuxtLink
-            class="text-indigo-400 inline-flex items-center mt-3"
-          >
-            Plus d'information
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </NuxtLink>
+          <ThematicCard :item="item as PageThematiqueDocument" />
         </div>
 
       </div>

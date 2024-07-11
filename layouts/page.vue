@@ -1,10 +1,11 @@
 <script setup lang="ts">
  // add header + footer
-
- const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
+const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vue'))
+const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 </script>
 
 <template>
+  <Header />
   <v-main class="main-container">
     <div class="flex-fill">
       <slot />

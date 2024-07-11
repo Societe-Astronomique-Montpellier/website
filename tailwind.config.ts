@@ -1,3 +1,5 @@
+const defaultTheme = require('tailwindcss/defaultTheme')
+
 module.exports = {
     content: [
         "./components/**/*.{js,vue,ts}",
@@ -9,10 +11,18 @@ module.exports = {
         "./node_modules/tw-elements/js/**/*.js",
     ],
     theme: {
-        fontFamily: {
-            raleway: '"Raleway", sans-serif'
+        screens: {
+            xs: '320px',
+            sm: '480px',
+            md: '768px',
+            lg: '976px',
+            xl: '1440px',
         },
-        extend: { },
+        extend: {
+            fontFamily: {
+                sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+            },
+        },
     },
     darkMode: "class",
     plugins: [require("tw-elements/plugin.cjs")],

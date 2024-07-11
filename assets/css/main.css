@@ -1,7 +1,10 @@
 @tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
     html {
+        @apply font-sans;
         /*@apply text-surface;*/
         @apply bg-white;
     }
@@ -9,20 +12,11 @@
         @apply text-neutral-50;
         @apply bg-body-dark;
     }
-
-    @font-face {
-        font-family: 'Raleway';
-        font-style: normal;
-        font-weight: 200;
-        font-display: swap;
-    }
 }
-
-@tailwind components;
-@tailwind utilities;
 
 body {
     @apply overflow-x-hidden antialiased;
+
 }
 
 p {

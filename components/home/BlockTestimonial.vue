@@ -25,7 +25,7 @@ const { block } = toRefs(props)
     <div class="flex justify-center">
       <div class="max-w-3xl">
         <div
-            class="m-4 block rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-800 dark:shadow-black/20">
+            class="m-4 block rounded-lg bg-white p-6 shadow-lg dark:bg-gray-900 dark:shadow-black/20">
           <!--Testimonial-->
           <div class="md:flex md:flex-row">
             <div

@@ -12,7 +12,10 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
+    "types": [
+      "@nuxt/types"
+    ]
   },
   "extends": "./.nuxt/tsconfig.json"
 }

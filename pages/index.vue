@@ -6,11 +6,10 @@ import * as prismic from '@prismicio/client'
 // Layout
 import type {
   AllDocumentTypes,
+  BlockCtaDocument,
   BlockHeroDocument,
   BlockTestimonialDocument,
-  BlockCtaDocument,
-  HomepageDocument,
-  HomepageDocumentData
+  HomepageDocument, PageThematiqueDocument
 } from "~/prismicio-types";
 
 definePageMeta({
@@ -22,6 +21,7 @@ const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/ho
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
 const BlockThematics = defineAsyncComponent(() => import('@/components/home/BlockThemes.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
+
 
 // Prismic
 // const { client } = usePrismic<AllDocumentTypes>()
@@ -71,12 +71,14 @@ const { data: home, error} = await useAsyncData(
 
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
 
+    const thematics = await client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
+
     return {
       data: response.data,
       blocks: {
         hero: relatedBlockHero,
         testimonial: relatedBlockTestimonial,
-        thematics: listThematicsId,
+        thematics: thematics,
         cta: relatedBlockCta
       }
     }
@@ -103,14 +105,15 @@ useSeoMeta({
       :block="home.blocks.hero"
     />
 
-
     <BlockTestimonial
       :block="home.blocks.testimonial"
     />
 
     <!-- thematics block -->
     <BlockThematics
-      :ids="home.blocks.thematics"
+      titleBlock="Nos thématiques"
+      contentBlock=""
+      :items="home.blocks.thematics"
     />
     
     <!-- Call to action -->
@@ -119,8 +122,13 @@ useSeoMeta({
     />
     
     <!-- Evenements -->
+    <BlockThematics
+      titleBlock="Les prochains évenements"
+      contentBlock="Retrouvez les futurs évenements de la société Astronomique de Montpellier et peut-être nous rencontrer"
+    />
 
     <!-- contact -->
+
   </div>
   <div v-else-if="error">
     <pre>{{ error }}</pre>

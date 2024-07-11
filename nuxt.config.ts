@@ -10,13 +10,7 @@ export default defineNuxtConfig({
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxtjs/prismic",
-    "@nuxtjs/google-fonts"
   ],
-  googleFonts: {
-    families: {
-      Raleway: true
-    }
-  },
   prismic: {
     endpoint: apiEndpoint || repositoryName,
     clientConfig: {
@@ -47,7 +41,7 @@ export default defineNuxtConfig({
       'types/*.d.ts'
     ]
   },
-  css: ["~/assets/css/main.css"],
+  css: ["@/assets/css/main.css"],
   postcss: {
     plugins: {
       tailwindcss: {},

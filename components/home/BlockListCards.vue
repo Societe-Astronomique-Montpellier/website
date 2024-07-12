@@ -24,7 +24,8 @@ const { items } = toRefs(props)
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
           <h1 class="sm:w-2/5 text-white font-medium title-font text-2xl mb-2 sm:mb-0">{{ titleBlock }}</h1>
-          <p v-if="contentBlock" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ contentBlock }}</p>
+          <slot name="content-block"></slot>
+<!--          <p v-if="contentBlock" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ contentBlock }}</p>-->
         </div>
       </div>
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">

@@ -24,13 +24,13 @@ export default defineNuxtConfig({
           type: "page_thematique",
           path: "/:uid",
         },
-        // {
-        //   type: "page_article",
-        //   path: "/:thematic/:uid",
-        //   resolvers: {
-        //     category: "thematic"
-        //   }
-        // }
+        {
+          type: "page_article",
+          path: "/:thematic/:uid",
+          resolvers: {
+            category: "thematic"
+          }
+        }
       ]
     }
   },

@@ -16,6 +16,8 @@ definePageMeta({
   layout: 'home',
 });
 
+const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
+
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
@@ -72,7 +74,14 @@ const { data: home, error} = await useAsyncData(
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
 
     const thematics = await client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
-    const events = await client.getAllByType<AllDocumentTypes>('event') as EventDocument[]
+    const events = await client.getAllByType<AllDocumentTypes>('event', {
+      filters: [ prismic.filter.dateAfter('my.event.date_event', dateNow.value) ],
+      orderings: {
+        field: 'my.event.date_event',
+        direction: 'desc'
+      },
+      limit: 3
+    }) as EventDocument[]
     return {
       data: response.data,
       blocks: {
@@ -101,16 +110,19 @@ useSeoMeta({
 </script>
 
 <template>
+  <a id="hero" />
   <div v-if="home">
     <BlockHeroPresentation
       :block="home.blocks.hero"
     />
 
+    <a id="testimonial" />
     <BlockTestimonial
       :block="home.blocks.testimonial"
     />
 
     <!-- thematics block -->
+    <a id="thematics" />
     <BlockThematics
       :titleBlock="home.data.block_thematics_title"
       :contentBlock="home.data.bloc_thematic_text"
@@ -118,11 +130,13 @@ useSeoMeta({
     />
     
     <!-- Call to action -->
+    <a id="cta" />
     <BlockCta
       :block="home.blocks.cta"
     />
     
     <!-- Evenements -->
+    <a id="events" />
     <BlockThematics
       :titleBlock="home.data.block_events_title"
       :contentBlock="home.data.block_events_text"

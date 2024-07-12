@@ -120,7 +120,7 @@ useSeoMeta({
     <BlockTestimonial
       :block="home.blocks.testimonial"
     />
-    
+
     <!-- thematics block -->
     <a id="thematics" />
     <BlockThematics

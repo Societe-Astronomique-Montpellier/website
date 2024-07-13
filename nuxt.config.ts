@@ -30,6 +30,10 @@ export default defineNuxtConfig({
           resolvers: {
             category: "thematic"
           }
+        },
+        {
+          type: "event",
+          path: "/evenements/:uid"
         }
       ]
     }

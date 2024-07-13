@@ -67,6 +67,8 @@ const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
         </div>
       </div>
     </div>
+
+<pre>{{ articles }}</pre>
     <BlockThematics
       titleBlock="Nos articles"
       :items="articles"

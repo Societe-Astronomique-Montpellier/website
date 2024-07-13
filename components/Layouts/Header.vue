@@ -1,5 +1,12 @@
 <script setup lang="ts">
+import * as prismic from '@prismicio/client'
+import type { AllDocumentTypes, PageThematiqueDocument } from "~/prismicio-types";
 
+const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+const {data: thematics, error } = await useAsyncData(
+  "thematics",
+  async () => await client.getAllByType<AllDocumentTypes>('page_thematique', { lang: 'fr-fr'}) as PageThematiqueDocument[]
+);
 </script>
 
 <template>
@@ -20,10 +27,10 @@
     <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
       <nav>
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
-          <li><a class="md:p-4 py-3 px-0 block" href="#">Accueil</a></li>
-          <li><a class="md:p-4 py-3 px-0 block" href="#">Nos activitées</a></li>
-          <li><a class="md:p-4 py-3 px-0 block" href="#">Nos travaux</a></li>
-          <li><a class="md:p-4 py-3 px-0 block md:mb-0 mb-2" href="#">L'observatoire des Pises</a></li>
+          <li><NuxtLink class="md:p-4 py-3 px-0 block" to="/">Accueil</NuxtLink></li>
+          <li v-for="thematic in thematics">
+            <prismic-link :id="thematic.id" class="md:p-4 py-3 px-0 block">{{ thematic.data.title }}</prismic-link>
+          </li>
         </ul>
       </nav>
     </div>

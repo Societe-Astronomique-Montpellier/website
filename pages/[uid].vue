@@ -4,7 +4,7 @@
 
 import * as prismic from "@prismicio/client";
 import type {AllDocumentTypes, EventDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
-import BlockListCards from "~/components/home/BlockListCards.vue";
+const BlockThematics = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 definePageMeta({
   layout: 'page',
@@ -33,63 +33,49 @@ const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
 </script>
 
 <template>
-  <div v-if="page_thematique">
-    <div class="max-w-screen-xl mx-auto sm:p-10 md:p-16 relative">
-      <div class="relative h-[400px] overflow-hidden rounded-lg bg-cover bg-center text-center"
-           :style="`min-height: 500px; background-image: url(${page_thematique.data.image_banner.url})`"
-           title="Woman holding a mug"
-      >
-        <div class="flex h-full text-white">
-          <h1 class="text-3xl mb-2 font-semibold">{{ page_thematique.data.title }}</h1>
-        </div>
+  <section v-if="page_thematique">
+    <div class="relative w-full h-96">
+      
+      <prismic-image v-if="page_thematique.data.image_banner" :field="page_thematique.data.image_banner" class="absolute h-full w-full object-cover object-center" />
+      <div class="absolute inset-0 h-full w-full bg-black/50"></div>
+      <div class="relative pt-28 text-center">
+        <h2 class="block antialiased tracking-normal font-sans font-semibold leading-[1.3] text-white mb-4 text-3xl lg:text-4xl">{{ page_thematique.data.title }}</h2>
+        <p class="block antialiased font-sans text-xl font-normal leading-relaxed text-white mb-9 opacity-70">{{ page_thematique.data.subtitle }}</p>
       </div>
-      <div class="max-w-3xl mx-auto">
-        <div
-            class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-          <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-<!--            <h1 href="#" class="text-gray-900 font-bold text-3xl mb-2">{{ page_thematique.data.title }}</h1>-->
-            <p class="text-gray-700 text-xs mt-2">Par&nbsp;
-              <a href="#"
-                 class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                {{ page_thematique.data.author }}
-              </a> In
-              <span>{{ page_thematique.last_publication_date }}</span>
-            </p>
+    </div>
+    <div class="-mt-16 mb-8 px-8 ">
+      <div class="container mx-auto">
 
-            <prismic-rich-text :field="page_thematique.data.content" class="text-base leading-8 my-5" />
+        <p class="text-gray-700 text-xs mt-2">Rédigé par :
+          <span
+              class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+              Laurent Outant
+          </span> le 14/07/2024
+        </p>        
 
-<!--            <a href="#"-->
-<!--               class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">-->
-<!--              #Election-->
-<!--            </a>,-->
-<!--            <a href="#"-->
-<!--               class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">-->
-<!--              #people-->
-<!--            </a>,-->
-<!--            <a href="#"-->
-<!--               class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">-->
-<!--              #Election2020-->
-<!--            </a>,-->
-<!--            <a href="#"-->
-<!--               class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">-->
-<!--              #trump-->
-<!--            </a>,<a href="#"-->
-<!--                    class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">-->
-<!--            #Joe-->
-<!--          </a>-->
+
+        <div class="py-12 flex text-justify-center rounded-xl border border-white bg-white shadow-md shadow-black/5 saturate-200">
+
+          <div class="my-8 grid gap-6 px-4">
+            <div class="flex items-center border-t border-blueGray-200 gap-4 text-leading mt-4">
+              <prismic-rich-text :field="page_thematique.data.content" />
+            </div>
+          </div>
+          <div class="py-4">
+
           </div>
         </div>
       </div>
-
-      <BlockListCards
-        title-block="Articles"
-        :items="articles"
-      />
     </div>
-  </div>
-  <div v-else-if="error">
-    {{ error }}
-  </div>
+    <BlockThematics
+      titleBlock="Nos articles"
+      :items="articles"
+    />
+    
+  </section>
+
+
+
 </template>
 
 <style scoped>

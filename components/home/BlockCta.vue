@@ -31,7 +31,7 @@ initTWE({ Ripple });
 				<div class="mt-4 text-gray-600">
           <prismic-rich-text :field="block.data.resume" />
           <p></p>
-				  <prismic-rich-text :field="block.data.content" />
+				  <prismic-rich-text :field="block.data.content" class="text-justify leading-relaxed mt-2" />
 				</div>
 				<div v-if="true === block.data.display_button_link" class="mt-8 justify-center">
           <NuxtLink

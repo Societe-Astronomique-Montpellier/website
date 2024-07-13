@@ -10,12 +10,12 @@ const { item } = toRefs(props)
 </script>
 
 <template>
-  <div class="rounded-lg h-64 overflow-hidden">
+  <div class="rounded-lg h-64 overflow-hidden .hover:scale-110">
 <!--    780*520-->
     <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
   </div>
   <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
-  <prismic-rich-text :field="item.data.resume" class="text-base leading-relaxed mt-2" />
+  <prismic-rich-text :field="item.data.resume" class="text-base text-justify leading-relaxed mt-2" />
 
   <NuxtLink
     class="text-indigo-400 inline-flex items-center mt-3"

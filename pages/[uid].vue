@@ -57,8 +57,8 @@ const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
         <div class="py-12 flex text-justify-center rounded-xl border border-white bg-white shadow-md shadow-black/5 saturate-200">
 
           <div class="my-8 grid gap-6 px-4">
-            <div class="flex items-center border-t border-blueGray-200 gap-4 text-leading mt-4">
-              <prismic-rich-text :field="page_thematique.data.content" />
+            <div class="flex items-center border-t border-blueGray-200 leading-loose gap-4 mt-4">
+              <prismic-rich-text :field="page_thematique.data.content" class="" />
             </div>
           </div>
           <div class="py-4">

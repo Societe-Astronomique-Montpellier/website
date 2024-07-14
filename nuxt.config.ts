@@ -52,7 +52,6 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-
   app:{
     head: {
       title: 'Société Astronomique de Montpellier',

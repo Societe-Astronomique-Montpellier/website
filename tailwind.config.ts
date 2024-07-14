@@ -1,5 +1,3 @@
-const defaultTheme = require('tailwindcss/defaultTheme')
-
 module.exports = {
     content: [
         "./components/**/*.{js,vue,ts}",
@@ -20,7 +18,7 @@ module.exports = {
         },
         extend: {
             fontFamily: {
-                sans: ['Raleway', ...defaultTheme.fontFamily.sans],
+                raleway: ['Raleway', 'sans-serif'],
             },
         },
     },

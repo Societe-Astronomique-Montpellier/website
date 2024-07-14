@@ -1,8 +1,7 @@
 <script setup lang="ts">
 // https://tailwindcomponents.com/component/content-2
-import type {EventDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
+import type { EventDocument, PageArticleDocument, PageThematiqueDocument } from "~/prismicio-types";
 import type {KeyTextField} from "@prismicio/client";
-import ThematicCard from "~/components/content/ThematicCard.vue";
 
 export interface Props {
   titleBlock: KeyTextField | undefined
@@ -12,6 +11,9 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { items } = toRefs(props)
+
+import { useDynamicCardComponent } from '@/composables/useDynamicCardComponent';
+const { getComponent } = useDynamicCardComponent();
 
 </script>
 
@@ -29,14 +31,9 @@ const { items } = toRefs(props)
         </div>
       </div>
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-
-        <!-- Create a component card -->
-        <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="item in items">
-<!--          Thematic + article : big card-->
-          <ThematicCard :item="item as PageThematiqueDocument" />
-<!--          Event : small card-->
+        <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="(item, index) in items" :key="index">
+          <component v-if="item" :is="getComponent(item)" :item="item" />
         </div>
-
       </div>
     </div>
   </section>

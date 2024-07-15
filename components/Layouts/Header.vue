@@ -28,10 +28,13 @@ const {data: thematics, error } = await useAsyncData(
       <nav>
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
           <li><NuxtLink class="md:p-4 py-3 px-0 block" to="/">Accueil</NuxtLink></li>
-          <li v-for="thematic in thematics">
-            <!-- prismic link :id="thematic.id" class="md:p-4 py-3 px-0 block" -->
-              {{ thematic.data.title }}
-            <!-- /prismic-link -->
+          <li v-for="(thematic, index) in thematics" :key="index">
+             <NuxtLink :to="{ path: thematic.uid}" class="text-lg m-6 group relative w-max">
+               {{ thematic.data.title }}
+               <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
+               <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
+             </NuxtLink>
+
           </li>
         </ul>
       </nav>

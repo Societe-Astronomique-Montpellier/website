@@ -15,6 +15,7 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "@nuxtjs/tailwindcss": "^6.12.0",
+    "@prismicio/richtext": "^2.1.5",
     "@types/vue": "^2.0.0",
     "nuxt": "^3.12.3",
     "tw-elements": "^2.0.0",

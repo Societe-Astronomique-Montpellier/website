@@ -33,11 +33,11 @@ const richTextSerializer = useRichTextSerializer();
           </span>
 				</h2>
 				<div class="mt-4 text-gray-600">
-<!--          <prismic-rich-text-->
-<!--              :field="block.data.resume" :serializer="richTextSerializer" />-->
+          <prismic-rich-text
+              :field="block.data.resume" :serializer="richTextSerializer" />
 <!--          <p></p>-->
-<!--				  <prismic-rich-text-->
-<!--              :field="block.data.content" :serializer="richTextSerializer" />-->
+				  <prismic-rich-text
+              :field="block.data.content" :serializer="richTextSerializer" />
 				</div>
 				<div v-if="true === block.data.display_button_link" class="mt-8 justify-center">
           <NuxtLink

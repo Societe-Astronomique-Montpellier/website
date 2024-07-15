@@ -26,9 +26,7 @@ const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.v
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
 // Prismic
-// const { client } = usePrismic<AllDocumentTypes>()
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
-
 const { data: home, error} = await useAsyncData(
   "home",
   async () => {
@@ -131,13 +129,14 @@ useSeoMeta({
         <p v-if="home.data.bloc_thematic_text" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ home.data.bloc_thematic_text }}</p>
       </template>
     </BlockThematics>
-    
+
+<!--    -->
     <!-- Call to action -->
     <a id="cta" />
     <BlockCta
       :block="home.blocks.cta"
     />
-    
+
     <!-- Evenements -->
     <a id="events" />
     <BlockThematics

@@ -5,8 +5,8 @@ export interface Props {
 const props = defineProps<Props>()
 const { block } = toRefs(props)
 
-// import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-// const richTextSerializer = useRichTextSerializer();
+import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+const richTextSerializer = useRichTextSerializer();
 </script>
 
 <template>
@@ -19,7 +19,7 @@ const { block } = toRefs(props)
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                       <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
-<!--                  {{ block.data.testimonial_text_1 }}-->
+                  {{ block.data.testimonial_text_1 }}
 <!--                </p>-->
 <!--                <prismic-rich-text :field="block.data.testimonial_text_1" :serializer="richTextSerializer" />-->
 

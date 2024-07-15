@@ -5,6 +5,8 @@ export interface Props {
 const props = defineProps<Props>()
 const { block } = toRefs(props)
 
+// import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+// const richTextSerializer = useRichTextSerializer();
 </script>
 
 <template>
@@ -13,12 +15,14 @@ const { block } = toRefs(props)
         <div class="mr-auto place-self-center lg:col-span-7">
             <prismic-rich-text :field="block.data.content" class="max-w-2xl mb-4 font-extrabold tracking-tight leading-none text-4xl md:text-5xl xl:text-5xl" />
             <div class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl "> <!-- dark:text-gray-400 -->
-                <p class="mb-6 font-light text-neutral-500 "> <!-- dark:text-neutral-300 -->
+<!--                <p class="mb-6 font-light text-neutral-500 "> &lt;!&ndash; dark:text-neutral-300 &ndash;&gt;-->
                     <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
                       <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
-                  {{ block.data.testimonial_text_1 }}
-                </p>
+<!--                  {{ block.data.testimonial_text_1 }}-->
+<!--                </p>-->
+<!--                <prismic-rich-text :field="block.data.testimonial_text_1" :serializer="richTextSerializer" />-->
+
 
                 <p class="mb-6 font-light text-neutral-500 "> <!-- dark:text-neutral-300 -->
                   <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">

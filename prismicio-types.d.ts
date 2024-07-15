@@ -440,6 +440,66 @@ export type EventDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<EventDocumentData>, "event", Lang>;
 
 /**
+ * Item in *Bloc d'en-tête → Navigation en-tête*
+ */
+export interface HeaderDocumentDataHeaderNavigationItem {
+  /**
+   * Lien vers la page field in *Bloc d'en-tête → Navigation en-tête*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.header_navigation[].link_header
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link_header: prismic.LinkField;
+}
+
+/**
+ * Content for Bloc d'en-tête documents
+ */
+interface HeaderDocumentData {
+  /**
+   * Titre field in *Bloc d'en-tête*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Titre du bloc
+   * - **API ID Path**: header.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  content: prismic.KeyTextField;
+
+  /**
+   * Navigation en-tête field in *Bloc d'en-tête*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.header_navigation[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  header_navigation: prismic.GroupField<
+    Simplify<HeaderDocumentDataHeaderNavigationItem>
+  >;
+}
+
+/**
+ * Bloc d'en-tête document from Prismic
+ *
+ * - **API ID**: `header`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type HeaderDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithoutUID<
+    Simplify<HeaderDocumentData>,
+    "header",
+    Lang
+  >;
+
+/**
  * Item in *Page d'accueil → Bloc thématiques*
  */
 export interface HomepageDocumentDataBlockThematiquesItem {
@@ -899,6 +959,7 @@ export type AllDocumentTypes =
   | BlockHeroDocument
   | BlockTestimonialDocument
   | EventDocument
+  | HeaderDocument
   | HomepageDocument
   | PageArticleDocument
   | PageThematiqueDocument;
@@ -927,6 +988,9 @@ declare module "@prismicio/client" {
       EventDocument,
       EventDocumentData,
       EventDocumentDataSlicesSlice,
+      HeaderDocument,
+      HeaderDocumentData,
+      HeaderDocumentDataHeaderNavigationItem,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataBlockThematiquesItem,

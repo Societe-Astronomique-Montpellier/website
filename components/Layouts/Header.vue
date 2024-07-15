@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import * as prismic from '@prismicio/client'
-import type { AllDocumentTypes, PageThematiqueDocument } from "~/prismicio-types";
+// import { useNavigationHeader } from "@/composables/useNavigationHeader";
+// const navigation = useNavigationHeader();
+
+import * as prismic from "@prismicio/client";
+import type {AllDocumentTypes, HeaderDocument} from "~/prismicio-types";
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
-const {data: thematics, error } = await useAsyncData(
-  "thematics",
-  async () => await client.getAllByType<AllDocumentTypes>('page_thematique', { lang: 'fr-fr'}) as PageThematiqueDocument[]
-);
+const { data: navigation, error } = useAsyncData(
+    'navigation',
+    () => client.getSingle<HeaderDocument>('header', { lang: 'fr-fr'})
+)
 </script>
 
 <template>
@@ -26,15 +29,15 @@ const {data: thematics, error } = await useAsyncData(
 
     <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">
       <nav>
+
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
           <li><NuxtLink class="md:p-4 py-3 px-0 block" to="/">Accueil</NuxtLink></li>
-          <li v-for="(thematic, index) in thematics" :key="index">
-             <NuxtLink :to="{ path: thematic.uid}" class="text-lg m-6 group relative w-max">
-               {{ thematic.data.title }}
+          <li v-for="(item, index) in navigation?.data.header_navigation" :key="index">
+             <PrismicLink :field="item.link_header" class="text-lg m-6 group relative w-max">
+               [ LIEN PAGE ]
                <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
                <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
-             </NuxtLink>
-
+             </PrismicLink>
           </li>
         </ul>
       </nav>

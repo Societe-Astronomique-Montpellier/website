@@ -6,11 +6,9 @@ const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyri
 </script>
 
 <template>
-  <v-main class="main-container font-sans">
-    <div class="flex-fill">
-      <slot />
-    </div>
-  </v-main>
+  <div class="flex-fill font-sans">
+    <slot />
+  </div>
   <Copyright />
 </template>
 

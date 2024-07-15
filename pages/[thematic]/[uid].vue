@@ -18,29 +18,27 @@ const { data: page_thematique, error} = await useAsyncData(
 </script>
 
 <template>
-  <div class="max-w-screen-xl mx-auto p-5 sm:p-10 md:p-16 relative">
-    <div class="bg-cover bg-center text-center overflow-hidden"
-         style="min-height: 500px; background-image: url('https://api.time.com/wp-content/uploads/2020/07/never-trumpers-2020-election-01.jpg?quality=85&amp;w=1201&amp;h=676&amp;crop=1')"
+  <div class="max-w-screen-lg w-full mx-auto relative">
+    <div class="bg-cover bg-center text-center overflow-hidden rounded"
+         style="min-height: 500px; background-image: url('https://images.prismic.io/societe-astronomique-montpellier/Zo93gx5LeNNTxA6B_P1310003.JPG?auto=format,compress')"
          title="Woman holding a mug">
     </div>
     <div class="max-w-3xl mx-auto">
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-          <h1 href="#" class="text-gray-900 font-bold text-3xl mb-2">Revenge of the Never Trumpers</h1>
-          <p class="text-gray-700 text-xs mt-2">Written By:
+          <h2 class="text-gray-900 font-bold text-4xl mb-2">L'observatoire des Pises</h2>
+          <h3 class="text-gray-900 font-semibold text-2xl mb-2">Entre nature et firmament</h3>
+          <p class="text-gray-700 text-xs mt-2">Écrit par:
             <a href="#"
                class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              Ahmad Sultani
-            </a> In
+              Laurent Outang
+            </a> le
             <a href="#"
                class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              Election
+              14/07/2024
             </a>,
-            <a href="#"
-               class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              Politics
-            </a>
+
 
           </p>
 

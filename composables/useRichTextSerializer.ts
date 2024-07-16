@@ -15,7 +15,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
             if (!node.url) {
                 return '<p>Error: Missing image URL</p>';
             }
-            return `<img src="${node.url}" alt="${node.alt || 'Image description'}" />`;
+            return `<img src="${node.url}" alt="${node.alt || 'Image description'}" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-110" />`;
         },
         // list
         // listItem

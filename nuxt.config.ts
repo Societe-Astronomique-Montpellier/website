@@ -7,10 +7,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: [
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/prismic",
-  ],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon"],
   prismic: {
     endpoint: apiEndpoint || repositoryName,
     clientConfig: {

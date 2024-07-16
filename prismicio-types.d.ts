@@ -444,10 +444,20 @@ export type EventDocument<Lang extends string = string> =
  */
 export interface HeaderDocumentDataHeaderNavigationItem {
   /**
+   * Label du lien field in *Bloc d'en-tête → Navigation en-tête*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Titre du lien
+   * - **API ID Path**: header.header_navigation[].label_header
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label_header: prismic.KeyTextField;
+
+  /**
    * Lien vers la page field in *Bloc d'en-tête → Navigation en-tête*
    *
    * - **Field Type**: Link
-   * - **Placeholder**: *None*
+   * - **Placeholder**: Lien du header
    * - **API ID Path**: header.header_navigation[].link_header
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */

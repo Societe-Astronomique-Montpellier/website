@@ -19,11 +19,11 @@ const { block } = toRefs(props)
 <template>
   <div
     v-if="block"
-    class="relative h-96 overflow-hidden bg-cover bg-no-repeat p-12 text-center lg:h-screen"
+    class="relative h-96 overflow-hidden bg-cover bg-scroll  bg-no-repeat p-12 text-center lg:h-screen"
     :style="{backgroundImage: `url(${block?.data?.image?.url})`}"
   >
     <div
-        class="absolute bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden bg-fixed">
+        class="absolute bg-scroll  bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
       <div class="flex h-full items-center justify-center">
         <div class="text-white">
           <h2 class="mb-6 text-4xl">

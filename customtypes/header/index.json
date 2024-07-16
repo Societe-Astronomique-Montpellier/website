@@ -19,11 +19,19 @@
           "label": "Navigation en-tête",
           "repeat": true,
           "fields": {
+            "label_header": {
+              "type": "Text",
+              "config": {
+                "label": "Label du lien",
+                "placeholder": "Titre du lien"
+              }
+            },
             "link_header": {
               "type": "Link",
               "config": {
                 "label": "Lien vers la page",
-                "placeholder": "",
+                "placeholder": "Lien du header",
+                "allowTargetBlank": false,
                 "select": null
               }
             }

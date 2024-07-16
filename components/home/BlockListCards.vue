@@ -27,16 +27,16 @@ const { getComponent } = useDynamicCardComponent();
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
           <h1 class="sm:w-2/5 text-white font-medium title-font text-2xl mb-2 sm:mb-0">{{ titleBlock }}</h1>
           <slot name="content-block"></slot>
-<!--          <p v-if="contentBlock" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ contentBlock }}</p>-->
         </div>
       </div>
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
         <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="(item, index) in items" :key="index">
-<!--          <component-->
-<!--              v-if="item"-->
-<!--              :is="getComponent(item)"-->
-<!--              :item="item"-->
-<!--          />-->
+          <component
+              v-if="item"
+              :is="getComponent(item.type)"
+              v-bind="item"
+              :item="item"
+          />
         </div>
       </div>
     </div>

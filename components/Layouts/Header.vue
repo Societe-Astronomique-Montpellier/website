@@ -13,9 +13,10 @@ const { data: navigation, error } = useAsyncData(
 </script>
 
 <template>
+  <pre>{{ navigation?.data.header_navigation }}</pre>
   <header class="lg:px-16 px-4 flex flex-wrap items-center py-4 shadow-sm">
     <div class="flex-1 flex justify-between items-center mix-blend-screen">
-      <a href="#" class="text-4xl text-gray-400 font-extrabold">YOGA</a>
+      <a href="#" class="text-4xl text-gray-400 font-extrabold">[ SAM ]</a>
     </div>
 
     <label for="menu-toggle" class="pointer-cursor md:hidden block">
@@ -32,12 +33,12 @@ const { data: navigation, error } = useAsyncData(
 
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
           <li><NuxtLink class="md:p-4 py-3 px-0 block" to="/">Accueil</NuxtLink></li>
-          <li v-for="(item, index) in navigation?.data.header_navigation" :key="index">
-             <PrismicLink :field="item.link_header" class="text-lg m-6 group relative w-max">
-               [ LIEN PAGE ]
+          <li v-for="(item, index) in navigation?.data.header_navigation" :key="index"  class="text-lg m-6 group relative w-max">
+             <prismic-link :field="item.link_header">
+               {{ item.label_header }}
                <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
                <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
-             </PrismicLink>
+             </prismic-link>
           </li>
         </ul>
       </nav>

@@ -29,8 +29,12 @@ export default defineNuxtConfig({
           }
         },
         {
+          type: "events",
+          path: "/agenda"
+        },
+        {
           type: "event",
-          path: "/evenements/:uid"
+          path: "/agenda/:uid"
         }
       ]
     }

@@ -7,6 +7,10 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { item } = toRefs(props)
+
+import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+const richTextSerializer = useRichTextSerializer();
+
 </script>
 
 <template>
@@ -15,7 +19,10 @@ const { item } = toRefs(props)
     <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
   </div>
   <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
-  <prismic-rich-text :field="item.data.resume" class="text-base text-justify leading-relaxed mt-2" />
+  <prismic-rich-text
+    :field="item.data.resume"
+    :serializer="richTextSerializer"
+  />
 
   <NuxtLink
     class="text-indigo-400 inline-flex items-center mt-3"

@@ -58,12 +58,12 @@ const formatDate = (item: PageThematiqueDocument | null) => {
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.data.title }}</h2>
-            <h3 class="text-gray-900 font-semibold text-2xl mb-2">{{ page_thematique.data.subtitle }}</h3>
-            <p class="text-gray-700 text-xs mt-2">Écrit par:
-              <a href="#"
-                 class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+            <h3 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.data.subtitle }}</h3>
+            <p class="text-gray-700 text-s mt-2">
+              <Icon size="24" name="material-symbols:person-edit-outline" />
+              <span class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ page_thematique.data.author }}
-              </a> le
+              </span> le
               <span
                  class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ formatDate(page_thematique) }}

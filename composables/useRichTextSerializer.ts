@@ -2,7 +2,7 @@ import type { HTMLMapSerializer } from '@prismicio/helpers';
 
 export const useRichTextSerializer = (): HTMLMapSerializer => {
     return {
-        paragraph: ({ children }) => `<p class="text-justify leading-8 mt-2 my-5">${children}</p>`,
+        paragraph: ({ children }) => `<p class="text-justify text-base leading-8 mt-2 my-5">${children}</p>`,
         heading1: ({ children }) => `<h1>${children}</h1>`,
         heading2: ({ children }) => `<h2>${children}</h2>`,
         heading3: ({ children }) => `<h3>${children}</h3>`,

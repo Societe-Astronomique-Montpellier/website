@@ -27,7 +27,6 @@ const { block } = toRefs(props)
       <div class="flex h-full items-center justify-center">
         <div class="text-white">
           <h2 class="mb-6 text-4xl">
-<!--            <prismic-text :field="block.data.subtitle" />-->
             {{ block.data.subtitle }}
           </h2>
           <h1 class="mb-4 text-6xl font-semibold">

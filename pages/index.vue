@@ -21,7 +21,7 @@ const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
-const BlockThematics = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
+const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.vue'))
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
@@ -76,7 +76,7 @@ const { data: home, error} = await useAsyncData(
       filters: [ prismic.filter.dateAfter('my.event.date_event', dateNow.value) ],
       orderings: {
         field: 'my.event.date_event',
-        direction: 'desc'
+        direction: 'asc'
       },
       limit: 3
     }) as EventDocument[]
@@ -121,14 +121,14 @@ useSeoMeta({
 
     <!-- thematics block -->
     <a id="thematics" />
-    <BlockThematics
+    <BlockListCards
       :titleBlock="home.data.block_thematics_title"
       :items="home.blocks.thematics"
     >
       <template v-slot:content-block>
         <p v-if="home.data.bloc_thematic_text" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ home.data.bloc_thematic_text }}</p>
       </template>
-    </BlockThematics>
+    </BlockListCards>
 
 <!--    -->
     <!-- Call to action -->
@@ -139,13 +139,13 @@ useSeoMeta({
 
     <!-- Evenements -->
     <a id="events" />
-    <BlockThematics
+    <BlockListCards
       :titleBlock="home.data.block_events_title"
       :items="home.blocks.events"
     >
       <template v-slot:content-block>
         <p class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">
-          <NuxtLink to="/" class="text-indigo-400 inline-flex items-center mt-3">
+          <NuxtLink to="events" class="text-indigo-400 inline-flex items-center mt-3">
             {{ home.data.block_events_text }}
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -153,7 +153,7 @@ useSeoMeta({
           </NuxtLink>
         </p>
       </template>
-    </BlockThematics>
+    </BlockListCards>
 
     <!-- contact -->
     <BlockContact />

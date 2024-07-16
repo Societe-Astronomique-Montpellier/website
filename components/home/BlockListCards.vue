@@ -34,7 +34,6 @@ const { getComponent } = useDynamicCardComponent();
           <component
               v-if="item"
               :is="getComponent(item.type)"
-              v-bind="item"
               :item="item"
           />
         </div>

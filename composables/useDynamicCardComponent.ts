@@ -8,12 +8,12 @@ export function useDynamicCardComponent(): {
     }
 
     const components: IComponentMap = {
-        'page_thematique': 'ThematicCard.vue',
-        'page_article': 'ArticleCard.vue',
-        'event': 'EventCard.vue'
+        'page_thematique': 'ThematicCard',
+        'page_article': 'ArticleCard',
+        'event': 'EventCard'
     }
 
-    const importedComponentPromise = ref<Promise<Component | null>>();
+    const importedComponentPromise = shallowRef<Promise<Component | null>>();
 
     function getComponent(dataType: string): Promise<Component | null> | undefined {
         if (!importedComponentPromise.value) {
@@ -22,7 +22,7 @@ export function useDynamicCardComponent(): {
                 throw new Error(`Component not found for data type: ${dataType}`);
             }
             importedComponentPromise.value = defineAsyncComponent(async () => {
-                const component = await import(`./components/content/${componentName}`);
+                const component = await import(`@/components/content/${componentName}.vue`);
                 return component.default || component;
             });
         }

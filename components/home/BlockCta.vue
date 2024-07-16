@@ -5,12 +5,12 @@ export interface Props {
 const props = defineProps<Props>()
 const { block } = toRefs(props)
 
-import {
-  Ripple,
-  initTWE,
-} from "tw-elements";
-
-initTWE({ Ripple });
+// import {
+//   Ripple,
+//   initTWE,
+// } from "tw-elements";
+//
+// initTWE({ Ripple });
 
 // RichText serializer
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'

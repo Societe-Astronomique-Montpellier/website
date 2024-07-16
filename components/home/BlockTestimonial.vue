@@ -7,6 +7,7 @@ const { block } = toRefs(props)
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
+
 </script>
 
 <template>

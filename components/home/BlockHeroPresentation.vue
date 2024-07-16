@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { type Content } from '@prismicio/client'
-import type { BlockHeroDocument } from "~/prismicio-types";
-
 export interface Props {
   block: any
 }
@@ -9,13 +6,13 @@ export interface Props {
 const props = defineProps<Props>()
 const { block } = toRefs(props)
 
-import {
-  Collapse,
-  Ripple,
-  initTWE,
-} from "tw-elements";
-
-initTWE({ Collapse, Ripple });
+// import {
+//   Collapse,
+//   Ripple,
+//   initTWE,
+// } from "tw-elements";
+//
+// initTWE({ Collapse, Ripple });
 
 </script>
 
@@ -41,4 +38,3 @@ initTWE({ Collapse, Ripple });
     </div>
   </div>
 </template>
-

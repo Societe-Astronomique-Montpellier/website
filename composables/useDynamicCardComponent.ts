@@ -22,7 +22,7 @@ export function useDynamicCardComponent(): {
                 throw new Error(`Component not found for data type: ${dataType}`);
             }
             importedComponentPromise.value = defineAsyncComponent(async () => {
-                const component = await import(`@/components/content/${componentName}`);
+                const component = await import(`./components/content/${componentName}`);
                 return component.default || component;
             });
         }

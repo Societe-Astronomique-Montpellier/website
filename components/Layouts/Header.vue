@@ -13,7 +13,7 @@ const { data: navigation, error } = useAsyncData(
 </script>
 
 <template>
-  <pre>{{ navigation?.data.header_navigation }}</pre>
+<!--  <pre>{{ navigation?.data.header_navigation }}</pre>-->
   <header class="lg:px-16 px-4 flex flex-wrap items-center py-4 shadow-sm">
     <div class="flex-1 flex justify-between items-center mix-blend-screen">
       <a href="#" class="text-4xl text-gray-400 font-extrabold">[ SAM ]</a>

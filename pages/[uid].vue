@@ -5,35 +5,46 @@
 import * as prismic from "@prismicio/client";
 import type {AllDocumentTypes, EventDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 
-const BlockThematics = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
+const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 definePageMeta({
   layout: 'page',
 });
 const route = useRoute();
 const { uid } = route.params as { uid: string }
+const pageThematicId = ref<string | number>('')
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 // Page data
 const { data: page_thematique, error} = await useAsyncData(
     uid,
-    () => client.getByUID<PageThematiqueDocument>('page_thematique', uid)
-)
+    async () => {
+      const response = await client.getByUID<PageThematiqueDocument>('page_thematique', uid)
+      pageThematicId.value = response.id;
 
-// RichText serializer
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-const richTextSerializer = useRichTextSerializer();
+      return response;
+    }
+)
 
 
 // List articles
 const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
+  filters: [
+    prismic.filter.at('my.page_article.thematic', pageThematicId.value)
+  ],
   orderings: {
     field: 'my.page_article.date_event',
     direction: 'desc'
   },
 }) as PageArticleDocument[]
 
+// RichText serializer
+import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+const richTextSerializer = useRichTextSerializer();
 
+/**
+ * TODO : move into composables
+ */
 const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   month: 'short',
   day: 'numeric',
@@ -48,9 +59,9 @@ const formatDate = (item: PageThematiqueDocument | null) => {
 
 <template>
   <section v-if="page_thematique">
-    <div class="max-w-screen-lg w-full mx-auto relative">
+    <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
       <div class="bg-cover bg-center text-center overflow-hidden rounded"
-           :style="`min-height: 650px; background-image: url(${page_thematique.data.image_banner.url })`"
+           :style="`min-height: 650px; background-image: url(${page_thematique.data.image_banner.url }); background-color: bg-indigo-500` "
            title="Woman holding a mug">
       </div>
       <div class="max-w-3xl mx-auto">
@@ -78,11 +89,14 @@ const formatDate = (item: PageThematiqueDocument | null) => {
 <!--            p => text-base leading-8 my-5-->
 <!--            hx => text-2xl font-bold my-5-->
 <!--            blockquote => border-l-4 text-base italic leading-8 my-5 p-5 text-indigo-600-->
-
           </div>
-
         </div>
       </div>
+
+      <BlockListCards
+        title-block="En savoir plus"
+        :items="articles"
+      />
     </div>
   </section>
 </template>

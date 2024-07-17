@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
-
+const runtimeConfig = useRuntimeConfig()
 import * as prismic from '@prismicio/client'
 
 // Layout
@@ -27,6 +27,7 @@ const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockC
 
 // Prismic
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+// const { client } = usePrismic();
 const { data: home, error} = await useAsyncData(
   "home",
   async () => {

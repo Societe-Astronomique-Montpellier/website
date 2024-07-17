@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
-
+const runtimeConfig = useRuntimeConfig()
 import * as prismic from "@prismicio/client";
 import type {
   AllDocumentTypes,
@@ -19,7 +19,8 @@ definePageMeta({
 const route = useRoute();
 const { uid } = route.params as { uid: string }
 
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier');
+// const { client } = usePrismic();
 // Page data
 const { data: page_thematique, error} = await useAsyncData(
     uid,
@@ -76,8 +77,6 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
 
 <template>
   <section v-if="page_thematique">
-
-
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
       <div class="bg-cover bg-center text-center overflow-hidden rounded"
            :style="`min-height: 650px; background-image: url(${page_thematique.data.image_banner.url }); background-color: bg-indigo-500` "
@@ -90,9 +89,9 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.data.title }}</h2>
             <h3 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.data.subtitle }}</h3>
             <p class="text-gray-700 text-s mt-2">
-              <Icon size="24" name="material-symbols:person-edit-outline" />
+
               <span class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                {{ page_thematique.data.author }}
+                <Icon size="24" name="material-symbols:person-edit-outline" /> {{ page_thematique.data.author }}
               </span> le
               <span
                  class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
@@ -111,6 +110,10 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
           </div>
         </div>
       </div>
+
+      <span v-for="(item, index) in page_thematique.articles" :key="index">
+        {{ item}}
+      </span>
 
       <BlockListCards
         v-if="page_thematique.articles"

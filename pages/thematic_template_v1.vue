@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
-
+const runtimeConfig = useRuntimeConfig()
 import * as prismic from "@prismicio/client";
 import type {AllDocumentTypes, EventDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 const BlockThematics = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
@@ -12,7 +12,7 @@ definePageMeta({
 const route = useRoute();
 const { uid } = route.params as { uid: string }
 
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+const client = prismic.createClient<AllDocumentTypes>(runtimeConfig.apiEndpoint)
 
 const { data: page_thematique, error} = await useAsyncData(
     uid,

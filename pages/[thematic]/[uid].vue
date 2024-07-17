@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig()
 import * as prismic from "@prismicio/client";
 import type {AllDocumentTypes, PageThematiqueDocument} from "~/prismicio-types";
 
@@ -9,7 +10,7 @@ const route = useRoute();
 const {  } = route.params as { uid: string }
 const { thematic, uid } = route.params as { thematic: string, uid: string }
 
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+const client = prismic.createClient<AllDocumentTypes>(runtimeConfig.apiEndpoint)
 
 const { data: page_thematique, error} = await useAsyncData(
     uid,

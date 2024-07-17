@@ -58,6 +58,23 @@
           "placeholder": ""
         }
       },
+      "images_gallery": {
+        "type": "Group",
+        "config": {
+          "label": "Galerie d'images",
+          "repeat": true,
+          "fields": {
+            "image_gallery": {
+              "type": "Image",
+              "config": {
+                "label": "Image",
+                "constraint": {},
+                "thumbnails": []
+              }
+            }
+          }
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

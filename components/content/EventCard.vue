@@ -10,7 +10,7 @@ const { item } = toRefs(props)
 </script>
 
 <template>
-    <div v-if="item" class="rounded-lg h-64 overflow-hidden .hover:scale-110">
+    <div v-if="item" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-lg h-64 overflow-hidden">
   <!--    780*520-->
       <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
     </div>

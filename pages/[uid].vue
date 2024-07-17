@@ -3,7 +3,13 @@
 // https://flowbite.com/blocks/publisher/blog-templates/
 
 import * as prismic from "@prismicio/client";
-import type {AllDocumentTypes, EventDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
+import type {
+  AllDocumentTypes,
+  EventDocument,
+  PageArticleDocument,
+  PageThematiqueDocument,
+  PageThematiqueDocumentData
+} from "~/prismicio-types";
 
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
@@ -12,7 +18,6 @@ definePageMeta({
 });
 const route = useRoute();
 const { uid } = route.params as { uid: string }
-const pageThematicId = ref<string | number>('')
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 // Page data
@@ -20,23 +25,35 @@ const { data: page_thematique, error} = await useAsyncData(
     uid,
     async () => {
       const response = await client.getByUID<PageThematiqueDocument>('page_thematique', uid)
-      pageThematicId.value = response.id;
 
-      return response;
+      const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
+        filters: [
+          // prismic.filter.at('document.type', 'page_thematique'),
+          prismic.filter.at('my.page_article.thematic', response.id)
+        ],
+        orderings: {
+          field: 'my.page_article.date_modification',
+          direction: 'desc'
+        },
+      }) as PageArticleDocument[]
+
+      return {
+        data: response.data,
+        publication_date: response.last_publication_date ?? response.first_publication_date,
+        articles: articles
+      };
     }
 )
 
-
 // List articles
-const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
-  filters: [
-    prismic.filter.at('my.page_article.thematic', pageThematicId.value)
+
+
+useHead({
+  title: computed(() => `${page_thematique.value?.data.meta_title} | ${page_thematique.value?.data.title}`),
+  meta: [
+    { name: 'description', content: `${page_thematique.value?.data.meta_description}`}
   ],
-  orderings: {
-    field: 'my.page_article.date_event',
-    direction: 'desc'
-  },
-}) as PageArticleDocument[]
+})
 
 // RichText serializer
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
@@ -51,14 +68,16 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   year: 'numeric'
 })
 
-const formatDate = (item: PageThematiqueDocument | null) => {
-  const date = prismic.asDate(item?.last_publication_date || item?.first_publication_date)
-  return dateFormatter.format(date || undefined)
-}
+// const formatDate = (date) => {
+//   const date = prismic.asDate(date)
+//   return dateFormatter.format(date || undefined)
+// }
 </script>
 
 <template>
   <section v-if="page_thematique">
+
+
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
       <div class="bg-cover bg-center text-center overflow-hidden rounded"
            :style="`min-height: 650px; background-image: url(${page_thematique.data.image_banner.url }); background-color: bg-indigo-500` "
@@ -77,7 +96,7 @@ const formatDate = (item: PageThematiqueDocument | null) => {
               </span> le
               <span
                  class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                {{ formatDate(page_thematique) }}
+                {{ page_thematique.publication_date }}
               </span>
             </p>
 
@@ -94,8 +113,9 @@ const formatDate = (item: PageThematiqueDocument | null) => {
       </div>
 
       <BlockListCards
+        v-if="page_thematique.articles"
         title-block="En savoir plus"
-        :items="articles"
+        :items="page_thematique.articles"
       />
     </div>
   </section>

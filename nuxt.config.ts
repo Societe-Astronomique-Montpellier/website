@@ -23,10 +23,10 @@ export default defineNuxtConfig({
         },
         {
           type: "page_article",
-          path: "/:thematic/:uid",
           resolvers: {
             category: "thematic"
-          }
+          },
+          path: "/:thematic/:uid",
         },
         {
           type: "events",

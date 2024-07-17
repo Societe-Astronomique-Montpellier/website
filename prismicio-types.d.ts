@@ -701,6 +701,21 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
+/**
+ * Item in *Page article → Galerie d'images*
+ */
+export interface PageArticleDocumentDataImagesGalleryItem {
+  /**
+   * Image field in *Page article → Galerie d'images*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.images_gallery[].image_gallery
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_gallery: prismic.ImageField<never>;
+}
+
 type PageArticleDocumentDataSlicesSlice = never;
 
 /**
@@ -772,6 +787,19 @@ interface PageArticleDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
   author: prismic.KeyTextField;
+
+  /**
+   * Galerie d'images field in *Page article*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.images_gallery[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  images_gallery: prismic.GroupField<
+    Simplify<PageArticleDocumentDataImagesGalleryItem>
+  >;
 
   /**
    * Slice Zone field in *Page article*
@@ -1007,6 +1035,7 @@ declare module "@prismicio/client" {
       HomepageDocumentDataSlicesSlice,
       PageArticleDocument,
       PageArticleDocumentData,
+      PageArticleDocumentDataImagesGalleryItem,
       PageArticleDocumentDataSlicesSlice,
       PageThematiqueDocument,
       PageThematiqueDocumentData,

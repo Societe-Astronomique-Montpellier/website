@@ -34,11 +34,12 @@ const { data: navigation, error } = useAsyncData(
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
           <li><NuxtLink class="md:p-4 py-3 px-0 block" to="/">Accueil</NuxtLink></li>
           <li v-for="(item, index) in navigation?.data.header_navigation" :key="index"  class="text-lg m-6 group relative w-max">
-             <prismic-link :field="item.link_header">
+<!--            <pre>{{ item.link_header }}</pre>-->
+             <PrismicLink :field="item.link_header">
                {{ item.label_header }}
                <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
                <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
-             </prismic-link>
+             </PrismicLink>
           </li>
         </ul>
       </nav>

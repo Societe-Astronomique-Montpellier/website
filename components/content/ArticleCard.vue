@@ -14,11 +14,11 @@ const { item } = toRefs(props)
   <NuxtLink
       v-if="item"
       class="text-indigo-400 mt-3"
-      :to="item.uid"
+      :path="item.url"
   >
-    <div class="rounded-lg h-64 overflow-hidden .hover:scale-110">
+    <div class="rounded-lg h-64 overflow-hidden transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 ">
       <!--    780*520-->
-      <prismic-image v-if="item.data.banner_image" :field="item.data.banner_image" class="object-cover object-center h-full w-full" />
+      <prismic-image v-if="item.data.banner_image.id" :field="item.data.banner_image" class="object-cover object-center h-full w-full" />
     </div>
     <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
   </NuxtLink>

@@ -19,6 +19,14 @@
           "placeholder": ""
         }
       },
+      "image_banner": {
+        "type": "Image",
+        "config": {
+          "label": "Bannière image",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
       "image_vignette": {
         "type": "Image",
         "config": {

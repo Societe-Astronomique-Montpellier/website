@@ -341,6 +341,17 @@ interface EventDocumentData {
   title: prismic.KeyTextField;
 
   /**
+   * Bannière image field in *Evenement*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.image_banner
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_banner: prismic.ImageField<never>;
+
+  /**
    * Vignette field in *Evenement*
    *
    * - **Field Type**: Image
@@ -438,6 +449,100 @@ interface EventDocumentData {
  */
 export type EventDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<EventDocumentData>, "event", Lang>;
+
+type EventsDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Events documents
+ */
+interface EventsDocumentData {
+  /**
+   * Title field in *Events*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Banniere field in *Events*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.image_banner
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_banner: prismic.ImageField<never>;
+
+  /**
+   * Contenu field in *Events*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Slice Zone field in *Events*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<EventsDocumentDataSlicesSlice> /**
+   * Meta Title field in *Events*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: events.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Events*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: events.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Events*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: events.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Events document from Prismic
+ *
+ * - **API ID**: `events`
+ * - **Repeatable**: `false`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type EventsDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<Simplify<EventsDocumentData>, "events", Lang>;
 
 /**
  * Item in *Bloc d'en-tête → Navigation en-tête*
@@ -760,11 +865,11 @@ interface PageArticleDocumentData {
    *
    * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.banner_image
+   * - **API ID Path**: page_article.image_banner
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  banner_image: prismic.ImageField<never>;
+  image_banner: prismic.ImageField<never>;
 
   /**
    * Contenu field in *Page article*
@@ -997,6 +1102,7 @@ export type AllDocumentTypes =
   | BlockHeroDocument
   | BlockTestimonialDocument
   | EventDocument
+  | EventsDocument
   | HeaderDocument
   | HomepageDocument
   | PageArticleDocument
@@ -1026,6 +1132,9 @@ declare module "@prismicio/client" {
       EventDocument,
       EventDocumentData,
       EventDocumentDataSlicesSlice,
+      EventsDocument,
+      EventsDocumentData,
+      EventsDocumentDataSlicesSlice,
       HeaderDocument,
       HeaderDocumentData,
       HeaderDocumentDataHeaderNavigationItem,

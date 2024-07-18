@@ -1,43 +1,29 @@
 {
   "format": "page",
-  "id": "page_article",
-  "label": "Page article",
-  "repeatable": true,
+  "id": "events",
+  "label": "Events",
+  "repeatable": false,
   "status": true,
   "json": {
     "Main": {
       "uid": {
+        "type": "UID",
         "config": {
-          "label": "UID"
-        },
-        "type": "UID"
+          "label": "UID",
+          "placeholder": ""
+        }
       },
       "title": {
         "type": "Text",
         "config": {
-          "label": "Titre",
-          "placeholder": ""
-        }
-      },
-      "thematic": {
-        "type": "Link",
-        "config": {
-          "label": "Thématique",
-          "select": "document",
-          "customtypes": ["page_thematique"]
-        }
-      },
-      "subtitle": {
-        "type": "Text",
-        "config": {
-          "label": "Sous-titre",
+          "label": "Title",
           "placeholder": ""
         }
       },
       "image_banner": {
         "type": "Image",
         "config": {
-          "label": "Bannière",
+          "label": "Banniere",
           "constraint": {},
           "thumbnails": []
         }
@@ -49,30 +35,6 @@
           "placeholder": "",
           "allowTargetBlank": true,
           "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
-        }
-      },
-      "author": {
-        "type": "Text",
-        "config": {
-          "label": "Auteur",
-          "placeholder": ""
-        }
-      },
-      "images_gallery": {
-        "type": "Group",
-        "config": {
-          "label": "Galerie d'images",
-          "repeat": true,
-          "fields": {
-            "image_gallery": {
-              "type": "Image",
-              "config": {
-                "label": "Image",
-                "constraint": {},
-                "thumbnails": []
-              }
-            }
-          }
         }
       },
       "slices": {

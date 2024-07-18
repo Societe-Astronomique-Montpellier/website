@@ -5,10 +5,8 @@ const runtimeConfig = useRuntimeConfig()
 import * as prismic from "@prismicio/client";
 import type {
   AllDocumentTypes,
-  EventDocument,
   PageArticleDocument,
   PageThematiqueDocument,
-  PageThematiqueDocumentData
 } from "~/prismicio-types";
 
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
@@ -20,8 +18,6 @@ const route = useRoute();
 const { uid } = route.params as { uid: string }
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier');
-// const { client } = usePrismic();
-// Page data
 const { data: page_thematique, error} = await useAsyncData(
     uid,
     async () => {
@@ -39,20 +35,17 @@ const { data: page_thematique, error} = await useAsyncData(
       }) as PageArticleDocument[]
 
       return {
-        data: response.data,
+        thematic: response,
         publication_date: response.last_publication_date ?? response.first_publication_date,
         articles: articles
       };
     }
 )
 
-// List articles
-
-
 useHead({
-  title: computed(() => `${page_thematique.value?.data.meta_title} | ${page_thematique.value?.data.title}`),
+  title: computed(() => `${page_thematique.value?.thematic.data.meta_title} | ${page_thematique.value?.thematic.data.title}`),
   meta: [
-    { name: 'description', content: `${page_thematique.value?.data.meta_description}`}
+    { name: 'description', content: `${page_thematique.value?.thematic.data.meta_description}`}
   ],
 })
 
@@ -79,19 +72,19 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
   <section v-if="page_thematique">
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
       <div class="bg-cover bg-center text-center overflow-hidden rounded"
-           :style="`min-height: 650px; background-image: url(${page_thematique.data.image_banner.url }); background-color: bg-indigo-500` "
-           title="Woman holding a mug">
+           :style="`min-height: 650px; background-image: url(${page_thematique.thematic.data.image_banner.url }); background-color: bg-indigo-500` "
+           :title="page_thematique.thematic.data.image_banner.alt ?? ''">
       </div>
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.data.title }}</h2>
-            <h3 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.data.subtitle }}</h3>
+            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.thematic.data.title }}</h2>
+            <h3 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h3>
             <p class="text-gray-700 text-s mt-2">
 
               <span class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                <Icon size="24" name="material-symbols:person-edit-outline" /> {{ page_thematique.data.author }}
+                <Icon size="24" name="material-symbols:person-edit-outline" /> {{ page_thematique.thematic.data.author }}
               </span> le
               <span
                  class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
@@ -100,7 +93,7 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
             </p>
 
             <prismic-rich-text
-              :field="page_thematique.data.content"
+              :field="page_thematique.thematic.data.content"
               :serializer="richTextSerializer"
             />
 
@@ -111,14 +104,11 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
         </div>
       </div>
 
-      <span v-for="(item, index) in page_thematique.articles" :key="index">
-        {{ item}}
-      </span>
-
       <BlockListCards
         v-if="page_thematique.articles"
         title-block="En savoir plus"
         :items="page_thematique.articles"
+        :parentItem="page_thematique.thematic"
       />
     </div>
   </section>

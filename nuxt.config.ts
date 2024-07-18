@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   },
   modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon"],
   prismic: {
-    endpoint: apiEndpoint || repositoryName,
+    endpoint:  process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     clientConfig: {
       routes: [
         {
@@ -18,23 +18,27 @@ export default defineNuxtConfig({
           path: '/'
         },
         {
-          type: "page_thematique",
-          path: "/:uid",
+          type: 'events',
+          uid: 'agenda',
+          path: '/agenda'
         },
         {
-          type: "page_article",
+          type: 'event',
           resolvers: {
-            category: "thematic"
+            category: 'agenda'
           },
-          path: "/:thematic/:uid",
+          path: '/:agenda/:uid'
         },
         {
-          type: "events",
-          path: "/agenda"
+          type: 'page_thematique',
+          path: '/:uid',
         },
         {
-          type: "event",
-          path: "/agenda/:uid"
+          type: 'page_article',
+          resolvers: {
+            category: 'thematic'
+          },
+          path: '/:thematic/:uid',
         }
       ]
     }
@@ -66,5 +70,9 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }]
     }	  
   },
-  compatibilityDate: '2024-07-04'
+  compatibilityDate: '2024-07-04',
+  runtimeConfig: {
+    apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
+    apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY
+  }
 })

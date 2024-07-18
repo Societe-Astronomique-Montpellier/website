@@ -9,7 +9,7 @@ import type {
   BlockCtaDocument,
   BlockHeroDocument,
   BlockTestimonialDocument, EventDocument,
-  HomepageDocument, PageThematiqueDocument
+  HomepageDocument, PageThematiqueDocument, EventsDocument
 } from "~/prismicio-types";
 
 definePageMeta({
@@ -73,6 +73,7 @@ const { data: home, error} = await useAsyncData(
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
 
     const thematics = await client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
+    const agenda = await client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument;
     const events = await client.getAllByType<AllDocumentTypes>('event', {
       filters: [ prismic.filter.dateAfter('my.event.date_event', dateNow.value) ],
       orderings: {
@@ -83,6 +84,7 @@ const { data: home, error} = await useAsyncData(
     }) as EventDocument[]
     return {
       data: response.data,
+      agendaHome: agenda,
       blocks: {
         hero: relatedBlockHero,
         testimonial: relatedBlockTestimonial,
@@ -125,6 +127,7 @@ useSeoMeta({
     <BlockListCards
       :titleBlock="home.data.block_thematics_title"
       :items="home.blocks.thematics"
+      :parentItem=null
     >
       <template v-slot:content-block>
         <p v-if="home.data.bloc_thematic_text" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ home.data.bloc_thematic_text }}</p>
@@ -143,10 +146,11 @@ useSeoMeta({
     <BlockListCards
       :titleBlock="home.data.block_events_title"
       :items="home.blocks.events"
+      :parentItem="home.agendaHome"
     >
       <template v-slot:content-block>
         <p class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">
-          <NuxtLink to="events" class="text-indigo-400 inline-flex items-center mt-3">
+          <NuxtLink to="/agenda" class="text-indigo-400 inline-flex items-center mt-3">
             {{ home.data.block_events_text }}
             <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
               <path d="M5 12h14M12 5l7 7-7 7"></path>

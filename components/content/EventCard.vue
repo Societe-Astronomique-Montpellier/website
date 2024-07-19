@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {EventDocument, EventsDocument} from "@/prismicio-types";
 
+
 export interface Props {
   item: EventDocument,
   parentItem: EventsDocument
@@ -10,6 +11,9 @@ const props = defineProps<Props>()
 const { item, parentItem } = toRefs(props)
 
 const agendaLink = computed(() => `/${parentItem.value.uid}/${item.value.uid}`)
+
+import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
+
 </script>
 
 <template>
@@ -22,9 +26,14 @@ const agendaLink = computed(() => `/${parentItem.value.uid}/${item.value.uid}`)
 
   </div>
   <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
-  <div class="flex items-center flex-wrap">
+  <div class="flex flex-wrap items-baseline">
+    <span class="text-gray-400 mr-3 inline-flex items-start lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1">
+      <Icon name="material-symbols:calendar-month" />
+        {{ useFormatIntoFrenchDate(item.data.time_start) }}
+
+    </span>
     <NuxtLink
-      class="text-indigo-400 inline-flex items-center mt-3"
+      class="text-indigo-400 inline-flex items-end mt-3"
       :to="agendaLink"
     >
       Plus d'information
@@ -32,8 +41,6 @@ const agendaLink = computed(() => `/${parentItem.value.uid}/${item.value.uid}`)
         <path d="M5 12h14M12 5l7 7-7 7"></path>
       </svg>
     </NuxtLink>
-    <span class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1">
-      <Icon name="material-symbols:calendar-month" />{{ item.data.date_event }}
-    </span>
+
   </div>
 </template>

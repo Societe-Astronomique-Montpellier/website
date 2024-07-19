@@ -374,21 +374,10 @@ interface EventDocumentData {
   resume: prismic.RichTextField;
 
   /**
-   * Date de l'évenement field in *Evenement*
-   *
-   * - **Field Type**: Date
-   * - **Placeholder**: *None*
-   * - **API ID Path**: event.date_event
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#date
-   */
-  date_event: prismic.DateField;
-
-  /**
-   * Heure début field in *Evenement*
+   * Date & Heure de début field in *Evenement*
    *
    * - **Field Type**: Timestamp
-   * - **Placeholder**: Heure de début
+   * - **Placeholder**: Date & Heure de début
    * - **API ID Path**: event.time_start
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#timestamp
@@ -396,10 +385,10 @@ interface EventDocumentData {
   time_start: prismic.TimestampField;
 
   /**
-   * Heure de fin field in *Evenement*
+   * Date & Heure de fin field in *Evenement*
    *
    * - **Field Type**: Timestamp
-   * - **Placeholder**: *None*
+   * - **Placeholder**: Date & Heure de fin
    * - **API ID Path**: event.time_end
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#timestamp

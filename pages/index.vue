@@ -75,9 +75,9 @@ const { data: home, error} = await useAsyncData(
     const thematics = await client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
     const agenda = await client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument;
     const events = await client.getAllByType<AllDocumentTypes>('event', {
-      filters: [ prismic.filter.dateAfter('my.event.date_event', dateNow.value) ],
+      filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow.value) ],
       orderings: {
-        field: 'my.event.date_event',
+        field: 'my.event.time_start',
         direction: 'asc'
       },
       limit: 3

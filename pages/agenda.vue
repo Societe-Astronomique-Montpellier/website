@@ -18,18 +18,20 @@ const { data: list_events, error } = useAsyncData(
 
       const futurEvents = await client.getAllByType<AllDocumentTypes>('event', {
         lang: 'fr-fr',
-        filters: [ prismic.filter.dateAfter('my.event.date_event', dateNow.value) ],
+        filters: [
+          prismic.filter.dateAfter('my.event.time_start', dateNow.value),
+        ],
         orderings: {
-          field: 'my.event.date_event',
-          direction: 'desc'
+          field: 'my.event.time_start',
+          direction: 'asc'
         }
       }) as EventDocument[]
 
       const pastEvents = await client.getAllByType<AllDocumentTypes>('event', {
         lang: 'fr-fr',
-        filters: [ prismic.filter.dateBefore('my.event.date_event', dateNow.value) ],
+        filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
         orderings: {
-          field: 'my.event.date_event',
+          field: 'my.event.time_start',
           direction: 'desc'
         }
       }) as EventDocument[]

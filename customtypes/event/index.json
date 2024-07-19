@@ -44,25 +44,18 @@
           "multi": "paragraph,heading4,heading5,heading6,strong,em,hyperlink,o-list-item,rtl,list-item"
         }
       },
-      "date_event": {
-        "type": "Date",
-        "config": {
-          "label": "Date de l'évenement",
-          "placeholder": ""
-        }
-      },
       "time_start": {
         "type": "Timestamp",
         "config": {
-          "label": "Heure début",
-          "placeholder": "Heure de début"
+          "label": "Date & Heure de début",
+          "placeholder": "Date & Heure de début"
         }
       },
       "time_end": {
         "type": "Timestamp",
         "config": {
-          "label": "Heure de fin",
-          "placeholder": ""
+          "label": "Date & Heure de fin",
+          "placeholder": "Date & Heure de fin"
         }
       },
       "place_event_txt": {

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+// source https://tailwindflex.com/@noah/call-to-action-card-with-image
+
 export interface Props {
   block: any
 }

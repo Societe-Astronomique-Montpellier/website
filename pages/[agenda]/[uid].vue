@@ -58,6 +58,17 @@ useHead({
                 <Icon size="24" name="hugeicons:image-composition" />
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ agenda.data.place_event_txt }}</p>
               </div>
+
+              <div class="flex items-center gap-4" v-if="agenda.data.link">
+                <Icon size="24" name="material-symbols:arrow-right-alt" />
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
+                  <prismic-link
+                    :field="agenda.data.link"
+                   >
+                    Plus d'information
+                  </prismic-link>
+                </p>
+              </div>
             </div>
           </div>
 

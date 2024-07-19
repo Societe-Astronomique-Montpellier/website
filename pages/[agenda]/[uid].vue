@@ -11,12 +11,12 @@ const { uid } = route.params as { uid: string }
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 const { data: agenda, error } = useAsyncData(uid, async () => await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}))
+const markerCoord: [number, number] = [agenda.value?.data.place_event.longitude as number, agenda.value?.data.place_event.latitude as number]
 
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
-
 
 
 const richTextSerializer = useRichTextSerializer();
@@ -65,6 +65,7 @@ useHead({
       </div>
       <client-only>
         <Map
+          :marker="markerCoord"
         />
       </client-only>
     </div>

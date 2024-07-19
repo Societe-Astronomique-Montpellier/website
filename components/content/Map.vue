@@ -1,44 +1,33 @@
 <script setup lang="ts">
-import type {LatLng, MapOptions} from "leaflet";
-import { Map, TileLayer, Marker } from 'leaflet';
+import type {LatLng, LatLngExpression, MapOptions, Point, PointExpression} from "leaflet";
 
 // Props
-// export interface Props {
-//   marker: LatLng
-// }
+export interface Props {
+  marker: [number, number] | null
+}
 
-// const props = defineProps<Props>()
-// const { marker } = toRefs(props)
+const props = defineProps<Props>()
+const { marker } = toRefs(props)
 
 // Get default center coordinates
 import { useCoordinates } from "@/composables/useCoordinates";
-const centerMap = useCoordinates('babotte');
-
-// const map = ref(null)
-// const mapInstance = L.Map('map').setView(centerMap, 13);
-//
-// TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-//   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-// }).addTo(mapInstance);
-
+const centerMap = useCoordinates('babotte'); // (null !== marker) ? marker : useCoordinates('babotte');
 </script>
 
 <template>
-  <div class="mx-auto" style="min-height: 500px;">
+  <div class="mx-auto py-4">
     <LMap
-        ref="map"
-        :zoom="12"
-        :max-zoom="18"
-        :center="centerMap"
-        style="height: 100%"
+        style="height: 700px"
+        :zoom="18"
+        :center="centerMap as PointExpression"
     >
       <LTileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
-          layer-type="base"
-          name="OpenStreetMap"
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution="&amp;copy; <a href=&quot;https://www.openstreetmap.org/&quot;>OpenStreetMap</a> contributors"
+        layer-type="base"
+        name="OpenStreetMap"
       />
-<!--      <LMarker v-if="marker" :lat-lng="marker" />-->
+      <LMarker :lat-lng="centerMap as LatLngExpression" />
     </LMap>
   </div>
 </template>

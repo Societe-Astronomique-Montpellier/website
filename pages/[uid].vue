@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
-const runtimeConfig = useRuntimeConfig()
+
 import * as prismic from "@prismicio/client";
 import type {
   AllDocumentTypes,
@@ -53,14 +53,12 @@ useHead({
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 
+import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
+const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date);
 /**
  * TODO : move into composables
  */
-const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
-  month: 'short',
-  day: 'numeric',
-  year: 'numeric'
-})
+
 
 // const formatDate = (date) => {
 //   const date = prismic.asDate(date)
@@ -88,7 +86,7 @@ const dateFormatter = new Intl.DateTimeFormat('fr-FR', {
               </span> le
               <span
                  class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                {{ page_thematique.publication_date }}
+                {{ formatedDate }}
               </span>
             </p>
 

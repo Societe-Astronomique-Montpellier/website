@@ -45,6 +45,12 @@ const { data: list_events, error } = useAsyncData(
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 
+useHead({
+  title: computed(() => `${list_events.value?.agenda.data.meta_title} | ${list_events.value?.agenda.data.title}`),
+  meta: [
+    { name: 'description', content: `${list_events.value?.agenda.data.meta_title}`}
+  ],
+})
 </script>
 
 <template>

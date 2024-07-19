@@ -12,50 +12,61 @@ const { uid } = route.params as { uid: string }
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 const { data: agenda, error } = useAsyncData(uid, async () => await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}))
 
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-const richTextSerializer = useRichTextSerializer();
+const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
-// useHead({
-//   title: computed(() => `${agenda.value.data.meta_title} | ${agenda.data.title}`),
-//   meta: [
-//     { name: 'description', content: `${agenda.value?.data.meta_description}`}
-//   ],
-// })
+import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
+
+
+
+const richTextSerializer = useRichTextSerializer();
+const formatedDate = useFormatIntoFrenchDate(agenda.value?.data.time_start);
+
+useHead({
+  title: computed(() => `${agenda.value?.data.meta_title}`),
+  meta: [
+    { name: 'description', content: `${agenda.value?.data.meta_description}`}
+  ],
+})
 </script>
 
 <template>
   <section v-if="agenda">
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
-      <div class="bg-cover bg-center text-center overflow-hidden rounded"
-           :style="`min-height: 650px; background-image: url(${agenda.data.image_banner.url }); background-color: bg-indigo-500` "
-           title="Woman holding a mug">
+      <div
+        v-if="agenda.data.image_banner.url" class="bg-cover bg-center text-center overflow-hidden rounded"
+        :style="`min-height: 650px; background-image: url(${agenda.data.image_banner.url }); background-color: bg-indigo-500` "
+      >
       </div>
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ agenda.data.title }}</h2>
-            <p class="text-gray-700 text-s mt-2">
 
-              <span class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+            <div class="my-8 grid gap-6 px-4">
+              <prismic-rich-text
+                  :field="agenda.data.resume"
+                  :serializer="richTextSerializer"
+              />
+              <div class="flex items-center gap-4">
+                <Icon size="24" name="material-symbols:calendar-clock" />
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ formatedDate }}</p>
+              </div>
 
-              </span> le
-              <span
-                  class="text-xs text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                {{ agenda.last_publication_date }}
-              </span>
-            </p>
-
-            <Icon size="24" name="material-symbols:person-edit-outline" /> {{ agenda.data.place_event }}
-            <Icon size="24" name="material-symbols:person-edit-outline" /> {{ agenda.last_publication_date }}
-
-            <prismic-rich-text
-              :field="agenda.data.resume"
-              :serializer="richTextSerializer"
-            />
+              <div class="flex items-center gap-4">
+                <Icon size="24" name="hugeicons:image-composition" />
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ agenda.data.place_event_txt }}</p>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
+      <client-only>
+        <Map
+        />
+      </client-only>
     </div>
   </section>
 </template>

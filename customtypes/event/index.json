@@ -51,10 +51,31 @@
           "placeholder": ""
         }
       },
+      "time_start": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Heure début",
+          "placeholder": "Heure de début"
+        }
+      },
+      "time_end": {
+        "type": "Timestamp",
+        "config": {
+          "label": "Heure de fin",
+          "placeholder": ""
+        }
+      },
+      "place_event_txt": {
+        "type": "Text",
+        "config": {
+          "label": "Lieu de l'évenement",
+          "placeholder": ""
+        }
+      },
       "place_event": {
         "type": "GeoPoint",
         "config": {
-          "label": "Lieu de l'évenement"
+          "label": "Coordonnées géographiques"
         }
       },
       "link": {

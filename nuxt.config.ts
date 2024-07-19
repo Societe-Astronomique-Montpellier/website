@@ -7,7 +7,12 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/prismic",
+    "@nuxt/icon",
+    "@nuxtjs/leaflet"
+  ],
   prismic: {
     endpoint:  process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     clientConfig: {
@@ -50,7 +55,7 @@ export default defineNuxtConfig({
       'types/*.d.ts'
     ]
   },
-  css: ["@/assets/css/main.css"],
+  css: ['@/assets/css/main.css', 'leaflet/dist/leaflet.css'],
   postcss: {
     plugins: {
       tailwindcss: {},

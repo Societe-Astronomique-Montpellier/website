@@ -385,7 +385,40 @@ interface EventDocumentData {
   date_event: prismic.DateField;
 
   /**
+   * Heure début field in *Evenement*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: Heure de début
+   * - **API ID Path**: event.time_start
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  time_start: prismic.TimestampField;
+
+  /**
+   * Heure de fin field in *Evenement*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.time_end
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  time_end: prismic.TimestampField;
+
+  /**
    * Lieu de l'évenement field in *Evenement*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.place_event_txt
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  place_event_txt: prismic.KeyTextField;
+
+  /**
+   * Coordonnées géographiques field in *Evenement*
    *
    * - **Field Type**: GeoPoint
    * - **Placeholder**: *None*

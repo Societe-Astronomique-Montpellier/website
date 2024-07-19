@@ -11,15 +11,17 @@ const { marker } = toRefs(props)
 
 // Get default center coordinates
 import { useCoordinates } from "@/composables/useCoordinates";
-const centerMap = useCoordinates('babotte'); // (null !== marker) ? marker : useCoordinates('babotte');
+const centerMap = useCoordinates('babotte');
+
+const point = computed(() => (null !== marker) ? marker.value : centerMap);
 </script>
 
 <template>
   <div class="mx-auto py-4">
     <LMap
         style="height: 700px"
-        :zoom="18"
-        :center="centerMap as PointExpression"
+        :zoom="15"
+        :center="point as PointExpression"
     >
       <LTileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -27,7 +29,7 @@ const centerMap = useCoordinates('babotte'); // (null !== marker) ? marker : use
         layer-type="base"
         name="OpenStreetMap"
       />
-      <LMarker :lat-lng="centerMap as LatLngExpression" />
+      <LMarker :lat-lng="point as LatLngExpression" />
     </LMap>
   </div>
 </template>

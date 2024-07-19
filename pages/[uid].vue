@@ -54,7 +54,7 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
-const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date);
+const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
 /**
  * TODO : move into composables
  */

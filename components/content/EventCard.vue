@@ -29,7 +29,7 @@ import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
   <div class="flex flex-wrap items-baseline">
     <span class="text-gray-400 mr-3 inline-flex items-start lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1">
       <Icon name="material-symbols:calendar-month" />
-        {{ useFormatIntoFrenchDate(item.data.time_start) }}
+        {{ useFormatIntoFrenchDate(item.data.time_start, 'short') }}
 
     </span>
     <NuxtLink

@@ -9,18 +9,20 @@ definePageMeta({
 const route = useRoute();
 const { uid } = route.params as { uid: string }
 
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
-const { data: agenda, error } = useAsyncData(uid, async () => await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}))
-const markerCoord: [number, number] = [agenda.value?.data.place_event.longitude as number, agenda.value?.data.place_event.latitude as number]
-
-const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
-
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
+import { useCoordinates } from "@/composables/useCoordinates";
 
+const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
+const centerMap = useCoordinates('babotte');
+
+const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+const { data: agenda, error } = useAsyncData(uid, async () => await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}))
+const markerCoord: [number , number ] = (agenda.value?.data.place_event.latitude && agenda.value?.data.place_event.longitude) ? [agenda.value?.data.place_event.longitude as number, agenda.value?.data.place_event.latitude as number] : centerMap as [number, number]
 
 const richTextSerializer = useRichTextSerializer();
-const formatedDate = useFormatIntoFrenchDate(agenda.value?.data.time_start);
+const startDate = useFormatIntoFrenchDate(agenda.value?.data.time_start, 'long');
+const endDate = useFormatIntoFrenchDate(agenda.value?.data.time_end, 'long');
 
 useHead({
   title: computed(() => `${agenda.value?.data.meta_title}`),
@@ -51,7 +53,10 @@ useHead({
               />
               <div class="flex items-center gap-4">
                 <Icon size="24" name="material-symbols:calendar-clock" />
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ formatedDate }}</p>
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
+                  {{ startDate }}<span v-if="agenda.data.time_end"> au {{ endDate }}</span>
+
+                </p>
               </div>
 
               <div class="flex items-center gap-4">

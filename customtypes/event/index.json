@@ -41,7 +41,7 @@
           "label": "Contenu",
           "placeholder": "Contenu",
           "allowTargetBlank": true,
-          "multi": "paragraph,heading4,heading5,heading6,strong,em,hyperlink,o-list-item,rtl,list-item"
+          "multi": "paragraph,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,rtl,image"
         }
       },
       "time_start": {

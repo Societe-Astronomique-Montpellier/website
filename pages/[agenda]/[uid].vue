@@ -12,13 +12,25 @@ const { uid } = route.params as { uid: string }
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
+import type {Ref} from "vue";
 
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 const centerMap = useCoordinates('babotte');
+// const markerCoord: Ref(<[number, number]>) = ref(centerMap)
+
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
-const { data: agenda, error } = useAsyncData(uid, async () => await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}))
-const markerCoord: [number , number ] = (agenda.value?.data.place_event.latitude && agenda.value?.data.place_event.longitude) ? [agenda.value?.data.place_event.longitude as number, agenda.value?.data.place_event.latitude as number] : centerMap as [number, number]
+const { data: agenda, error } = useAsyncData(uid, async () => {
+  const response = await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
+
+  const markerCoord: [number , number ] = (agenda.value?.data.place_event.latitude && agenda.value?.data.place_event.longitude) ? [agenda.value?.data.place_event.longitude as number, agenda.value?.data.place_event.latitude as number] : centerMap as [number, number]
+
+  return {
+    data: response.data,
+    markerCoord: markerCoord
+  }
+})
+
 
 const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(agenda.value?.data.time_start, 'long');
@@ -79,9 +91,9 @@ useHead({
 
         </div>
       </div>
-      <client-only>
+      <client-only v-if="agenda.markerCoord">
         <Map
-          :marker="markerCoord"
+          :marker="agenda.markerCoord"
         />
       </client-only>
     </div>

@@ -15,13 +15,13 @@ definePageMeta({
   layout: 'page',
 });
 const route = useRoute();
-const { uid } = route.params as { uid: string }
+const { thematicUid } = route.params as { thematicUid: string }
 
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier');
 const { data: page_thematique, error} = await useAsyncData(
-    uid,
+    thematicUid,
     async () => {
-      const response = await client.getByUID<PageThematiqueDocument>('page_thematique', uid)
+      const response = await client.getByUID<PageThematiqueDocument>('page_thematique', thematicUid)
 
       const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
         filters: [

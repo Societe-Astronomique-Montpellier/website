@@ -9,28 +9,25 @@ definePageMeta({
 const route = useRoute();
 const { uid } = route.params as { uid: string }
 
+const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
+
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
-import type {Ref} from "vue";
+const centerMap: [number, number] = useCoordinates('babotte');
 
-const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
-const centerMap = useCoordinates('babotte');
-// const markerCoord: Ref(<[number, number]>) = ref(centerMap)
-
-
+const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
 const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 const { data: agenda, error } = useAsyncData(uid, async () => {
   const response = await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
+  fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
 
-  const markerCoord: [number , number ] = (agenda.value?.data.place_event.latitude && agenda.value?.data.place_event.longitude) ? [agenda.value?.data.place_event.longitude as number, agenda.value?.data.place_event.latitude as number] : centerMap as [number, number]
-
-  return {
-    data: response.data,
-    markerCoord: markerCoord
-  }
+  return response;
 })
 
+const markerCoordinates = computed(() => {
+  return fetchedPointData.value[0] &&  fetchedPointData.value[1] ? fetchedPointData.value : centerMap
+})
 
 const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(agenda.value?.data.time_start, 'long');
@@ -67,7 +64,6 @@ useHead({
                 <Icon size="24" name="material-symbols:calendar-clock" />
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
                   {{ startDate }}<span v-if="agenda.data.time_end"> au {{ endDate }}</span>
-
                 </p>
               </div>
 
@@ -77,12 +73,14 @@ useHead({
               </div>
 
               <div class="flex items-center gap-4" v-if="agenda.data.link">
-                <Icon size="24" name="material-symbols:arrow-right-alt" />
+                <Icon size="24" name="material-symbols:add-link" />
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
                   <prismic-link
                     :field="agenda.data.link"
+                    class="text-indigo-400 inline-flex items-center mt-3"
                    >
                     Plus d'information
+                    <Icon name="material-symbols:arrow-right-alt" />
                   </prismic-link>
                 </p>
               </div>
@@ -91,11 +89,11 @@ useHead({
 
         </div>
       </div>
-      <client-only v-if="agenda.markerCoord">
-        <Map
-          :marker="agenda.markerCoord"
-        />
-      </client-only>
+      <pre>{{ markerCoordinates }}</pre>
+      <Map
+        v-if="agenda"
+        :itemMarker="markerCoordinates"
+      />
     </div>
   </section>
 </template>

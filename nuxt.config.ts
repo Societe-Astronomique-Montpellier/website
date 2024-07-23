@@ -7,12 +7,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: [
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/prismic",
-    "@nuxt/icon",
-    "@nuxtjs/leaflet"
-  ],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon", "@nuxtjs/leaflet"],
   prismic: {
     endpoint:  process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     clientConfig: {
@@ -36,14 +31,14 @@ export default defineNuxtConfig({
         },
         {
           type: 'page_thematique',
-          path: '/:uid',
+          path: '/:thematicUid',
         },
         {
           type: 'page_article',
-          resolvers: {
-            category: 'thematic'
-          },
           path: '/:thematic/:uid',
+          resolvers: {
+            thematic: ':thematicUid'
+          }
         }
       ]
     }

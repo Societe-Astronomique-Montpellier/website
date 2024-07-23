@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
-const runtimeConfig = useRuntimeConfig()
 import * as prismic from '@prismicio/client'
 
 // Layout

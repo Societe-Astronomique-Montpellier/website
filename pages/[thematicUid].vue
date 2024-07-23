@@ -79,7 +79,7 @@ const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.thematic.data.title }}</h2>
             <h3 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h3>
-            <p class="text-gray-700 text-s mt-2">
+            <p class="text-gray-700 text-s mt-5">
 
               <span class="text-indigo-600 font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 <Icon size="24" name="material-symbols:person-edit-outline" /> {{ page_thematique.thematic.data.author }}

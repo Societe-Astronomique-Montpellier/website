@@ -1,22 +1,20 @@
 <script setup lang="ts">
-import * as prismic from "@prismicio/client";
+const prismic = usePrismic();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
-import type {PrismicDocument} from "@prismicio/types";
 
 definePageMeta({
   layout: 'page',
 });
 
 const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
-
 const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+
 const { data: list_events, error } = useAsyncData(
     'list_events',
     async () => {
-      const agenda = await client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument
+      const agenda = await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument
 
-      const futurEvents = await client.getAllByType<AllDocumentTypes>('event', {
+      const futurEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
         lang: 'fr-fr',
         filters: [
           prismic.filter.dateAfter('my.event.time_start', dateNow.value),
@@ -27,7 +25,7 @@ const { data: list_events, error } = useAsyncData(
         }
       }) as EventDocument[]
 
-      const pastEvents = await client.getAllByType<AllDocumentTypes>('event', {
+      const pastEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
         lang: 'fr-fr',
         filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
         orderings: {

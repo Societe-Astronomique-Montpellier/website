@@ -1,6 +1,4 @@
 import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
-// https://nuxt.com/docs/api/configuration/nuxt-config
-import { defineNuxtConfig } from 'nuxt/config'
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -9,7 +7,8 @@ export default defineNuxtConfig({
   },
   modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon", "@nuxtjs/leaflet"],
   prismic: {
-    endpoint:  process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
+    endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
+    preview: '/api/preview',
     clientConfig: {
       routes: [
         {
@@ -22,24 +21,24 @@ export default defineNuxtConfig({
           uid: 'agenda',
           path: '/agenda'
         },
-        {
-          type: 'event',
-          resolvers: {
-            category: 'agenda'
-          },
-          path: '/:agenda/:uid'
-        },
+        // {
+        //   type: 'event',
+        //   resolvers: {
+        //     category: 'agenda'
+        //   },
+        //   path: '/:agenda/:uid'
+        // },
         {
           type: 'page_thematique',
-          path: '/:thematicUid',
+          path: '/:uid',
         },
-        {
-          type: 'page_article',
-          path: '/:thematic/:uid',
-          resolvers: {
-            thematic: ':thematicUid'
-          }
-        }
+        // {
+        //   type: 'page_article',
+        //   path: '/:thematic/:uid',
+        //   resolvers: {
+        //     thematic: ':thematicUid'
+        //   }
+        // }
       ]
     }
   },

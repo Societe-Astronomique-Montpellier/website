@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import * as prismic from "@prismicio/client";
-import type {AllDocumentTypes, HeaderDocument} from "~/prismicio-types";
+const prismic = usePrismic()
+import type { HeaderDocument} from "~/prismicio-types";
 import { PrismicLink } from "@prismicio/vue";
 import type {LinkField} from "@prismicio/client";
 
@@ -10,14 +10,14 @@ const props = withDefaults(defineProps<{isHome:boolean}>(), {
   isHome: false
 })
 const { isHome } = toRefs(props);
-
 const isOpen: Ref<boolean>= ref(false);
 
 const HeaderNavItem = defineAsyncComponent(() => import('@/components/Layouts/HeaderNavItem.vue'))
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+
+
 const { data: navigation, error } = useAsyncData(
     'navigation',
-    () => client.getSingle<HeaderDocument>('header', { lang: 'fr-fr'})
+    () => prismic.client.getSingle<HeaderDocument>('header', { lang: 'fr-fr'})
 )
 
 onMounted(() => {

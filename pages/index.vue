@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
-import * as prismic from '@prismicio/client'
+const prismic = usePrismic()
 
 // Layout
 import type {
@@ -25,12 +25,10 @@ const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.v
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
 // Prismic
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
-// const { client } = usePrismic();
 const { data: home, error} = await useAsyncData(
   "home",
   async () => {
-    const response = await client.getSingle<HomepageDocument>('homepage', {
+    const response = await prismic.client.getSingle<HomepageDocument>('homepage', {
       lang: 'fr-fr',
       fetchLinks: [
         'block_hero.title',
@@ -71,9 +69,9 @@ const { data: home, error} = await useAsyncData(
 
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
 
-    const thematics = await client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
-    const agenda = await client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument;
-    const events = await client.getAllByType<AllDocumentTypes>('event', {
+    const thematics = await prismic.client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
+    const agenda = await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument;
+    const events = await prismic.client.getAllByType<AllDocumentTypes>('event', {
       filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow.value) ],
       orderings: {
         field: 'my.event.time_start',

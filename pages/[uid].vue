@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
+const prismic = usePrismic()
 
-import * as prismic from "@prismicio/client";
 import type {
   AllDocumentTypes,
   PageArticleDocument,
@@ -15,15 +15,14 @@ definePageMeta({
   layout: 'page',
 });
 const route = useRoute();
-const { thematicUid } = route.params as { thematicUid: string }
+const { uid } = route.params as { uid: string }
 
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier');
 const { data: page_thematique, error} = await useAsyncData(
-    thematicUid,
+    uid,
     async () => {
-      const response = await client.getByUID<PageThematiqueDocument>('page_thematique', thematicUid)
+      const response = await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', uid)
 
-      const articles = await client.getAllByType<AllDocumentTypes>('page_article', {
+      const articles = await prismic.client.getAllByType<AllDocumentTypes>('page_article', {
         filters: [
           // prismic.filter.at('document.type', 'page_thematique'),
           prismic.filter.at('my.page_article.thematic', response.id)
@@ -55,15 +54,6 @@ const richTextSerializer = useRichTextSerializer();
 
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
-/**
- * TODO : move into composables
- */
-
-
-// const formatDate = (date) => {
-//   const date = prismic.asDate(date)
-//   return dateFormatter.format(date || undefined)
-// }
 </script>
 
 <template>
@@ -94,10 +84,6 @@ const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_
               :field="page_thematique.thematic.data.content"
               :serializer="richTextSerializer"
             />
-
-<!--            p => text-base leading-8 my-5-->
-<!--            hx => text-2xl font-bold my-5-->
-<!--            blockquote => border-l-4 text-base italic leading-8 my-5 p-5 text-indigo-600-->
           </div>
         </div>
       </div>

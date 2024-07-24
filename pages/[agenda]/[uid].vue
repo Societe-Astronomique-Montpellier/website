@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import * as prismic from "@prismicio/client";
+// import * as prismic from "@prismicio/client";
+const prismic = usePrismic()
 import type {AllDocumentTypes, EventDocument} from "~/prismicio-types";
 
 definePageMeta({
@@ -17,9 +18,9 @@ import { useCoordinates } from "@/composables/useCoordinates";
 const centerMap: [number, number] = useCoordinates('babotte');
 
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
+// const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 const { data: agenda, error } = useAsyncData(uid, async () => {
-  const response = await client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
+  const response = await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
   fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
 
   return response;
@@ -86,10 +87,9 @@ useHead({
               </div>
             </div>
           </div>
-
         </div>
       </div>
-      <pre>{{ markerCoordinates }}</pre>
+
       <Map
         v-if="agenda"
         :itemMarker="markerCoordinates"

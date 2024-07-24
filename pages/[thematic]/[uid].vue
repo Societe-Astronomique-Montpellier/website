@@ -1,6 +1,5 @@
 <script setup lang="ts">
-const runtimeConfig = useRuntimeConfig()
-import * as prismic from "@prismicio/client";
+const prismic = usePrismic();
 import type {AllDocumentTypes, PageArticleDocument} from "~/prismicio-types";
 
 definePageMeta({
@@ -9,10 +8,9 @@ definePageMeta({
 const route = useRoute();
 const { thematic, uid } = route.params as { thematic: string, uid: string }
 
-const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
 const { data: article, error} = await useAsyncData(
     uid,
-    () => client.getByUID<PageArticleDocument>('page_article', uid)
+    () => prismic.client.getByUID<PageArticleDocument>('page_article', uid)
 )
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'

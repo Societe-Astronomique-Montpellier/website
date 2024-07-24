@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const prismic = usePrismic();
-import type {AllDocumentTypes, PageArticleDocument} from "~/prismicio-types";
+import type { PageArticleDocument } from "~/prismicio-types";
 
 definePageMeta({
   layout: 'page',

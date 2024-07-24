@@ -10,6 +10,7 @@ definePageMeta({
 const route = useRoute();
 const { uid } = route.params as { uid: string }
 
+const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
@@ -45,11 +46,7 @@ useHead({
 <template>
   <section v-if="agenda">
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
-      <div
-        v-if="agenda.data.image_banner.url" class="bg-cover bg-center text-center overflow-hidden rounded"
-        :style="`min-height: 650px; background-image: url(${agenda.data.image_banner.url }); background-color: bg-indigo-500` "
-      >
-      </div>
+      <HeaderPage :image="agenda.data.image_banner" />
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">

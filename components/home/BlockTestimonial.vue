@@ -26,7 +26,7 @@ const { block } = toRefs(props)
               </p>
             </div>
         </div>
-        <div class="hidden lg:mt-0 lg:col-span-5 lg:flex rounded-lg">
+        <div class="lg:mt-0 lg:col-span-5 lg:flex rounded-lg">
           <prismic-image
             :field="block.data.testimonial_vignette_1"
             class="rounded-lg shadow-md dark:shadow-black/30"

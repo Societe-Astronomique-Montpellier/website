@@ -6,6 +6,7 @@ definePageMeta({
   layout: 'page',
 });
 
+const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
 const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
 
@@ -56,10 +57,9 @@ useHead({
 <template>
   <section>
     <div class="max-w-screen-xl w-full mx-auto relative">
-      <div class="bg-cover bg-center text-center overflow-hidden rounded"
-           :style="`min-height: 650px; background-image: url(${list_events?.agenda.data.image_banner.url }); background-color: bg-indigo-500` "
-           title="Woman holding a mug">
-      </div>
+      <HeaderPage
+       :image="list_events?.agenda.data.image_banner"
+      />
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">

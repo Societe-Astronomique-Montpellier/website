@@ -9,6 +9,7 @@ import type {
   PageThematiqueDocument,
 } from "~/prismicio-types";
 
+const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 definePageMeta({
@@ -59,10 +60,9 @@ const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_
 <template>
   <section v-if="page_thematique">
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
-      <div class="bg-cover bg-center text-center overflow-hidden rounded"
-           :style="`min-height: 650px; background-image: url(${page_thematique.thematic.data.image_banner.url }); background-color: bg-indigo-500` "
-           :title="page_thematique.thematic.data.image_banner.alt ?? ''">
-      </div>
+      <HeaderPage
+        :image="page_thematique.thematic.data.image_banner"
+      />
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">

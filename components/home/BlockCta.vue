@@ -1,18 +1,10 @@
 <script setup lang="ts">
 // source https://tailwindflex.com/@noah/call-to-action-card-with-image
-
 export interface Props {
   block: any
 }
 const props = defineProps<Props>()
 const { block } = toRefs(props)
-
-// import {
-//   Ripple,
-//   initTWE,
-// } from "tw-elements";
-//
-// initTWE({ Ripple });
 
 // RichText serializer
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
@@ -37,7 +29,6 @@ const richTextSerializer = useRichTextSerializer();
 				<div class="mt-4 text-gray-600">
           <prismic-rich-text
               :field="block.data.resume" :serializer="richTextSerializer" />
-<!--          <p></p>-->
 				  <prismic-rich-text
               :field="block.data.content" :serializer="richTextSerializer" />
 				</div>
@@ -50,7 +41,7 @@ const richTextSerializer = useRichTextSerializer();
                 type="button"
                 data-twe-ripple-init
                 data-twe-ripple-color="light"
-                class="inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
+                class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
               Plus d'information
             </button>
           </NuxtLink>

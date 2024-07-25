@@ -1,80 +1,87 @@
 <script setup lang="ts">
-// import * as prismic from "@prismicio/client";
 const prismic = usePrismic()
-import type {AllDocumentTypes, EventDocument} from "~/prismicio-types";
+import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 
 definePageMeta({
   layout: 'page',
 });
 
 const route = useRoute();
-const { uid } = route.params as { uid: string }
+const { agenda, uid } = route.params as { agenda: string, uid: string }
 
+const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
+
 const centerMap: [number, number] = useCoordinates('babotte');
 
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
-// const client = prismic.createClient<AllDocumentTypes>('societe-astronomique-montpellier')
-const { data: agenda, error } = useAsyncData(uid, async () => {
+const { data: event, error } = useAsyncData(uid, async () => {
   const response = await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
   fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
 
   return response;
 })
 
+const { data: parentAgenda } = useAsyncData(
+    'parentAgenda',
+    async () => await prismic.client.getByUID<AllDocumentTypes>('events', agenda, {'lang': 'fr-fr'}) as EventsDocument
+)
+
 const markerCoordinates = computed(() => {
   return fetchedPointData.value[0] &&  fetchedPointData.value[1] ? fetchedPointData.value : centerMap
 })
 
 const richTextSerializer = useRichTextSerializer();
-const startDate = useFormatIntoFrenchDate(agenda.value?.data.time_start, 'long');
-const endDate = useFormatIntoFrenchDate(agenda.value?.data.time_end, 'long');
+const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
+const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
 useHead({
-  title: computed(() => `${agenda.value?.data.meta_title}`),
+  title: computed(() => `${event.value?.data.meta_title}`),
   meta: [
-    { name: 'description', content: `${agenda.value?.data.meta_description}`}
+    { name: 'description', content: `${event.value?.data.meta_description}`}
   ],
 })
 </script>
 
 <template>
-  <section v-if="agenda">
+  <section v-if="event">
     <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
-      <HeaderPage :image="agenda.data.image_banner" />
+      <HeaderPage :image="event.data.image_banner" />
       <div class="max-w-3xl mx-auto">
-        <div
-            class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-          <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ agenda.data.title }}</h2>
 
+        <div
+          class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+        >
+          <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+            <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" />
+            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h2>
             <div class="my-8 grid gap-6 px-4">
               <prismic-rich-text
-                  :field="agenda.data.resume"
+                  :field="event.data.resume"
                   :serializer="richTextSerializer"
               />
               <div class="flex items-center gap-4">
                 <Icon size="24" name="material-symbols:calendar-clock" />
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
-                  {{ startDate }}<span v-if="agenda.data.time_end"> au {{ endDate }}</span>
+                  {{ startDate }}<span v-if="event.data.time_end"> au {{ endDate }}</span>
                 </p>
               </div>
 
               <div class="flex items-center gap-4">
                 <Icon size="24" name="hugeicons:image-composition" />
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ agenda.data.place_event_txt }}</p>
+                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ event.data.place_event_txt }}</p>
               </div>
 
-              <div class="flex items-center gap-4" v-if="agenda.data.link">
+              <div class="flex items-center gap-4" v-if="event.data.link">
                 <Icon size="24" name="material-symbols:add-link" />
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
                   <prismic-link
-                    :field="agenda.data.link"
+                    :field="event.data.link"
                     class="text-indigo-400 inline-flex items-center mt-3"
                    >
                     Plus d'information
@@ -88,7 +95,7 @@ useHead({
       </div>
 
       <Map
-        v-if="agenda"
+        v-if="event"
         :itemMarker="markerCoordinates"
       />
     </div>

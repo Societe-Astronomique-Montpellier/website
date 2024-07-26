@@ -41,7 +41,7 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
 </script>
 
 <template>
-  <nav v-if="navigation" :class="`lg:px-16 px-4  w-full bg-transparent shadow-sm sticky top-0 z-50 ${bgHeader} `">
+  <nav v-if="navigation" :class="`lg:px-16 px-4 w-full bg-transparent shadow-sm sticky top-0 z-50 ${bgHeader} `">
     <div class="flex items-center justify-between">
 
       <!-- Header logo -->

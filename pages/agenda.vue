@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Breadcrumbs from "~/components/Layouts/Breadcrumbs.vue";
+
 const prismic = usePrismic();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 
@@ -55,22 +57,25 @@ useHead({
 </script>
 
 <template>
-  <section>
-    <div class="max-w-screen-xl w-full mx-auto relative">
+  <section v-if="list_events">
+    <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <HeaderPage
        :image="list_events?.agenda.data.image_banner"
       />
       <div class="max-w-3xl mx-auto">
         <div
-            class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
+          class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+        >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+            <Breadcrumbs v-if="list_events" :listIds="[list_events.agenda.id]" :currentUid="list_events.agenda.uid" />
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ list_events?.agenda.data.title }}</h2>
+            <div class="my-8 grid gap-6 px-4">
+              <prismic-rich-text
+                  :field="list_events?.agenda.data.content"
+                  :serializer="richTextSerializer"
+              />
+            </div>
           </div>
-
-          <prismic-rich-text
-            :field="list_events?.agenda.data.content"
-            :serializer="richTextSerializer"
-          />
         </div>
       </div>
 

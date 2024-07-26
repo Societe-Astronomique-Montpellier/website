@@ -50,15 +50,14 @@ useHead({
 
 <template>
   <section v-if="event">
-    <div class="max-w-screen-xl w-full mx-auto relative"> <!-- max-w-screen-lg -->
+    <div class="max-w-screen-xl w-full mx-auto relative mb-2"> <!-- max-w-screen-lg -->
       <HeaderPage :image="event.data.image_banner" />
       <div class="max-w-3xl mx-auto">
-
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" />
+            <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" :currentUid="event.uid" />
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h2>
             <div class="my-8 grid gap-6 px-4">
               <prismic-rich-text

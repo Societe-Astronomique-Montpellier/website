@@ -1,5 +1,7 @@
 import type { HTMLMapSerializer } from '@prismicio/helpers';
 import { Icon } from '#components'
+import type {FilledLinkToWebField} from "@prismicio/types/src/value/link";
+
 
 export const useRichTextSerializer = (): HTMLMapSerializer => {
     const IconArrow = h(Icon, { name: 'material-symbols-light:arrow-right-alt-rounded' })
@@ -19,6 +21,13 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
                 return '<p>Error: Missing image URL</p>';
             }
             return `<img src="${node.url}" alt="${node.alt || 'Image description'}" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105" />`;
+        },
+        hyperlink: ({ node , children }) => {
+            // const target = (!node.data.target)
+            //     ? ''
+            //     : `target="${node.data.target} " rel="noopener"`
+            // const url = linkResolver(node.data)
+            return `<a href="${node.data.url}" class="text-indigo-700" target="_blank" rel="noopener">${children}</a>`
         },
         // list
         list:  ({ children }) => `<ul class="mb-6 font-light text-gray-500 lg:mb-8 ">${children}</ul>`,

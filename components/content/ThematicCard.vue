@@ -16,11 +16,11 @@ const richTextSerializer = useRichTextSerializer();
 <template>
   <div v-if="item" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 h-64 overflow-hidden">
 <!--    780*520-->
-    <NuxtLink
-        :to="item.uid"
+    <prismic-link
+      :field="item"
     >
       <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
-    </NuxtLink>
+    </prismic-link>
   </div>
   <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
   <prismic-rich-text
@@ -28,12 +28,12 @@ const richTextSerializer = useRichTextSerializer();
     :serializer="richTextSerializer"
   />
 
-  <NuxtLink
+  <prismic-link
     class="text-indigo-400 inline-flex items-center mt-3"
-    :to="item.uid"
+    :field="item"
   >
     Plus d'information&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
-  </NuxtLink>
+  </prismic-link>
 </template>
 
 <style scoped>

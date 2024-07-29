@@ -21,24 +21,21 @@ export default defineNuxtConfig({
           uid: 'agenda',
           path: '/agenda'
         },
-        // {
-        //   type: 'event',
-        //   resolvers: {
-        //     category: 'agenda'
-        //   },
-        //   path: '/:agenda/:uid'
-        // },
+        {
+          type: 'event',
+          path: '/agenda/:uid'
+        },
         {
           type: 'page_thematique',
           path: '/:uid',
         },
-        // {
-        //   type: 'page_article',
-        //   path: '/:thematic/:uid',
-        //   resolvers: {
-        //     thematic: ':thematicUid'
-        //   }
-        // }
+        {
+          type: 'page_article',
+          path: '/article/:uid',
+          // resolvers: {
+          //   thematic: 'page_thematique.uid'
+          // }
+        }
       ]
     }
   },

@@ -32,6 +32,7 @@
     "@iconify-json/material-symbols-light": "^1.1.25",
     "@nuxt/types": "^2.18.1",
     "@nuxt/typescript-build": "^3.0.2",
+    "@nuxtjs/device": "^3.1.1",
     "@nuxtjs/prismic": "^3.3.2",
     "@nuxtjs/vuetify": "^1.12.3",
     "@slicemachine/adapter-nuxt": "^0.3.42",

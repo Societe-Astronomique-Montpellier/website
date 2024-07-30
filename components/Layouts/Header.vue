@@ -2,6 +2,8 @@
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 const prismic = usePrismic()
+const { isMobile } = useDevice();
+
 import type { HeaderDocument} from "~/prismicio-types";
 import { PrismicLink } from "@prismicio/vue";
 import type {LinkField} from "@prismicio/client";
@@ -41,11 +43,11 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
 </script>
 
 <template>
-  <nav v-if="navigation" :class="`lg:px-16 px-4 w-full bg-transparent shadow-sm sticky top-0 z-50 ${bgHeader} `">
+  <nav v-if="navigation" :class="`lg:px-16 px-4 w-full shadow-sm sticky top-0 z-50 ${bgHeader} `">
     <div class="flex items-center justify-between">
 
       <!-- Header logo -->
-      <div class="">
+      <div class="" v-if="!isMobile">
         <NuxtLink to="/">
           <img src="@/assets/images/logo.png" class="mr-3 h-16 rounded-full border" alt="Logo Société Astronomique de Montpellier">
         </NuxtLink>
@@ -53,10 +55,10 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
       </div>
 
       <!-- Mobile toggle -->
-      <div class="md:hidden">
+      <div class="md:hidden" v-if="isMobile">
         <button @click="drawer">
           <svg
-              class="h-8 w-8 fill-current text-black"
+              class="h-8 w-8 fill-current text-indigo-700"
               fill="none" stroke-linecap="round"
               stroke-linejoin="round" stroke-width="2"
               viewBox="0 0 24 24" stroke="currentColor">
@@ -66,7 +68,7 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
       </div>
 
       <!-- Navbar -->
-      <div class="hidden md:flex md:items-center md:w-auto w-full">
+      <div class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile">
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
           <HeaderNavItem
               v-for="(item, index) in navigation?.data.header_navigation"
@@ -99,13 +101,13 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
           leave-active-class="ease-out transition-medium"
           leave-to-class="opacity-0"
       >
-        <div @keydown.esc="isOpen = false" v-show="isOpen" class="z-10 fixed inset-0 transition-opacity">
+        <div @keydown.esc="isOpen = false" v-show="isOpen" v-if="isMobile" class="z-10 fixed inset-0 transition-opacity">
           <div @click="isOpen = false" class="absolute inset-0 bg-black opacity-50" tabindex="0"></div>
         </div>
       </transition>
 
       <!-- Drawer Menu -->
-      <aside class="p-5 transform top-0 left-0 w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30" :class="isOpen ? 'translate-x-0' : '-translate-x-full'">
+      <aside class="p-5 transform top-0 left-0 w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30" :class="isOpen ? 'translate-x-0' : '-translate-x-full'" v-if="isMobile">
 
         <div class="close">
           <button class="absolute top-0 right-0 mt-4 mr-4" @click=" isOpen = false">
@@ -129,6 +131,16 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
               {{ item.label_header }}
             </prismic-link>
           </li>
+
+
+          <NuxtLink to="/contact" class="my-4 inline-block">
+            <button
+                type="button"
+                class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+            >
+              Contactez-nous
+            </button>
+          </NuxtLink>
         </ul>
 
         <div class="follow">
@@ -166,39 +178,6 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
       </aside>
     </div>
   </nav>
-
-<!--  <header v-show="false" :class="`header lg:px-16 px-4 flex flex-wrap items-center ${bgHeader} shadow-sm sticky top-0 z-50`">-->
-<!--    <div class="flex-1 flex justify-between items-center ">-->
-<!--      <a href="#" class="text-4xl font-extrabold">[ LOGO ]</a>-->
-<!--    </div>-->
-
-<!--    <label for="menu-toggle" class="pointer-cursor md:hidden block">-->
-<!--      <svg class="fill-current text-gray-600"-->
-<!--           xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">-->
-<!--        <title>menu</title>-->
-<!--        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>-->
-<!--      </svg>-->
-<!--    </label>-->
-<!--    <input class="hidden" type="checkbox" id="menu-toggle" />-->
-
-<!--    <div class="hidden md:flex md:items-center md:w-auto w-full" id="menu">-->
-<!--      <nav>-->
-
-<!--        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">-->
-<!--          <HeaderNavItem-->
-<!--              v-for="(item, index) in navigation?.data.header_navigation"-->
-<!--              :key="index"-->
-<!--          >-->
-<!--            <PrismicLink :field="item.link_header">-->
-<!--              {{ item.label_header }}-->
-<!--              <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>-->
-<!--              <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>-->
-<!--            </PrismicLink>-->
-<!--          </HeaderNavItem>-->
-<!--        </ul>-->
-<!--      </nav>-->
-<!--    </div>-->
-<!--  </header>-->
 </template>
 
 <style scoped>

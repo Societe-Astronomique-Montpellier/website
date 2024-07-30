@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon", "@nuxtjs/leaflet"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon", "@nuxtjs/leaflet", "@nuxtjs/device"],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     preview: '/api/preview',

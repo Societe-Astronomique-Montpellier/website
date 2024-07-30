@@ -18,6 +18,8 @@ module.exports = {
         },
         extend: {
             fontFamily: {
+                'body': ['Raleway'],
+                'sans': ['Raleway'],
                 raleway: ['Raleway', 'sans-serif'],
             },
         },

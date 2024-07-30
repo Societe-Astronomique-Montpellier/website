@@ -8,6 +8,7 @@ import type {
   BlockCtaDocument,
   BlockHeroDocument,
   BlockTestimonialDocument, EventDocument,
+  BlockContactDocument,
   HomepageDocument, PageThematiqueDocument, EventsDocument
 } from "~/prismicio-types";
 
@@ -51,7 +52,12 @@ const { data: home, error} = await useAsyncData(
         'block_cta.resume',
         'block_cta.content',
         'block_cta.display_button_link',
-        'block_cta.link'
+        'block_cta.link',
+        // Contact
+        'block_contact.title',
+        'block_contact.subtitle',
+        'block_contact.content',
+        'block_contact.link'
       ]
     })
 
@@ -65,6 +71,10 @@ const { data: home, error} = await useAsyncData(
 
     const relatedBlockCta = response.data.block_cta as typeof response.data.block_cta & {
       data: Pick<BlockCtaDocument['data'], 'title' | 'subtitle' | 'image' | 'resume' | 'content' | 'display_button_link' | 'link'>
+    }
+
+    const relatedBlockContact = response.data.block_contact as typeof response.data.block_contact & {
+      data: Pick<BlockContactDocument['data'], 'title' | 'subtitle' | 'content' | 'link'>
     }
 
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
@@ -87,7 +97,8 @@ const { data: home, error} = await useAsyncData(
         testimonial: relatedBlockTestimonial,
         thematics: thematics,
         cta: relatedBlockCta,
-        events: events
+        events: events,
+        contact: relatedBlockContact
       }
     }
   }
@@ -158,7 +169,7 @@ useSeoMeta({
     </BlockListCards>
 
     <!-- contact -->
-    <BlockContact />
+    <BlockContact :block="home.blocks.contact" />
   </div>
   <div v-else-if="error">
     <pre>{{ error }}</pre>

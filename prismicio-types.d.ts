@@ -4,10 +4,57 @@ import type * as prismic from "@prismicio/client";
 
 type Simplify<T> = { [KeyType in keyof T]: T[KeyType] };
 
-interface BlockContactDocumentData {}
+/**
+ * Content for Bloc de contact documents
+ */
+interface BlockContactDocumentData {
+  /**
+   * Titre field in *Bloc de contact*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Titre du bloc
+   * - **API ID Path**: block_contact.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Sous-titre field in *Bloc de contact*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Sous-titre du bloc
+   * - **API ID Path**: block_contact.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  subtitle: prismic.RichTextField;
+
+  /**
+   * Contenu field in *Bloc de contact*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: Texte de contenu du bloc
+   * - **API ID Path**: block_contact.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Lien field in *Bloc de contact*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_contact.link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+}
 
 /**
- * Contact document from Prismic
+ * Bloc de contact document from Prismic
  *
  * - **API ID**: `block_contact`
  * - **Repeatable**: `false`
@@ -16,7 +63,7 @@ interface BlockContactDocumentData {}
  * @typeParam Lang - Language API ID of the document.
  */
 export type BlockContactDocument<Lang extends string = string> =
-  prismic.PrismicDocumentWithoutUID<
+  prismic.PrismicDocumentWithUID<
     Simplify<BlockContactDocumentData>,
     "block_contact",
     Lang
@@ -759,15 +806,15 @@ interface HomepageDocumentData {
   block_events_text: prismic.KeyTextField;
 
   /**
-   * Contact field in *Page d'accueil*
+   * Bloc de contact field in *Page d'accueil*
    *
    * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: homepage.contact
+   * - **API ID Path**: homepage.block_contact
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  contact: prismic.ContentRelationshipField;
+  block_contact: prismic.ContentRelationshipField<"block_contact">;
 
   /**
    * Slice Zone field in *Page d'accueil*

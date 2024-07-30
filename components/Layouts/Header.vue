@@ -78,6 +78,15 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
               <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
             </prismic-link>
           </HeaderNavItem>
+
+          <NuxtLink to="/contact">
+            <button
+              type="button"
+              class="md:justify-center inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+            >
+              Contactez-nous
+            </button>
+          </NuxtLink>
         </ul>
       </div>
 

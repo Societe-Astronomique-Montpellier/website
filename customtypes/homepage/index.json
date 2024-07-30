@@ -89,11 +89,12 @@
           "placeholder": ""
         }
       },
-      "contact": {
+      "block_contact": {
         "type": "Link",
         "config": {
-          "label": "Contact",
-          "select": "document"
+          "label": "Bloc de contact",
+          "select": "document",
+          "customtypes": ["block_contact"]
         }
       },
       "slices": {

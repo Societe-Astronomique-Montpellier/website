@@ -1,10 +1,52 @@
 {
   "format": "custom",
   "id": "block_contact",
-  "json": {
-    "Main": {}
-  },
-  "label": "Contact",
+  "label": "Bloc de contact",
   "repeatable": false,
-  "status": true
+  "status": true,
+  "json": {
+    "Main": {
+      "uid": {
+        "type": "UID",
+        "config": {
+          "label": "UID",
+          "placeholder": "UID du bloc"
+        }
+      },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Titre",
+          "placeholder": "Titre du bloc"
+        }
+      },
+      "subtitle": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Sous-titre",
+          "placeholder": "Sous-titre du bloc",
+          "allowTargetBlank": true,
+          "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,list-item,o-list-item,rtl"
+        }
+      },
+      "content": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Contenu",
+          "placeholder": "Texte de contenu du bloc",
+          "allowTargetBlank": true,
+          "multi": "paragraph,preformatted,heading3,heading4,heading5,heading6,strong,em,image,list-item,o-list-item,rtl,hyperlink"
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "Lien",
+          "placeholder": "",
+          "allowTargetBlank": false,
+          "select": null
+        }
+      }
+    }
+  }
 }

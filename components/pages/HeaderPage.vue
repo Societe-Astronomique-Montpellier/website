@@ -6,7 +6,6 @@ export interface IProps {
   image?: ImageField<never> | undefined | null,
   imageStr?: string | undefined | null
 }
-// const props = defineProps<IProps>()
 
 const props = withDefaults(defineProps<IProps>(), {
   image: null,

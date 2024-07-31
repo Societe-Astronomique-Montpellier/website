@@ -407,7 +407,7 @@ interface EventDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_vignette: prismic.ImageField<never>;
+  image_vignette: prismic.ImageField<"Vignette">;
 
   /**
    * Contenu field in *Evenement*
@@ -1071,7 +1071,7 @@ interface PageThematiqueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_vignette: prismic.ImageField<never>;
+  image_vignette: prismic.ImageField<"Vignette">;
 
   /**
    * Bannière field in *Page thématique*

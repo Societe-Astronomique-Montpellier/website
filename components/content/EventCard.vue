@@ -9,9 +9,10 @@ export interface Props {
 const props = defineProps<Props>()
 const { item } = toRefs(props)
 import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
+import type {ImageField} from "@prismicio/client";
 const startDate = useFormatIntoFrenchDate(item.value?.data.time_start, 'short');
 
-
+const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
 </script>
 
 <template>
@@ -20,8 +21,8 @@ const startDate = useFormatIntoFrenchDate(item.value?.data.time_start, 'short');
     <!--    780*520-->
     <prismic-link :field="item">
       <div class="relative">
-        <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
-        <div v-if="item.data.time_start" class="mx-40 absolute inset-0 z-10 flex justify-center items-center text-xl text-white bg-gradient-to-t from-gray-900 via-gray-900/60">{{ startDate }}</div>
+        <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" />
+        <div v-if="item.data.time_start" class="mt-1 absolute inset-0 z-10 flex justify-center items-center text-xl text-white bg-gradient-to-t from-gray-900">{{ startDate }}</div>
       </div>
 
     </prismic-link>

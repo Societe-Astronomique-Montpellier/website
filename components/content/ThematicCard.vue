@@ -9,7 +9,9 @@ const props = defineProps<Props>()
 const { item } = toRefs(props)
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+import type {ImageField} from "@prismicio/client";
 const richTextSerializer = useRichTextSerializer();
+const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
 
 </script>
 
@@ -19,7 +21,7 @@ const richTextSerializer = useRichTextSerializer();
     <prismic-link
       :field="item"
     >
-      <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
+      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" />
     </prismic-link>
   </div>
 

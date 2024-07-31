@@ -32,7 +32,13 @@
         "config": {
           "label": "Vignette",
           "constraint": {},
-          "thumbnails": []
+          "thumbnails": [
+            {
+              "name": "Vignette",
+              "width": 780,
+              "height": 520
+            }
+          ]
         }
       },
       "resume": {

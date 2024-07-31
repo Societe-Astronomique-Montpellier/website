@@ -5,15 +5,7 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { block } = toRefs(props)
-
-// import {
-//   Collapse,
-//   Ripple,
-//   initTWE,
-// } from "tw-elements";
-//
-// initTWE({ Collapse, Ripple });
-
+const { isMobile } = useDevice();
 </script>
 
 <template>
@@ -23,9 +15,9 @@ const { block } = toRefs(props)
     :style="{backgroundImage: `url(${block?.data?.image?.url})`}"
   >
     <div
-        class="absolute bg-scroll  bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
+        class="absolute bg-scroll bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
       <div class="flex h-full items-center justify-center">
-        <div class="text-white">
+        <div class="text-white" v-if="!isMobile">
           <h2 class="mb-6 text-4xl">
             {{ block.data.subtitle }}
           </h2>
@@ -33,7 +25,18 @@ const { block } = toRefs(props)
             {{ block.data.title }}
           </h1>
         </div>
+        <div v-else>
+          <img src="@/assets/images/logo.png" class="h-48 rounded-full" alt="Logo Société Astronomique de Montpellier">
+        </div>
       </div>
     </div>
+  </div>
+  <div class="text-gray-400 bg-gray-900 body-font mb-4 mt-0 text-base items-center text-center font-light leading-relaxed h-full w-full p-2" v-if="isMobile">
+    <h2 class="text-xl italic">
+      {{ block.data.subtitle }}
+    </h2>
+    <h1 class="mt-2 text-2xl">
+      {{ block.data.title }}
+    </h1>
   </div>
 </template>

@@ -43,7 +43,7 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
 </script>
 
 <template>
-  <nav v-if="navigation" :class="`lg:px-16 px-4 w-full shadow-sm sticky top-0 z-50 ${bgHeader} `">
+  <nav v-if="navigation" :class="`lg:px-16 px-2 w-full shadow-sm sticky top-0 z-50 ${bgHeader} `">
     <div class="flex items-center justify-between">
 
       <!-- Header logo -->
@@ -58,7 +58,7 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
       <div class="md:hidden" v-if="isMobile">
         <button @click="drawer">
           <svg
-              class="h-8 w-8 fill-current text-indigo-700"
+              class="h-8 w-8 fill-current text-gray-900 mt-1"
               fill="none" stroke-linecap="round"
               stroke-linejoin="round" stroke-width="2"
               viewBox="0 0 24 24" stroke="currentColor">
@@ -135,8 +135,8 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
 
           <NuxtLink to="/contact" class="my-4 inline-block">
             <button
-                type="button"
-                class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+              type="button"
+              class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
             >
               Contactez-nous
             </button>

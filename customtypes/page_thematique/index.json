@@ -31,7 +31,13 @@
         "config": {
           "label": "Vignette (page d'accueil)",
           "constraint": {},
-          "thumbnails": []
+          "thumbnails": [
+            {
+              "name": "Vignette",
+              "width": 780,
+              "height": 520
+            }
+          ]
         }
       },
       "image_banner": {

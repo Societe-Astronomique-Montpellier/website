@@ -61,8 +61,8 @@ useHead({
             <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h2>
             <div class="my-8 grid gap-6 px-4">
               <prismic-rich-text
-                  :field="event.data.resume"
-                  :serializer="richTextSerializer"
+                :field="event.data.resume"
+                :serializer="richTextSerializer"
               />
               <div class="flex items-center gap-4">
                 <Icon size="24" name="material-symbols:calendar-clock" />

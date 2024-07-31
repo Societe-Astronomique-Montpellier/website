@@ -27,7 +27,7 @@ const { getComponent } = useDynamicCardComponent();
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
           <h1 class="sm:w-2/5 text-white font-medium title-font text-2xl mb-2 sm:mb-0">{{ titleBlock }}</h1>
-          <slot name="content-block"></slot>
+          <slot name="content-block-top"></slot>
         </div>
       </div>
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
@@ -45,6 +45,7 @@ const { getComponent } = useDynamicCardComponent();
           />
         </div>
       </div>
+      <slot name="content-block-bottom"></slot>
     </div>
   </section>
 </template>

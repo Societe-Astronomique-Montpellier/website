@@ -137,7 +137,7 @@ useSeoMeta({
       :items="home.blocks.thematics"
       :parentItem=null
     >
-      <template v-slot:content-block>
+      <template v-slot:content-block-top>
         <p v-if="home.data.bloc_thematic_text" class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">{{ home.data.bloc_thematic_text }}</p>
       </template>
     </BlockListCards>
@@ -156,15 +156,10 @@ useSeoMeta({
       :items="home.blocks.events"
       :parentItem="home.agendaHome"
     >
-      <template v-slot:content-block>
-        <p class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0">
-          <NuxtLink to="/agenda" class="text-indigo-400 inline-flex items-center mt-3">
-            {{ home.data.block_events_text }}
-            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-              <path d="M5 12h14M12 5l7 7-7 7"></path>
-            </svg>
-          </NuxtLink>
-        </p>
+      <template v-slot:content-block-bottom>
+        <NuxtLink to="/agenda" class="text-indigo-400 inline-flex items-start mt-4 text-xl">
+          {{ home.data.block_events_text }}&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
+        </NuxtLink>
       </template>
     </BlockListCards>
 

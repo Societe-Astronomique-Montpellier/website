@@ -7,35 +7,33 @@ export interface Props {
 }
 
 const props = defineProps<Props>()
-const { item, parentItem } = toRefs(props)
+const { item } = toRefs(props)
 import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
+const startDate = useFormatIntoFrenchDate(item.value?.data.time_start, 'short');
+
 
 </script>
 
 <template>
 
-  <div v-if="item" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-lg h-64 overflow-hidden">
+  <div v-if="item" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-md h-64 overflow-hidden">
     <!--    780*520-->
     <prismic-link :field="item">
-      <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
+      <div class="relative">
+        <prismic-image v-if="item.data.image_vignette" :field="item.data.image_vignette" class="object-cover object-center h-full w-full" />
+        <div v-if="item.data.time_start" class="mx-40 absolute inset-0 z-10 flex justify-center items-center text-xl text-white bg-gradient-to-t from-gray-900 via-gray-900/60">{{ startDate }}</div>
+      </div>
+
     </prismic-link>
-
   </div>
-  <h2 class="text-xl font-medium title-font text-white mt-5">{{ item.data.title }}</h2>
-  <div class="flex flex-wrap items-baseline">
-    <span class="text-gray-400 mr-3 inline-flex items-start lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1">
-      <Icon name="material-symbols:calendar-month" />
-        {{ useFormatIntoFrenchDate(item.data.time_start, 'short') }}
 
-    </span>
+  <h3 class="z-10 gap-y-1 overflow-hidden mt-3 text-2xl leading-8 text-white">{{ item.data.title }}</h3>
+  <div class="flex flex-wrap items-baseline">
     <prismic-link
-      class="text-indigo-400 inline-flex items-end mt-3"
+      class="text-indigo-400 inline-flex items-start mt-5"
       :field="item"
     >
-      Plus d'information
-      <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-4 h-4 ml-2" viewBox="0 0 24 24">
-        <path d="M5 12h14M12 5l7 7-7 7"></path>
-      </svg>
+      Plus d'information&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
     </prismic-link>
 
   </div>

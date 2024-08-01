@@ -47,16 +47,17 @@ const { data: list_events, error } = useAsyncData(
 )
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+import {useSeo} from "~/composables/useSeo";
 const richTextSerializer = useRichTextSerializer();
 
 const titleBlockNext = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast = computed<string>(() => t('agenda.titleBlockPast'))
 
-useHead({
-  title: computed<string>(() => `${list_events.value?.agenda.data.meta_title} | ${list_events.value?.agenda.data.title}`),
-  meta: [
-    { name: 'description', content: `${list_events.value?.agenda.data.meta_title}`}
-  ],
+useSeo({
+  title: `${list_events.value?.agenda.data.meta_title}`,
+  description: `${list_events.value?.agenda.data.meta_title}`,
+  image: null,
+  imageAlt: null
 })
 </script>
 

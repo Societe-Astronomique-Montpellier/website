@@ -105,7 +105,7 @@
             Adventures
           </h5>
 
-          <ul class="mb-0 list-none">
+          <ul class="mb-0 list-none" role="list">
             <li>
               <a href="#!" class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
                 Lost Worlds
@@ -135,7 +135,7 @@
             Challenges
           </h5>
 
-          <ul class="mb-0 list-none">
+          <ul class="mb-0 list-none" role="list">
             <li>
               <a href="#!" class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
                 Conquer Mountains
@@ -165,7 +165,7 @@
             Get Started
           </h5>
 
-          <ul class="mb-0 list-none">
+          <ul class="mb-0 list-none" role="list"
             <li>
               <a href="#!" class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
                 Join Us

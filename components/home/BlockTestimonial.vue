@@ -13,15 +13,15 @@ const { block } = toRefs(props)
         <div class="mr-auto place-self-center lg:col-span-7">
             <prismic-rich-text :field="block.data.content" class="max-w-2xl mb-4 font-extrabold tracking-tight leading-10 text-4xl md:text-5xl xl:text-5xl text-left" />
             <div class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl "> <!-- dark:text-gray-400 -->
-              <p class="mb-6 font-light text-neutral-500"> <!--  dark:text-neutral-300 -->
+              <p class="mb-6 font-light text-gray-500"> <!--  dark:text-neutral-300 -->
                   <Icon name="material-symbols-light:arrow-right-alt-rounded" /> {{ block.data.testimonial_text_1 }}
               </p>
 
-              <p class="mb-6 font-light text-neutral-500">
+              <p class="mb-6 font-light text-gray-500">
                   <Icon name="material-symbols-light:arrow-right-alt-rounded" /> {{ block.data.testimonial_text_2 }}
               </p>
 
-              <p class="mb-6 font-light text-neutral-500">
+              <p class="mb-6 font-light text-gray-500">
                   <Icon name="material-symbols-light:arrow-right-alt-rounded" /> {{ block.data.testimonial_text_3 }}
               </p>
             </div>

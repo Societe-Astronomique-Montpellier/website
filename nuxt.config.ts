@@ -66,10 +66,6 @@ export default defineNuxtConfig({
   },
   app:{
     head: {
-      title: 'Société Astronomique de Montpellier',
-      htmlAttrs: {
-        lang: 'fr'
-      },
       meta: [
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -80,6 +76,9 @@ export default defineNuxtConfig({
   compatibilityDate: '2024-07-04',
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
-    apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY
+    apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
+    public: {
+      facebookAppId: '0'
+    }
   }
 })

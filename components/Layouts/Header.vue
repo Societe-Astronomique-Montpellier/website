@@ -69,7 +69,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
       <!-- Navbar -->
       <div class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile">
-        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0">
+        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="list">
           <HeaderNavItem
               v-for="(item, index) in navigation?.data.header_navigation"
               :key="index"
@@ -125,7 +125,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
           <Tailwind />
         </span>
 
-        <ul class="divide-y font-sans">
+        <ul class="divide-y" role="list">
           <li v-for="(item, index) in navigation?.data.header_navigation" @click="isOpen = false" :key="index">
             <prismic-link :field="item.link_header as LinkField" class="my-4 inline-block">
               {{ item.label_header }}

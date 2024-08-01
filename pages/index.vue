@@ -1,6 +1,7 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
 const prismic = usePrismic()
+import { useSeo } from '@/composables/useSeo';
 
 // Layout
 import type {
@@ -104,17 +105,11 @@ const { data: home, error} = await useAsyncData(
   }
 );
 
-useHead({
-  title: computed<string>(() => `${home.value?.data.meta_title} | ${home.value?.data.titre}`),
-  meta: [
-    { name: 'description', content: `${home.value?.data.meta_description}`}
-  ],
-})
-
-useSeoMeta({
-  title: computed(() => `${home.value?.data.meta_title} | ${home.value?.data.titre}`),
-  ogTitle: '',
-
+useSeo({
+  title: `${home.value?.data.meta_title}`,
+  description: `${home.value?.data.meta_description}`,
+  image: null,
+  imageAlt: null
 })
 </script>
 

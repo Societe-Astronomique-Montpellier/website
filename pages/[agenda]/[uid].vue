@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {useSeo} from "~/composables/useSeo";
+
 const prismic = usePrismic()
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 
@@ -40,11 +42,11 @@ const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
-useHead({
-  title: computed<string>(() => `${event.value?.data.meta_title}`),
-  meta: [
-    { name: 'description', content: `${event.value?.data.meta_description}`}
-  ],
+useSeo({
+  title: `${event.value?.data.meta_title}`,
+  description: `${event.value?.data.meta_description}`,
+  image: null,
+  imageAlt: null
 })
 </script>
 

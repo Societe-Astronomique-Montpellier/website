@@ -20,7 +20,7 @@ const alt: ComputedRef<string> = computed(() => image.value?.alt ?? '')
 <template>
   <div
     class="bg-cover bg-center text-center overflow-hidden rounded"
-    :style="`min-height: 650px; background-image: url(${ imageUrl }); background-color: bg-indigo-500` "
+    :style="`min-height: 450px; background-image: url(${ imageUrl }); background-color: bg-indigo-500` "
     :title="alt"
   >
   </div>

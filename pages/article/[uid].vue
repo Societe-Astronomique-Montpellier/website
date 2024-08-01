@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {useSeo} from "~/composables/useSeo";
+
 const prismic = usePrismic();
 import type { PageArticleDocument } from "~/prismicio-types";
 
@@ -20,12 +22,19 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_date, 'short');
+
+useSeo({
+  title: `${article.value?.data.meta_title}}`,
+  description: `${article.value?.data.meta_description}`,
+  image: `${article.value?.data.image_banner}`,
+  imageAlt: null
+})
 </script>
 
 <template>
   <div class="max-w-screen-lg w-full mx-auto relative" v-if="article">
     <HeaderPage
-        :image="article.data.image_banner"
+      :image="article.data.image_banner"
     />
     <div class="max-w-3xl mx-auto">
       <div
@@ -41,7 +50,7 @@ const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_dat
 
           <p class="text-gray-700 text-xs mt-5">
             <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              {{ $t('layout.knowMore') }} {{ article.data.author }}
+              {{ $t('page.author') }} {{ article.data.author }}
             </span> le
             <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ formatedDate }}

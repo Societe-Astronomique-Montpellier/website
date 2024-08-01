@@ -1,6 +1,8 @@
 <script setup lang="ts">
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
+import {useSeo} from "~/composables/useSeo";
+
 const prismic = usePrismic()
 const { t } = useI18n();
 
@@ -47,19 +49,19 @@ const { data: page_thematique, error} = await useAsyncData(
 
 const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 
-useHead({
-  title: computed(() => `${page_thematique.value?.thematic.data.meta_title} | ${page_thematique.value?.thematic.data.title}`),
-  meta: [
-    { name: 'description', content: `${page_thematique.value?.thematic.data.meta_description}`}
-  ],
-})
-
 // RichText serializer
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
+
+useSeo({
+  title: `${page_thematique.value?.thematic.data.meta_title}}`,
+  description: `${page_thematique.value?.thematic.data.meta_description}`,
+  image: null,
+  imageAlt: null
+})
 </script>
 
 <template>

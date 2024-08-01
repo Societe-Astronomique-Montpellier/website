@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import {useSeo} from "~/composables/useSeo";
+const { t } = useI18n();
+
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const FormContact = defineAsyncComponent(() => import('@/components/forms/contact.vue'))
 
@@ -8,11 +11,11 @@ definePageMeta({
 
 const defaultBanner: Ref<string> = ref('https://media.istockphoto.com/id/2085364237/fr/photo/close-up-of-business-woman-hand-typing-on-laptop-computer-keyboard-with-reflection-on-digital.jpg?s=2048x2048&w=is&k=20&c=aoZxQqTDghkzHYMcY7Wj60DTbOZcSlV63g03Wt-E23s=')
 
-useHead({
-  title: 'Contactez-nous',
-  meta: [
-    { name: 'description', content: ``}
-  ],
+useSeo({
+  title: t('contact.title'),
+  description: t('contact.subtitle'),
+  image: null,
+  imageAlt: null
 })
 </script>
 

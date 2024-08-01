@@ -1,0 +1,27 @@
+{
+  "layout": {
+    "home": "Accueil",
+    "title": "Société Astronomique de Montpellier",
+    "knowMore": "En savoir plus",
+    "moreInfo": "Plus d'informations",
+    "backToTop": "Retour en haut",
+    "header": {
+      "btnContact": "Contactez-nous"
+    },
+    "footer": {
+      "copyright": "Copyright",
+      "allRights": "Tous droits réservés"
+    }
+  },
+  "contact": {
+    "title": "Formulaire de contact",
+    "subtitle": "Vous pouvez utiliser le formulaire ci dessous pour nous laisser un message."
+  },
+  "page": {
+    "author": "Rédigé par "
+  },
+  "agenda": {
+    "titleBlockNext": "Évenements à venir",
+    "titleBlockPast": "Évenements passés"
+  }
+}

@@ -33,13 +33,15 @@ const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_dat
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
           <h2 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h2>
           <h3 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h3>
+
           <prismic-rich-text
             :field="article.data.content"
             :serializer="richTextSerializer"
           ></prismic-rich-text>
+
           <p class="text-gray-700 text-xs mt-5">
               <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                Rédigé par {{ article.data.author }}
+                {{ $t('layout.knowMore') }} {{ article.data.author }}
               </span> le
             <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ formatedDate }}

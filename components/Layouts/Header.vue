@@ -38,7 +38,7 @@ watch(() => isOpen.value, (isOpen) => {
 });
 
 const drawer = () =>  isOpen.value = !isOpen.value;
-const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
+const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
 
 </script>
 
@@ -86,7 +86,7 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
               type="button"
               class="md:justify-center inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
             >
-              Contactez-nous
+              {{ $t('layout.header.btnContact') }}
             </button>
           </NuxtLink>
         </ul>
@@ -138,7 +138,7 @@ const bgHeader = computed(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
               type="button"
               class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
             >
-              Contactez-nous
+              {{ $t('layout.header.btnContact') }}
             </button>
           </NuxtLink>
         </ul>

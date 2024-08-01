@@ -41,7 +41,7 @@ const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
 useHead({
-  title: computed(() => `${event.value?.data.meta_title}`),
+  title: computed<string>(() => `${event.value?.data.meta_title}`),
   meta: [
     { name: 'description', content: `${event.value?.data.meta_description}`}
   ],
@@ -83,7 +83,7 @@ useHead({
                     :field="event.data.link"
                     class="text-indigo-400 inline-flex items-center mt-3"
                    >
-                    Plus d'information
+                    {{ $t('layout.moreInfo') }}
                     <Icon name="material-symbols:arrow-right-alt" />
                   </prismic-link>
                 </p>

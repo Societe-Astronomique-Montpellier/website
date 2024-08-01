@@ -2,6 +2,7 @@
 import Breadcrumbs from "~/components/Layouts/Breadcrumbs.vue";
 
 const prismic = usePrismic();
+const { t } = useI18n();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 
 definePageMeta({
@@ -48,8 +49,11 @@ const { data: list_events, error } = useAsyncData(
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 
+const titleBlockNext = computed<string>(() => t('agenda.titleBlockNext'))
+const titleBlockPast = computed<string>(() => t('agenda.titleBlockPast'))
+
 useHead({
-  title: computed(() => `${list_events.value?.agenda.data.meta_title} | ${list_events.value?.agenda.data.title}`),
+  title: computed<string>(() => `${list_events.value?.agenda.data.meta_title} | ${list_events.value?.agenda.data.title}`),
   meta: [
     { name: 'description', content: `${list_events.value?.agenda.data.meta_title}`}
   ],
@@ -80,13 +84,13 @@ useHead({
       </div>
 
       <BlockListCards
-        title-block="Evenements à venir"
+        :title-block="titleBlockNext"
         :items="list_events?.next"
         :parentItem="list_events?.agenda"
       />
 
       <BlockListCards
-        title-block="Evenements passés"
+        :title-block="titleBlockPast"
         :items="list_events?.past"
         :parentItem="list_events?.agenda"
       />

@@ -2,6 +2,7 @@
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
 const prismic = usePrismic()
+const { t } = useI18n();
 
 import type {
   AllDocumentTypes,
@@ -16,6 +17,7 @@ const BlockListCards = defineAsyncComponent(() => import('~/components/home/Bloc
 definePageMeta({
   layout: 'page',
 });
+
 const route = useRoute();
 const { uid } = route.params as { uid: string }
 
@@ -42,6 +44,8 @@ const { data: page_thematique, error} = await useAsyncData(
     };
   }
 )
+
+const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 
 useHead({
   title: computed(() => `${page_thematique.value?.thematic.data.meta_title} | ${page_thematique.value?.thematic.data.title}`),
@@ -79,7 +83,7 @@ const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_
               />
               <p class="text-gray-700 text-xs mt-5">
               <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                Rédigé par {{ page_thematique.thematic.data.author }}
+                {{ $t('page.author')}} {{ page_thematique.thematic.data.author }}
               </span> le
                 <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ formatedDate }}
@@ -93,7 +97,7 @@ const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_
 
       <BlockListCards
         v-if="0 < page_thematique.articles.length"
-        title-block="En savoir plus"
+        :title-block="knowMoreLabel"
         :items="page_thematique.articles"
         :parentItem="page_thematique.thematic"
       />

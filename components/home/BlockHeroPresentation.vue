@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { t } = useI18n();
 export interface Props {
   block: any
 }
@@ -6,6 +7,8 @@ export interface Props {
 const props = defineProps<Props>()
 const { block } = toRefs(props)
 const { isMobile } = useDevice();
+
+const title = computed<string>(() => t('layout.title'))
 </script>
 
 <template>
@@ -26,7 +29,7 @@ const { isMobile } = useDevice();
           </h1>
         </div>
         <div v-else>
-          <img src="@/assets/images/logo.png" class="h-48 rounded-full" alt="Logo Société Astronomique de Montpellier">
+          <img src="@/assets/images/logo.png" class="h-48 rounded-full" :alt="title">
         </div>
       </div>
     </div>

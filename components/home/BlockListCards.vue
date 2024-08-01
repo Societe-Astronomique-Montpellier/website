@@ -33,10 +33,10 @@ const { getComponent } = useDynamicCardComponent();
       <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
         <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="(item, index) in items" :key="index">
           <component
-              v-if="item && parentItem"
-              :is="getComponent(item.type)"
-              :item="item"
-              :parentItem="parentItem"
+            v-if="item && parentItem"
+            :is="getComponent(item.type)"
+            :item="item"
+            :parentItem="parentItem"
           />
           <component
             v-else-if="null === parentItem && item"

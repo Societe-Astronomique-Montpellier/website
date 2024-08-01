@@ -25,10 +25,10 @@ useHead({
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">Formulaire de contact</h2>
+            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ $t('contact.title') }}</h2>
             <div class="my-8 grid gap-6 px-4">
-              <p>
-                Vous pouvez utiliser le formulaire ci dessous pour nous laisser un message.
+              <p class="text-justify text-base leading-8 mt-2 my-5">
+                {{ $t('contact.subtitle') }}
               </p>
               <FormContact />
             </div>

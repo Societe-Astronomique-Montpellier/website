@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import type {EventDocument, EventsDocument} from "@/prismicio-types";
+import type {ImageField} from "@prismicio/client";
+
+const { t } = useI18n();
 
 export interface Props {
   item: EventDocument,
@@ -8,11 +11,12 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { item } = toRefs(props)
+
 import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
-import type {ImageField} from "@prismicio/client";
 const startDate = useFormatIntoFrenchDate(item.value?.data.time_start, 'short');
 
 const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
+
 </script>
 
 <template>
@@ -34,7 +38,7 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
       class="text-indigo-400 inline-flex items-start mt-5"
       :field="item"
     >
-      Plus d'information&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
+      {{ $t('layout.moreInfo') }}&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
     </prismic-link>
 
   </div>

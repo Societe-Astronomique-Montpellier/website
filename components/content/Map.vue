@@ -19,11 +19,11 @@ const { itemMarker } = toRefs(props)
   <div class="mx-auto py-4">
     <client-only>
       <l-map
-          style="height: 700px"
-          :useGlobalLeaflet="false"
-          ref="map"
-          v-model:zoom="zoom"
-          :center="itemMarker"
+        style="height: 700px"
+        :useGlobalLeaflet="false"
+        ref="map"
+        v-model:zoom="zoom"
+        :center="itemMarker"
       >
         <l-tile-layer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

@@ -36,7 +36,7 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
       class="text-indigo-400 inline-flex items-center mt-3"
       :field="item"
     >
-      Plus d'information&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
+      {{ $t('layout.moreInfo') }}&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
     </prismic-link>
   </div>
 </template>

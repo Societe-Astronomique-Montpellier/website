@@ -5,7 +5,14 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true
   },
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/prismic", "@nuxt/icon", "@nuxtjs/leaflet", "@nuxtjs/device"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/prismic",
+    "@nuxt/icon",
+    "@nuxtjs/leaflet",
+    "@nuxtjs/device",
+    "@nuxtjs/i18n"
+  ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     preview: '/api/preview',
@@ -38,6 +45,10 @@ export default defineNuxtConfig({
         }
       ]
     }
+  },
+  i18n: {
+    detectBrowserLanguage: false,
+    vueI18n: './i18n/i18n.config.ts'
   },
   imports: {
     dirs: [

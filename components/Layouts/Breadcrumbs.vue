@@ -31,7 +31,7 @@ const { data: items, error } = await useAsyncData(
       <li class="inline-flex items-center">
         <NuxtLink to="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-700">
           <Icon name="material-symbols-light:home" size="20" class="me-2.5" />
-          Accueil
+          {{ $t('layout.home') }}
         </NuxtLink>
       </li>
       <li v-for="(item, index) in items" :key="index"
@@ -47,7 +47,9 @@ const { data: items, error } = await useAsyncData(
               {{ item.data.title }}
             </span>
           </prismic-link>
-          <span v-else-if="currentUid === item.uid" class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-500 dark:text-indigo-500">{{ item.data.title }}</span>
+          <span v-else-if="currentUid === item.uid" class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-500 dark:text-indigo-500">
+            {{ item.data.title }}
+          </span>
         </div>
       </li>
     </ol>

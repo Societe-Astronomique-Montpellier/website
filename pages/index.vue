@@ -105,7 +105,7 @@ const { data: home, error} = await useAsyncData(
 );
 
 useHead({
-  title: computed(() => `${home.value?.data.meta_title} | ${home.value?.data.titre}`),
+  title: computed<string>(() => `${home.value?.data.meta_title} | ${home.value?.data.titre}`),
   meta: [
     { name: 'description', content: `${home.value?.data.meta_description}`}
   ],

@@ -45,7 +45,7 @@ const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 useSeo({
   title: `${event.value?.data.meta_title}`,
   description: `${event.value?.data.meta_description}`,
-  canonicalUrl: `${process.env.BASE_URL}`,
+  canonicalUrl: `${process.env.BASE_URL}/${agenda}/${uid}`,
   image: `${event.value?.data.image_vignette.Vignette.url}`,
   imageAlt: `${event.value?.data.image_vignette.Vignette.alt}`,
 })

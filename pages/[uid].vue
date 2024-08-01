@@ -1,10 +1,14 @@
 <script setup lang="ts">
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
-import {useSeo} from "~/composables/useSeo";
-
+const route = useRoute();
 const prismic = usePrismic()
 const { t } = useI18n();
+
+definePageMeta({
+  layout: 'page',
+});
+
 
 import type {
   AllDocumentTypes,
@@ -16,11 +20,7 @@ const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Brea
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
-definePageMeta({
-  layout: 'page',
-});
 
-const route = useRoute();
 const { uid } = route.params as { uid: string }
 
 const { data: page_thematique, error} = await useAsyncData(
@@ -56,10 +56,12 @@ const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
 
+import { useSeo } from "~/composables/useSeo";
+
 useSeo({
   title: `${page_thematique.value?.thematic.data.meta_title}`,
   description: `${page_thematique.value?.thematic.data.meta_description}`,
-  canonicalUrl: `${process.env.BASE_URL}`,
+  canonicalUrl: `${process.env.BASE_URL}/${uid}`,
   image: `${page_thematique.value?.thematic.data.image_vignette.url}`,
   imageAlt: `${page_thematique.value?.thematic.data.image_vignette.alt}`
 })

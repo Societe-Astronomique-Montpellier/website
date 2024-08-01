@@ -1,4 +1,5 @@
 import type {Image} from "@prismicio/types-internal/lib/customtypes";
+import type {ComputedRef} from "vue";
 
 export interface IItem {
     title: string,

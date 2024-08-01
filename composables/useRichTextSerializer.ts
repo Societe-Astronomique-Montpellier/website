@@ -4,7 +4,7 @@ import type {FilledLinkToWebField} from "@prismicio/types/src/value/link";
 
 
 export const useRichTextSerializer = (): HTMLMapSerializer => {
-    const IconArrow = h(Icon, { name: 'material-symbols-light:arrow-right-alt-rounded' })
+    const IconArrow = h(Icon, { name: 'material-symbols:arrow-right-alt' })
 
     return {
         paragraph: ({ children }) => `<p class="text-justify text-base leading-8 mt-2 my-5">${children}</p>`,
@@ -31,7 +31,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
         },
         // list
         list:  ({ children }) => `<ul class="mb-6 font-light text-gray-500 lg:mb-8 ">${children}</ul>`,
-        listItem: ({ children }) => `<li class="mb-6 font-light text-neutral-500"><span class="iconify i-material-symbols:arrow-right-alt text-indigo-400 dark:text-indigo-400" aria-hidden="true" style=""></span> ${children}</li>`,
+        listItem: ({ children }) => `<li class="mb-6 font-light text-neutral-500"><span class="iconify i-material-symbols:arrow-right-alt text-indigo-400 dark:text-indigo-400" aria-hidden="true" style="width: 16px; height: 16px"></span> ${children}</li>`,
 
         // embed
         preformatted: ({ children }) => `<blockquote class="border-l-4 text-base italic leading-8 my-5 p-5 text-indigo-600">${children}</blockquote>`

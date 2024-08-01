@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import {useSeo} from "~/composables/useSeo";
-
 const prismic = usePrismic()
+const route = useRoute();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 
 definePageMeta({
   layout: 'page',
 });
 
-const route = useRoute();
 const { agenda, uid } = route.params as { agenda: string, uid: string }
 
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
@@ -18,6 +16,7 @@ const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
+import { useSeo } from "@/composables/useSeo";
 
 const centerMap: [number, number] = useCoordinates('babotte');
 
@@ -42,8 +41,9 @@ const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
+// const metaTitle: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_title}`);
 useSeo({
-  title: `${event.value?.data.meta_title}`,
+  title: `${event.value?.data.title}`,
   description: `${event.value?.data.meta_description}`,
   canonicalUrl: `${process.env.BASE_URL}/${agenda}/${uid}`,
   image: `${event.value?.data.image_vignette.Vignette.url}`,
@@ -67,6 +67,7 @@ useSeo({
                 :field="event.data.resume"
                 :serializer="richTextSerializer"
               />
+
               <div class="flex items-center gap-4">
                 <Icon size="24" name="material-symbols:calendar-clock" />
                 <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">

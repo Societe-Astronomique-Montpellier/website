@@ -26,8 +26,9 @@ const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_dat
 useSeo({
   title: `${article.value?.data.meta_title}}`,
   description: `${article.value?.data.meta_description}`,
-  image: `${article.value?.data.image_banner}`,
-  imageAlt: null
+  canonicalUrl: `${process.env.BASE_URL}`,
+  image: `${article.value?.data.meta_image.url}`,
+  imageAlt: `${article.value?.data.meta_image.alt}`,
 })
 </script>
 

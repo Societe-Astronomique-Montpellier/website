@@ -14,6 +14,7 @@ const defaultBanner: Ref<string> = ref('https://media.istockphoto.com/id/2085364
 useSeo({
   title: t('contact.title'),
   description: t('contact.subtitle'),
+  canonicalUrl: `${process.env.BASE_URL}`,
   image: null,
   imageAlt: null
 })

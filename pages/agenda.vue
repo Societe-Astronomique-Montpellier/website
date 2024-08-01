@@ -56,8 +56,9 @@ const titleBlockPast = computed<string>(() => t('agenda.titleBlockPast'))
 useSeo({
   title: `${list_events.value?.agenda.data.meta_title}`,
   description: `${list_events.value?.agenda.data.meta_title}`,
-  image: null,
-  imageAlt: null
+  canonicalUrl: `${process.env.BASE_URL}`,
+  image: `${list_events.value?.agenda.data.meta_image.url}`,
+  imageAlt: `${list_events.value?.agenda.data.meta_image.alt}`
 })
 </script>
 

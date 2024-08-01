@@ -3,6 +3,7 @@ import type {Image} from "@prismicio/types-internal/lib/customtypes";
 export interface IItem {
     title: string,
     description?: string,
+    canonicalUrl: string,
     image?: any,
     imageAlt?: string | null
 }
@@ -12,9 +13,9 @@ export const useSeo = (item: IItem): void => {
 
     const facebookAppId: string = config.public.facebookAppId as string;
 
-    const titleName = t('layout.title')
+    const titleName: string = t('layout.title')
     useHead({
-        title: () => `${item.title} | ${titleName}`,
+        title: (): string => `${item.title} | ${titleName}`,
         meta: [
             { name: 'title', content: `${item.title} | ${titleName}` },
             { name: 'description', content: item.description }
@@ -26,16 +27,16 @@ export const useSeo = (item: IItem): void => {
 
     useSeoMeta({
         fbAppId: facebookAppId,
-        ogUrl: '',
+        ogUrl: item.canonicalUrl,
         ogType: 'website',
         ogTitle: `${item.title} | ${titleName}`,
         ogDescription: item.title,
-        ogImage: '',
-        ogImageAlt: '',
+        ogImage: item.image,
+        ogImageAlt: item.imageAlt,
         ogLocale: locale,
-        ogSiteName: '',
+        ogSiteName: titleName,
         twitterCard: 'summary_large_image',
-        twitterSite: '',
+        twitterSite: titleName,
         twitterTitle: `${item.title} | ${titleName}`,
         twitterDescription: item.description,
         twitterImage: '',

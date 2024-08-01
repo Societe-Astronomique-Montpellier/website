@@ -57,10 +57,11 @@ import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
 
 useSeo({
-  title: `${page_thematique.value?.thematic.data.meta_title}}`,
+  title: `${page_thematique.value?.thematic.data.meta_title}`,
   description: `${page_thematique.value?.thematic.data.meta_description}`,
-  image: null,
-  imageAlt: null
+  canonicalUrl: `${process.env.BASE_URL}`,
+  image: `${page_thematique.value?.thematic.data.image_vignette.url}`,
+  imageAlt: `${page_thematique.value?.thematic.data.image_vignette.alt}`
 })
 </script>
 

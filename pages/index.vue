@@ -108,8 +108,9 @@ const { data: home, error} = await useAsyncData(
 useSeo({
   title: `${home.value?.data.meta_title}`,
   description: `${home.value?.data.meta_description}`,
+  canonicalUrl: `${process.env.BASE_URL}`,
   image: null,
-  imageAlt: null
+  imageAlt: `Logo ${home.value?.data.meta_title}`
 })
 </script>
 

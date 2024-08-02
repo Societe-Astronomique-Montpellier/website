@@ -138,7 +138,6 @@ useSeo({
       </template>
     </BlockListCards>
 
-<!--    -->
     <!-- Call to action -->
     <a id="cta" />
     <BlockCta

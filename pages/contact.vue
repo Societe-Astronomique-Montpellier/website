@@ -9,8 +9,6 @@ definePageMeta({
   layout: 'page',
 });
 
-const defaultBanner: Ref<string> = ref('https://media.istockphoto.com/id/2085364237/fr/photo/close-up-of-business-woman-hand-typing-on-laptop-computer-keyboard-with-reflection-on-digital.jpg?s=2048x2048&w=is&k=20&c=aoZxQqTDghkzHYMcY7Wj60DTbOZcSlV63g03Wt-E23s=')
-
 useSeo({
   title: t('contact.title'),
   description: t('contact.subtitle'),
@@ -23,7 +21,7 @@ useSeo({
 <template>
   <section>
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <HeaderPage :imageStr="defaultBanner" />
+      <HeaderPage :imageStr=null />
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"

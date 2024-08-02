@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import type {ImageField} from "@prismicio/client";
-import type {ComputedRef, Prop} from "vue";
+import type {ComputedRef} from "vue";
+
+import defaultImg from '@/assets/images/default_banner.jpg'
+import {isFilled} from "@prismicio/helpers";
 
 export interface IProps {
   image?: ImageField<never> | undefined | null,
-  imageStr?: string | undefined | null
 }
 
 const props = withDefaults(defineProps<IProps>(), {
-  image: null,
-  imageStr: null
+  image: null
 })
-const { image, imageStr } = toRefs(props);
+const { image } = toRefs(props);
 
-const imageUrl: ComputedRef<null | string | undefined> = computed(() => (null !== image.value) ? image.value?.url : imageStr.value)
+const imageUrl: ComputedRef<null | string | undefined> = computed(() => (isFilled.image(image.value)) ? image.value?.url : defaultImg)
 const alt: ComputedRef<string> = computed(() => image.value?.alt ?? '')
 </script>
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { KeyTextField } from "@prismicio/client";
+
 const prismic = usePrismic()
 const route = useRoute();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
@@ -17,18 +19,20 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
 import { useSeo } from "@/composables/useSeo";
+import type {ComputedRef} from "vue";
+import {isFilled} from "@prismicio/helpers";
 
 const centerMap: [number, number] = useCoordinates('babotte');
 
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
-const { data: event, error } = useAsyncData(uid, async () => {
+const { data: event, error } = await useAsyncData(uid, async () => {
   const response = await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
   fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
 
   return response;
 })
 
-const { data: parentAgenda } = useAsyncData(
+const { data: parentAgenda } = await useAsyncData(
     'parentAgenda',
     async () => await prismic.client.getByUID<AllDocumentTypes>('events', agenda, {'lang': 'fr-fr'}) as EventsDocument
 )
@@ -41,20 +45,22 @@ const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
-// const metaTitle: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_title}`);
-useSeo({
-  title: `${event.value?.data.title}`,
-  description: `${event.value?.data.meta_description}`,
-  canonicalUrl: `${process.env.BASE_URL}/${agenda}/${uid}`,
-  image: `${event.value?.data.image_vignette.Vignette.url}`,
-  imageAlt: `${event.value?.data.image_vignette.Vignette.alt}`,
-})
+const metaTitle = computed<KeyTextField>(() => `${event.value?.data.meta_title}`);
+// useSeo({
+//   title: prismic.as(metaTitle.value),
+//   description: `${event.value?.data.meta_description}`,
+//   canonicalUrl: `${process.env.BASE_URL}/${agenda}/${uid}`,
+//   image: `${event.value?.data.image_vignette.Vignette.url}`,
+//   imageAlt: `${event.value?.data.image_vignette.Vignette.alt}`,
+// })
+
+const imgBanner = computed(() => (isFilled.image(event.value?.data.image_banner)) ? event.value?.data.image_banner : null)
 </script>
 
 <template>
   <section v-if="event">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2"> <!-- max-w-screen-lg -->
-      <HeaderPage :image="event.data.image_banner" />
+      <HeaderPage :image="imgBanner" />
       <div class="max-w-3xl mx-auto">
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"

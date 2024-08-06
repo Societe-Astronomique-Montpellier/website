@@ -27,7 +27,7 @@ const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.v
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
 // Prismic
-const { data: home, error} = useAsyncData(
+const { data: home, error} = useLazyAsyncData(
   "home",
   async () => {
     const response = await prismic.client.getSingle<HomepageDocument>('homepage', {
@@ -62,6 +62,9 @@ const { data: home, error} = useAsyncData(
       ]
     })
 
+    /**
+     * Blocks
+     */
     const relatedBlockHero = response.data.block_hero as typeof response.data.block_hero & {
       data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'image'>
     }
@@ -80,16 +83,22 @@ const { data: home, error} = useAsyncData(
 
     const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id)
 
-    const thematics = await prismic.client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[];
-    const agenda = await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument;
-    const events = await prismic.client.getAllByType<AllDocumentTypes>('event', {
-      filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow.value) ],
-      orderings: {
-        field: 'my.event.time_start',
-        direction: 'asc'
-      },
-      limit: 3
-    }) as EventDocument[]
+    /**
+     * Content-types data
+     */
+    const [thematics, agenda, events] = await Promise.all([
+      await prismic.client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[],
+      await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument,
+      await prismic.client.getAllByType<AllDocumentTypes>('event', {
+        filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow.value) ],
+        orderings: {
+          field: 'my.event.time_start',
+          direction: 'asc'
+        },
+        limit: 3
+      }) as EventDocument[]
+    ])
+
     return {
       data: response.data,
       agendaHome: agenda,

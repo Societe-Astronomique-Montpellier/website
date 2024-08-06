@@ -32,7 +32,7 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
     </prismic-link>
   </div>
 
-  <h3 class="z-10 gap-y-1 overflow-hidden mt-3 text-2xl leading-8 text-white">{{ item.data.title }}</h3>
+  <h4 class="z-10 gap-y-1 overflow-hidden mt-3 text-2xl leading-8 text-white">{{ item.data.title }}</h4>
   <div class="flex flex-wrap items-baseline">
     <prismic-link
       class="text-indigo-400 inline-flex items-start mt-5"

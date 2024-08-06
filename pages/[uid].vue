@@ -29,9 +29,10 @@ import {isFilled} from "@prismicio/helpers";
 
 const { uid } = route.params as { uid: string }
 
-const { data: page_thematique, error} = useAsyncData(uid, async () => {
+const { data: page_thematique, error} = useLazyAsyncData(
+  uid,
+  async () => {
     const response = await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', uid)
-
     const articles = await prismic.client.getAllByType<AllDocumentTypes>('page_article', {
       filters: [
         // prismic.filter.at('document.type', 'page_thematique'),

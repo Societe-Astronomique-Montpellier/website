@@ -23,7 +23,7 @@
     "@types/geojson": "^7946.0.14",
     "@types/vue": "^2.0.0",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
-    "nuxt": "^3.12.3",
+    "nuxt": "^3.12.4",
     "tw-elements": "^2.0.0",
     "vue": "latest"
   },

@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
-    "@nuxt/icon": "^1.1.1",
+    "@nuxt/icon": "^1.4.5",
     "@nuxtjs/i18n": "^8.3.3",
     "@nuxtjs/leaflet": "^1.0.14",
     "@nuxtjs/tailwindcss": "^6.12.0",

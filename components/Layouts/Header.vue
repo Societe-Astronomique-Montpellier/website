@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import type { Ref } from 'vue'
 const prismic = usePrismic()
+const { t } = useI18n()
 const { isMobile } = useDevice();
 
 import type { HeaderDocument} from "~/prismicio-types";
@@ -56,7 +57,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
       <!-- Mobile toggle -->
       <div class="md:hidden" v-if="isMobile">
-        <button @click="drawer" name="openMenu" role="button">
+        <button @click="drawer" name="openMenu" role="button" aria-label="openMenu">
           <svg
               class="h-8 w-8 fill-current text-gray-900 mt-1"
               fill="none" stroke-linecap="round"
@@ -68,13 +69,13 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       </div>
 
       <!-- Navbar -->
-      <div class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" role="navigation">
-        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="list">
+      <nav class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" aria-label="navigation">
+        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar" aria-label="">
           <HeaderNavItem
               v-for="(item, index) in navigation?.data.header_navigation"
               :key="index"
           >
-            <prismic-link :field="item.link_header as LinkField">
+            <prismic-link :field="item.link_header as LinkField" role="menuitem">
               {{ item.label_header }}
               <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
               <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
@@ -85,12 +86,13 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
             <button
               type="button"
               class="md:justify-center inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+              :aria-label="t('layout.header.btnContact')"
             >
               {{ $t('layout.header.btnContact') }}
             </button>
           </NuxtLink>
         </ul>
-      </div>
+      </nav>
 
       <!-- Dark Background Transition -->
       <transition
@@ -115,7 +117,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       >
 
         <div class="close">
-          <button class="absolute top-0 right-0 mt-4 mr-4" @click=" isOpen = false" role="button">
+          <button class="absolute top-0 right-0 mt-4 mr-4" @click=" isOpen = false" role="button" aria-label="Close">
             <svg
                 class="w-6 h-6"
                 fill="none" stroke-linecap="round"
@@ -130,23 +132,26 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
           <Tailwind />
         </span>
 
-        <ul class="divide-y" role="list">
-          <li v-for="(item, index) in navigation?.data.header_navigation" @click="isOpen = false" :key="index" role="menuitem">
-            <prismic-link :field="item.link_header as LinkField" class="my-4 inline-block">
-              {{ item.label_header }}
-            </prismic-link>
-          </li>
+        <nav aria-label="menu-responsive">
+          <ul class="divide-y" role="menubar">
+            <li v-for="(item, index) in navigation?.data.header_navigation" @click="isOpen = false" :key="index" role="none">
+              <prismic-link :field="item.link_header as LinkField" class="my-4 inline-block" role="menuitem">
+                {{ item.label_header }}
+              </prismic-link>
+            </li>
 
-          <NuxtLink to="/contact" class="my-4 inline-block">
-            <button
-              type="button"
-              role="link"
-              class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
-            >
-              {{ $t('layout.header.btnContact') }}
-            </button>
-          </NuxtLink>
-        </ul>
+            <NuxtLink to="/contact" class="my-4 inline-block">
+              <button
+                  type="button"
+                  role="link"
+                  class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+              >
+                {{ $t('layout.header.btnContact') }}
+              </button>
+            </NuxtLink>
+          </ul>
+        </nav>
+
 
         <div class="follow">
           <p class="italic font-sans text-sm">follow us:</p>

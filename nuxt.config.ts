@@ -11,7 +11,8 @@ export default defineNuxtConfig({
     "@nuxt/icon",
     "@nuxtjs/leaflet",
     "@nuxtjs/device",
-    "@nuxtjs/i18n"
+    "@nuxtjs/i18n",
+    "@nuxtjs/robots"
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,

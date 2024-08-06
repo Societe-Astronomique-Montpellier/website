@@ -22,9 +22,10 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import type {ComputedRef} from "vue";
+import {isFilled} from "@prismicio/helpers";
 const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_date, 'short');
 
-const metaTitle: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_title}`);
+const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 useSeo({
   title: `${metaTitle.value}`,

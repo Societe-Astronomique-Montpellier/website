@@ -14,6 +14,8 @@ const { image } = toRefs(props)
     <prismic-image
       :field=image
       class="transition duration-300 ease-in-out rounded shadow-md dark:shadow-black/30 hover:scale-105"
+      :width="image.dimensions?.width"
+      :height="image.dimensions?.height"
     />
     <figcaption v-if="image.alt || image.copyright"  class="mt-2 italic text-sm text-gray-500">
       <span v-if="image.alt">{{ image.alt }}&nbsp;</span>

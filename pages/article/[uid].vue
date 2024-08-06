@@ -25,7 +25,7 @@ import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import type {ComputedRef} from "vue";
 const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_date, 'short');
 
-const metaTitle: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_title}`);
+const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_banner.url}`)
 

@@ -57,16 +57,18 @@ const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 const richTextSerializer = useRichTextSerializer();
 const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
 
-const metaTitle: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_title}`);
+const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(page_thematique.value?.thematic.data.meta_title) ? `${page_thematique.value?.thematic.data.meta_title}` : `${page_thematique.value?.thematic.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_description}`);
 // const metaImage: ComputedRef<string | null> = computed<string | null>(() => (isFilled.image(page_thematique.value?.thematic.data.image_vignette)) ? `${page_thematique.value?.thematic.data.image_vignette.Vignette.url}` : null)
+if (metaTitle.value) {
+  useSeo({
+    title: `${metaTitle.value}`,
+    description: `${metaDescription.value}`,
+    image: null,
+    imageAlt: null
+  })
+}
 
-useSeo({
-  title: `${metaTitle.value}`,
-  description: `${metaDescription.value}`,
-  image: null,
-  imageAlt: null
-})
 </script>
 
 <template>

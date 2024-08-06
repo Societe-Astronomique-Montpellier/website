@@ -47,16 +47,19 @@ const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
-const metaTitle: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_title}`);
+const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.data.meta_title)) ? `${event.value?.data.meta_title}` : `${event.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
 const imgBanner = computed(() => (isFilled.image(event.value?.data.image_banner)) ? event.value?.data.image_banner : null)
 
-useSeo({
-  title: `${metaTitle.value}`,
-  description: `${metaDescription.value}`,
-  image: null, // imgBanner ?? `${event.value?.data.image_vignette.Vignette.url}`,
-  imageAlt: null // `${event.value?.data.image_vignette.Vignette.alt}`,
-})
+if (event.value) {
+  useSeo({
+    title: `${metaTitle.value}`,
+    description: `${metaDescription.value}`,
+    image: null, // imgBanner ?? `${event.value?.data.image_vignette.Vignette.url}`,
+    imageAlt: null // `${event.value?.data.image_vignette.Vignette.alt}`,
+  })
+}
+
 
 </script>
 

@@ -3,7 +3,7 @@
 </script>
 
 <template>
-  <li class="text-lg m-6 group relative w-max" role="presentation">
+  <li class="text-lg m-6 group relative w-max" role="none">
     <slot />
   </li>
 </template>

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import {isFilled} from "@prismicio/helpers";
+
 const prismic = usePrismic();
 const { t } = useI18n();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
@@ -17,28 +19,28 @@ const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
 const { data: list_events, error } = useAsyncData(
   'list_events',
   async () => {
-    const agenda = await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument
-
-    const futurEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
-      lang: 'fr-fr',
-      filters: [
-        prismic.filter.dateAfter('my.event.time_start', dateNow.value),
-      ],
-      orderings: {
-        field: 'my.event.time_start',
-        direction: 'asc'
-      }
-    }) as EventDocument[]
-
-    const pastEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
-      lang: 'fr-fr',
-      filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
-      orderings: {
-        field: 'my.event.time_start',
-        direction: 'desc'
-      }
-    }) as EventDocument[]
-
+    const [agenda, futurEvents, pastEvents] = await Promise.all([
+      await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument,
+      await prismic.client.getAllByType<AllDocumentTypes>('event', {
+        lang: 'fr-fr',
+        filters: [
+          prismic.filter.dateAfter('my.event.time_start', dateNow.value),
+        ],
+        orderings: {
+          field: 'my.event.time_start',
+          direction: 'asc'
+        }
+      }) as EventDocument[],
+      await prismic.client.getAllByType<AllDocumentTypes>('event', {
+        lang: 'fr-fr',
+        filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
+        orderings: {
+          field: 'my.event.time_start',
+          direction: 'desc'
+        }
+      }) as EventDocument[]
+    ])
+    
     return {
       agenda: agenda,
       next: futurEvents,
@@ -55,7 +57,7 @@ const richTextSerializer = useRichTextSerializer();
 const titleBlockNext: ComputedRef<string>  = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast: ComputedRef<string>  = computed<string>(() => t('agenda.titleBlockPast'))
 
-const metaTitle: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
+const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
 
 useSeo({

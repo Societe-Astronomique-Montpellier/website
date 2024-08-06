@@ -20,7 +20,13 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
             if (!node.url) {
                 return '<p>Error: Missing image URL</p>';
             }
-            return `<img src="${node.url}" alt="${node.alt || 'Image description'}" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105" />`;
+
+            let img: string = `<figure class="max-w-fit cursor-pointer"><img src="${node.url}" alt="${node.alt || 'Image description'}" class="transition duration-300 ease-in-out rounded shadow-md dark:shadow-black/30 hover:scale-105" />`
+            let copyright: string = (node.copyright) ? `Photo © ${node.copyright}` : '';
+            if (node.alt) {
+                img += `<figcaption class="mt-2 italic text-sm text-gray-500">${node.alt} ${copyright}</figcaption>`;
+            }
+            return `${img}</figure>`;
         },
         hyperlink: ({ node , children }) => {
             // const target = (!node.data.target)

@@ -9,10 +9,20 @@ definePageMeta({
   layout: 'page',
 });
 
+const submittedFormData: Ref<boolean | null> = ref(null)
+
+const handleContactFormSubmission = async (/*submitFormData: any*/) => {
+  // submittedFormData.value = submitFormData;
+  setTimeout(async () => {
+    try {
+      alert('message send')
+    } catch (err) {}
+  }, 1000)
+}
+
 useSeo({
   title: t('contact.title'),
   description: t('contact.subtitle'),
-  canonicalUrl: `${process.env.BASE_URL}/`,
   image: null,
   imageAlt: null
 })
@@ -21,7 +31,7 @@ useSeo({
 <template>
   <section>
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <HeaderPage :imageStr=null />
+      <HeaderPage />
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
@@ -32,7 +42,7 @@ useSeo({
               <p class="text-justify text-base leading-8 mt-2 my-5">
                 {{ $t('contact.subtitle') }}
               </p>
-              <FormContact />
+              <FormContact @submit-form="handleContactFormSubmission" />
             </div>
           </div>
         </div>

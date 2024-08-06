@@ -27,7 +27,7 @@ const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.v
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
 // Prismic
-const { data: home, error} = await useAsyncData(
+const { data: home, error} = useAsyncData(
   "home",
   async () => {
     const response = await prismic.client.getSingle<HomepageDocument>('homepage', {
@@ -108,7 +108,6 @@ const { data: home, error} = await useAsyncData(
 useSeo({
   title: `${home.value?.data.meta_title}`,
   description: `${home.value?.data.meta_description}`,
-  canonicalUrl: `${process.env.BASE_URL}`,
   image: null,
   imageAlt: `Logo ${home.value?.data.meta_title}`
 })

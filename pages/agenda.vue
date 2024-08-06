@@ -1,63 +1,67 @@
 <script setup lang="ts">
-import Breadcrumbs from "~/components/Layouts/Breadcrumbs.vue";
-
 const prismic = usePrismic();
 const { t } = useI18n();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
+import type {ComputedRef} from "vue";
 
 definePageMeta({
   layout: 'page',
 });
 
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
+
 const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
 
 const { data: list_events, error } = useAsyncData(
-    'list_events',
-    async () => {
-      const agenda = await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument
+  'list_events',
+  async () => {
+    const agenda = await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument
 
-      const futurEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        lang: 'fr-fr',
-        filters: [
-          prismic.filter.dateAfter('my.event.time_start', dateNow.value),
-        ],
-        orderings: {
-          field: 'my.event.time_start',
-          direction: 'asc'
-        }
-      }) as EventDocument[]
-
-      const pastEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        lang: 'fr-fr',
-        filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
-        orderings: {
-          field: 'my.event.time_start',
-          direction: 'desc'
-        }
-      }) as EventDocument[]
-
-      return {
-        agenda: agenda,
-        next: futurEvents,
-        past: pastEvents
+    const futurEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
+      lang: 'fr-fr',
+      filters: [
+        prismic.filter.dateAfter('my.event.time_start', dateNow.value),
+      ],
+      orderings: {
+        field: 'my.event.time_start',
+        direction: 'asc'
       }
+    }) as EventDocument[]
+
+    const pastEvents = await prismic.client.getAllByType<AllDocumentTypes>('event', {
+      lang: 'fr-fr',
+      filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
+      orderings: {
+        field: 'my.event.time_start',
+        direction: 'desc'
+      }
+    }) as EventDocument[]
+
+    return {
+      agenda: agenda,
+      next: futurEvents,
+      past: pastEvents
+    }
   }
 )
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-import {useSeo} from "~/composables/useSeo";
+import {useSeo} from "@/composables/useSeo";
+
 const richTextSerializer = useRichTextSerializer();
 
-const titleBlockNext = computed<string>(() => t('agenda.titleBlockNext'))
-const titleBlockPast = computed<string>(() => t('agenda.titleBlockPast'))
+const titleBlockNext: ComputedRef<string>  = computed<string>(() => t('agenda.titleBlockNext'))
+const titleBlockPast: ComputedRef<string>  = computed<string>(() => t('agenda.titleBlockPast'))
+
+const metaTitle: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
 
 useSeo({
-  title: `${list_events.value?.agenda.data.meta_title}`,
-  description: `${list_events.value?.agenda.data.meta_title}`,
-  canonicalUrl: `${process.env.BASE_URL}/${list_events.value?.agenda.uid}`,
-  image: `${list_events.value?.agenda.data.meta_image.url}`,
+  title: `${metaTitle.value}`,
+  description: `${metaDescription.value}`,
+  image: null, // `${list_events.value?.agenda.data.meta_image.url}`,
   imageAlt: `${list_events.value?.agenda.data.meta_image.alt}`
 })
 </script>

@@ -13,20 +13,22 @@ definePageMeta({
 const route = useRoute();
 const { thematic, uid } = route.params as { thematic: string, uid: string }
 
-const { data: article, error} = await useAsyncData(
+const { data: article, error} = useAsyncData(
     uid,
-    () => prismic.client.getByUID<PageArticleDocument>('page_article', uid)
+    async () => await prismic.client.getByUID<PageArticleDocument>('page_article', uid)
 )
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
+import type {ComputedRef} from "vue";
 const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_date, 'short');
 
+const metaTitle: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 useSeo({
-  title: `${article.value?.data.meta_title}}`,
-  description: `${article.value?.data.meta_description}`,
-  canonicalUrl: `${process.env.BASE_URL}/${thematic}/${uid}`,
+  title: `${metaTitle.value}`,
+  description: `${metaDescription.value}`,
   image: `${article.value?.data.meta_image.url}`,
   imageAlt: `${article.value?.data.meta_image.alt}`,
 })

@@ -25,6 +25,7 @@ const BlockListCards = defineAsyncComponent(() => import('~/components/home/Bloc
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import { useSeo } from "@/composables/useSeo";
+import {isFilled} from "@prismicio/helpers";
 
 const { uid } = route.params as { uid: string }
 
@@ -56,12 +57,14 @@ const richTextSerializer = useRichTextSerializer();
 const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
 
 const metaTitle: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_description}`);
+// const metaImage: ComputedRef<string | null> = computed<string | null>(() => (isFilled.image(page_thematique.value?.thematic.data.image_vignette)) ? `${page_thematique.value?.thematic.data.image_vignette.Vignette.url}` : null)
+
 useSeo({
-  title: `${page_thematique.value?.thematic.data.meta_title}`, //metaTitle.value,
-  description: `${page_thematique.value?.thematic.data.meta_description}`,
-  canonicalUrl: `${process.env.BASE_URL}/${uid}`,
-  image: `${page_thematique.value?.thematic.data.image_vignette.url}`,
-  imageAlt: `${page_thematique.value?.thematic.data.image_vignette.alt}`
+  title: `${metaTitle.value}`,
+  description: `${metaDescription.value}`,
+  image: null,
+  imageAlt: null
 })
 </script>
 

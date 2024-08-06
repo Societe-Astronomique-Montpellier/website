@@ -25,12 +25,14 @@ import {isFilled} from "@prismicio/helpers";
 const centerMap: [number, number] = useCoordinates('babotte');
 
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
-const { data: event, error } = await useAsyncData(uid, async () => {
-  const response = await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
-  fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
-
-  return response;
-})
+const { data: event, error } = useAsyncData(
+  uid,
+  async () => {
+    const response = await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
+    fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
+    return response;
+  }
+)
 
 const { data: parentAgenda } = await useAsyncData(
     'parentAgenda',
@@ -45,16 +47,17 @@ const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
-const metaTitle = computed<KeyTextField>(() => `${event.value?.data.meta_title}`);
-// useSeo({
-//   title: prismic.as(metaTitle.value),
-//   description: `${event.value?.data.meta_description}`,
-//   canonicalUrl: `${process.env.BASE_URL}/${agenda}/${uid}`,
-//   image: `${event.value?.data.image_vignette.Vignette.url}`,
-//   imageAlt: `${event.value?.data.image_vignette.Vignette.alt}`,
-// })
-
+const metaTitle: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
 const imgBanner = computed(() => (isFilled.image(event.value?.data.image_banner)) ? event.value?.data.image_banner : null)
+
+useSeo({
+  title: `${metaTitle.value}`,
+  description: `${metaDescription.value}`,
+  image: null, // imgBanner ?? `${event.value?.data.image_vignette.Vignette.url}`,
+  imageAlt: null // `${event.value?.data.image_vignette.Vignette.alt}`,
+})
+
 </script>
 
 <template>

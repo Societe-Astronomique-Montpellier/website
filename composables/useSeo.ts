@@ -1,20 +1,21 @@
-import type {Image} from "@prismicio/types-internal/lib/customtypes";
-import type {ComputedRef} from "vue";
+import type {RuntimeConfig} from "@nuxt/schema";
+import defaultImg from '@/assets/images/SAM_0054-1038x576.jpg'
 
 export interface IItem {
     title: string,
     description?: string,
-    canonicalUrl: string,
     image?: any,
     imageAlt?: string | null
 }
 export const useSeo = (item: IItem): void => {
     const { t, locale } = useI18n();
-    const config = useRuntimeConfig();
+    const url: URL = useRequestURL()
+    const config: RuntimeConfig = useRuntimeConfig();
 
     const facebookAppId: string = config.public.facebookAppId as string;
 
     const titleName: string = t('layout.title')
+
     useHead({
         title: (): string => `${item.title} | ${titleName}`,
         meta: [
@@ -24,15 +25,22 @@ export const useSeo = (item: IItem): void => {
         htmlAttrs: {
             lang: locale
         },
+        link: [
+            {
+                rel: 'icon',
+                type: 'image/png',
+                href: '/favicon.ico'
+            }
+        ]
     });
 
     useSeoMeta({
         fbAppId: facebookAppId,
-        ogUrl: item.canonicalUrl,
+        ogUrl: `${url}`,
         ogType: 'website',
         ogTitle: `${item.title} | ${titleName}`,
         ogDescription: item.title,
-        ogImage: item.image,
+        ogImage: item.image ?? defaultImg,
         ogImageAlt: item.imageAlt,
         ogLocale: locale,
         ogSiteName: titleName,
@@ -40,7 +48,7 @@ export const useSeo = (item: IItem): void => {
         twitterSite: titleName,
         twitterTitle: `${item.title} | ${titleName}`,
         twitterDescription: item.description,
-        twitterImage: '',
-        twitterImageAlt: ''
+        twitterImage: item.image ?? defaultImg,
+        twitterImageAlt: item.imageAlt
     })
 }

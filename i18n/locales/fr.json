@@ -23,5 +23,28 @@
   "agenda": {
     "titleBlockNext": "Évenements à venir",
     "titleBlockPast": "Évenements passés"
+  },
+  "form": {
+    "contact": {
+      "name": {
+        "label": "Nom",
+        "placeholder": ""
+      },
+      "email": {
+        "label": "Adresse e-mail",
+        "placeholder": ""
+      },
+      "subject": {
+        "label": "Sujet",
+        "placeholder": ""
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": ""
+      },
+      "submit": {
+        "label": "Envoyer"
+      }
+    }
   }
 }

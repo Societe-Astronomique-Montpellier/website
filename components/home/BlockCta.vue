@@ -1,5 +1,7 @@
 <script setup lang="ts">
 // source https://tailwindflex.com/@noah/call-to-action-card-with-image
+const ImageCopyright = defineAsyncComponent(() => import('@/components/Layouts/imageCopyright.vue'))
+
 export interface Props {
   block: any
 }
@@ -9,12 +11,14 @@ const { block } = toRefs(props)
 // RichText serializer
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
+
+const { isMobile, isDesktop } = useDevice();
 </script>
 
 <template>
   <div class="lg:px-2 lg:py-20 py-0 w-full flex justify-center">
 		<div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
-			<div class="lg:w-1/2">
+			<div class="lg:w-1/2" v-if="isDesktop">
 				<div class="lg:scale-110 lg:h-full h-100 bg-cover rounded-b-none border lg:rounded-lg"
 					:style="{ backgroundImage: `url(${block.data.image?.url})` }">
 				</div>
@@ -48,6 +52,7 @@ const richTextSerializer = useRichTextSerializer();
 
 				</div>
 			</div>
+      <ImageCopyright :image="block.data.image" v-if="isMobile" />
 		</div>
 	</div>
 </template>

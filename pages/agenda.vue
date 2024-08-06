@@ -16,7 +16,7 @@ const BlockListCards = defineAsyncComponent(() => import('@/components/home/Bloc
 
 const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
 
-const { data: list_events, error } = useAsyncData(
+const { data: list_events, error } = useLazyAsyncData(
   'list_events',
   async () => {
     const [agenda, futurEvents, pastEvents] = await Promise.all([
@@ -40,7 +40,7 @@ const { data: list_events, error } = useAsyncData(
         }
       }) as EventDocument[]
     ])
-    
+
     return {
       agenda: agenda,
       next: futurEvents,

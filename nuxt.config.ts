@@ -15,7 +15,12 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "@nuxtjs/html-validator",
     "@nuxt/image",
-    "@nuxtjs/robots"
+    ["@nuxtjs/robots", {
+      rules: [
+        { UserAgent: "*" },
+        { Allow: "*" },
+      ],
+    }]
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -79,13 +84,6 @@ export default defineNuxtConfig({
         lang: 'fr'
       }
     }	  
-  },
-  robots: {
-    rules: [
-      { UserAgent: "*" },
-      { Disallow: "/" },
-      { Allow: "*" },
-    ],
   },
   compatibilityDate: '2024-07-04',
   runtimeConfig: {

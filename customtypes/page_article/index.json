@@ -42,6 +42,20 @@
           "thumbnails": []
         }
       },
+      "image_vignette": {
+        "type": "Image",
+        "config": {
+          "label": "Vignette (page d'accueil)",
+          "constraint": {},
+          "thumbnails": [
+            {
+              "name": "Vignette",
+              "width": 780,
+              "height": 520
+            }
+          ]
+        }
+      },
       "content": {
         "type": "StructuredText",
         "config": {

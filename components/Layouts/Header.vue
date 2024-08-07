@@ -57,7 +57,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
       <!-- Mobile toggle -->
       <div class="md:hidden" v-if="isMobile">
-        <button @click="drawer" name="openMenu" role="button" aria-label="openMenu">
+        <button type="button" @click="drawer" name="openMenu" role="button" aria-label="openMenu">
           <svg
               class="h-8 w-8 fill-current text-gray-900 mt-1"
               fill="none" stroke-linecap="round"
@@ -117,7 +117,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       >
 
         <div class="close">
-          <button class="absolute top-0 right-0 mt-4 mr-4" @click=" isOpen = false" role="button" aria-label="Close">
+          <button class="absolute top-0 right-0 mt-4 mr-4" type="button" @click=" isOpen = false" role="button" aria-label="Close">
             <svg
                 class="w-6 h-6"
                 fill="none" stroke-linecap="round"

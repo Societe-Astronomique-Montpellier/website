@@ -941,6 +941,17 @@ interface PageArticleDocumentData {
   image_banner: prismic.ImageField<never>;
 
   /**
+   * Vignette (page d'accueil) field in *Page article*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.image_vignette
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_vignette: prismic.ImageField<"Vignette">;
+
+  /**
    * Contenu field in *Page article*
    *
    * - **Field Type**: Rich Text

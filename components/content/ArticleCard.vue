@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
+import type {ImageField} from "@prismicio/client";
 
 export interface Props {
   item: PageArticleDocument
@@ -8,17 +9,17 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { item, parentItem } = toRefs(props)
+
+const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
 </script>
 
 <template>
-  <!-- component -->
   <div v-if="item" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-md h-64 overflow-hidden">
     <prismic-link :field="item" :aria-label="item.data.title">
-      <article class="relative isolate flex flex-col justify-end overflow-hidden rounded-md px-8 pb-8 pt-40 max-w-sm mx-auto">
-        <prismic-image v-if="item.data.image_banner.id" :field="item.data.image_banner" class="absolute bg-cover inset-0 h-full w-full object-cover" :width="item.data.image_banner.dimensions.width" :height="item.data.image_banner.dimensions.height" />
-        <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-        <h3 class="z-10 gap-y-1 overflow-hidden mt-3 text-2xl leading-6 text-gray-300">{{ item.data.title }}</h3>
-      </article>
+      <div class="relative">
+        <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" width="780" height="520" :aria-placeholder="[780, 520]" />
+        <h3 class="mt-1 absolute inset-0 z-10 flex justify-center items-center text-xl text-white bg-gradient-to-t from-gray-900">{{ item.data.title }}</h3>
+      </div>
     </prismic-link>
   </div>
 </template>

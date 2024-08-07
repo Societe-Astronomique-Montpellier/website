@@ -22,7 +22,6 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
 <template>
 
   <div v-if="item" class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-md h-64 overflow-hidden">
-    <!--    780*520-->
     <prismic-link :field="item" :aria-label="item.data.title">
       <div class="relative">
         <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" width="780" height="520" :aria-placeholder="[780, 520]" />

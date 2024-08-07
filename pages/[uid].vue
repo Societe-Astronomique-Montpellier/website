@@ -55,7 +55,7 @@ const { data: page_thematique, error} = useLazyAsyncData(
 const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 
 const richTextSerializer = useRichTextSerializer();
-const formatedDate = useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short');
+const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short'));
 
 const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(page_thematique.value?.thematic.data.meta_title) ? `${page_thematique.value?.thematic.data.meta_title}` : `${page_thematique.value?.thematic.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_description}`);
@@ -92,10 +92,10 @@ if (metaTitle.value) {
               />
 
               <div class="text-gray-700 text-xs mt-5">
-                <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                  {{ $t('page.author')}} {{ page_thematique.thematic.data.author }}
+                <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+                  {{ $t('page.author')}} {{ page_thematique?.thematic.data.author }}
                 </span> le
-                  <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+                <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out" v-if="formatedDate">
                   {{ formatedDate }}
                 </span>
               </div>

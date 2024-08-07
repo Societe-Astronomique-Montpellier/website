@@ -55,8 +55,8 @@ import {useSeo} from "@/composables/useSeo";
 
 const richTextSerializer = useRichTextSerializer();
 
-const titleBlockNext: ComputedRef<string>  = computed<string>(() => t('agenda.titleBlockNext'))
-const titleBlockPast: ComputedRef<string>  = computed<string>(() => t('agenda.titleBlockPast'))
+const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
+const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);

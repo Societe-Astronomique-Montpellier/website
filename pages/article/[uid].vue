@@ -23,8 +23,8 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import type {ComputedRef} from "vue";
-const formatedDate = useFormatIntoFrenchDate(article.value?.last_publication_date, 'short');
 
+const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_banner.url}`)
@@ -55,10 +55,10 @@ useSeo({
           ></prismic-rich-text>
 
           <p class="text-gray-700 text-xs mt-5">
-            <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              {{ $t('page.author') }} {{ article.data.author }}
+            <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+              {{ $t('page.author') }} {{ article?.data.author }}
             </span> le
-            <span class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+            <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ formatedDate }}
               </span>
           </p>

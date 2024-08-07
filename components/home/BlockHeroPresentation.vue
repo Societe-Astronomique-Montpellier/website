@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type {ComputedRef} from "vue";
+
 const { t } = useI18n();
 export interface Props {
   block: any
@@ -9,7 +11,7 @@ const { block } = toRefs(props)
 const { isMobile } = useDevice();
 
 import logo from '@/assets/images/logo.png'
-const title = computed<string>(() => t('layout.title'))
+const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
 </script>
 
 <template>
@@ -30,7 +32,7 @@ const title = computed<string>(() => t('layout.title'))
           </h2>
         </div>
         <div v-else>
-          <nuxt-img :src="logo" class="h-48 rounded-full" :title="title" :aria-label="title" />
+          <nuxt-img :src="logo" class="h-48 rounded-full" :title="title" :aria-label="title" width="48" height="48" loading="lazy" />
         </div>
       </div>
     </div>

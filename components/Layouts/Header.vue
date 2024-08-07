@@ -40,7 +40,7 @@ watch(() => isOpen.value, (isOpen) => {
 
 const drawer = () =>  isOpen.value = !isOpen.value;
 const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
-import logo from '@/assets/images/logo.png';
+
 </script>
 
 <template>
@@ -50,7 +50,7 @@ import logo from '@/assets/images/logo.png';
       <!-- Header logo -->
       <div class="" v-if="!isMobile">
         <NuxtLink to="/" aria-label="home">
-          <NuxtImg :src="logo" class="mr-3 h-16 rounded-full border" alt="Logo Société Astronomique de Montpellier" />
+          <nuxt-img src="assets/images/logo.png" class="mr-3 h-16 rounded-full border" width="16" height="16" :alt="t('layout.title')" loading="lazy" :title="t('layout.title')" :aria-label="t('layout.title')" />
         </NuxtLink>
 
       </div>
@@ -127,9 +127,9 @@ import logo from '@/assets/images/logo.png';
           </button>
         </div>
 
-        <span @click="isOpen = false" class="flex w-full items-center p-4 border-b">
-          <Tailwind />
-        </span>
+<!--        <span @click="isOpen = false" class="flex w-full items-center p-4 border-b">-->
+<!--          <Tailwind />-->
+<!--        </span>-->
 
         <nav aria-label="menu-responsive">
           <ul class="divide-y" role="menubar">

@@ -33,7 +33,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
             //     ? ''
             //     : `target="${node.data.target} " rel="noopener"`
             // const url = linkResolver(node.data)
-            return `<a href="${node.data.url}" class="text-indigo-700" target="_blank" rel="noopener">${children}</a>`
+            return `<a href="${node.data.url}" class="text-indigo-700" target="_blank" rel="noopener" aria-label="${children}">${children}</a>`
         },
         // list
         list:  ({ children }) => `<ul class="mb-6 font-light text-gray-500 lg:mb-8 ">${children}</ul>`,

@@ -123,19 +123,16 @@ useSeo({
 </script>
 
 <template>
-  <a id="hero" aria-label="hero" />
   <div v-if="home">
     <BlockHeroPresentation
       :block="home.blocks.hero"
     />
 
-    <a id="testimonial" aria-label="testimonial" />
     <BlockTestimonial
       :block="home.blocks.testimonial"
     />
 
     <!-- thematics block -->
-    <a id="thematics" aria-label="thematics" />
     <BlockListCards
       :titleBlock="home.data.block_thematics_title"
       :items="home.blocks.thematics"
@@ -147,13 +144,11 @@ useSeo({
     </BlockListCards>
 
     <!-- Call to action -->
-    <a id="cta" aria-label="cta" />
     <BlockCta
       :block="home.blocks.cta"
     />
 
     <!-- Evenements -->
-    <a id="events" aria-label="events" />
     <BlockListCards
       :titleBlock="home.data.block_events_title"
       :items="home.blocks.events"

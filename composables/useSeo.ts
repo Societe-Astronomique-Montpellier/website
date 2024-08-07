@@ -17,7 +17,7 @@ export const useSeo = (item: IItem): void => {
     const titleName: string = t('layout.title')
 
     useHead({
-        title: (): string => `${item.title} | ${titleName}`,
+        title: (): string => `${item.title.slice(70)}`,
         meta: [
             { name: 'title', content: `${item.title} | ${titleName}` },
             { name: 'description', content: item.description }

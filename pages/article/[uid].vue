@@ -46,8 +46,8 @@ useSeo({
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-          <h2 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h2>
-          <h3 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h3>
+          <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
+          <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
 
           <prismic-rich-text
             :field="article.data.content"

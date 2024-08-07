@@ -13,8 +13,8 @@
       </div>
       <div class="flex justify-center items-center">
         <a
-            href="#!"
-            class="mr-6 text-neutral-600 dark:text-neutral-200"
+          href="#!"
+          class="mr-6 text-neutral-600 dark:text-neutral-200"
         >
           <svg
               xmlns="http://www.w3.org/2000/svg"

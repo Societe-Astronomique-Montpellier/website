@@ -17,8 +17,8 @@ definePageMeta({
   layout: 'home',
 });
 
-const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
-
+// const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
+const dateNow = useState('dateNow', () => new Date().toISOString().split('T')[0])
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
@@ -123,19 +123,19 @@ useSeo({
 </script>
 
 <template>
-  <a id="hero" />
+  <a id="hero" aria-label="hero" />
   <div v-if="home">
     <BlockHeroPresentation
       :block="home.blocks.hero"
     />
 
-    <a id="testimonial" />
+    <a id="testimonial" aria-label="testimonial" />
     <BlockTestimonial
       :block="home.blocks.testimonial"
     />
 
     <!-- thematics block -->
-    <a id="thematics" />
+    <a id="thematics" aria-label="thematics" />
     <BlockListCards
       :titleBlock="home.data.block_thematics_title"
       :items="home.blocks.thematics"
@@ -147,20 +147,20 @@ useSeo({
     </BlockListCards>
 
     <!-- Call to action -->
-    <a id="cta" />
+    <a id="cta" aria-label="cta" />
     <BlockCta
       :block="home.blocks.cta"
     />
 
     <!-- Evenements -->
-    <a id="events" />
+    <a id="events" aria-label="events" />
     <BlockListCards
       :titleBlock="home.data.block_events_title"
       :items="home.blocks.events"
       :parentItem="home.agendaHome"
     >
       <template v-slot:content-block-bottom>
-        <NuxtLink to="/agenda" class="text-indigo-400 inline-flex items-start mt-4 text-xl">
+        <NuxtLink to="/agenda" class="text-indigo-400 inline-flex items-start mt-4 text-xl" aria-label="agenda">
           {{ home.data.block_events_text }}&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
         </NuxtLink>
       </template>

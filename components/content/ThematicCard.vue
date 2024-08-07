@@ -20,8 +20,9 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
 <!--    780*520-->
     <prismic-link
       :field="item"
+      :aria-label="item.data.title"
     >
-      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" />
+      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" width="780" height="520" :aria-placeholder="[780, 520]" />
     </prismic-link>
   </div>
 
@@ -35,6 +36,7 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
     <prismic-link
       class="text-indigo-400 inline-flex items-center mt-3"
       :field="item"
+      :aria-label="item.data.title"
     >
       {{ $t('layout.moreInfo') }}&nbsp;<Icon name="material-symbols:arrow-right-alt" size="20" />
     </prismic-link>

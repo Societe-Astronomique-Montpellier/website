@@ -81,8 +81,8 @@ if (metaTitle.value) {
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs :listIds="[page_thematique.thematic.id]" :currentUid="page_thematique.thematic.uid" />
-            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.thematic.data.title }}</h2>
-            <h3 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h3>
+            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.thematic.data.title }}</h1>
+            <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h2>
 
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
             <div class="my-8 grid gap-6 px-4">

@@ -12,7 +12,9 @@ export default defineNuxtConfig({
     "@nuxtjs/leaflet",
     "@nuxtjs/device",
     "@nuxtjs/i18n",
-    "@nuxtjs/robots"
+    "@nuxtjs/robots",
+    "@nuxtjs/html-validator",
+    "@nuxt/image"
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -71,7 +73,10 @@ export default defineNuxtConfig({
         { charset: 'utf-8' },
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       ],
-      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }]
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.ico' }],
+      htmlAttrs: {
+        lang: 'fr'
+      }
     }	  
   },
   compatibilityDate: '2024-07-04',

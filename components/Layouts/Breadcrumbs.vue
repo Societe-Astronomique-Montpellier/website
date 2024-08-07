@@ -42,6 +42,7 @@ const { data: items, error } = await useAsyncData(
             :field="item"
             class="ms-1 inline-flex items-center text-sm font-medium text-gray-700"
             v-if="currentUid !== item.uid"
+            :aria-label="item.data.title"
           >
             <span class="ms-1 text-sm font-medium text-gray-700 md:ms-2" v-if="item">
               {{ item.data.title }}

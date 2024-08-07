@@ -14,7 +14,8 @@ const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderP
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
 
-const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
+// const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
+const dateNow = useState('dateNow', () => new Date().toISOString().split('T')[0])
 
 const { data: list_events, error } = useLazyAsyncData(
   'list_events',
@@ -80,7 +81,7 @@ useSeo({
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="list_events" :listIds="[list_events.agenda.id]" :currentUid="list_events.agenda.uid" />
-            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ list_events?.agenda.data.title }}</h2>
+            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ list_events?.agenda.data.title }}</h1>
             <div class="my-8 grid gap-6 px-4">
               <prismic-rich-text
                   :field="list_events?.agenda.data.content"

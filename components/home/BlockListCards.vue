@@ -26,7 +26,7 @@ const { getComponent } = useDynamicCardComponent();
           <div class="w-24 h-full bg-indigo-500"></div>
         </div>
         <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
-          <h1 class="sm:w-2/5 text-white font-medium title-font text-2xl mb-2 sm:mb-0">{{ titleBlock }}</h1>
+          <h3 class="sm:w-2/5 text-white font-medium title-font text-2xl mb-2 sm:mb-0">{{ titleBlock }}</h3>
           <slot name="content-block-top"></slot>
         </div>
       </div>

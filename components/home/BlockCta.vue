@@ -25,12 +25,12 @@ const { isMobile, isDesktop } = useDevice();
 				</div>
 			</div>
 			<div class="py-12 px-6 lg:px-12 max-w-xl lg:max-w-5xl lg:w-1/2 rounded-t-none border lg:rounded-lg">
-				<h2 class="text-3xl text-gray-800 font-bold">
+				<h3 class="text-3xl text-gray-800 font-bold">
           {{ block.data.title }}
 					<span class="text-indigo-600">
             {{ block.data.subtitle }}
           </span>
-				</h2>
+				</h3>
 				<div class="mt-4 text-gray-600">
           <prismic-rich-text
               :field="block.data.resume" :serializer="richTextSerializer" />
@@ -40,16 +40,14 @@ const { isMobile, isDesktop } = useDevice();
 				<div v-if="true === block.data.display_button_link" class="mt-8 flex justify-center">
           <NuxtLink
             :to="block.data.link.url"
-            target="_blabk"
+            target="_blank"
+            data-twe-ripple-init
+            data-twe-ripple-color="light"
+            :aria-label="t('layout.moreInfo')"
+            type="button"
+            class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
           >
-            <button
-                type="button"
-                data-twe-ripple-init
-                data-twe-ripple-color="light"
-                :aria-label="t('layout.moreInfo')"
-                class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong">
               {{ $t('layout.moreInfo') }}
-            </button>
           </NuxtLink>
 
 				</div>

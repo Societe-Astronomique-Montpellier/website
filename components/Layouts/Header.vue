@@ -40,7 +40,7 @@ watch(() => isOpen.value, (isOpen) => {
 
 const drawer = () =>  isOpen.value = !isOpen.value;
 const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
-
+import logo from '@/assets/images/logo.png';
 </script>
 
 <template>
@@ -49,8 +49,8 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
       <!-- Header logo -->
       <div class="" v-if="!isMobile">
-        <NuxtLink to="/">
-          <img src="@/assets/images/logo.png" class="mr-3 h-16 rounded-full border" alt="Logo Société Astronomique de Montpellier">
+        <NuxtLink to="/" aria-label="home">
+          <NuxtImg :src="logo" class="mr-3 h-16 rounded-full border" alt="Logo Société Astronomique de Montpellier" />
         </NuxtLink>
 
       </div>
@@ -70,7 +70,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
       <!-- Navbar -->
       <nav class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" aria-label="navigation">
-        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar" aria-label="">
+        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
           <HeaderNavItem
               v-for="(item, index) in navigation?.data.header_navigation"
               :key="index"
@@ -82,14 +82,13 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
             </prismic-link>
           </HeaderNavItem>
 
-          <NuxtLink to="/contact">
-            <button
-              type="button"
-              class="md:justify-center inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
-              :aria-label="t('layout.header.btnContact')"
-            >
-              {{ $t('layout.header.btnContact') }}
-            </button>
+          <NuxtLink
+            to="/contact"
+            type="button"
+            :aria-label="t('layout.header.btnContact')"
+            class="md:justify-center inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+          >
+            {{ $t('layout.header.btnContact') }}
           </NuxtLink>
         </ul>
       </nav>
@@ -140,14 +139,13 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
               </prismic-link>
             </li>
 
-            <NuxtLink to="/contact" class="my-4 inline-block">
-              <button
-                  type="button"
-                  role="link"
-                  class="inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
-              >
-                {{ $t('layout.header.btnContact') }}
-              </button>
+            <NuxtLink
+              to="/contact"
+              :aria-label="t('layout.header.btnContact')"
+              type="button"
+              class="my-4 inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+            >
+              {{ $t('layout.header.btnContact') }}
             </NuxtLink>
           </ul>
         </nav>

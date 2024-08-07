@@ -4,6 +4,7 @@ import type { KeyTextField } from "@prismicio/client";
 const prismic = usePrismic()
 const route = useRoute();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
+const { t } = useI18n()
 
 definePageMeta({
   layout: 'page',
@@ -73,7 +74,7 @@ if (event.value) {
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" :currentUid="event.uid" />
-            <h2 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h2>
+            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h1>
             <div class="my-8 grid gap-6 px-4">
               <prismic-rich-text
                 :field="event.data.resume"
@@ -98,6 +99,7 @@ if (event.value) {
                   <prismic-link
                     :field="event.data.link"
                     class="text-indigo-400 inline-flex items-center mt-3"
+                    :aria-label="t('layout.moreInfo')"
                    >
                     {{ $t('layout.moreInfo') }}
                     <Icon name="material-symbols:arrow-right-alt" />

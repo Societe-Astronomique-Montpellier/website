@@ -27,7 +27,7 @@ const richTextSerializer = useRichTextSerializer();
   <section class="bg-gray-100" v-if="block">
     <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
       <div class="max-w-2xl lg:max-w-4xl mx-auto text-center">
-        <h2 class="text-3xl font-extrabold text-gray-800">{{ block.data.title }}</h2>
+        <h3 class="text-3xl font-extrabold text-gray-800">{{ block.data.title }}</h3>
         <div class="mt-4 text-lg text-gray-600">
           <prismic-rich-text
               :field="block.data.subtitle" :serializer="richTextSerializer" />

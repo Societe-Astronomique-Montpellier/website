@@ -106,7 +106,7 @@ interface BlockCtaDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image: prismic.ImageField<never>;
+  image: prismic.ImageField<"mobile">;
 
   /**
    * Résumé field in *Bloc CallTo Action*
@@ -296,7 +296,7 @@ interface BlockTestimonialDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  testimonial_vignette_1: prismic.ImageField<never>;
+  testimonial_vignette_1: prismic.ImageField<"mobile">;
 
   /**
    * Testimonial texte 2 field in *Bloc testimonial*

@@ -40,7 +40,13 @@
         "config": {
           "label": "Testimonial vignette 1",
           "constraint": {},
-          "thumbnails": []
+          "thumbnails": [
+            {
+              "name": "mobile",
+              "width": 400,
+              "height": ""
+            }
+          ]
         }
       },
       "testimonial_text_2": {

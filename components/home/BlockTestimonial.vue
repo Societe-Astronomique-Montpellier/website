@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import type {ComputedRef} from "vue";
+import type {ImageField} from "@prismicio/client";
+
 const ImageCopyright = defineAsyncComponent(() => import('@/components/Layouts/imageCopyright.vue'))
 
 export interface Props {
@@ -7,6 +10,8 @@ export interface Props {
 const props = defineProps<Props>()
 const { block } = toRefs(props)
 
+const { isMobile } = useDevice();
+const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() => isMobile ? block?.value.data.testimonial_vignette_1?.mobile : block?.value.data.testimonial_vignette_1)
 </script>
 
 <template>
@@ -29,7 +34,7 @@ const { block } = toRefs(props)
       </div>
     </div>
       <div class="lg:mt-0 lg:col-span-5 lg:flex rounded-lg">
-        <ImageCopyright :image="block.data.testimonial_vignette_1" />
+        <ImageCopyright :image="optimizedImage" />
       </div>
   </div>
 </section>

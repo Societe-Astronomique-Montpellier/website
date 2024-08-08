@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type {ComputedRef} from "vue";
+
 const { t } = useI18n()
 // source https://tailwindflex.com/@noah/call-to-action-card-with-image
 const ImageCopyright = defineAsyncComponent(() => import('@/components/Layouts/imageCopyright.vue'))
@@ -11,9 +13,11 @@ const { block } = toRefs(props)
 
 // RichText serializer
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
+import type {ImageField} from "@prismicio/client";
 const richTextSerializer = useRichTextSerializer();
 
 const { isMobile, isDesktop } = useDevice();
+const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() => isMobile ? block?.value.data.image?.mobile : block?.value.data.image)
 </script>
 
 <template>
@@ -21,7 +25,7 @@ const { isMobile, isDesktop } = useDevice();
 		<div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
 			<div class="lg:w-1/2" v-if="isDesktop">
 				<div class="lg:scale-110 lg:h-full h-100 bg-cover rounded-b-none border lg:rounded-lg"
-					:style="{ backgroundImage: `url(${block.data.image?.url})` }">
+					:style="{ backgroundImage: `url(${optimizedImage?.url})` }">
 				</div>
 			</div>
 			<div class="py-12 px-6 lg:px-12 max-w-xl lg:max-w-5xl lg:w-1/2 rounded-t-none border lg:rounded-lg">
@@ -52,7 +56,7 @@ const { isMobile, isDesktop } = useDevice();
 
 				</div>
 			</div>
-      <ImageCopyright :image="block.data.image" v-if="isMobile" />
+      <ImageCopyright :image="optimizedImage" v-if="isMobile" />
 		</div>
 	</div>
 </template>

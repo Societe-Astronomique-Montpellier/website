@@ -3,6 +3,7 @@ import type {EventDocument, EventsDocument} from "@/prismicio-types";
 import type {ImageField} from "@prismicio/client";
 
 const { t } = useI18n();
+const { isMobile } = useDevice()
 
 export interface Props {
   item: EventDocument,
@@ -15,7 +16,7 @@ const { item } = toRefs(props)
 import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
 const startDate = useFormatIntoFrenchDate(item.value?.data.time_start, 'short');
 
-const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
+const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
 
 </script>
 

@@ -11,7 +11,7 @@ const { isMobile } = useDevice()
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import type {ImageField} from "@prismicio/client";
 const richTextSerializer = useRichTextSerializer();
-const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette )
+const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
 
 </script>
 

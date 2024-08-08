@@ -407,7 +407,7 @@ interface EventDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_vignette: prismic.ImageField<"Vignette">;
+  image_vignette: prismic.ImageField<"vignette" | "mobile">;
 
   /**
    * Contenu field in *Evenement*

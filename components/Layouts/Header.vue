@@ -50,7 +50,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       <!-- Header logo -->
       <div class="" v-if="!isMobile">
         <NuxtLink to="/" aria-label="home">
-          <nuxt-img src="assets/images/logo.png" class="mr-3 h-16 rounded-full border" width="16" height="16" :alt="t('layout.title')" loading="lazy" :title="t('layout.title')" :aria-label="t('layout.title')" />
+          <nuxt-img src="/images/logo.png" class="mr-3 h-16 rounded-full border" sizes="md:20vw" :alt="t('layout.title')" loading="lazy" :title="t('layout.title')" :aria-label="t('layout.title')" />
         </NuxtLink>
 
       </div>

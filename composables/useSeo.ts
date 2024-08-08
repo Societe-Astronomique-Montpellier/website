@@ -1,5 +1,5 @@
 import type {RuntimeConfig} from "@nuxt/schema";
-import defaultImg from '@/assets/images/SAM_0054-1038x576.jpg'
+import defaultImg from '../public/images/SAM_0054-1038x576.jpg'
 
 export interface IItem {
     title: string,

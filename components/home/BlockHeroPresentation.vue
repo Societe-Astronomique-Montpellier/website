@@ -10,15 +10,16 @@ const props = defineProps<Props>()
 const { block } = toRefs(props)
 const { isMobile } = useDevice();
 
-import logo from '@/assets/images/logo.png'
+import logo from '../../public/images/logo.png'
 const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
+const optimizedBgdImage: ComputedRef<string> = computed<string>(() => isMobile ? block?.value.data.image?.mobile?.url : block?.value.data.image?.url)
 </script>
 
 <template>
   <div
     v-if="block"
     class="relative h-96 overflow-hidden bg-cover bg-scroll  bg-no-repeat p-12 text-center lg:h-screen"
-    :style="{backgroundImage: `url(${block?.data?.image?.url})`}"
+    :style="{backgroundImage: `url(${optimizedBgdImage})`}"
   >
     <div
         class="absolute bg-scroll bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
@@ -32,7 +33,7 @@ const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
           </h2>
         </div>
         <div v-else>
-          <nuxt-img :src="logo" class="h-48 rounded-full" :title="title" :aria-label="title" width="48" height="48" loading="lazy" />
+          <nuxt-img src="./public/images/logo.png" class="h-48 rounded-full" :title="title" :aria-label="title" sizes="sm:20vw"  />
         </div>
       </div>
     </div>
@@ -41,7 +42,7 @@ const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
     <h1 class="mt-2 text-2xl">
       {{ block.data.title }}
     </h1>
-    <h2 class="text-xl italic">
+    <h2 class="text-xl mt-2 italic">
       {{ block.data.subtitle }}
     </h2>
 

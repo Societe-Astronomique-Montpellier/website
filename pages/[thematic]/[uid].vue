@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import {useSeo} from "~/composables/useSeo";
+import {isFilled} from "@prismicio/helpers";
+import type { PageArticleDocument } from "~/prismicio-types";
 
 const prismic = usePrismic();
-import type { PageArticleDocument } from "~/prismicio-types";
 
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 
@@ -22,15 +23,16 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import type {ComputedRef} from "vue";
-import {isFilled} from "@prismicio/helpers";
-const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 
+const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
+const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_banner.url}`)
+
 useSeo({
   title: `${metaTitle.value}`,
   description: `${metaDescription.value}`,
-  image: `${article.value?.data.meta_image.url}`,
+  image: `${metaImage.value}`,
   imageAlt: `${article.value?.data.meta_image.alt}`,
 })
 </script>
@@ -38,7 +40,7 @@ useSeo({
 <template>
   <div class="max-w-screen-lg w-full mx-auto relative" v-if="article">
     <HeaderPage
-        :image="article.data.image_banner"
+      :image="article.data.image_banner"
     />
     <div class="max-w-3xl mx-auto">
       <div

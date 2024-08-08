@@ -11,11 +11,11 @@ definePageMeta({
 
 const submittedFormData: Ref<boolean | null> = ref(null)
 
-const handleContactFormSubmission = async (/*submitFormData: any*/) => {
+const handleContactFormSubmission = async (formData: any) => {
   // submittedFormData.value = submitFormData;
   setTimeout(async () => {
     try {
-      alert('message send')
+      console.log(formData)
     } catch (err) {}
   }, 1000)
 }
@@ -38,11 +38,11 @@ useSeo({
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ $t('contact.title') }}</h1>
-            <div class="my-8 grid gap-6 px-4">
+            <div class="my-8 grid gap-6 px-2">
               <p class="text-justify text-base leading-8 mt-2 my-5">
                 {{ $t('contact.subtitle') }}
               </p>
-              <FormContact @submit-form="handleContactFormSubmission" />
+              <FormContact @submit="handleContactFormSubmission" />
             </div>
           </div>
         </div>

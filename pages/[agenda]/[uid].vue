@@ -75,7 +75,7 @@ if (event.value) {
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" :currentUid="event.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h1>
-            <div class="my-8 grid gap-6 px-4">
+            <div class="my-8 grid gap-6 px-2">
               <prismic-rich-text
                 :field="event.data.resume"
                 :serializer="richTextSerializer"

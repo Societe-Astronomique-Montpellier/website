@@ -2,7 +2,7 @@
 import type {ImageField} from "@prismicio/client";
 import type {ComputedRef} from "vue";
 
-import defaultImg from '@/assets/images/default_banner.jpg'
+import defaultImg from '../../public/images/default_banner.jpg'
 import {isFilled} from "@prismicio/helpers";
 
 export interface IProps {

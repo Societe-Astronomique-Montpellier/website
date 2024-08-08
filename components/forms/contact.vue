@@ -37,27 +37,27 @@ const rules = computed(() => {
   }
 })
 
-const emit = defineEmits(['submit-form']);
-const submitContactForm = async () => emit('submit-form', {...formData})
+const emit = defineEmits(['submit']);
+const submitContactForm = async () => emit('submit', {...formData})
 
 </script>
 
 <template>
   <form action="#" class="space-y-8" @submit.prevent="submitContactForm">
     <div>
-      <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $t('form.contact.name.label') }}</label>
+      <label for="name" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.name.label') }}</label>
       <input
           v-model="formData.name"
           type="text"
           id="name"
           name="name"
-          class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+          class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
           :placeholder="t('form.contact.name.placeholder')"
           required
       >
     </div>
     <div>
-      <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $t('form.contact.email.label') }}</label>
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.email.label') }}</label>
       <input
           v-model="formData.email"
           type="email"
@@ -68,7 +68,7 @@ const submitContactForm = async () => emit('submit-form', {...formData})
           required>
     </div>
     <div>
-      <label for="subject" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ $t('form.contact.subject.label') }}</label>
+      <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.subject.label') }}</label>
       <input
           v-model="formData.subject"
           type="text"
@@ -80,7 +80,7 @@ const submitContactForm = async () => emit('submit-form', {...formData})
       >
     </div>
     <div class="sm:col-span-2">
-      <label for="message" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">{{ $t('form.contact.message.label') }}</label>
+      <label for="message" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.message.label') }}</label>
       <textarea
         id="message"
         rows="6"
@@ -89,10 +89,9 @@ const submitContactForm = async () => emit('submit-form', {...formData})
       ></textarea>
     </div>
     <button
-        type="submit"
-        :aria-label="t('form.contact.submit.label')"
-        disabled
-        class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+      type="submit"
+      :aria-label="t('form.contact.submit.label')"
+      class="py-3 px-5 text-sm font-medium text-center text-white rounded-lg bg-primary-700 sm:w-fit hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
     >{{ $t('form.contact.submit.label') }}</button>
   </form>
 </template>

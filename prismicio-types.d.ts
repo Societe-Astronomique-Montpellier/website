@@ -218,7 +218,7 @@ interface BlockHeroDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image: prismic.ImageField<never>;
+  image: prismic.ImageField<"mobile">;
 
   /**
    * Slice Zone field in *Bloc de présentation*

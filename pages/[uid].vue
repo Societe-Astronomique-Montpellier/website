@@ -85,7 +85,7 @@ if (metaTitle.value) {
             <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h2>
 
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
-            <div class="my-8 grid gap-6 px-4">
+            <div class="my-8 grid gap-6 px-2">
               <prismic-rich-text
                 :field="page_thematique.thematic.data.content"
                 :serializer="richTextSerializer"

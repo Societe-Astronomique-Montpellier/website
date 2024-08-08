@@ -82,7 +82,7 @@ useSeo({
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="list_events" :listIds="[list_events.agenda.id]" :currentUid="list_events.agenda.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ list_events?.agenda.data.title }}</h1>
-            <div class="my-8 grid gap-6 px-4">
+            <div class="my-8 grid gap-6 px-2">
               <prismic-rich-text
                   :field="list_events?.agenda.data.content"
                   :serializer="richTextSerializer"

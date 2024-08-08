@@ -50,7 +50,14 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       <!-- Header logo -->
       <div class="" v-if="!isMobile">
         <NuxtLink to="/" aria-label="home">
-          <nuxt-img src="/images/logo.png" class="mr-3 h-16 rounded-full border" sizes="md:20vw" :alt="t('layout.title')" loading="lazy" :title="t('layout.title')" :aria-label="t('layout.title')" />
+          <prismic-image
+            :field="navigation?.data.logo.menu"
+            class="mr-3 h-16 rounded-full border"
+            :alt="t('layout.title')"
+            loading="lazy"
+            :title="t('layout.title')"
+            :aria-label="t('layout.title')"
+          />
         </NuxtLink>
 
       </div>
@@ -115,7 +122,6 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
         v-if="isMobile"
         role="region"
       >
-
         <div class="close">
           <button class="absolute top-0 right-0 mt-4 mr-4" type="button" @click=" isOpen = false" role="button" aria-label="Close">
             <svg

@@ -37,6 +37,25 @@
             }
           }
         }
+      },
+      "logo": {
+        "type": "Image",
+        "config": {
+          "label": "Logo",
+          "constraint": {},
+          "thumbnails": [
+            {
+              "name": "menu",
+              "width": 64,
+              "height": null
+            },
+            {
+              "name": "homepage",
+              "width": 48,
+              "height": null
+            }
+          ]
+        }
       }
     }
   }

@@ -665,6 +665,17 @@ interface HeaderDocumentData {
   header_navigation: prismic.GroupField<
     Simplify<HeaderDocumentDataHeaderNavigationItem>
   >;
+
+  /**
+   * Logo field in *Bloc d'en-tête*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.logo
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  logo: prismic.ImageField<"menu" | "homepage">;
 }
 
 /**

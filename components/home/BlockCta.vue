@@ -37,9 +37,9 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() => isMob
 				</h3>
 				<div class="mt-4 text-gray-600">
           <prismic-rich-text
-              :field="block.data.resume" :serializer="richTextSerializer" />
+            :field="block.data.resume" :serializer="richTextSerializer" />
 				  <prismic-rich-text
-              :field="block.data.content" :serializer="richTextSerializer" />
+            :field="block.data.content" :serializer="richTextSerializer" />
 				</div>
 				<div v-if="true === block.data.display_button_link" class="mt-8 flex justify-center">
           <NuxtLink

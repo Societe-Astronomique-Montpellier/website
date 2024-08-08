@@ -27,6 +27,7 @@
     "@types/vue": "^2.0.0",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "nuxt": "^3.12.4",
+    "sharp": "^0.33.4",
     "tw-elements": "^2.0.0",
     "vue": "latest"
   },

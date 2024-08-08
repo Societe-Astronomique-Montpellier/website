@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type {ComputedRef} from "vue";
+import type {AllDocumentTypes, HeaderDocument} from "~/prismicio-types";
 
 const { t } = useI18n();
+const prismic = usePrismic()
+
 export interface Props {
   block: any
 }
@@ -10,7 +13,11 @@ const props = defineProps<Props>()
 const { block } = toRefs(props)
 const { isMobile } = useDevice();
 
-import logo from '../../public/images/logo.png'
+const { data: header, error } = useAsyncData(
+    'header',
+    async () => await prismic.client.getSingle<AllDocumentTypes>('header', { lang: 'fr-fr'}) as HeaderDocument
+)
+
 const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
 const optimizedBgdImage: ComputedRef<string> = computed<string>(() => isMobile ? block?.value.data.image?.mobile?.url : block?.value.data.image?.url)
 </script>
@@ -33,7 +40,7 @@ const optimizedBgdImage: ComputedRef<string> = computed<string>(() => isMobile ?
           </h2>
         </div>
         <div v-else>
-          <nuxt-img src="./public/images/logo.png" class="h-48 rounded-full" :title="title" :aria-label="title" sizes="sm:20vw"  />
+          <prismic-image v-if="header?.data.logo" :field="header?.data.logo.homepage" class="h-48 rounded-full" :title="title" :aria-label="title" />
         </div>
       </div>
     </div>

@@ -1082,7 +1082,7 @@ interface PageThematiqueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_vignette: prismic.ImageField<"Vignette">;
+  image_vignette: prismic.ImageField<"vignette" | "mobile">;
 
   /**
    * Bannière field in *Page thématique*
@@ -1093,7 +1093,7 @@ interface PageThematiqueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_banner: prismic.ImageField<never>;
+  image_banner: prismic.ImageField<"mobile">;
 
   /**
    * En-tête field in *Page thématique*

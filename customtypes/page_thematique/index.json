@@ -33,9 +33,14 @@
           "constraint": {},
           "thumbnails": [
             {
-              "name": "Vignette",
+              "name": "vignette",
               "width": 780,
               "height": 520
+            },
+            {
+              "name": "mobile",
+              "width": 320,
+              "height": 212
             }
           ]
         }
@@ -45,7 +50,13 @@
         "config": {
           "label": "Bannière",
           "constraint": {},
-          "thumbnails": []
+          "thumbnails": [
+            {
+              "name": "mobile",
+              "width": 1080,
+              "height": ""
+            }
+          ]
         }
       },
       "resume": {

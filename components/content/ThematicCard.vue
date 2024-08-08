@@ -7,11 +7,11 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { item } = toRefs(props)
-
+const { isMobile } = useDevice()
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import type {ImageField} from "@prismicio/client";
 const richTextSerializer = useRichTextSerializer();
-const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
+const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette )
 
 </script>
 
@@ -22,7 +22,7 @@ const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette
       :field="item"
       :aria-label="item.data.title"
     >
-      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" width="780" height="520" :aria-placeholder="[780, 520]" />
+      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" :width="imageVignette.dimensions?.width" :height="imageVignette.dimensions?.height" :aria-placeholder="[780, 520]" />
     </prismic-link>
   </div>
 

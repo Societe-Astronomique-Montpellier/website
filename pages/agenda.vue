@@ -53,7 +53,8 @@ const { data: list_events, error } = useLazyAsyncData(
 )
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-import {useSeo} from "@/composables/useSeo";
+import { useSeo } from "@/composables/useSeo";
+import {useBannerImage} from "@/composables/useBannerImage";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 
@@ -62,7 +63,7 @@ const richTextSerializer = useRichTextSerializer();
 const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
 
-const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? list_events.value?.agenda.data.image_banner.mobile : list_events.value?.agenda.data.image_banner.banner )
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(list_events.value?.agenda.data.image_banner, isMobile))
 const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
 

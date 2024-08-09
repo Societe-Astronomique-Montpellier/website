@@ -11,6 +11,11 @@ definePageMeta({
 
 const submittedFormData: Ref<boolean | null> = ref(null)
 
+import {useBannerImage} from "@/composables/useBannerImage";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import type {ImageField} from "@prismicio/client";
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(undefined, false))
+
 const handleContactFormSubmission = async (formData: any) => {
   // submittedFormData.value = submitFormData;
   setTimeout(async () => {

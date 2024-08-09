@@ -21,6 +21,7 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
 import { useSeo } from "@/composables/useSeo";
+import {useBannerImage} from "@/composables/useBannerImage";
 import type {ComputedRef} from "vue";
 import {isFilled} from "@prismicio/helpers";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
@@ -49,10 +50,11 @@ const markerCoordinates = computed(() => {
 const richTextSerializer = useRichTextSerializer();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(event.value?.data.image_banner, isMobile))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.data.meta_title)) ? `${event.value?.data.meta_title}` : `${event.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
-const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? event.value?.data.image_banner.mobile : event.value?.data.image_banner.banner )
+
 
 if (event.value) {
   useSeo({

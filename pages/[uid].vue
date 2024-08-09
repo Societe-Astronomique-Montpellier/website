@@ -29,6 +29,7 @@ import { useSeo } from "@/composables/useSeo";
 import {isFilled} from "@prismicio/helpers";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import {useBannerImage} from "@/composables/useBannerImage";
 
 const { uid } = route.params as { uid: string }
 
@@ -61,7 +62,7 @@ const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 const richTextSerializer = useRichTextSerializer();
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short'));
 
-const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? page_thematique.value?.thematic.data.image_banner.mobile : page_thematique.value?.thematic.data.image_banner.banner )
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(page_thematique.value?.thematic.data.image_banner, isMobile))
 const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(page_thematique.value?.thematic.data.meta_title) ? `${page_thematique.value?.thematic.data.meta_title}` : `${page_thematique.value?.thematic.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_description}`);
 

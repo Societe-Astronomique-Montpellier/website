@@ -51,12 +51,15 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       <div class="" v-if="!isMobile">
         <NuxtLink to="/" aria-label="home">
           <prismic-image
+            v-if="navigation.data.logo.menu"
             :field="navigation?.data.logo.menu"
             class="mr-3 h-16 rounded-full border"
             :alt="t('layout.title')"
             loading="lazy"
             :title="t('layout.title')"
             :aria-label="t('layout.title')"
+            :width="navigation?.data.logo.menu.dimensions?.width"
+            :height="navigation?.data.logo.menu.dimensions?.height"
           />
         </NuxtLink>
 

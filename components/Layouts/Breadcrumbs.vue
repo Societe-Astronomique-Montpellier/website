@@ -48,7 +48,7 @@ const { data: items, error } = await useAsyncData(
               {{ item.data.title }}
             </span>
           </prismic-link>
-          <span v-else-if="currentUid === item.uid" class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-500 dark:text-indigo-500">
+          <span v-else-if="currentUid === item.uid" class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-700 dark:text-indigo-700">
             {{ item.data.title }}
           </span>
         </div>

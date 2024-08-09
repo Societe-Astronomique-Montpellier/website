@@ -3,6 +3,8 @@ import {isFilled} from "@prismicio/helpers";
 
 const prismic = usePrismic();
 const { t } = useI18n();
+const { isMobile } = useDevice()
+
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 import type {ComputedRef} from "vue";
 
@@ -52,12 +54,15 @@ const { data: list_events, error } = useLazyAsyncData(
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import {useSeo} from "@/composables/useSeo";
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 
 const richTextSerializer = useRichTextSerializer();
 
 const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
 
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? list_events.value?.agenda.data.image_banner.mobile : list_events.value?.agenda.data.image_banner.banner )
 const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
 
@@ -73,7 +78,7 @@ useSeo({
   <section v-if="list_events">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <HeaderPage
-       :image="list_events?.agenda.data.image_banner"
+       :image="imageBanner"
       />
       <div class="max-w-3xl mx-auto">
         <div
@@ -82,10 +87,11 @@ useSeo({
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="list_events" :listIds="[list_events.agenda.id]" :currentUid="list_events.agenda.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ list_events?.agenda.data.title }}</h1>
+            <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"></h2>
             <div class="my-8 grid gap-6 px-2">
               <prismic-rich-text
-                  :field="list_events?.agenda.data.content"
-                  :serializer="richTextSerializer"
+                :field="list_events?.agenda.data.content"
+                :serializer="richTextSerializer"
               />
             </div>
           </div>

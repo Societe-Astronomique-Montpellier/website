@@ -6,6 +6,7 @@ import type {ComputedRef} from "vue";
 const route = useRoute();
 const prismic = usePrismic()
 const { t } = useI18n();
+const { isMobile } = useDevice()
 
 definePageMeta({
   layout: 'page',
@@ -26,6 +27,8 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import { useSeo } from "@/composables/useSeo";
 import {isFilled} from "@prismicio/helpers";
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 
 const { uid } = route.params as { uid: string }
 
@@ -59,6 +62,8 @@ const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(page
 
 const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(page_thematique.value?.thematic.data.meta_title) ? `${page_thematique.value?.thematic.data.meta_title}` : `${page_thematique.value?.thematic.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_description}`);
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? page_thematique.value?.thematic.data.image_banner.mobile : page_thematique.value?.thematic.data.image_banner.banner )
+
 // const metaImage: ComputedRef<string | null> = computed<string | null>(() => (isFilled.image(page_thematique.value?.thematic.data.image_vignette)) ? `${page_thematique.value?.thematic.data.image_vignette.Vignette.url}` : null)
 if (metaTitle.value) {
   useSeo({
@@ -74,7 +79,7 @@ if (metaTitle.value) {
 <template>
   <section v-if="page_thematique">
     <div class="max-w-screen-xl w-full mx-auto relative  mb-2"> <!-- max-w-screen-lg -->
-      <HeaderPage :image="page_thematique.thematic.data.image_banner" />
+      <HeaderPage :image="imageBanner" />
       <div class="max-w-screen-md mx-auto">
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"

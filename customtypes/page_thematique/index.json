@@ -52,9 +52,14 @@
           "constraint": {},
           "thumbnails": [
             {
+              "name": "banner",
+              "width": 1280,
+              "height": 450
+            },
+            {
               "name": "mobile",
-              "width": 1080,
-              "height": ""
+              "width": 640,
+              "height": 225
             }
           ]
         }

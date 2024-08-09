@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type {PageThematiqueDocument} from "@/prismicio-types";
+const { isMobile } = useDevice()
 
 export interface Props {
   item: PageThematiqueDocument
@@ -7,7 +8,7 @@ export interface Props {
 
 const props = defineProps<Props>()
 const { item } = toRefs(props)
-const { isMobile } = useDevice()
+
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import type {ImageField} from "@prismicio/client";
 const richTextSerializer = useRichTextSerializer();

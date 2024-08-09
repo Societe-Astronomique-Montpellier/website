@@ -24,7 +24,13 @@
         "config": {
           "label": "Bannière image",
           "constraint": {},
-          "thumbnails": []
+          "thumbnails": [
+            {
+              "name": "banner",
+              "width": 1280,
+              "height": 450
+            }
+          ]
         }
       },
       "image_vignette": {

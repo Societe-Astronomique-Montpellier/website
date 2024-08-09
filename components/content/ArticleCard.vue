@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type {PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 import type {ImageField} from "@prismicio/client";
+const { isMobile } = useDevice()
 
 export interface Props {
   item: PageArticleDocument
@@ -11,6 +12,7 @@ const props = defineProps<Props>()
 const { item, parentItem } = toRefs(props)
 
 const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
+// const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
 </script>
 
 <template>

@@ -25,7 +25,18 @@
         "config": {
           "label": "Banniere",
           "constraint": {},
-          "thumbnails": []
+          "thumbnails": [
+            {
+              "name": "banner",
+              "width": 1280,
+              "height": 450
+            },
+            {
+              "name": "mobile",
+              "width": 640,
+              "height": 225
+            }
+          ]
         }
       },
       "content": {

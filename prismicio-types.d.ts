@@ -396,7 +396,7 @@ interface EventDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_banner: prismic.ImageField<never>;
+  image_banner: prismic.ImageField<"banner">;
 
   /**
    * Vignette field in *Evenement*
@@ -545,7 +545,7 @@ interface EventsDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_banner: prismic.ImageField<never>;
+  image_banner: prismic.ImageField<"banner" | "mobile">;
 
   /**
    * Contenu field in *Events*
@@ -949,7 +949,7 @@ interface PageArticleDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_banner: prismic.ImageField<never>;
+  image_banner: prismic.ImageField<"banner">;
 
   /**
    * Vignette (page d'accueil) field in *Page article*
@@ -1104,7 +1104,7 @@ interface PageThematiqueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image_banner: prismic.ImageField<"mobile">;
+  image_banner: prismic.ImageField<"banner" | "mobile">;
 
   /**
    * En-tête field in *Page thématique*

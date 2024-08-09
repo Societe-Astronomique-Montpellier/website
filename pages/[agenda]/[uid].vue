@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import type { KeyTextField } from "@prismicio/client";
+import type {ImageField} from "@prismicio/client";
 
 const prismic = usePrismic()
 const route = useRoute();
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 const { t } = useI18n()
+const { isMobile } = useDevice();
 
 definePageMeta({
   layout: 'page',
@@ -22,6 +23,7 @@ import { useCoordinates } from "@/composables/useCoordinates";
 import { useSeo } from "@/composables/useSeo";
 import type {ComputedRef} from "vue";
 import {isFilled} from "@prismicio/helpers";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 
 const centerMap: [number, number] = useCoordinates('babotte');
 
@@ -50,7 +52,7 @@ const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.data.meta_title)) ? `${event.value?.data.meta_title}` : `${event.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
-const imgBanner = computed(() => (isFilled.image(event.value?.data.image_banner)) ? event.value?.data.image_banner : null)
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? event.value?.data.image_banner.mobile : event.value?.data.image_banner.banner )
 
 if (event.value) {
   useSeo({
@@ -67,7 +69,7 @@ if (event.value) {
 <template>
   <section v-if="event">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2"> <!-- max-w-screen-lg -->
-      <HeaderPage :image="imgBanner" />
+      <HeaderPage :image="imageBanner" />
       <div class="max-w-3xl mx-auto">
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"

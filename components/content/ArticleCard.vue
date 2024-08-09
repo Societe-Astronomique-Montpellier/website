@@ -11,8 +11,7 @@ export interface Props {
 const props = defineProps<Props>()
 const { item, parentItem } = toRefs(props)
 
-const imageVignette = computed<ImageField>(() => (item.value.data.image_vignette.hasOwnProperty('Vignette') ? item.value.data.image_vignette.Vignette : item.value.data.image_vignette ))
-// const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
+const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
 </script>
 
 <template>

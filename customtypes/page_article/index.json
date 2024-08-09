@@ -44,6 +44,11 @@
               "name": "banner",
               "width": 1280,
               "height": 450
+            },
+            {
+              "name": "mobile",
+              "width": 640,
+              "height": 225
             }
           ]
         }
@@ -55,9 +60,14 @@
           "constraint": {},
           "thumbnails": [
             {
-              "name": "Vignette",
+              "name": "vignette",
               "width": 780,
               "height": 520
+            },
+            {
+              "name": "mobile",
+              "width": 320,
+              "height": 212
             }
           ]
         }

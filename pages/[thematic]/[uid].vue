@@ -4,7 +4,7 @@ import {isFilled} from "@prismicio/helpers";
 import type { PageArticleDocument } from "~/prismicio-types";
 
 const prismic = usePrismic();
-
+const { isMobile } = useDevice()
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 
 definePageMeta({
@@ -23,8 +23,11 @@ import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import type {ComputedRef} from "vue";
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => isMobile ? article.value?.data.image_banner.mobile : article.value?.data.image_banner.banner )
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_banner.url}`)
@@ -40,7 +43,7 @@ useSeo({
 <template>
   <div class="max-w-screen-lg w-full mx-auto relative" v-if="article">
     <HeaderPage
-      :image="article.data.image_banner"
+      :image="imageBanner"
     />
     <div class="max-w-3xl mx-auto">
       <div

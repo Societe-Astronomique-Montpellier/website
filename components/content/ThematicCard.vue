@@ -11,8 +11,9 @@ const { item } = toRefs(props)
 
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 const richTextSerializer = useRichTextSerializer();
-const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
+const imageVignette = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
 
 </script>
 

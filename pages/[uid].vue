@@ -33,7 +33,7 @@ import {useBannerImage} from "@/composables/useBannerImage";
 
 const { uid } = route.params as { uid: string }
 
-const { data: page_thematique, error} = useLazyAsyncData(
+const { data: page_thematique, error} = useAsyncData(
   uid,
   async () => {
     const response = await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', uid)
@@ -66,17 +66,12 @@ const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFiel
 const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(page_thematique.value?.thematic.data.meta_title) ? `${page_thematique.value?.thematic.data.meta_title}` : `${page_thematique.value?.thematic.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${page_thematique.value?.thematic.data.meta_description}`);
 
-
-// const metaImage: ComputedRef<string | null> = computed<string | null>(() => (isFilled.image(page_thematique.value?.thematic.data.image_vignette)) ? `${page_thematique.value?.thematic.data.image_vignette.Vignette.url}` : null)
-if (metaTitle.value) {
-  useSeo({
-    title: `${metaTitle.value}`,
-    description: `${metaDescription.value}`,
-    image: null,
-    imageAlt: null
-  })
-}
-
+useSeo({
+  title: metaTitle.value,
+  description: metaDescription.value,
+  image: page_thematique.value?.thematic.data.image_vignette.vignette,
+  imageAlt: null
+})
 </script>
 
 <template>

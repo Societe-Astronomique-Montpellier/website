@@ -19,7 +19,7 @@ const BlockListCards = defineAsyncComponent(() => import('@/components/home/Bloc
 // const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
 const dateNow = useState('dateNow', () => new Date().toISOString().split('T')[0])
 
-const { data: list_events, error } = useLazyAsyncData(
+const { data: list_events, error } = useAsyncData(
   'list_events',
   async () => {
     const [agenda, futurEvents, pastEvents] = await Promise.all([
@@ -68,10 +68,10 @@ const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText
 const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
 
 useSeo({
-  title: `${metaTitle.value}`,
-  description: `${metaDescription.value}`,
-  image: null, // `${list_events.value?.agenda.data.meta_image.url}`,
-  imageAlt: `${list_events.value?.agenda.data.meta_image.alt}`
+  title: metaTitle.value,
+  description: metaDescription.value,
+  image: list_events.value?.agenda.data.meta_image.url,
+  imageAlt: list_events.value?.agenda.data.meta_image.alt
 })
 </script>
 

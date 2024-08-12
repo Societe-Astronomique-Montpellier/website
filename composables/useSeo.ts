@@ -16,39 +16,41 @@ export const useSeo = (item: IItem): void => {
 
     const titleName: string = t('layout.title')
 
-    useServerHead({
-        title: (): string => `${item.title.slice(70)}`,
-        meta: [
-            { name: 'title', content: `${item.title} | ${titleName}` },
-            { name: 'description', content: item.description }
-        ],
+    // useServerHead({
+    //     title: () => item.title.slice(70),
+    //     meta: [
+    //         { name: 'title', content: `${item.title} | ${titleName}` },
+    //         { name: 'description', content: item.description }
+    //     ],
+    // });
+
+    useHead({
         htmlAttrs: {
-            lang: locale
+            lang: ():string =>locale.value
         },
         link: [
-            {
-                rel: 'icon',
-                type: 'image/png',
-                href: '/favicon.ico'
-            }
+            { rel: 'icon', type: 'image/png', href: '/favicon.ico' },
+            { rel: 'preconnect', href: 'https://fonts.gstatic.com' },
         ]
-    });
+    })
 
-    useServerSeoMeta({
+    useSeoMeta({
         fbAppId: facebookAppId,
-        ogUrl: `${url}`,
+        title: (): string => item.title,
+        description: item.description,
+        ogUrl: (): string =>  `${url}`,
         ogType: 'website',
-        ogTitle: `${item.title} | ${titleName}`,
-        ogDescription: item.title,
+        ogTitle: (): string => `${item.title} | ${titleName}`,
+        ogDescription: () =>  item.title,
         ogImage: item.image ?? defaultImg,
-        ogImageAlt: item.imageAlt,
-        ogLocale: locale,
-        ogSiteName: titleName,
+        ogImageAlt: (): string =>  item.imageAlt ?? '',
+        ogLocale: (): string => locale.value,
+        ogSiteName: (): string =>  titleName,
         twitterCard: 'summary_large_image',
-        twitterSite: titleName,
-        twitterTitle: `${item.title} | ${titleName}`,
-        twitterDescription: item.description,
+        twitterSite: (): string =>  titleName,
+        twitterTitle: (): string =>  `${item.title} | ${titleName}`,
+        twitterDescription: (): string => (undefined !== item.description) ? item.description : '',
         twitterImage: item.image ?? defaultImg,
-        twitterImageAlt: item.imageAlt
+        twitterImageAlt: () =>  item.imageAlt
     })
 }

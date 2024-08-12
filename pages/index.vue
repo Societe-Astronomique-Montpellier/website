@@ -1,5 +1,7 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
+import type {ComputedRef} from "vue";
+
 const prismic = usePrismic()
 import { useSeo } from '@/composables/useSeo';
 
@@ -12,6 +14,7 @@ import type {
   BlockContactDocument,
   HomepageDocument, PageThematiqueDocument, EventsDocument
 } from "~/prismicio-types";
+import {isFilled} from "@prismicio/helpers";
 
 definePageMeta({
   layout: 'home',
@@ -27,7 +30,7 @@ const BlockCta = defineAsyncComponent(() => import('@/components/home/BlockCta.v
 const BlockContact = defineAsyncComponent(() => import('@/components/home/BlockContact.vue'))
 
 // Prismic
-const { data: home, error} = useLazyAsyncData(
+const { data: home, error} = useAsyncData(
   "home",
   async () => {
     const response = await prismic.client.getSingle<HomepageDocument>('homepage', {
@@ -114,12 +117,15 @@ const { data: home, error} = useLazyAsyncData(
   }
 );
 
+const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(home.value?.data.meta_title) ? `${home.value?.data.meta_title}` : `Société Astronomique de Montpellier`);
+const metaDescription: ComputedRef<string | undefined> = computed<string |undefined>(() => `${home.value?.data.meta_description}`);
+
 useSeo({
-  title: `${home.value?.data.meta_title}`,
-  description: `${home.value?.data.meta_description}`,
+  title: metaTitle.value,
+  description: metaDescription.value,
   image: null,
-  imageAlt: `Logo ${home.value?.data.meta_title}`
-})
+  imageAlt: ''
+});
 </script>
 
 <template>

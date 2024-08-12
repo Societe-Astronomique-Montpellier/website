@@ -55,15 +55,12 @@ const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFiel
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.data.meta_title)) ? `${event.value?.data.meta_title}` : `${event.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
 
-
-if (event.value) {
-  useSeo({
-    title: `${metaTitle.value}`,
-    description: `${metaDescription.value}`,
-    image: null, // imgBanner ?? `${event.value?.data.image_vignette.Vignette.url}`,
-    imageAlt: null // `${event.value?.data.image_vignette.Vignette.alt}`,
-  })
-}
+useSeo({
+  title: metaTitle.value,
+  description: metaDescription.value,
+  image: event.value?.data.image_vignette.vignette.url,
+  imageAlt: event.value?.data.image_vignette.vignette.alt,
+})
 
 
 </script>

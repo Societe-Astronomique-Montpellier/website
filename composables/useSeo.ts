@@ -16,7 +16,7 @@ export const useSeo = (item: IItem): void => {
 
     const titleName: string = t('layout.title')
 
-    useHead({
+    useServerHead({
         title: (): string => `${item.title.slice(70)}`,
         meta: [
             { name: 'title', content: `${item.title} | ${titleName}` },
@@ -34,7 +34,7 @@ export const useSeo = (item: IItem): void => {
         ]
     });
 
-    useSeoMeta({
+    useServerSeoMeta({
         fbAppId: facebookAppId,
         ogUrl: `${url}`,
         ogType: 'website',

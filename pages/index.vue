@@ -20,8 +20,6 @@ definePageMeta({
   layout: 'home',
 });
 
-// const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
-const dateNow = useState('dateNow', () => new Date().toISOString().split('T')[0])
 // Components
 const BlockHeroPresentation = defineAsyncComponent(() => import('@/components/home/BlockHeroPresentation.vue'))
 const BlockTestimonial = defineAsyncComponent(() => import('~/components/home/BlockTestimonial.vue'))
@@ -89,11 +87,12 @@ const { data: home, error} = useAsyncData(
     /**
      * Content-types data
      */
+    const dateNow = new Date().toISOString().split('T')[0];
     const [thematics, agenda, events] = await Promise.all([
       await prismic.client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[],
       await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument,
       await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow.value) ],
+        filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow) ],
         orderings: {
           field: 'my.event.time_start',
           direction: 'asc'

@@ -53,20 +53,31 @@ useSeo({
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
           <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
           <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
+          <div class="my-8 grid grid-cols-[50px_1fr] gap-4 px-2">
+            <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
+              <SocialShare
+                  v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
+                  :key="network"
+                  :network="network"
+              >
+              </SocialShare>
+            </div>
+            <div>
+              <prismic-rich-text
+                  :field="article.data.content"
+                  :serializer="richTextSerializer"
+              ></prismic-rich-text>
 
-          <prismic-rich-text
-            :field="article.data.content"
-            :serializer="richTextSerializer"
-          ></prismic-rich-text>
-
-          <p class="text-gray-700 text-xs mt-5">
-            <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              {{ $t('page.author') }} {{ article?.data.author }}
-            </span> le
-            <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+              <p class="text-gray-700 text-xs mt-5">
+              <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+                {{ $t('layout.knowMore') }} {{ article?.data.author }}
+              </span> le
+                <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                 {{ formatedDate }}
               </span>
-          </p>
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>

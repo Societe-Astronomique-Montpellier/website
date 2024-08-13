@@ -82,26 +82,37 @@ useSeo({
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+          <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10" >
             <Breadcrumbs :listIds="[page_thematique.thematic.id]" :currentUid="page_thematique.thematic.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ page_thematique.thematic.data.title }}</h1>
             <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h2>
 
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
-            <div class="my-8 grid gap-6 px-2">
-              <prismic-rich-text
-                :field="page_thematique.thematic.data.content"
-                :serializer="richTextSerializer"
-              />
-
-              <div class="text-gray-700 text-xs mt-5">
-                <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-                  {{ $t('page.author')}} {{ page_thematique?.thematic.data.author }}
-                </span> le
-                <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out" v-if="formatedDate">
-                  {{ formatedDate }}
-                </span>
+            <div class="my-8 grid grid-cols-[50px_1fr] gap-4 px-2">
+              <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
+                <SocialShare
+                    v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
+                    :key="network"
+                    :network="network"
+                >
+                </SocialShare>
               </div>
+              <div data-content>
+                <prismic-rich-text
+                    :field="page_thematique.thematic.data.content"
+                    :serializer="richTextSerializer"
+                />
+
+                <div class="text-gray-700 text-xs mt-5">
+                  <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
+                    {{ $t('page.author')}} {{ page_thematique?.thematic.data.author }}
+                  </span> le
+                    <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out" v-if="formatedDate">
+                    {{ formatedDate }}
+                  </span>
+                </div>
+              </div>
+
             </div>
 
           </div>

@@ -59,7 +59,7 @@ useSeo({
   title: metaTitle.value,
   description: metaDescription.value,
   image: event.value?.data.image_vignette.vignette.url,
-  imageAlt: event.value?.data.image_vignette.vignette.alt,
+  imageAlt: event.value?.data.image_vignette.vignette.alt ,
 })
 
 
@@ -76,37 +76,48 @@ useSeo({
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" :currentUid="event.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h1>
-            <div class="my-8 grid gap-6 px-2">
-              <prismic-rich-text
-                :field="event.data.resume"
-                :serializer="richTextSerializer"
-              />
+            <div class="my-8 grid grid-cols-[50px_1fr] gap-4 px-2">
+              <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
+                <SocialShare
+                    v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
+                    :key="network"
+                    :network="network"
+                >
+                </SocialShare>
+              </div>
+              <div>
+                <prismic-rich-text
+                    :field="event.data.resume"
+                    :serializer="richTextSerializer"
+                />
 
-              <div class="flex items-center gap-4">
-                <Icon size="24" name="material-symbols:calendar-clock" />
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
-                  {{ startDate }}<span v-if="event.data.time_end"> au {{ endDate }}</span>
-                </p>
+                <div class="flex items-center gap-4">
+                  <Icon size="24" name="material-symbols:calendar-clock" />
+                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
+                    {{ startDate }}<span v-if="event.data.time_end"> au {{ endDate }}</span>
+                  </p>
+                </div>
+
+                <div class="flex items-center gap-4">
+                  <Icon size="24" name="hugeicons:image-composition" />
+                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ event.data.place_event_txt }}</p>
+                </div>
+
+                <div class="flex items-center gap-4" v-if="event.data.link">
+                  <Icon size="24" name="material-symbols:add-link" />
+                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
+                    <prismic-link
+                        :field="event.data.link"
+                        class="text-indigo-400 inline-flex items-center mt-3"
+                        :aria-label="t('layout.moreInfo')"
+                    >
+                      {{ $t('layout.moreInfo') }}
+                      <Icon name="material-symbols:arrow-right-alt" />
+                    </prismic-link>
+                  </p>
+                </div>
               </div>
 
-              <div class="flex items-center gap-4">
-                <Icon size="24" name="hugeicons:image-composition" />
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ event.data.place_event_txt }}</p>
-              </div>
-
-              <div class="flex items-center gap-4" v-if="event.data.link">
-                <Icon size="24" name="material-symbols:add-link" />
-                <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
-                  <prismic-link
-                    :field="event.data.link"
-                    class="text-indigo-400 inline-flex items-center mt-3"
-                    :aria-label="t('layout.moreInfo')"
-                   >
-                    {{ $t('layout.moreInfo') }}
-                    <Icon name="material-symbols:arrow-right-alt" />
-                  </prismic-link>
-                </p>
-              </div>
             </div>
           </div>
         </div>

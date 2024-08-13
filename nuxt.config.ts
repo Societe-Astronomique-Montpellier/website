@@ -1,4 +1,5 @@
 import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
+import {undefined} from "io-ts";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -16,12 +17,13 @@ export default defineNuxtConfig({
     "@nuxtjs/robots",
     "@nuxtjs/html-validator",
     "@nuxt/image",
+    "@stefanobartoletti/nuxt-social-share",
     ["@nuxtjs/robots", {
       rules: [
         { UserAgent: "*" },
         { Allow: "*" },
       ],
-    }]
+    }],
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -88,6 +90,12 @@ export default defineNuxtConfig({
         lang: 'fr'
       }
     }	  
+  },
+  socialShare: {
+    baseUrl: 'https://societe-astronomique-montpellier.fr/',
+    styled: false,
+    label: false,
+    icon: true
   },
   compatibilityDate: '2024-07-04',
   runtimeConfig: {

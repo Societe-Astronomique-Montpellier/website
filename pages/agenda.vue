@@ -16,18 +16,16 @@ const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderP
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
 
-// const dateNow: Ref<string> = ref(new Date().toISOString().split('T')[0]);
-const dateNow = useState('dateNow', () => new Date().toISOString().split('T')[0])
-
 const { data: list_events, error } = useAsyncData(
   'list_events',
   async () => {
+    const dateNow = new Date().toISOString().split('T')[0];
     const [agenda, futurEvents, pastEvents] = await Promise.all([
       await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument,
       await prismic.client.getAllByType<AllDocumentTypes>('event', {
         lang: 'fr-fr',
         filters: [
-          prismic.filter.dateAfter('my.event.time_start', dateNow.value),
+          prismic.filter.dateAfter('my.event.time_start', dateNow),
         ],
         orderings: {
           field: 'my.event.time_start',
@@ -36,7 +34,7 @@ const { data: list_events, error } = useAsyncData(
       }) as EventDocument[],
       await prismic.client.getAllByType<AllDocumentTypes>('event', {
         lang: 'fr-fr',
-        filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow.value) ],
+        filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow)],
         orderings: {
           field: 'my.event.time_start',
           direction: 'desc'

@@ -26,7 +26,7 @@ export const useSeo = (item: IItem): void => {
 
     useHead({
         htmlAttrs: {
-            lang: ():string =>locale.value
+            lang: ():string => locale.value
         },
         link: [
             { rel: 'icon', type: 'image/png', href: '/favicon.ico' },

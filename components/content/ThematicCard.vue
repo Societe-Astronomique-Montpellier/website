@@ -24,7 +24,7 @@ const imageVignette = computed<ImageField | FilledImageFieldImage | EmptyImageFi
       :field="item"
       :aria-label="item.data.title"
     >
-      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" :width="imageVignette.dimensions?.width" :height="imageVignette.dimensions?.height" :aria-placeholder="[780, 520]" />
+      <prismic-image v-if="imageVignette" :field="imageVignette" class="object-cover object-center h-full w-full" :width="imageVignette.dimensions?.width" :height="imageVignette.dimensions?.height" :aria-placeholder="[780, 520]" loading="lazy" />
     </prismic-link>
   </div>
 

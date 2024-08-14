@@ -1,15 +1,20 @@
 <script setup lang="ts">
-import type {ImageField} from "@prismicio/client";
-
-const prismic = usePrismic()
-const route = useRoute();
-import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
-const { t } = useI18n()
-const { isMobile } = useDevice();
+import {useSocialShareMedia} from "~/composables/useSocialShareMedia";
 
 definePageMeta({
   layout: 'page',
 });
+
+import type {ComputedRef} from "vue";
+import {isFilled} from "@prismicio/helpers";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import type {ImageField} from "@prismicio/client";
+import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
+
+const prismic = usePrismic()
+const route = useRoute();
+const { t } = useI18n()
+const { isMobile } = useDevice();
 
 const { agenda, uid } = route.params as { agenda: string, uid: string }
 
@@ -22,9 +27,6 @@ import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
 import { useSeo } from "@/composables/useSeo";
 import {useBannerImage} from "@/composables/useBannerImage";
-import type {ComputedRef} from "vue";
-import {isFilled} from "@prismicio/helpers";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 
 const centerMap: [number, number] = useCoordinates('babotte');
 
@@ -48,6 +50,7 @@ const markerCoordinates = computed(() => {
 })
 
 const richTextSerializer = useRichTextSerializer();
+const shareSocialMedia = useSocialShareMedia();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(event.value?.data.image_banner, isMobile))
@@ -79,9 +82,9 @@ useSeo({
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
                 <SocialShare
-                    v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
-                    :key="network"
-                    :network="network"
+                  v-for="network in shareSocialMedia"
+                  :key="network"
+                  :network="network.social_network"
                 >
                 </SocialShare>
               </div>

@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  layout: 'page',
+});
+
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
 import type {ComputedRef} from "vue";
@@ -8,10 +12,9 @@ const prismic = usePrismic()
 const { t } = useI18n();
 const { isMobile } = useDevice()
 
-definePageMeta({
-  layout: 'page',
-});
-
+import {isFilled} from "@prismicio/helpers";
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 import type {
   AllDocumentTypes,
   PageArticleDocument,
@@ -23,13 +26,11 @@ const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderP
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 // RichText serializer
+import { useSocialShareMedia } from "@/composables/useSocialShareMedia";
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import { useSeo } from "@/composables/useSeo";
-import {isFilled} from "@prismicio/helpers";
-import type {ImageField} from "@prismicio/client";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import {useBannerImage} from "@/composables/useBannerImage";
+import { useBannerImage } from "@/composables/useBannerImage";
 
 const { uid } = route.params as { uid: string }
 
@@ -56,9 +57,8 @@ const { data: page_thematique, error} = useAsyncData(
   }
 )
 
-
 const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
-
+const shareSocialMedia = useSocialShareMedia();
 const richTextSerializer = useRichTextSerializer();
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(page_thematique.value?.publication_date, 'short'));
 
@@ -91,16 +91,16 @@ useSeo({
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
                 <SocialShare
-                    v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
-                    :key="network"
-                    :network="network"
+                  v-for="network in shareSocialMedia"
+                  :key="network"
+                  :network="network.social_network"
                 >
                 </SocialShare>
               </div>
               <div data-content>
                 <prismic-rich-text
-                    :field="page_thematique.thematic.data.content"
-                    :serializer="richTextSerializer"
+                  :field="page_thematique.thematic.data.content"
+                  :serializer="richTextSerializer"
                 />
 
                 <div class="text-gray-700 text-xs mt-5">

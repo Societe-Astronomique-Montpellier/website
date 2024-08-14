@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import {isFilled} from "@prismicio/helpers";
+definePageMeta({
+  layout: 'page',
+});
 
 const prismic = usePrismic();
 const { t } = useI18n();
@@ -7,10 +9,9 @@ const { isMobile } = useDevice()
 
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
 import type {ComputedRef} from "vue";
-
-definePageMeta({
-  layout: 'page',
-});
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import {isFilled} from "@prismicio/helpers";
 
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
@@ -53,10 +54,10 @@ const { data: list_events, error } = useAsyncData(
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 import { useSeo } from "@/composables/useSeo";
 import {useBannerImage} from "@/composables/useBannerImage";
-import type {ImageField} from "@prismicio/client";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import { useSocialShareMedia } from "@/composables/useSocialShareMedia";
 
 const richTextSerializer = useRichTextSerializer();
+const shareSocialMedia = useSocialShareMedia();
 
 const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
@@ -90,9 +91,9 @@ useSeo({
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
                 <SocialShare
-                    v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
+                    v-for="network in shareSocialMedia"
                     :key="network"
-                    :network="network"
+                    :network="network.social_network"
                 >
                 </SocialShare>
               </div>

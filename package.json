@@ -13,6 +13,7 @@
     "slicemachine": "start-slicemachine"
   },
   "dependencies": {
+    "@fontsource/raleway": "^5.0.19",
     "@mdi/font": "^7.4.47",
     "@nuxt/icon": "^1.4.5",
     "@nuxt/image": "^1.7.0",

@@ -9,20 +9,17 @@ module.exports = {
         "./node_modules/tw-elements/js/**/*.js",
     ],
     theme: {
+        fontFamily: {
+          sans: 'Raleway',
+          serif: 'Raleway, serif'
+        },
         screens: {
             xs: '320px',
             sm: '480px',
             md: '768px',
             lg: '976px',
             xl: '1440px',
-        },
-        extend: {
-            fontFamily: {
-                'body': ['Raleway'],
-                'sans': ['Raleway'],
-                raleway: ['Raleway', 'sans-serif'],
-            },
-        },
+        }
     },
     darkMode: "class",
     plugins: [require("tw-elements/plugin.cjs")],

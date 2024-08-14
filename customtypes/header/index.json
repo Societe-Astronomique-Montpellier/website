@@ -63,84 +63,19 @@
           "label": "Partage sur réseaux sociaux",
           "repeat": true,
           "fields": {
-            "email": {
-              "type": "Boolean",
+            "social_network": {
+              "type": "Text",
               "config": {
-                "label": "E-Mail",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": true
+                "label": "Nom réseau social",
+                "placeholder": ""
               }
             },
-            "facebook": {
+            "display_social_network": {
               "type": "Boolean",
               "config": {
-                "label": "Facebook",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "messenger": {
-              "type": "Boolean",
-              "config": {
-                "label": "Messenger",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "twitter": {
-              "type": "Boolean",
-              "config": {
-                "label": "X-Twitter",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "bluesky": {
-              "type": "Boolean",
-              "config": {
-                "label": "Blue Sky",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "whatsapp": {
-              "type": "Boolean",
-              "config": {
-                "label": "What's App",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "pinterest": {
-              "type": "Boolean",
-              "config": {
-                "label": "Pinterest",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "instagram": {
-              "type": "Boolean",
-              "config": {
-                "label": "Instagram",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
-                "default_value": false
-              }
-            },
-            "linkedin": {
-              "type": "Boolean",
-              "config": {
-                "label": "LinkedIn",
-                "placeholder_false": "Masquer",
-                "placeholder_true": "Afficher",
+                "label": "Affichage",
+                "placeholder_false": "Masqué",
+                "placeholder_true": "Affiché",
                 "default_value": false
               }
             }

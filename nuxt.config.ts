@@ -1,5 +1,4 @@
 import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
-import {undefined} from "io-ts";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -69,7 +68,13 @@ export default defineNuxtConfig({
       'types/*.d.ts'
     ]
   },
-  css: ['@/assets/css/main.css', 'leaflet/dist/leaflet.css'],
+  css: [
+    '@/assets/css/main.css',
+    '@fontsource/raleway',
+    '@fontsource/raleway/200.css',
+    '@fontsource/raleway/200-italic.css',
+    'leaflet/dist/leaflet.css'
+  ],
   postcss: {
     plugins: {
       tailwindcss: {},

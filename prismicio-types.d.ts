@@ -643,103 +643,25 @@ export interface HeaderDocumentDataHeaderNavigationItem {
  */
 export interface HeaderDocumentDataShareSocialMediaItem {
   /**
-   * E-Mail field in *Bloc de configuration → Partage sur réseaux sociaux*
+   * Nom réseau social field in *Bloc de configuration → Partage sur réseaux sociaux*
    *
-   * - **Field Type**: Boolean
+   * - **Field Type**: Text
    * - **Placeholder**: *None*
-   * - **Default Value**: true
-   * - **API ID Path**: header.share_social_media[].email
-   * - **Documentation**: https://prismic.io/docs/field#boolean
+   * - **API ID Path**: header.share_social_media[].social_network
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  email: prismic.BooleanField;
+  social_network: prismic.KeyTextField;
 
   /**
-   * Facebook field in *Bloc de configuration → Partage sur réseaux sociaux*
+   * Affichage field in *Bloc de configuration → Partage sur réseaux sociaux*
    *
    * - **Field Type**: Boolean
    * - **Placeholder**: *None*
    * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].facebook
+   * - **API ID Path**: header.share_social_media[].display_social_network
    * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  facebook: prismic.BooleanField;
-
-  /**
-   * Messenger field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].messenger
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  messenger: prismic.BooleanField;
-
-  /**
-   * X-Twitter field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].twitter
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  twitter: prismic.BooleanField;
-
-  /**
-   * Blue Sky field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].bluesky
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  bluesky: prismic.BooleanField;
-
-  /**
-   * What's App field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].whatsapp
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  whatsapp: prismic.BooleanField;
-
-  /**
-   * Pinterest field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].pinterest
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  pinterest: prismic.BooleanField;
-
-  /**
-   * Instagram field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].instagram
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  instagram: prismic.BooleanField;
-
-  /**
-   * LinkedIn field in *Bloc de configuration → Partage sur réseaux sociaux*
-   *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: header.share_social_media[].linkedin
-   * - **Documentation**: https://prismic.io/docs/field#boolean
-   */
-  linkedin: prismic.BooleanField;
+  display_social_network: prismic.BooleanField;
 }
 
 /**

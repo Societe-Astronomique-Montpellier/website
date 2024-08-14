@@ -1,7 +1,5 @@
 import type { HTMLMapSerializer } from '@prismicio/helpers';
 import { Icon } from '#components'
-import type {FilledLinkToWebField} from "@prismicio/types/src/value/link";
-
 
 export const useRichTextSerializer = (): HTMLMapSerializer => {
     const IconArrow = h(Icon, { name: 'material-symbols:arrow-right-alt' })

@@ -10,7 +10,7 @@ const { isMobile } = useDevice();
 
 <template>
   <Header :isHome=true v-if="isMobile" />
-  <div class="flex-fill font-sans">
+  <div class="flex-fill">
     <slot />
   </div>
   <Copyright />

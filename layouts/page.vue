@@ -7,7 +7,7 @@ const BackToTop = defineAsyncComponent(() => import('@/components/Layouts/BackTo
 
 <template>
   <Header :isHome=false />
-  <div class="flex-fill font-sans">
+  <div class="flex-fill">
     <slot />
   </div>
   <Copyright />

@@ -25,7 +25,7 @@ const optimizedBgdImage: ComputedRef<string> = computed<string>(() => isMobile ?
 <template>
   <div
     v-if="block"
-    class="relative h-96 overflow-hidden bg-cover bg-scroll  bg-no-repeat p-12 text-center lg:h-screen"
+    class="relative h-96 overflow-hidden bg-cover bg-scroll bg-no-repeat p-12 text-center lg:h-screen"
     :style="{backgroundImage: `url(${optimizedBgdImage})`}"
   >
     <div

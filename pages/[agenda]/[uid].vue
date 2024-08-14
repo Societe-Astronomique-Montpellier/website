@@ -76,7 +76,7 @@ useSeo({
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" :currentUid="event.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h1>
-            <div class="my-8 grid grid-cols-[50px_1fr] gap-4 px-2">
+            <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
                 <SocialShare
                     v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"

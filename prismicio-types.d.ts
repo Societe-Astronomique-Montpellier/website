@@ -614,11 +614,11 @@ export type EventsDocument<Lang extends string = string> =
   prismic.PrismicDocumentWithUID<Simplify<EventsDocumentData>, "events", Lang>;
 
 /**
- * Item in *Bloc d'en-tête → Navigation en-tête*
+ * Item in *Bloc de configuration → Navigation en-tête*
  */
 export interface HeaderDocumentDataHeaderNavigationItem {
   /**
-   * Label du lien field in *Bloc d'en-tête → Navigation en-tête*
+   * Label du lien field in *Bloc de configuration → Navigation en-tête*
    *
    * - **Field Type**: Text
    * - **Placeholder**: Titre du lien
@@ -628,7 +628,7 @@ export interface HeaderDocumentDataHeaderNavigationItem {
   label_header: prismic.KeyTextField;
 
   /**
-   * Lien vers la page field in *Bloc d'en-tête → Navigation en-tête*
+   * Lien vers la page field in *Bloc de configuration → Navigation en-tête*
    *
    * - **Field Type**: Link
    * - **Placeholder**: Lien du header
@@ -639,11 +639,115 @@ export interface HeaderDocumentDataHeaderNavigationItem {
 }
 
 /**
- * Content for Bloc d'en-tête documents
+ * Item in *Bloc de configuration → Partage sur réseaux sociaux*
+ */
+export interface HeaderDocumentDataShareSocialMediaItem {
+  /**
+   * E-Mail field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: header.share_social_media[].email
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  email: prismic.BooleanField;
+
+  /**
+   * Facebook field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].facebook
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  facebook: prismic.BooleanField;
+
+  /**
+   * Messenger field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].messenger
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  messenger: prismic.BooleanField;
+
+  /**
+   * X-Twitter field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].twitter
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  twitter: prismic.BooleanField;
+
+  /**
+   * Blue Sky field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].bluesky
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  bluesky: prismic.BooleanField;
+
+  /**
+   * What's App field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].whatsapp
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  whatsapp: prismic.BooleanField;
+
+  /**
+   * Pinterest field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].pinterest
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  pinterest: prismic.BooleanField;
+
+  /**
+   * Instagram field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].instagram
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  instagram: prismic.BooleanField;
+
+  /**
+   * LinkedIn field in *Bloc de configuration → Partage sur réseaux sociaux*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: header.share_social_media[].linkedin
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  linkedin: prismic.BooleanField;
+}
+
+/**
+ * Content for Bloc de configuration documents
  */
 interface HeaderDocumentData {
   /**
-   * Titre field in *Bloc d'en-tête*
+   * Titre field in *Bloc de configuration*
    *
    * - **Field Type**: Text
    * - **Placeholder**: Titre du bloc
@@ -654,7 +758,18 @@ interface HeaderDocumentData {
   content: prismic.KeyTextField;
 
   /**
-   * Navigation en-tête field in *Bloc d'en-tête*
+   * Logo field in *Bloc de configuration*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.logo
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  logo: prismic.ImageField<"menu" | "homepage">;
+
+  /**
+   * Navigation en-tête field in *Bloc de configuration*
    *
    * - **Field Type**: Group
    * - **Placeholder**: *None*
@@ -667,19 +782,21 @@ interface HeaderDocumentData {
   >;
 
   /**
-   * Logo field in *Bloc d'en-tête*
+   * Partage sur réseaux sociaux field in *Bloc de configuration*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: header.logo
+   * - **API ID Path**: header.share_social_media[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
-  logo: prismic.ImageField<"menu" | "homepage">;
+  share_social_media: prismic.GroupField<
+    Simplify<HeaderDocumentDataShareSocialMediaItem>
+  >;
 }
 
 /**
- * Bloc d'en-tête document from Prismic
+ * Bloc de configuration document from Prismic
  *
  * - **API ID**: `header`
  * - **Repeatable**: `false`
@@ -1229,6 +1346,7 @@ declare module "@prismicio/client" {
       HeaderDocument,
       HeaderDocumentData,
       HeaderDocumentDataHeaderNavigationItem,
+      HeaderDocumentDataShareSocialMediaItem,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataBlockThematiquesItem,

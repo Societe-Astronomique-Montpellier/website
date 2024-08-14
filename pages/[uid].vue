@@ -88,7 +88,7 @@ useSeo({
             <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ page_thematique.thematic.data.subtitle }}</h2>
 
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
-            <div class="my-8 grid grid-cols-[50px_1fr] gap-4 px-2">
+            <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
                 <SocialShare
                     v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"

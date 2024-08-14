@@ -1,7 +1,7 @@
 {
   "format": "custom",
   "id": "header",
-  "label": "Bloc d'en-tête",
+  "label": "Bloc de configuration",
   "repeatable": false,
   "status": true,
   "json": {
@@ -11,6 +11,25 @@
         "config": {
           "label": "Titre",
           "placeholder": "Titre du bloc"
+        }
+      },
+      "logo": {
+        "type": "Image",
+        "config": {
+          "label": "Logo",
+          "constraint": {},
+          "thumbnails": [
+            {
+              "name": "menu",
+              "width": 64,
+              "height": null
+            },
+            {
+              "name": "homepage",
+              "width": 48,
+              "height": null
+            }
+          ]
         }
       },
       "header_navigation": {
@@ -38,23 +57,94 @@
           }
         }
       },
-      "logo": {
-        "type": "Image",
+      "share_social_media": {
+        "type": "Group",
         "config": {
-          "label": "Logo",
-          "constraint": {},
-          "thumbnails": [
-            {
-              "name": "menu",
-              "width": 64,
-              "height": null
+          "label": "Partage sur réseaux sociaux",
+          "repeat": true,
+          "fields": {
+            "email": {
+              "type": "Boolean",
+              "config": {
+                "label": "E-Mail",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": true
+              }
             },
-            {
-              "name": "homepage",
-              "width": 48,
-              "height": null
+            "facebook": {
+              "type": "Boolean",
+              "config": {
+                "label": "Facebook",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "messenger": {
+              "type": "Boolean",
+              "config": {
+                "label": "Messenger",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "twitter": {
+              "type": "Boolean",
+              "config": {
+                "label": "X-Twitter",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "bluesky": {
+              "type": "Boolean",
+              "config": {
+                "label": "Blue Sky",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "whatsapp": {
+              "type": "Boolean",
+              "config": {
+                "label": "What's App",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "pinterest": {
+              "type": "Boolean",
+              "config": {
+                "label": "Pinterest",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "instagram": {
+              "type": "Boolean",
+              "config": {
+                "label": "Instagram",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
+            },
+            "linkedin": {
+              "type": "Boolean",
+              "config": {
+                "label": "LinkedIn",
+                "placeholder_false": "Masquer",
+                "placeholder_true": "Afficher",
+                "default_value": false
+              }
             }
-          ]
+          }
         }
       }
     }

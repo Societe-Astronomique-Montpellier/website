@@ -64,8 +64,6 @@ useSeo({
   image: event.value?.data.image_vignette.vignette.url,
   imageAlt: event.value?.data.image_vignette.vignette.alt ,
 })
-
-
 </script>
 
 <template>

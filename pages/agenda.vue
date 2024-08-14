@@ -99,8 +99,8 @@ useSeo({
               </div>
               <div>
                 <prismic-rich-text
-                    :field="list_events?.agenda.data.content"
-                    :serializer="richTextSerializer"
+                  :field="list_events?.agenda.data.content"
+                  :serializer="richTextSerializer"
                 />
               </div>
 

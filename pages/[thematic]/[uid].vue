@@ -53,6 +53,7 @@ useSeo({
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
           <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
           <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
+          <Icon name="material-symbols:arrow-right-alt" v-show="false" />
           <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
             <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
               <SocialShare
@@ -64,8 +65,8 @@ useSeo({
             </div>
             <div>
               <prismic-rich-text
-                  :field="article.data.content"
-                  :serializer="richTextSerializer"
+                :field="article.data.content"
+                :serializer="richTextSerializer"
               ></prismic-rich-text>
 
               <p class="text-gray-700 text-xs mt-5">

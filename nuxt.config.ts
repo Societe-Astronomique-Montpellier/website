@@ -97,7 +97,7 @@ export default defineNuxtConfig({
     }	  
   },
   socialShare: {
-    baseUrl: 'https://societe-astronomique-montpellier.fr/',
+    baseUrl: 'https://demo-sam.netlify.app/',
     styled: false,
     label: false,
     icon: true
@@ -107,7 +107,7 @@ export default defineNuxtConfig({
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
     public: {
-      facebookAppId: '0'
+      facebookAppId: '1602972866638341'
     }
   }
 })

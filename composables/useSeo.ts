@@ -36,12 +36,12 @@ export const useSeo = (item: IItem): void => {
 
     useSeoMeta({
         fbAppId: facebookAppId,
-        title: (): string => item.title,
+        titleTemplate: (title) => `${item.title} | ${titleName}`,
         description: item.description,
-        ogUrl: (): string =>  `${url}`,
+        ogUrl: (): string => `${url}`,
         ogType: 'website',
-        ogTitle: (): string => `${item.title} | ${titleName}`,
-        ogDescription: () =>  item.title,
+        ogTitle: `${item.title} | ${titleName}`,
+        ogDescription: item.title,
         ogImage: item.image ?? defaultImg,
         ogImageAlt: (): string =>  item.imageAlt ?? '',
         ogLocale: (): string => locale.value,

@@ -12,7 +12,7 @@ export const useSeo = (item: IItem): void => {
     const url: URL = useRequestURL()
     const config: RuntimeConfig = useRuntimeConfig();
 
-    const facebookAppId: string = config.public.facebookAppId as string;
+    const facebookAppId: number = config.public.facebookAppId;
 
     const titleName: string = t('layout.title')
 
@@ -36,19 +36,39 @@ export const useSeo = (item: IItem): void => {
 
     useSeoMeta({
         fbAppId: facebookAppId,
-        titleTemplate: (title) => `${item.title} | ${titleName}`,
+        title: `${item.title} | ${titleName}`,
         description: item.description,
-        ogUrl: (): string => `${url}`,
+        ogUrl: `${url}`,
         ogType: 'website',
         ogTitle: `${item.title} | ${titleName}`,
         ogDescription: item.title,
         ogImage: item.image ?? defaultImg,
-        ogImageAlt: (): string =>  item.imageAlt ?? '',
-        ogLocale: (): string => locale.value,
-        ogSiteName: (): string =>  titleName,
+        ogImageAlt: item.imageAlt ?? '',
+        ogLocale: locale.value,
+        ogSiteName: titleName,
         twitterCard: 'summary_large_image',
         twitterSite: (): string =>  titleName,
-        twitterTitle: (): string =>  `${item.title} | ${titleName}`,
+        twitterTitle: `${item.title} | ${titleName}`,
+        twitterDescription: (): string => (undefined !== item.description) ? item.description : '',
+        twitterImage: item.image ?? defaultImg,
+        twitterImageAlt: () =>  item.imageAlt
+    })
+
+    useServerSeoMeta({
+        fbAppId: facebookAppId,
+        title: `${item.title} | ${titleName}`,
+        description: item.description,
+        ogUrl: `${url}`,
+        ogType: 'website',
+        ogTitle: `${item.title} | ${titleName}`,
+        ogDescription: item.title,
+        ogImage: item.image ?? defaultImg,
+        ogImageAlt: item.imageAlt ?? '',
+        ogLocale: locale.value,
+        ogSiteName: titleName,
+        twitterCard: 'summary_large_image',
+        twitterSite: (): string =>  titleName,
+        twitterTitle: `${item.title} | ${titleName}`,
         twitterDescription: (): string => (undefined !== item.description) ? item.description : '',
         twitterImage: item.image ?? defaultImg,
         twitterImageAlt: () =>  item.imageAlt

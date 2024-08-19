@@ -107,7 +107,7 @@ export default defineNuxtConfig({
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
     public: {
-      facebookAppId: '1602972866638341'
+      facebookAppId: 1602972866638341
     }
   }
 })

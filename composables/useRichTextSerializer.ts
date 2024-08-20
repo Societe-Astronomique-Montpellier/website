@@ -19,8 +19,12 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
                 return '<p>Error: Missing image URL</p>';
             }
 
-            let img: string = `<figure class="max-w-fit cursor-pointer"><img src="${node.url}" alt="${node.alt || 'Image description'}" width="${node.dimensions.width}" height="${node.dimensions.height}" class="transition duration-300 ease-in-out rounded shadow-md dark:shadow-black/30 hover:scale-105" loading="lazy" />`
             let copyright: string = (node.copyright) ? `Photo © ${node.copyright}` : '';
+
+            let img: string = `<figure class="max-w-fit cursor-pointer" data-fancybox>
+                                <img src="${node.url}" alt="${node.alt || 'Image description'}" width="${node.dimensions.width}" height="${node.dimensions.height}" class="transition duration-300 ease-in-out rounded shadow-md dark:shadow-black/30 hover:scale-105" loading="lazy" />
+                                `
+
             if (node.alt) {
                 img += `<figcaption class="mt-2 italic text-sm text-gray-500">${node.alt} ${copyright}</figcaption>`;
             }

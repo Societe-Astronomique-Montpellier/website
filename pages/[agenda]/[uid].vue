@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import {useSocialShareMedia} from "~/composables/useSocialShareMedia";
-
 definePageMeta({
   layout: 'page',
 });
@@ -22,8 +20,9 @@ const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Brea
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
+import { useSocialShareMedia } from "@/composables/useSocialShareMedia";
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-import { useFormatIntoFrenchDate } from "~/composables/useFormatIntoFrenchDate";
+import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
 import { useCoordinates } from "@/composables/useCoordinates";
 import { useSeo } from "@/composables/useSeo";
 import {useBannerImage} from "@/composables/useBannerImage";

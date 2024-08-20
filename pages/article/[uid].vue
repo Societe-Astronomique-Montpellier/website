@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import {useSeo} from "~/composables/useSeo";
 import {isFilled} from "@prismicio/helpers";
 import type {ComputedRef} from "vue";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import type { PageArticleDocument } from "~/prismicio-types";
+import type {AllDocumentTypes, EventsDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 
 const prismic = usePrismic();
 const { isMobile } = useDevice()
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 
 definePageMeta({
   layout: 'page',
@@ -22,6 +22,12 @@ const { data: article, error} = useAsyncData(
     async () => await prismic.client.getByUID<PageArticleDocument>('page_article', uid)
 )
 
+const { data: parentThematic } = await useAsyncData(
+    'parentThematic',
+    async () => await prismic.client.getByUID<AllDocumentTypes>('page_thematique', thematic, {'lang': 'fr-fr'}) as PageThematiqueDocument
+)
+
+import { useSeo } from "@/composables/useSeo";
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
@@ -51,6 +57,7 @@ useSeo({
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+          <Breadcrumbs v-if="parentThematic && article" :listIds="[parentThematic.id, article.id]" :currentUid="article.uid" />
           <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
           <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />

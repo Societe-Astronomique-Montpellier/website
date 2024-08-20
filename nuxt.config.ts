@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@nuxtjs/html-validator",
     "@nuxt/image",
     "@stefanobartoletti/nuxt-social-share",
+    'nuxt-delay-hydration',
     ["@nuxtjs/robots", {
       rules: [
         { UserAgent: "*" },
@@ -67,6 +68,10 @@ export default defineNuxtConfig({
       'composables/**',
       'types/*.d.ts'
     ]
+  },
+  delayHydration: {
+    mode: 'init',
+    debug: process.env.NODE_ENV === 'development'
   },
   css: [
     '@/assets/css/main.css',

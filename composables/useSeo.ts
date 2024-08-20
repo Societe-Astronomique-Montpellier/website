@@ -2,10 +2,9 @@ import type {RuntimeConfig} from "@nuxt/schema";
 import defaultImg from '../public/images/SAM_0054-1038x576.jpg'
 
 export interface IItem {
-    title: string,
-    description?: string,
-    image?: any,
-    imageAlt?: string | null
+    title: string | Ref<string>,
+    description: string | Ref<string>,
+    image?: any
 }
 export const useSeo = (item: IItem): void => {
     const { t, locale } = useI18n();
@@ -13,16 +12,7 @@ export const useSeo = (item: IItem): void => {
     const config: RuntimeConfig = useRuntimeConfig();
 
     const facebookAppId: number = config.public.facebookAppId;
-
     const titleName: string = t('layout.title')
-
-    // useServerHead({
-    //     title: () => item.title.slice(70),
-    //     meta: [
-    //         { name: 'title', content: `${item.title} | ${titleName}` },
-    //         { name: 'description', content: item.description }
-    //     ],
-    // });
 
     useHead({
         htmlAttrs: {
@@ -36,41 +26,21 @@ export const useSeo = (item: IItem): void => {
 
     useSeoMeta({
         fbAppId: facebookAppId,
-        title: `${item.title} | ${titleName}`,
-        description: item.description,
+        title: (): string => unref(item.title),
+        description: (): string => unref(item.description),
         ogUrl: `${url}`,
         ogType: 'website',
-        ogTitle: `${item.title} | ${titleName}`,
-        ogDescription: item.title,
+        ogTitle: (): string => unref(item.title),
+        ogDescription: (): string => unref(item.description),
         ogImage: item.image ?? defaultImg,
-        ogImageAlt: item.imageAlt ?? '',
+        // ogImageAlt: (): string => item.imageAlt ?? '',
         ogLocale: locale.value,
-        ogSiteName: titleName,
+        ogSiteName: (): string =>  titleName,
         twitterCard: 'summary_large_image',
-        twitterSite: (): string =>  titleName,
-        twitterTitle: `${item.title} | ${titleName}`,
-        twitterDescription: (): string => (undefined !== item.description) ? item.description : '',
+        twitterSite: (): string => titleName,
+        twitterTitle: (): string => unref(item.title),
+        twitterDescription: (): string =>  unref(item.description),
         twitterImage: item.image ?? defaultImg,
-        twitterImageAlt: () =>  item.imageAlt
-    })
-
-    useServerSeoMeta({
-        fbAppId: facebookAppId,
-        title: `${item.title} | ${titleName}`,
-        description: item.description,
-        ogUrl: `${url}`,
-        ogType: 'website',
-        ogTitle: `${item.title} | ${titleName}`,
-        ogDescription: item.title,
-        ogImage: item.image ?? defaultImg,
-        ogImageAlt: item.imageAlt ?? '',
-        ogLocale: locale.value,
-        ogSiteName: titleName,
-        twitterCard: 'summary_large_image',
-        twitterSite: (): string =>  titleName,
-        twitterTitle: `${item.title} | ${titleName}`,
-        twitterDescription: (): string => (undefined !== item.description) ? item.description : '',
-        twitterImage: item.image ?? defaultImg,
-        twitterImageAlt: () =>  item.imageAlt
+        // twitterImageAlt: (): string => item.imageAlt
     })
 }

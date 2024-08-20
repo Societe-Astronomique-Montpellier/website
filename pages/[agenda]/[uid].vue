@@ -58,10 +58,9 @@ const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(
 const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
 
 useSeo({
-  title: metaTitle.value,
-  description: metaDescription.value,
-  image: event.value?.data.image_vignette.vignette.url,
-  imageAlt: event.value?.data.image_vignette.vignette.alt ,
+  title: metaTitle,
+  description: metaDescription,
+  image: null //event.value?.data.image_vignette.vignette.url,
 })
 </script>
 

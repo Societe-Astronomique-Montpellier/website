@@ -25,12 +25,11 @@ const handleContactFormSubmission = async (formData: any) => {
   }, 1000)
 }
 
-useSeo({
-  title: t('contact.title'),
-  description: t('contact.subtitle'),
-  image: null,
-  imageAlt: null
-})
+// useSeo({
+//   title: t('contact.title'),
+//   description: t('contact.subtitle'),
+//   image: null,
+// })
 </script>
 
 <template>

@@ -67,10 +67,9 @@ const metaTitle = computed<string>(() => !isFilled.keyText(data.value?.page_them
 const metaDescription = computed<string>(() => `${data.value?.page_thematic.data.meta_description}`);
 
 useSeo({
-  title: metaTitle.value,
-  description: metaDescription.value,
-  image: data.value?.page_thematic.data.image_vignette.vignette,
-  imageAlt: null
+  title: metaTitle,
+  description: metaDescription,
+  image: null //data.value?.page_thematic.data.image_vignette.vignette,
 })
 </script>
 

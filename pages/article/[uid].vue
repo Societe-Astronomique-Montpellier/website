@@ -44,7 +44,6 @@ useSeo({
   title: metaTitle.value,
   description: metaDescription.value,
   image: metaImage.value,
-  imageAlt: article.value?.data.meta_image.alt,
 })
 </script>
 

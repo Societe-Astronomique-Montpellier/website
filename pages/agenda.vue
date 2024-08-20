@@ -64,13 +64,12 @@ const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.tit
 
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(list_events.value?.agenda.data.image_banner, isMobile))
 const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
-const metaDescription: ComputedRef<string> = computed<string>(() => `${list_events.value?.agenda.data.meta_title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_description)) ? `${list_events.value?.agenda.data.meta_description}` : `${list_events.value?.agenda.data.title}`);
 
 useSeo({
-  title: metaTitle.value,
-  description: metaDescription.value,
+  title: metaTitle,
+  description: metaDescription,
   image: list_events.value?.agenda.data.meta_image.url,
-  imageAlt: list_events.value?.agenda.data.meta_image.alt
 })
 </script>
 

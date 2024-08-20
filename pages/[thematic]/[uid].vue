@@ -40,14 +40,13 @@ const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(arti
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(article.value?.data.image_banner, isMobile))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
-const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_description)) ? `${article.value?.data.meta_description}` : `${article.value?.data.title}`);
 const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_vignette.vignette.url}`)
 
 useSeo({
-  title: metaTitle.value,
-  description: metaDescription.value,
-  image: metaImage.value,
-  imageAlt: article.value?.data.meta_image.alt,
+  title: metaTitle,
+  description: metaDescription,
+  image: metaImage,
 })
 </script>
 

@@ -69,7 +69,7 @@ useSeo({
               >
               </SocialShare>
             </div>
-            <<div data-content>
+            <div data-content>
               <Fancybox>
                 <prismic-rich-text
                   :field="article.data.content"

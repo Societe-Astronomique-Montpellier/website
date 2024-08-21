@@ -3,15 +3,6 @@ definePageMeta({
   layout: 'page',
 });
 
-// https://tailwindflex.com/@ron-hicks/blog-page
-// https://flowbite.com/blocks/publisher/blog-templates/
-import type {ComputedRef} from "vue";
-
-const route = useRoute();
-const prismic = usePrismic()
-const { t } = useI18n();
-const { isMobile } = useDevice()
-
 import {isFilled} from "@prismicio/helpers";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
@@ -21,17 +12,21 @@ import type {
   PageThematiqueDocument,
 } from "~/prismicio-types";
 
+// https://tailwindflex.com/@ron-hicks/blog-page
+// https://flowbite.com/blocks/publisher/blog-templates/
+import type {ComputedRef} from "vue";
+
+const route = useRoute();
+const prismic = usePrismic()
+const { t } = useI18n();
+const { isMobile } = useDevice()
+
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 // RichText serializer
-import { useSocialShareMedia } from "@/composables/useSocialShareMedia";
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
-import { useSeo } from "@/composables/useSeo";
-import { useBannerImage } from "@/composables/useBannerImage";
-
 const { uid } = route.params as { uid: string }
 
 const { data, error} = useAsyncData(
@@ -57,11 +52,11 @@ const { data, error} = useAsyncData(
   }
 )
 
-const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 const shareSocialMedia = useSocialShareMedia();
 const richTextSerializer = useRichTextSerializer();
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(data.value?.publication_date, 'short'));
 
+const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(data.value?.page_thematic.data.image_banner, isMobile))
 const metaTitle = computed<string>(() => !isFilled.keyText(data.value?.page_thematic.data.meta_title) ? `${data.value?.page_thematic.data.meta_title}` : `${data.value?.page_thematic.data.title}`);
 const metaDescription = computed<string>(() => `${data.value?.page_thematic.data.meta_description}`);
@@ -97,10 +92,12 @@ useSeo({
                 </SocialShare>
               </div>
               <div data-content>
-                <prismic-rich-text
-                  :field="data.page_thematic.data.content"
-                  :serializer="richTextSerializer"
-                />
+                <Fancybox>
+                    <prismic-rich-text
+                      :field="data.page_thematic.data.content"
+                      :serializer="richTextSerializer"
+                    />
+                </Fancybox>
 
                 <div class="text-gray-700 text-xs mt-5">
                   <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">

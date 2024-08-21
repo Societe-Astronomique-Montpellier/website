@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import type {ComputedRef} from "vue";
-import type {ImageField} from "@prismicio/client";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import {isFilled} from "@prismicio/helpers";
-import type {AllDocumentTypes, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
-
-const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
-const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
-const Fancybox = defineAsyncComponent(() => import('@/components/content/Fancybox.vue'))
-
 definePageMeta({
   layout: 'page',
 });
+
+import {isFilled} from "@prismicio/helpers";
+import type {ComputedRef} from "vue";
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import type {AllDocumentTypes, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 
 const prismic = usePrismic();
 const { isMobile } = useDevice()
 const route = useRoute();
 
+const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
+const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
+
+
 const { thematic, uid } = route.params as { thematic: string, uid: string }
+
 const { data: article, error} = useAsyncData(
     uid,
     async () => await prismic.client.getByUID<PageArticleDocument>('page_article', uid)
@@ -28,19 +30,14 @@ const { data: parentThematic } = await useAsyncData(
     async () => await prismic.client.getByUID<AllDocumentTypes>('page_thematique', thematic, {'lang': 'fr-fr'}) as PageThematiqueDocument
 )
 
-// import { useSeo } from "@/composables/useSeo";
-// import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-// import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
-// import { useBannerImage } from "@/composables/useBannerImage";
-// import {useSocialShareMedia} from "@/composables/useSocialShareMedia";
-const shareSocialMedia = useSocialShareMedia();
 const richTextSerializer = useRichTextSerializer();
+const shareSocialMedia = useSocialShareMedia();
 
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(article.value?.data.image_banner, isMobile))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
-const metaDescription: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_description)) ? `${article.value?.data.meta_description}` : `${article.value?.data.title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_vignette.vignette.url}`)
 
 useSeo({
@@ -73,8 +70,8 @@ useSeo({
               >
               </SocialShare>
             </div>
-            <div>
-              <Fancybox :options="{Carousel: { infinite: true}}">
+            <div data-content>
+              <Fancybox>
                 <prismic-rich-text
                     :field="article.data.content"
                     :serializer="richTextSerializer"

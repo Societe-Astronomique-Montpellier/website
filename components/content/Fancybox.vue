@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { Fancybox as NativeFancybox } from '@fancyapps/ui'
-import '@fancyapps/ui/dist/fancybox.css'
 import { onMounted, onUpdated, onUnmounted,  ref } from "vue"
 
 export interface Props {
@@ -9,19 +8,21 @@ export interface Props {
 const props = defineProps<Props>()
 const { options } = toRefs(props)
 
-const container = ref();
+const container = ref(null);
 
 onMounted(() => {
-  NativeFancybox.bind(container.value, '[data-fancybox]', {
+  const containerElement = container.value;
+  NativeFancybox.bind(containerElement, '[data-fancybox]', {
     // ...(options || {})
   });
 });
 
 onUpdated(() => {
-  NativeFancybox.unbind(container.value);
+  const containerElement = container.value;
+  NativeFancybox.unbind(containerElement);
   NativeFancybox.close();
 
-  NativeFancybox.bind(container.value, '[data-fancybox]', {
+  NativeFancybox.bind(containerElement, '[data-fancybox]', {
     // ...(options || {})
   });
 });

@@ -1,10 +1,11 @@
 import type {RuntimeConfig} from "@nuxt/schema";
-import defaultImg from '../public/images/SAM_0054-1038x576.jpg'
+import defaultImg from '../public/logo.png'
+import type {ImageField} from "@prismicio/client";
 
 export interface IItem {
     title: string | Ref<string>,
     description: string | Ref<string>,
-    image?: any
+    image?: any | string | Ref<ImageField>
 }
 export const useSeo = (item: IItem): void => {
     const { t, locale } = useI18n();

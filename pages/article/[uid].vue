@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import {isFilled} from "@prismicio/helpers";
-import type {ComputedRef} from "vue";
-import type {ImageField} from "@prismicio/client";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import type {AllDocumentTypes, EventsDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
-
-const prismic = usePrismic();
-const { isMobile } = useDevice()
-const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
-const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
-
 definePageMeta({
   layout: 'page',
 });
 
+import {isFilled} from "@prismicio/helpers";
+import type {ComputedRef} from "vue";
+import type {ImageField} from "@prismicio/client";
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import type {AllDocumentTypes, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
+
+const prismic = usePrismic();
+const { isMobile } = useDevice()
 const route = useRoute();
+
+const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
+const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
+
+
 const { thematic, uid } = route.params as { thematic: string, uid: string }
 
 const { data: article, error} = useAsyncData(
@@ -27,11 +30,8 @@ const { data: parentThematic } = await useAsyncData(
     async () => await prismic.client.getByUID<AllDocumentTypes>('page_thematique', thematic, {'lang': 'fr-fr'}) as PageThematiqueDocument
 )
 
-import { useSeo } from "@/composables/useSeo";
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
-import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
-import {useBannerImage} from "@/composables/useBannerImage";
+const shareSocialMedia = useSocialShareMedia();
 
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(article.value?.data.image_banner, isMobile))
@@ -41,9 +41,9 @@ const metaDescription: ComputedRef<string> = computed<string>(() => `${article.v
 const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_vignette.vignette.url}`)
 
 useSeo({
-  title: metaTitle.value,
-  description: metaDescription.value,
-  image: metaImage.value,
+  title: metaTitle,
+  description: metaDescription,
+  image: metaImage,
 })
 </script>
 
@@ -63,17 +63,20 @@ useSeo({
           <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
             <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
               <SocialShare
-                  v-for="network in ['facebook', 'twitter', 'whatsapp', 'bluesky', 'pinterest', 'email']"
+                  v-for="network in shareSocialMedia"
                   :key="network"
-                  :network="network"
+                  :network="network.social_network"
               >
               </SocialShare>
             </div>
-            <div>
-              <prismic-rich-text
-                :field="article.data.content"
-                :serializer="richTextSerializer"
-              ></prismic-rich-text>
+            <<div data-content>
+              <Fancybox>
+                <prismic-rich-text
+                  :field="article.data.content"
+                  :serializer="richTextSerializer"
+                ></prismic-rich-text>
+              </Fancybox>
+
 
               <p class="text-gray-700 text-xs mt-5">
               <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">

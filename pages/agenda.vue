@@ -15,6 +15,7 @@ import {isFilled} from "@prismicio/helpers";
 
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
+const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
 const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
 
 const { data: list_events, error } = useAsyncData(
@@ -51,10 +52,6 @@ const { data: list_events, error } = useAsyncData(
   }
 )
 
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-import { useSeo } from "@/composables/useSeo";
-import {useBannerImage} from "@/composables/useBannerImage";
-import { useSocialShareMedia } from "@/composables/useSocialShareMedia";
 
 const richTextSerializer = useRichTextSerializer();
 const shareSocialMedia = useSocialShareMedia();
@@ -96,11 +93,14 @@ useSeo({
                 >
                 </SocialShare>
               </div>
-              <div>
-                <prismic-rich-text
-                  :field="list_events?.agenda.data.content"
-                  :serializer="richTextSerializer"
-                />
+              <div data-content>
+                <Fancybox>
+                  <prismic-rich-text
+                    :field="list_events?.agenda.data.content"
+                    :serializer="richTextSerializer"
+                  />
+                </Fancybox>
+
               </div>
 
             </div>

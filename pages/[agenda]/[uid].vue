@@ -14,22 +14,14 @@ const route = useRoute();
 const { t } = useI18n()
 const { isMobile } = useDevice();
 
-const { agenda, uid } = route.params as { agenda: string, uid: string }
-
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
-import { useSocialShareMedia } from "@/composables/useSocialShareMedia";
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
-import { useFormatIntoFrenchDate } from "@/composables/useFormatIntoFrenchDate";
-import { useCoordinates } from "@/composables/useCoordinates";
-import { useSeo } from "@/composables/useSeo";
-import {useBannerImage} from "@/composables/useBannerImage";
-
-const centerMap: [number, number] = useCoordinates('babotte');
-
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
+const { agenda, uid } = route.params as { agenda: string, uid: string }
+
 const { data: event, error } = useAsyncData(
   uid,
   async () => {
@@ -44,14 +36,15 @@ const { data: parentAgenda } = await useAsyncData(
     async () => await prismic.client.getByUID<AllDocumentTypes>('events', agenda, {'lang': 'fr-fr'}) as EventsDocument
 )
 
-const markerCoordinates = computed(() => {
-  return fetchedPointData.value[0] &&  fetchedPointData.value[1] ? fetchedPointData.value : centerMap
-})
-
 const richTextSerializer = useRichTextSerializer();
 const shareSocialMedia = useSocialShareMedia();
 const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
 const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
+const centerMap: [number, number] = useCoordinates('babotte');
+
+const markerCoordinates = computed(() => {
+  return fetchedPointData.value[0] &&  fetchedPointData.value[1] ? fetchedPointData.value : centerMap
+})
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(event.value?.data.image_banner, isMobile))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.data.meta_title)) ? `${event.value?.data.meta_title}` : `${event.value?.data.title}`);
@@ -84,11 +77,13 @@ useSeo({
                 >
                 </SocialShare>
               </div>
-              <div>
-                <prismic-rich-text
+              <div data-content>
+                <Fancybox>
+                  <prismic-rich-text
                     :field="event.data.resume"
                     :serializer="richTextSerializer"
-                />
+                  />
+                </Fancybox>
 
                 <div class="flex items-center gap-4">
                   <Icon size="24" name="material-symbols:calendar-clock" />

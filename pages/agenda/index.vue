@@ -63,12 +63,12 @@ const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFiel
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_description)) ? `${list_events.value?.agenda.data.meta_description}` : `${list_events.value?.agenda.data.title}`);
-//const metaImage: ComputedRef<AsImageSrcReturnType<meta_image>> = computed<AsImageSrcReturnType<meta_image>>(() => (!isFilled.image(list_events.value?.agenda.data.meta_image)) ? asImageSrc(list_events.value?.agenda.data.meta_image) : '');
+const metaImage = computed(() => asImageSrc(list_events.value?.agenda.data.meta_image));
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: ''
+  image: metaImage
 })
 </script>
 

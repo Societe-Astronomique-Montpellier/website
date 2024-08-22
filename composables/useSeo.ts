@@ -5,7 +5,7 @@ import {asImageSrc} from "@prismicio/helpers";
 export interface IItem {
     title: string | Ref<string>,
     description: string | Ref<string>,
-    image: string | Ref<string>,
+    image: any | Ref<any>,
 }
 export const useSeo = (item: IItem): void => {
     const { t, locale } = useI18n();
@@ -33,7 +33,7 @@ export const useSeo = (item: IItem): void => {
         ogType: 'website',
         ogTitle: (): string => unref(item.title),
         ogDescription: (): string => unref(item.description),
-        ogImage: (): string => defaultImg, //unref(item.image) ?? defaultImg,
+        ogImage: (): any => unref(item.image) ?? defaultImg,
         // ogImageAlt: (): string => item.imageAlt ?? '',
         ogLocale: locale.value,
         ogSiteName: (): string =>  titleName,
@@ -41,7 +41,7 @@ export const useSeo = (item: IItem): void => {
         twitterSite: (): string => titleName,
         twitterTitle: (): string => unref(item.title),
         twitterDescription: (): string =>  unref(item.description),
-        twitterImage: (): string => defaultImg, //unref(item.image) ?? defaultImg,
+        twitterImage: (): any => unref(item.image) ?? defaultImg,
         // twitterImageAlt: (): string => item.imageAlt
     })
 }

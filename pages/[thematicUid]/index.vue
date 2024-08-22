@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type {ComputedRef} from "vue";
+
 definePageMeta({
   layout: 'page',
 });
 
-import {isFilled} from "@prismicio/helpers";
+import {asImageSrc, isFilled} from "@prismicio/helpers";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 import type {
@@ -56,13 +58,15 @@ const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(data
 
 const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(data.value?.page_thematic.data.image_banner, isMobile))
-const metaTitle = computed<string>(() => !isFilled.keyText(data.value?.page_thematic.data.meta_title) ? `${data.value?.page_thematic.data.meta_title}` : `${data.value?.page_thematic.data.title}`);
-const metaDescription = computed<string>(() => `${data.value?.page_thematic.data.meta_description}`);
+
+const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(data.value?.page_thematic.data.meta_title) ? `${data.value?.page_thematic.data.meta_title}` : `${data.value?.page_thematic.data.title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${data.value?.page_thematic.data.meta_description}`);
+const metaImage = computed(() => asImageSrc(data.value?.page_thematic.data.image_vignette.vignette))
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: ''
+  image: metaImage
 })
 </script>
 

@@ -3,7 +3,7 @@ definePageMeta({
   layout: 'page',
 });
 
-import {isFilled} from "@prismicio/helpers";
+import {asImageSrc, isFilled} from "@prismicio/helpers";
 import type {ComputedRef} from "vue";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
@@ -36,7 +36,7 @@ const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFiel
 
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
-const metaImage: ComputedRef<string> = computed<string>(() => (isFilled.image(article.value?.data.meta_image)) ? `${article.value?.data.meta_image.url}` : `${article.value?.data.image_vignette.vignette.url}`)
+const metaImage = computed(() => asImageSrc(article.value?.data.meta_image))
 
 useSeo({
   title: metaTitle,

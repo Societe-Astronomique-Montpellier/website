@@ -4,7 +4,7 @@ definePageMeta({
 });
 
 import type {ComputedRef} from "vue";
-import {isFilled} from "@prismicio/helpers";
+import {asImageSrc, isFilled} from "@prismicio/helpers";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 import type {ImageField} from "@prismicio/client";
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
@@ -53,11 +53,12 @@ const markerCoordinates = computed(() => {
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(event.value?.event.data.image_banner, isMobile))
 const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.event.data.meta_title)) ? `${event.value?.event.data.meta_title}` : `${event.value?.event.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.event.data.meta_description}`);
+const metaImage = computed(() => asImageSrc(event.value?.event.data.image_vignette.mobile))
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: '' //event.value?.data.image_vignette.vignette.url,
+  image: metaImage
 })
 </script>
 

@@ -28,9 +28,8 @@ const BlockListCards = defineAsyncComponent(() => import('~/components/home/Bloc
 
 // RichText serializer
 const { thematicUid } = route.params as { thematicUid: string }
-
 const { data, error} = useAsyncData(
-    thematicUid,
+  thematicUid,
   async () => {
     const response = await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', thematicUid)
     const articles = await prismic.client.getAllByType<AllDocumentTypes>('page_article', {

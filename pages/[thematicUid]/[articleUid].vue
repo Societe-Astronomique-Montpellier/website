@@ -7,7 +7,7 @@ import {asImageSrc, isFilled} from "@prismicio/helpers";
 import type {ComputedRef} from "vue";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import type {AllDocumentTypes, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
+import type { PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 
 const prismic = usePrismic();
 const { isMobile } = useDevice()
@@ -75,8 +75,6 @@ useSeo({
                     :serializer="richTextSerializer"
                 ></prismic-rich-text>
               </Fancybox>
-
-
               <p class="text-gray-700 text-xs mt-5">
             <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
               {{ $t('layout.knowMore') }} {{ article?.data.author }}

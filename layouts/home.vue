@@ -1,11 +1,17 @@
 <script setup lang="ts">
-const route = useRoute()
 const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vue'))
   // add shere button + top
 const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 const BackToTop = defineAsyncComponent(() => import('@/components/Layouts/BackToTop.vue'))
 
 const { isMobile } = useDevice();
+
+useSeo({
+  title: 'Société Astronomique de Montpellier',
+  description: 'À la découverte du ciel',
+  image: ''
+})
+
 </script>
 
 <template>

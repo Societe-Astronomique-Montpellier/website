@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-const prismic = usePrismic()
-const { t } = useI18n()
-const { isMobile } = useDevice();
-
 import type { HeaderDocument} from "~/prismicio-types";
 import { PrismicLink } from "@prismicio/vue";
 import type {LinkField} from "@prismicio/client";
+
+const prismic = usePrismic()
+const { t } = useI18n()
+const { isMobile } = useDevice();
 
 const props = withDefaults(defineProps<{isHome:boolean}>(), {
   isHome: false
@@ -16,7 +16,6 @@ const { isHome } = toRefs(props);
 const isOpen: Ref<boolean>= ref(false);
 
 const HeaderNavItem = defineAsyncComponent(() => import('@/components/Layouts/HeaderNavItem.vue'))
-
 
 const { data: navigation, error } = useAsyncData(
     'navigation',
@@ -38,9 +37,8 @@ watch(() => isOpen.value, (isOpen) => {
   immediate: true,
 });
 
-const drawer = () =>  isOpen.value = !isOpen.value;
+const drawer = () => isOpen.value = !isOpen.value;
 const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
-
 </script>
 
 <template>

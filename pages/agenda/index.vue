@@ -11,12 +11,12 @@ import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-
 import type {ComputedRef} from "vue";
 import type {ImageField} from "@prismicio/client";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import {isFilled} from "@prismicio/helpers";
+import {asImageSrc, isFilled} from "@prismicio/helpers";
 
-const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
-const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
-const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
-const BlockListCards = defineAsyncComponent(() => import('@/components/home/BlockListCards.vue'))
+const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderPage.vue'))
+const Breadcrumbs = defineAsyncComponent(() => import('~/components/Layouts/Breadcrumbs.vue'))
+const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
+const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 const { data: list_events, error } = useAsyncData(
   'list_events',
@@ -54,19 +54,21 @@ const { data: list_events, error } = useAsyncData(
 
 
 const richTextSerializer = useRichTextSerializer();
-const shareSocialMedia = useSocialShareMedia();
+// const shareSocialMedia = useSocialShareMedia();
 
 const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
 
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(list_events.value?.agenda.data.image_banner, isMobile))
+
 const metaTitle: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
 const metaDescription: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_description)) ? `${list_events.value?.agenda.data.meta_description}` : `${list_events.value?.agenda.data.title}`);
+//const metaImage: ComputedRef<AsImageSrcReturnType<meta_image>> = computed<AsImageSrcReturnType<meta_image>>(() => (!isFilled.image(list_events.value?.agenda.data.meta_image)) ? asImageSrc(list_events.value?.agenda.data.meta_image) : '');
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: list_events.value?.agenda.data.meta_image.url,
+  image: ''
 })
 </script>
 
@@ -86,12 +88,12 @@ useSeo({
             <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"></h2>
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-                <SocialShare
-                    v-for="network in shareSocialMedia"
-                    :key="network"
-                    :network="network.social_network"
-                >
-                </SocialShare>
+<!--                <SocialShare-->
+<!--                    v-for="network in shareSocialMedia"-->
+<!--                    :key="network"-->
+<!--                    :network="network.social_network"-->
+<!--                >-->
+<!--                </SocialShare>-->
               </div>
               <div data-content>
                 <Fancybox>

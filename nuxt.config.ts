@@ -28,35 +28,37 @@ export default defineNuxtConfig({
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     preview: '/api/preview',
-    clientConfig: {
-      routes: [
-        {
-          type: 'homepage',
-          uid: 'sam_homepage',
-          path: '/'
-        },
-        {
-          type: 'events',
-          uid: 'agenda',
-          path: '/agenda'
-        },
-        {
-          type: 'event',
-          path: '/agenda/:uid'
-        },
-        {
-          type: 'page_thematique',
-          path: '/:uid',
-        },
-        {
-          type: 'page_article',
-          path: '/article/:uid',
-          // resolvers: {
-          //   thematic: 'page_thematique.uid'
-          // }
-        }
-      ]
-    }
+    linkResolver: '~/prismic/linkResolver',
+    // clientConfig: {
+    //   routes: [
+    //     {
+    //       type: 'homepage',
+    //       uid: 'sam_homepage',
+    //       path: '/'
+    //     },
+    //
+    //     {
+    //       type: 'page_thematique',
+    //       path: '/:uid',
+    //     },
+    //     // {
+    //     //   type: 'page_article',
+    //     //   resolvers: {
+    //     //     thematic: 'thematic'
+    //     //   },
+    //     //   path: '/:thematic/:uid'
+    //     // },
+    //     {
+    //       type: 'events',
+    //       uid: 'agenda',
+    //       path: '/agenda'
+    //     },
+    //     {
+    //       type: 'event',
+    //       path: '/agenda/:uid'
+    //     },
+    //   ]
+    // }
   },
   i18n: {
     detectBrowserLanguage: false,

@@ -14,25 +14,23 @@ import type {
 
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
-import type {ComputedRef} from "vue";
-
 const route = useRoute();
 const prismic = usePrismic()
 const { t } = useI18n();
 const { isMobile } = useDevice()
 
-const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
-const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
-const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
+const Breadcrumbs = defineAsyncComponent(() => import('~/components/Layouts/Breadcrumbs.vue'))
+const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderPage.vue'))
+const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
 // RichText serializer
-const { uid } = route.params as { uid: string }
+const { thematicUid } = route.params as { thematicUid: string }
 
 const { data, error} = useAsyncData(
-  uid,
+    thematicUid,
   async () => {
-    const response = await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', uid)
+    const response = await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', thematicUid)
     const articles = await prismic.client.getAllByType<AllDocumentTypes>('page_article', {
       filters: [
         // prismic.filter.at('document.type', 'page_thematique'),
@@ -52,7 +50,7 @@ const { data, error} = useAsyncData(
   }
 )
 
-const shareSocialMedia = useSocialShareMedia();
+// const shareSocialMedia = useSocialShareMedia();
 const richTextSerializer = useRichTextSerializer();
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(data.value?.publication_date, 'short'));
 
@@ -64,7 +62,7 @@ const metaDescription = computed<string>(() => `${data.value?.page_thematic.data
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: null //data.value?.page_thematic.data.image_vignette.vignette,
+  image: ''
 })
 </script>
 
@@ -84,12 +82,12 @@ useSeo({
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-                <SocialShare
-                  v-for="network in shareSocialMedia"
-                  :key="network"
-                  :network="network.social_network"
-                >
-                </SocialShare>
+<!--                <SocialShare-->
+<!--                  v-for="network in shareSocialMedia"-->
+<!--                  :key="network"-->
+<!--                  :network="network.social_network"-->
+<!--                >-->
+<!--                </SocialShare>-->
               </div>
               <div data-content>
                 <Fancybox>

@@ -20,40 +20,44 @@ const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybo
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
-const { agenda, uid } = route.params as { agenda: string, uid: string }
+const { uid } = route.params as { uid: string }
 
 const { data: event, error } = useAsyncData(
   uid,
   async () => {
-    const response = await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'});
+    const [response, parentAgenda] = await Promise.all([
+      await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}) as EventDocument,
+      await prismic.client.getSingle<EventsDocument>('events', {lang: 'fr-fr'}) as EventsDocument
+    ])
+
     fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
-    return response;
+
+    return {
+      event: response,
+      parentAgenda: parentAgenda
+    }
   }
 )
 
-const { data: parentAgenda } = await useAsyncData(
-    'parentAgenda',
-    async () => await prismic.client.getByUID<AllDocumentTypes>('events', agenda, {'lang': 'fr-fr'}) as EventsDocument
-)
 
 const richTextSerializer = useRichTextSerializer();
-const shareSocialMedia = useSocialShareMedia();
-const startDate = useFormatIntoFrenchDate(event.value?.data.time_start, 'long');
-const endDate = useFormatIntoFrenchDate(event.value?.data.time_end, 'long');
+// const shareSocialMedia = useSocialShareMedia();
+const startDate = useFormatIntoFrenchDate(event.value?.event.data.time_start, 'long');
+const endDate = useFormatIntoFrenchDate(event.value?.event.data.time_end, 'long');
 const centerMap: [number, number] = useCoordinates('babotte');
 
 const markerCoordinates = computed(() => {
   return fetchedPointData.value[0] &&  fetchedPointData.value[1] ? fetchedPointData.value : centerMap
 })
-const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(event.value?.data.image_banner, isMobile))
 
-const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.data.meta_title)) ? `${event.value?.data.meta_title}` : `${event.value?.data.title}`);
-const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.data.meta_description}`);
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(event.value?.event.data.image_banner, isMobile))
+const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(event.value?.event.data.meta_title)) ? `${event.value?.event.data.meta_title}` : `${event.value?.event.data.title}`);
+const metaDescription: ComputedRef<string> = computed<string>(() => `${event.value?.event.data.meta_description}`);
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: null //event.value?.data.image_vignette.vignette.url,
+  image: '' //event.value?.data.image_vignette.vignette.url,
 })
 </script>
 
@@ -66,21 +70,21 @@ useSeo({
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <Breadcrumbs v-if="parentAgenda && event" :listIds="[parentAgenda.id, event.id]" :currentUid="event.uid" />
-            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.data.title }}</h1>
+            <Breadcrumbs v-if="event.parentAgenda && event.event" :listIds="[event.parentAgenda.id, event.event.id]" :currentUid="event.event.uid" />
+            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ event.event.data.title }}</h1>
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-                <SocialShare
-                  v-for="network in shareSocialMedia"
-                  :key="network"
-                  :network="network.social_network"
-                >
-                </SocialShare>
+<!--                <SocialShare-->
+<!--                  v-for="network in shareSocialMedia"-->
+<!--                  :key="network"-->
+<!--                  :network="network.social_network"-->
+<!--                >-->
+<!--                </SocialShare>-->
               </div>
               <div data-content>
                 <Fancybox>
                   <prismic-rich-text
-                    :field="event.data.resume"
+                    :field="event.event.data.resume"
                     :serializer="richTextSerializer"
                   />
                 </Fancybox>
@@ -88,20 +92,20 @@ useSeo({
                 <div class="flex items-center gap-4">
                   <Icon size="24" name="material-symbols:calendar-clock" />
                   <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
-                    {{ startDate }}<span v-if="event.data.time_end"> au {{ endDate }}</span>
+                    {{ startDate }}<span v-if="event.event.data.time_end"> au {{ endDate }}</span>
                   </p>
                 </div>
 
                 <div class="flex items-center gap-4">
                   <Icon size="24" name="hugeicons:image-composition" />
-                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ event.data.place_event_txt }}</p>
+                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ event.event.data.place_event_txt }}</p>
                 </div>
 
-                <div class="flex items-center gap-4" v-if="event.data.link">
+                <div class="flex items-center gap-4" v-if="event.event.data.link">
                   <Icon size="24" name="material-symbols:add-link" />
                   <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
                     <prismic-link
-                        :field="event.data.link"
+                        :field="event.event.data.link"
                         class="text-indigo-400 inline-flex items-center mt-3"
                         :aria-label="t('layout.moreInfo')"
                     >

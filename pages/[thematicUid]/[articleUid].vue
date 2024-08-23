@@ -29,12 +29,16 @@ const { data: parentThematic} = useAsyncData(
 )
 
 const richTextSerializer = useRichTextSerializer();
-// const shareSocialMedia = useSocialShareMedia();
+const shareSocialMedia = useSocialShareMedia();
 
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(article.value?.data.image_banner, isMobile))
 
-const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(article.value?.data.meta_title)) ? `${article.value?.data.meta_title}` : `${article.value?.data.title}`);
+const metaTitle: ComputedRef<string> = computed<string>(() => {
+  return (!isFilled.keyText(article.value?.data.meta_title))
+    ? `${article.value?.data.meta_title}`
+    : `${article.value?.data.title}`
+});
 const metaDescription: ComputedRef<string> = computed<string>(() => `${article.value?.data.meta_description}`);
 const metaImage = computed(() => asImageSrc(article.value?.data.meta_image))
 
@@ -54,19 +58,18 @@ useSeo({
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-          <Breadcrumbs v-if="parentThematic && article" :listIds="[parentThematic.id, article.id]" :currentUid="articleUid" />
+          <Breadcrumbs v-if="parentThematic && article" :listIds="[parentThematic?.id, article.id]" :currentUid="articleUid" />
           <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
           <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />
           <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
             <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-<!--              <SocialShare-->
-<!--                  v-if="shareSocialMedia && shareSocialMedia.length"-->
-<!--                  v-for="network in shareSocialMedia"-->
-<!--                  :key="network"-->
-<!--                  :network="network"-->
-<!--              >-->
-<!--              </SocialShare>-->
+              <SocialShare
+                  v-for="network in shareSocialMedia"
+                  :key="network"
+                  :network="network.social_network"
+              >
+              </SocialShare>
             </div>
             <div data-content>
               <Fancybox>

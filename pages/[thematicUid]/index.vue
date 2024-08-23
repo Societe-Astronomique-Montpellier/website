@@ -26,6 +26,9 @@ const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderP
 const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
+const shareSocialMedia = useSocialShareMedia();
+const richTextSerializer = useRichTextSerializer();
+
 // RichText serializer
 const { thematicUid } = route.params as { thematicUid: string }
 const { data, error} = useAsyncData(
@@ -45,15 +48,11 @@ const { data, error} = useAsyncData(
 
     return {
       page_thematic: response,
-      publication_date: response.last_publication_date ?? response.first_publication_date,
-      articles: articles
+      publication_date: useFormatIntoFrenchDate(response.last_publication_date, 'short') ?? useFormatIntoFrenchDate(response.first_publication_date, 'short'),
+      articles: articles,
     };
   }
 )
-
-// const shareSocialMedia = useSocialShareMedia();
-const richTextSerializer = useRichTextSerializer();
-const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(data.value?.publication_date, 'short'));
 
 const knowMoreLabel = computed<string>(() => t('layout.knowMore'))
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(data.value?.page_thematic.data.image_banner, isMobile))
@@ -85,12 +84,12 @@ useSeo({
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
             <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-<!--                <SocialShare-->
-<!--                  v-for="network in shareSocialMedia"-->
-<!--                  :key="network"-->
-<!--                  :network="network.social_network"-->
-<!--                >-->
-<!--                </SocialShare>-->
+                <SocialShare
+                  v-for="network in shareSocialMedia"
+                  :key="network"
+                  :network="network.social_network"
+                >
+                </SocialShare>
               </div>
               <div data-content>
                 <Fancybox>
@@ -104,8 +103,8 @@ useSeo({
                   <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
                     {{ $t('page.author')}} {{ data.page_thematic.data.author }}
                   </span> le
-                    <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out" v-if="formatedDate">
-                    {{ formatedDate }}
+                    <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out" v-if="data.publication_date">
+                    {{ data.publication_date }}
                   </span>
                 </div>
               </div>

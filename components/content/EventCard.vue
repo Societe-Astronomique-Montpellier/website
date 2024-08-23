@@ -13,9 +13,7 @@ export interface Props {
 const props = defineProps<Props>()
 const { item } = toRefs(props)
 
-import {useFormatIntoFrenchDate} from "~/composables/useFormatIntoFrenchDate";
 const startDate = useFormatIntoFrenchDate(item.value?.data.time_start, 'short');
-
 const imageVignette = computed<ImageField>(() => isMobile ? item.value.data.image_vignette.mobile : item.value.data.image_vignette.vignette )
 
 </script>

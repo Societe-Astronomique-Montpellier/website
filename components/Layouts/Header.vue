@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import type { Ref } from 'vue'
-import type { HeaderDocument} from "~/prismicio-types";
 import { PrismicLink } from "@prismicio/vue";
 import type {LinkField} from "@prismicio/client";
 
@@ -17,10 +16,7 @@ const isOpen: Ref<boolean>= ref(false);
 
 const HeaderNavItem = defineAsyncComponent(() => import('@/components/Layouts/HeaderNavItem.vue'))
 
-const { data: navigation, error } = useAsyncData(
-    'navigation',
-    () => prismic.client.getSingle<HeaderDocument>('header', { lang: 'fr-fr'})
-)
+const menuNavigation = useMenuNavigation()
 
 onMounted(() => {
   document.addEventListener("keydown", e => {
@@ -42,22 +38,22 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 </script>
 
 <template>
-  <nav v-if="navigation" :class="`lg:px-16 px-2 w-full shadow-sm sticky top-0 z-50 ${bgHeader} `">
+  <nav v-if="menuNavigation" :class="`lg:px-16 px-2 w-full shadow-sm sticky top-0 z-50 ${bgHeader} `">
     <div class="flex items-center justify-between">
 
       <!-- Header logo -->
       <div class="" v-if="!isMobile">
         <NuxtLink to="/" aria-label="home">
           <prismic-image
-            v-if="navigation.data.logo.menu"
-            :field="navigation?.data.logo.menu"
+            v-if="menuNavigation.data.logo.menu"
+            :field="menuNavigation?.data.logo.menu"
             class="mr-3 h-16 rounded-full border"
             :alt="t('layout.title')"
             loading="lazy"
             :title="t('layout.title')"
             :aria-label="t('layout.title')"
-            :width="navigation?.data.logo.menu.dimensions?.width"
-            :height="navigation?.data.logo.menu.dimensions?.height"
+            :width="menuNavigation?.data.logo.menu.dimensions?.width"
+            :height="menuNavigation?.data.logo.menu.dimensions?.height"
           />
         </NuxtLink>
 
@@ -80,7 +76,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       <nav class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" aria-label="navigation">
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
           <HeaderNavItem
-              v-for="(item, index) in navigation?.data.header_navigation"
+              v-for="(item, index) in menuNavigation?.data.header_navigation"
               :key="index"
           >
             <prismic-link :field="item.link_header as LinkField" role="menuitem">
@@ -141,7 +137,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
         <nav aria-label="menu-responsive">
           <ul class="divide-y" role="menubar">
-            <li v-for="(item, index) in navigation?.data.header_navigation" @click="isOpen = false" :key="index" role="none">
+            <li v-for="(item, index) in menuNavigation?.data.header_navigation" @click="isOpen = false" :key="index" role="none">
               <prismic-link :field="item.link_header as LinkField" class="my-4 inline-block" role="menuitem">
                 {{ item.label_header }}
               </prismic-link>

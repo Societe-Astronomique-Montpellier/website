@@ -11,6 +11,13 @@
     "footer": {
       "copyright": "Copyright",
       "allRights": "Tous droits réservés"
+    },
+    "sideMenu": {
+      "status": "Status",
+      "thematiques": "Thématiques",
+      "mise-en-avant": "Mise en avant",
+      "evenements": "Évenements",
+      "contact": "Contact"
     }
   },
   "contact": {

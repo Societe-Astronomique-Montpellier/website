@@ -132,11 +132,13 @@ useSeo({
       :block="home.blocks.hero"
     />
 
+    <a id="status" />
     <BlockTestimonial
       :block="home.blocks.testimonial"
     />
 
     <!-- thematics block -->
+    <a id="thematiques" />
     <BlockListCards
       :titleBlock="home.data.block_thematics_title"
       :items="home.blocks.thematics"
@@ -148,11 +150,13 @@ useSeo({
     </BlockListCards>
 
     <!-- Call to action -->
+    <a id="mise-en-avant" />
     <BlockCta
       :block="home.blocks.cta"
     />
 
     <!-- Evenements -->
+    <a id="evenements" />
     <BlockListCards
       :titleBlock="home.data.block_events_title"
       :items="home.blocks.events"
@@ -166,6 +170,7 @@ useSeo({
     </BlockListCards>
 
     <!-- contact -->
+    <a id="contact" />
     <BlockContact :block="home.blocks.contact" />
   </div>
   <div v-else-if="error">

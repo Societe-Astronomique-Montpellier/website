@@ -181,6 +181,21 @@ export type BlockCtaDocument<Lang extends string = string> =
     Lang
   >;
 
+/**
+ * Item in *Bloc de présentation → Carrousel*
+ */
+export interface BlockHeroDocumentDataCarouselItem {
+  /**
+   * Image field in *Bloc de présentation → Carrousel*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_hero.carousel[].image
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image: prismic.ImageField<never>;
+}
+
 type BlockHeroDocumentDataSlicesSlice = never;
 
 /**
@@ -210,15 +225,15 @@ interface BlockHeroDocumentData {
   subtitle: prismic.KeyTextField;
 
   /**
-   * Image field in *Bloc de présentation*
+   * Carrousel field in *Bloc de présentation*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: block_hero.image
+   * - **API ID Path**: block_hero.carousel[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
-  image: prismic.ImageField<"mobile">;
+  carousel: prismic.GroupField<Simplify<BlockHeroDocumentDataCarouselItem>>;
 
   /**
    * Slice Zone field in *Bloc de présentation*
@@ -1255,6 +1270,7 @@ declare module "@prismicio/client" {
       BlockCtaDocumentDataSlicesSlice,
       BlockHeroDocument,
       BlockHeroDocumentData,
+      BlockHeroDocumentDataCarouselItem,
       BlockHeroDocumentDataSlicesSlice,
       BlockTestimonialDocument,
       BlockTestimonialDocumentData,

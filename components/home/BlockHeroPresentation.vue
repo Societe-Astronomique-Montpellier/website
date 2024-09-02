@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {ComputedRef} from "vue";
-import type {AllDocumentTypes, HeaderDocument} from "~/prismicio-types";
+import type {ImageField} from "@prismicio/client";
 
 const { t } = useI18n();
 const prismic = usePrismic()
@@ -13,35 +13,53 @@ const props = defineProps<Props>()
 const { block } = toRefs(props)
 const { isMobile } = useDevice();
 
-const { data: header, error } = useAsyncData(
-    'header',
-    async () => await prismic.client.getSingle<AllDocumentTypes>('header', { lang: 'fr-fr'}) as HeaderDocument
-)
+const currentIndex: Ref<number> = ref(0);
+let slideInterval: Ref<number | undefined> = ref(undefined);
 
 const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
-const optimizedBgdImage: ComputedRef<string> = computed<string>(() => isMobile ? block?.value.data.image?.mobile?.url : block?.value.data.image?.url)
+const nbImages: ComputedRef<number> = computed<number>(() => block.value.data.carousel.length)
+const listImages: ComputedRef<ImageField[]> = computed<ImageField[]>(() => {
+  return block.value.data.carousel.map((image: any, index: number) => {
+    return (!isMobile) ? image.image : image.image.mobile;
+  })
+})
+
+const nextSlide = () => currentIndex.value = (currentIndex.value + 1) % nbImages.value
+const prevSlide = () => currentIndex.value = (currentIndex.value - 1 + nbImages.value) % nbImages.value
+const startAutoSlide = () => slideInterval.value = window.setInterval(nextSlide, 10000)
+
+onMounted(() => startAutoSlide());
+onUnmounted(() => {
+  if (slideInterval.value !== undefined) {
+    clearInterval(slideInterval.value);
+  }
+});
 </script>
 
 <template>
-  <div
-    v-if="block"
-    class="relative h-96 overflow-hidden bg-cover bg-scroll bg-no-repeat p-12 text-center lg:h-screen"
-    :style="{backgroundImage: `url(${optimizedBgdImage})`}"
-  >
-    <div
-        class="absolute bg-scroll bottom-0 left-0 right-0 top-0 h-full w-full overflow-hidden">
-      <div class="flex h-full items-center justify-center">
-        <div class="text-white" v-if="!isMobile">
-          <h1 class="mb-4 text-6xl font-semibold">
-            {{ block.data.title }}
-          </h1>
-          <h2 class="mb-6 text-4xl">
-            {{ block.data.subtitle }}
-          </h2>
+  <div class="w-full h-screen overflow-hidden relative" v-if="block">
+    <!-- Slider container -->
+    <div class="w-full h-full flex transition-transform duration-1000">
+      <div class="w-full h-full relative">
+        <div
+            v-for="(image, index) in listImages"
+            v-bind:key="index"
+            :class="['absolute inset-0 transition-opacity duration-1000', { 'opacity-0': currentIndex !== index, 'opacity-100': currentIndex === index }]"
+            class="w-full h-full"
+        >
+          <prismic-image v-if="image" :field=image :alt="image.alt" class="w-full h-full object-cover" />
         </div>
-        <div v-else>
-          <prismic-image v-if="header?.data.logo" :field="header?.data.logo.homepage" class="h-48 rounded-full" :title="title" :aria-label="title" />
-        </div>
+      </div>
+
+      <div v-if="!isMobile" class="absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-30 p-4">
+        <h1 class="mb-4 text-6xl font-semibold">{{ block.data.title }}</h1>
+        <h2 class="mb-6 text-4xl"> {{ block.data.subtitle }}</h2>
+        <a
+          v-show="0"
+          href="#"
+          role="button"
+          class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+        >Adhérez</a>
       </div>
     </div>
   </div>
@@ -52,6 +70,11 @@ const optimizedBgdImage: ComputedRef<string> = computed<string>(() => isMobile ?
     <h2 class="text-xl mt-2 italic">
       {{ block.data.subtitle }}
     </h2>
-
   </div>
 </template>
+
+<style>
+.transition-opacity {
+  transition: opacity 1s ease-in-out;
+}
+</style>

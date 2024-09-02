@@ -36,7 +36,7 @@ const { data: home, error} = useAsyncData(
       fetchLinks: [
         'block_hero.title',
         'block_hero.subtitle',
-        'block_hero.image',
+        'block_hero.carousel',
         'block_testimonial.title',
         'block_testimonial.content',
         'block_testimonial.testimonial_text_1',
@@ -67,7 +67,7 @@ const { data: home, error} = useAsyncData(
      * Blocks
      */
     const relatedBlockHero = response.data.block_hero as typeof response.data.block_hero & {
-      data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'image'>
+      data: Pick<BlockHeroDocument['data'], 'title' | 'subtitle' | 'carousel'>
     }
 
     const relatedBlockTestimonial = response.data.block_testimonial as typeof response.data.block_testimonial & {

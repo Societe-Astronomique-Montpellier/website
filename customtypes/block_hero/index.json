@@ -26,18 +26,21 @@
           "placeholder": ""
         }
       },
-      "image": {
-        "type": "Image",
+      "carousel": {
+        "type": "Group",
         "config": {
-          "label": "Image",
-          "constraint": {},
-          "thumbnails": [
-            {
-              "name": "mobile",
-              "width": 1080,
-              "height": 675
+          "label": "Carrousel",
+          "repeat": true,
+          "fields": {
+            "image": {
+              "type": "Image",
+              "config": {
+                "label": "Image",
+                "constraint": {},
+                "thumbnails": []
+              }
             }
-          ]
+          }
         }
       },
       "slices": {

@@ -20,10 +20,10 @@ const linkResolver: LinkResolverFunction = (document: any): string|null => {
         return `/agenda/${document.uid}`;
     }
 
-    if ('page_editoriale' === document.type) {
-        const editorialUid = document.uid;
-        return `/${editorialUid}`;
-    }
+    // if ('page_editoriale' === document.type) {
+    //     const editorialUid = document.uid;
+    //     return `/${editorialUid}`;
+    // }
 
     if ('homepage' === document.type) {
         return "/"

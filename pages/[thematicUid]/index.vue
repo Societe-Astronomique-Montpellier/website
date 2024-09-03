@@ -26,7 +26,6 @@ const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderP
 const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
 const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
 
-const shareSocialMedia = useSocialShareMedia();
 const richTextSerializer = useRichTextSerializer();
 
 // RichText serializer
@@ -82,14 +81,8 @@ useSeo({
             <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ data.page_thematic.data.subtitle }}</h2>
 
             <Icon name="material-symbols:arrow-right-alt" v-show="false" />
-            <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
+            <div class="`my-4 grid gap-4 px-1`">
               <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-                <SocialShare
-                  v-for="network in shareSocialMedia"
-                  :key="network"
-                  :network="network.social_network"
-                >
-                </SocialShare>
               </div>
               <div data-content>
                 <Fancybox>

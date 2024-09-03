@@ -51,10 +51,7 @@ const { data: list_events, error } = useAsyncData(
     }
   }
 )
-
-
 const richTextSerializer = useRichTextSerializer();
-// const shareSocialMedia = useSocialShareMedia();
 
 const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
 const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
@@ -86,15 +83,7 @@ useSeo({
             <Breadcrumbs v-if="list_events" :listIds="[list_events.agenda.id]" :currentUid="list_events.agenda.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ list_events?.agenda.data.title }}</h1>
             <h2 class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"></h2>
-            <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
-              <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-<!--                <SocialShare-->
-<!--                    v-for="network in shareSocialMedia"-->
-<!--                    :key="network"-->
-<!--                    :network="network.social_network"-->
-<!--                >-->
-<!--                </SocialShare>-->
-              </div>
+            <div class="my-4 grid gap-4 px-1">
               <div data-content>
                 <Fancybox>
                   <prismic-rich-text

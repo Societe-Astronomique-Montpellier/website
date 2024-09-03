@@ -20,7 +20,7 @@ const title: ComputedRef<string> = computed<string>(() => t('layout.title'))
 const nbImages: ComputedRef<number> = computed<number>(() => block.value.data.carousel.length)
 const listImages: ComputedRef<ImageField[]> = computed<ImageField[]>(() => {
   return block.value.data.carousel.map((image: any, index: number) => {
-    return (!isMobile) ? image.image : image.image.mobile;
+    return (!isMobile) ? image.image.normal : image.image.mobile;
   })
 })
 

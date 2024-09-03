@@ -29,7 +29,6 @@ const { data: parentThematic} = useAsyncData(
 )
 
 const richTextSerializer = useRichTextSerializer();
-const shareSocialMedia = useSocialShareMedia();
 
 const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(article.value?.last_publication_date, 'short'));
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(article.value?.data.image_banner, isMobile))
@@ -62,15 +61,7 @@ useSeo({
           <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
           <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />
-          <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
-            <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-              <SocialShare
-                  v-for="network in shareSocialMedia"
-                  :key="network"
-                  :network="network.social_network"
-              >
-              </SocialShare>
-            </div>
+          <div class="my-4 grid gap-4 px-1">
             <div data-content>
               <Fancybox>
                 <prismic-rich-text

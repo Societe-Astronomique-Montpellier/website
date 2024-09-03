@@ -193,7 +193,7 @@ export interface BlockHeroDocumentDataCarouselItem {
    * - **API ID Path**: block_hero.carousel[].image
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image: prismic.ImageField<never>;
+  image: prismic.ImageField<"normal" | "mobile">;
 }
 
 type BlockHeroDocumentDataSlicesSlice = never;

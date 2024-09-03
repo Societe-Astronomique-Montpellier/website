@@ -2,8 +2,7 @@
  // add header + footer
 const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vue'))
 const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
-const BackToTop = defineAsyncComponent(() => import('@/components/Layouts/BackToTop.vue'))
-
+const SocialShare = defineAsyncComponent(() => import('@/components/Layouts/SidebarSocialShare.vue'))
  useSeo({
    title: 'Société Astronomique de Montpellier',
    description: 'À la découverte du ciel',
@@ -19,7 +18,7 @@ const BackToTop = defineAsyncComponent(() => import('@/components/Layouts/BackTo
     </DelayHydration>
   </div>
   <Copyright />
-  <BackToTop />
+  <SocialShare />
 </template>
 
 <style scoped>

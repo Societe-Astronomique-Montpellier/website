@@ -3,7 +3,6 @@ const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vu
 const SideMenu = defineAsyncComponent(() => import('@/components/Layouts/HomeSideBarMenu.vue'))
   // add shere button + top
 const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
-const BackToTop = defineAsyncComponent(() => import('@/components/Layouts/BackToTop.vue'))
 
 const { isMobile } = useDevice();
 
@@ -22,7 +21,6 @@ useSeo({
   </div>
   <SideMenu />
   <Copyright />
-  <BackToTop />
 </template>
 
 <style scoped>

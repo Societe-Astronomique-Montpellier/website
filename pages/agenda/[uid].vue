@@ -42,8 +42,6 @@ const { data, error } = useAsyncData(
 )
 
 const richTextSerializer = useRichTextSerializer();
-// const shareSocialMedia = useSocialShareMedia();
-
 const centerMap: [number, number] = useCoordinates('babotte');
 
 const markerCoordinates = computed(() => {
@@ -73,15 +71,7 @@ useSeo({
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <Breadcrumbs v-if="data.parentAgenda && data.event" :listIds="[data.parentAgenda.id, data.event.id]" :currentUid="data.event.uid" />
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ data.event.data.title }}</h1>
-            <div :class="(isMobile) ? `my-4 grid gap-4 px-1`: `my-8 grid grid-cols-[50px_1fr] gap-4 px-2`">
-              <div class="flex flex-col space-y-4 mt-3" data-side v-if="!isMobile">
-<!--                <SocialShare-->
-<!--                  v-for="network in shareSocialMedia"-->
-<!--                  :key="network"-->
-<!--                  :network="network.social_network"-->
-<!--                >-->
-<!--                </SocialShare>-->
-              </div>
+            <div class="my-4 grid gap-4 px-1">
               <div data-content>
                 <Fancybox>
                   <prismic-rich-text

@@ -4,13 +4,13 @@ import {reactive, type Ref} from "vue";
 const { t } = useI18n();
 const { isMobile } = useDevice()
 
-
+const iconSize: Ref<number> = ref(24)
+const iconSizeMobile: Ref<number> = ref(18)
+const isVisible: Ref<boolean> = ref(false);
 
 const displayBtn = computed<string>(() => isVisible.value ? 'visible' : 'hidden' )
 const backToTopLabel = computed<string>(() => t('layout.backToTop'))
-
-const iconSize: Ref<number> = ref(24)
-const isVisible: Ref<boolean> = ref(false);
+const displayIconSize: ComputedRef<number> = computed<number>(() => isMobile ? iconSizeMobile.value : iconSize.value)
 
 interface IItem {
   path: string,
@@ -77,7 +77,7 @@ const handleScroll = () => {
         :title=item.label
         :aria-label=item.label
       >
-        <Icon :name=item.icon :size="iconSize" />
+        <Icon :name=item.icon :size="displayIconSize" />
       </a>
       <hr class="dark:border-gray-700/60" />
     </div>
@@ -88,7 +88,7 @@ const handleScroll = () => {
       type="button"
       :aria-label="backToTopLabel"
     >
-      <Icon name="material-symbols:arrow-upward" :size="iconSize" />
+      <Icon name="material-symbols:arrow-upward" :size="displayIconSize" />
     </button>
   </nav>
 

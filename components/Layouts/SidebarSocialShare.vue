@@ -6,9 +6,11 @@ const { t } = useI18n();
 const shareSocialMedia = useSocialShareMedia();
 
 const iconSize: Ref<number> = ref(24)
+const iconSizeMobile: Ref<number> = ref(18)
 const isVisible: Ref<boolean> = ref(false);
 
 const displayBtn = computed<string>(() => isVisible.value ? 'visible' : 'hidden' )
+const displayIconSize: ComputedRef<number> = computed<number>(() => isMobile ? iconSizeMobile.value : iconSize.value)
 const backToTopLabel = computed<string>(() => t('layout.backToTop'))
 
 onMounted(() => {
@@ -41,7 +43,6 @@ const handleScroll = () => {
       :network="network.social_network"
       class="flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 text-indigo-700 hover:bg-indigo-700 hover:text-white"
     >
-      
     </SocialShare>
     <hr class="dark:border-gray-700/60" />
     <button
@@ -50,7 +51,7 @@ const handleScroll = () => {
         type="button"
         :aria-label="backToTopLabel"
     >
-      <Icon name="material-symbols:arrow-upward" :size="iconSize" />
+      <Icon name="material-symbols:arrow-upward" :size="displayIconSize" />
     </button>
   </nav>
 </template>

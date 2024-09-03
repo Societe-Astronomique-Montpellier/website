@@ -680,6 +680,31 @@ export interface HeaderDocumentDataShareSocialMediaItem {
 }
 
 /**
+ * Item in *Bloc de configuration → Navigation Pied de page*
+ */
+export interface HeaderDocumentDataFooterNavigationItem {
+  /**
+   * label du lien field in *Bloc de configuration → Navigation Pied de page*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.footer_navigation[].label_footer
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  label_footer: prismic.KeyTextField;
+
+  /**
+   * Lien vers la page field in *Bloc de configuration → Navigation Pied de page*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.footer_navigation[].link_footer
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link_footer: prismic.LinkField;
+}
+
+/**
  * Content for Bloc de configuration documents
  */
 interface HeaderDocumentData {
@@ -729,6 +754,19 @@ interface HeaderDocumentData {
    */
   share_social_media: prismic.GroupField<
     Simplify<HeaderDocumentDataShareSocialMediaItem>
+  >;
+
+  /**
+   * Navigation Pied de page field in *Bloc de configuration*
+   *
+   * - **Field Type**: Group
+   * - **Placeholder**: *None*
+   * - **API ID Path**: header.footer_navigation[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#group
+   */
+  footer_navigation: prismic.GroupField<
+    Simplify<HeaderDocumentDataFooterNavigationItem>
   >;
 }
 
@@ -1110,6 +1148,126 @@ export type PageArticleDocument<Lang extends string = string> =
     Lang
   >;
 
+type PageEditorialeDocumentDataSlicesSlice = never;
+
+/**
+ * Content for Page éditoriale documents
+ */
+interface PageEditorialeDocumentData {
+  /**
+   * Titre field in *Page éditoriale*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
+   * Sous-titre field in *Page éditoriale*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subtitle: prismic.KeyTextField;
+
+  /**
+   * Bannière field in *Page éditoriale*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.image_banner
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_banner: prismic.ImageField<"banner" | "mobile">;
+
+  /**
+   * Content field in *Page éditoriale*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.content
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   */
+  content: prismic.RichTextField;
+
+  /**
+   * Auteur field in *Page éditoriale*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.author
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  author: prismic.KeyTextField;
+
+  /**
+   * Slice Zone field in *Page éditoriale*
+   *
+   * - **Field Type**: Slice Zone
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.slices[]
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#slices
+   */
+  slices: prismic.SliceZone<PageEditorialeDocumentDataSlicesSlice> /**
+   * Meta Title field in *Page éditoriale*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A title of the page used for social media and search engines
+   * - **API ID Path**: page_editoriale.meta_title
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */;
+  meta_title: prismic.KeyTextField;
+
+  /**
+   * Meta Description field in *Page éditoriale*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: A brief summary of the page
+   * - **API ID Path**: page_editoriale.meta_description
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  meta_description: prismic.KeyTextField;
+
+  /**
+   * Meta Image field in *Page éditoriale*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_editoriale.meta_image
+   * - **Tab**: SEO & Metadata
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  meta_image: prismic.ImageField<never>;
+}
+
+/**
+ * Page éditoriale document from Prismic
+ *
+ * - **API ID**: `page_editoriale`
+ * - **Repeatable**: `true`
+ * - **Documentation**: https://prismic.io/docs/custom-types
+ *
+ * @typeParam Lang - Language API ID of the document.
+ */
+export type PageEditorialeDocument<Lang extends string = string> =
+  prismic.PrismicDocumentWithUID<
+    Simplify<PageEditorialeDocumentData>,
+    "page_editoriale",
+    Lang
+  >;
+
 type PageThematiqueDocumentDataSlicesSlice = never;
 
 /**
@@ -1251,6 +1409,7 @@ export type AllDocumentTypes =
   | HeaderDocument
   | HomepageDocument
   | PageArticleDocument
+  | PageEditorialeDocument
   | PageThematiqueDocument;
 
 declare module "@prismicio/client" {
@@ -1285,6 +1444,7 @@ declare module "@prismicio/client" {
       HeaderDocumentData,
       HeaderDocumentDataHeaderNavigationItem,
       HeaderDocumentDataShareSocialMediaItem,
+      HeaderDocumentDataFooterNavigationItem,
       HomepageDocument,
       HomepageDocumentData,
       HomepageDocumentDataBlockThematiquesItem,
@@ -1293,6 +1453,9 @@ declare module "@prismicio/client" {
       PageArticleDocumentData,
       PageArticleDocumentDataImagesGalleryItem,
       PageArticleDocumentDataSlicesSlice,
+      PageEditorialeDocument,
+      PageEditorialeDocumentData,
+      PageEditorialeDocumentDataSlicesSlice,
       PageThematiqueDocument,
       PageThematiqueDocumentData,
       PageThematiqueDocumentDataSlicesSlice,

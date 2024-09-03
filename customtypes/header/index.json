@@ -81,6 +81,30 @@
             }
           }
         }
+      },
+      "footer_navigation": {
+        "type": "Group",
+        "config": {
+          "label": "Navigation Pied de page",
+          "repeat": true,
+          "fields": {
+            "label_footer": {
+              "type": "Text",
+              "config": {
+                "label": "label du lien",
+                "placeholder": ""
+              }
+            },
+            "link_footer": {
+              "type": "Link",
+              "config": {
+                "label": "Lien vers la page",
+                "placeholder": "",
+                "select": null
+              }
+            }
+          }
+        }
       }
     }
   }

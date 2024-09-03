@@ -1,9 +1,10 @@
 <script setup lang="ts">
  // add header + footer
 const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vue'))
-const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
+const Footer = defineAsyncComponent(() => import('@/components/Layouts/Footer.vue'))
 const SocialShare = defineAsyncComponent(() => import('@/components/Layouts/SidebarSocialShare.vue'))
- useSeo({
+
+useSeo({
    title: 'Société Astronomique de Montpellier',
    description: 'À la découverte du ciel',
    image: ''
@@ -17,7 +18,7 @@ const SocialShare = defineAsyncComponent(() => import('@/components/Layouts/Side
       <slot />
     </DelayHydration>
   </div>
-  <Copyright />
+  <Footer />
   <SocialShare />
 </template>
 

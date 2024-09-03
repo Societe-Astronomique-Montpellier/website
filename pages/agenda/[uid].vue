@@ -7,7 +7,7 @@ import type {ComputedRef} from "vue";
 import {asImageSrc, isFilled} from "@prismicio/helpers";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 import type {ImageField} from "@prismicio/client";
-import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
+import type { EventDocument, EventsDocument} from "~/prismicio-types";
 
 const prismic = usePrismic()
 const route = useRoute();

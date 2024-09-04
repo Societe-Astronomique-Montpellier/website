@@ -44,7 +44,7 @@
             {
               "name": "mobile",
               "width": 400,
-              "height": ""
+              "height": null
             }
           ]
         }
@@ -77,6 +77,22 @@
           "label": "Testimonial vignette 3",
           "constraint": {},
           "thumbnails": []
+        }
+      },
+      "link_label": {
+        "type": "Text",
+        "config": {
+          "label": "Label lien",
+          "placeholder": "Label lien"
+        }
+      },
+      "link": {
+        "type": "Link",
+        "config": {
+          "label": "Lien",
+          "placeholder": "Lien vers une page",
+          "allowTargetBlank": true,
+          "select": null
         }
       },
       "slices": {

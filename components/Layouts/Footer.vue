@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import type {LinkField} from "@prismicio/client";
+import {PrismicLink} from "@prismicio/vue";
+
 const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 
+const menuNavigation = useMenuNavigation()
 // TODO : get footer links
 </script>
 
@@ -13,9 +17,13 @@ const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyri
       <!-- Links -->
       <div class="grid grid-cols-1 md:grid-cols-3 mb-4">
         <!-- First column -->
-        <div class="mb-6">
+        <div v-for="(item, index) in menuNavigation?.data.footer_navigation" :key="index" class="mb-6">
           <h5 class="mb-2.5 font-bold text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
-            Link 1
+            <prismic-link :field="item.link_footer as LinkField" role="menuitem">
+              {{ item.label_footer }}
+              <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
+              <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
+            </prismic-link>
           </h5>
 
           <ul v-show="false" class="mb-0 list-none" role="list">
@@ -26,38 +34,7 @@ const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyri
             </li>
           </ul>
         </div>
-
-        <!-- Second column -->
-        <div class="mb-6">
-          <h5 class="mb-2.5 font-bold text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
-            Link 2
-          </h5>
-
-          <ul class="mb-0 list-none" role="list">
-            <li>
-              <a href="#!" class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
-
-              </a>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Third column -->
-        <div class="mb-6">
-          <h5 class="mb-2.5 font-bold text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
-            Link 3
-          </h5>
-
-          <ul class="mb-0 list-none" role="list">
-            <li>
-              <a href="#!" class="text-neutral-600 hover:text-neutral-800 dark:text-neutral-200">
-
-              </a>
-            </li>
-          </ul>
-        </div>
       </div>
-
     </div>
 
     <!-- Social media -->

@@ -45,9 +45,9 @@ const { data: home, error} = useAsyncData(
         'block_testimonial.testimonial_vignette_1',
         'block_testimonial.testimonial_vignette_2',
         'block_testimonial.testimonial_vignette_3',
+        'block_testimonial.link_label',
+        'block_testimonial.link',
         'data.block_thematiques',
-//        'item.thematics_list',
-
         'block_cta.title',
         'block_cta.subtitle',
         'block_cta.image',
@@ -71,7 +71,7 @@ const { data: home, error} = useAsyncData(
     }
 
     const relatedBlockTestimonial = response.data.block_testimonial as typeof response.data.block_testimonial & {
-      data: Pick<BlockTestimonialDocument['data'], 'title' | 'content' | 'testimonial_text_1' | 'testimonial_text_2' | 'testimonial_text_3' | 'testimonial_vignette_1' | 'testimonial_vignette_2' | 'testimonial_vignette_3'>
+      data: Pick<BlockTestimonialDocument['data'], 'title' | 'content' | 'testimonial_text_1' | 'testimonial_text_2' | 'testimonial_text_3' | 'testimonial_vignette_1' | 'testimonial_vignette_2' | 'testimonial_vignette_3' | 'link_label' | 'link'>
     }
 
     const relatedBlockCta = response.data.block_cta as typeof response.data.block_cta & {

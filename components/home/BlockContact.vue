@@ -15,10 +15,7 @@ const {data: block_contact} = useAsyncData(
 
 const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
 
-import { useCoordinates } from "@/composables/useCoordinates";
 const centerMap: [number, number] = useCoordinates('babotte');
-
-import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 const richTextSerializer = useRichTextSerializer();
 
 </script>

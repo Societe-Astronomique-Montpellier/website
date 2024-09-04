@@ -65,14 +65,14 @@ const handleScroll = () => {
 <template>
   <nav
     class="
-    z-20  shrink-0 grow-0 justify-around gap-4 border-t border-indigo-700
-    bg-white/50 p-2.5 shadow-lg backdrop-blur-lg
+    z-20  shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
+    bg-white/50 p-1 shadow-lg backdrop-blur-lg
     dark:border-slate-600/60 dark:bg-slate-800/50
     fixed top-2/4 -translate-y-2/4 left-6 min-h-[auto] min-w-[64px] flex flex-col rounded-lg border"
   >
     <div v-for="(item, index) in items" v-bind:key=index>
       <a
-        class="flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 text-indigo-700 hover:bg-indigo-700 hover:text-white"
+        class="flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
         :href=item.path
         :title=item.label
         :aria-label=item.label
@@ -84,7 +84,7 @@ const handleScroll = () => {
 
     <button
       @click="scrollToTop"
-      :class="`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1.5 text-indigo-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
+      :class="`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
       type="button"
       :aria-label="backToTopLabel"
     >

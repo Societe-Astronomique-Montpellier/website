@@ -358,6 +358,28 @@ interface BlockTestimonialDocumentData {
   testimonial_vignette_3: prismic.ImageField<never>;
 
   /**
+   * Label lien field in *Bloc testimonial*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Label lien
+   * - **API ID Path**: block_testimonial.link_label
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  link_label: prismic.KeyTextField;
+
+  /**
+   * Lien field in *Bloc testimonial*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Lien vers une page
+   * - **API ID Path**: block_testimonial.link
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  link: prismic.LinkField;
+
+  /**
    * Slice Zone field in *Bloc testimonial*
    *
    * - **Field Type**: Slice Zone

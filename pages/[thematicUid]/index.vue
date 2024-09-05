@@ -45,11 +45,13 @@ const { data, error} = useAsyncData(
       },
     }) as PageArticleDocument[]
 
+
     return {
       page_thematic: response,
       publication_date: useFormatIntoFrenchDate(response.last_publication_date, 'short') ?? useFormatIntoFrenchDate(response.first_publication_date, 'short'),
       articles: articles,
     };
+
   }
 )
 

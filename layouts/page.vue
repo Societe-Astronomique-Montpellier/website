@@ -18,8 +18,8 @@ useSeo({
       <slot />
     </DelayHydration>
   </div>
-  <Footer />
   <SocialShare />
+  <Footer />
 </template>
 
 <style scoped>

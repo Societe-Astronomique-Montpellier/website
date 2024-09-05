@@ -4,8 +4,8 @@ import {reactive, type Ref} from "vue";
 const { t } = useI18n();
 const { isMobile } = useDevice()
 
-const iconSize: Ref<number> = ref(24)
-const iconSizeMobile: Ref<number> = ref(18)
+const iconSize: Ref<number> = ref(20)
+const iconSizeMobile: Ref<number> = ref(16)
 const isVisible: Ref<boolean> = ref(false);
 
 const displayBtn = computed<string>(() => isVisible.value ? 'visible' : 'hidden' )
@@ -45,7 +45,6 @@ const items: IItem[] = reactive([
   }
 ])
 
-
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
 });
@@ -60,31 +59,33 @@ const scrollToTop = () => {
 const handleScroll = () => {
   isVisible.value = window.scrollY > 200;
 };
+
+const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-inline bottom-0': '-translate-y-2/4 flex-col top-2/4 left-3 rounded-lg border')
 </script>
 
 <template>
   <nav
-    class="
-    z-20  shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
-    bg-white/50 p-1 shadow-lg backdrop-blur-lg
-    dark:border-slate-600/60 dark:bg-slate-800/50
-    fixed top-2/4 -translate-y-2/4 left-6 min-h-[auto] min-w-[64px] flex flex-col rounded-lg border"
+    :class="`
+      z-20 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
+      bg-white/50 p-2 shadow-lg backdrop-blur-lg
+      dark:border-slate-600/60 dark:bg-slate-800/50
+      fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"
   >
     <div v-for="(item, index) in items" v-bind:key=index>
       <a
-        class="flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
+        class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
         :href=item.path
         :title=item.label
         :aria-label=item.label
       >
         <Icon :name=item.icon :size="displayIconSize" />
       </a>
-      <hr class="dark:border-gray-700/60" />
+      <hr class="dark:border-gray-700/60" :class="(isMobile) ? `divide-x`: ``" />
     </div>
 
     <button
       @click="scrollToTop"
-      :class="`flex aspect-square min-h-[32px] w-16 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
+      :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
       type="button"
       :aria-label="backToTopLabel"
     >

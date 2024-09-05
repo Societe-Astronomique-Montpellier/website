@@ -8,11 +8,7 @@ export const useSocialShareMedia = () => {
         '$shareSocialMedia',
         async (): Promise<PrismicDocumentWithoutUID> => await prismic.client.getSingle<HeaderDocument>('header', {
             lang: 'fr-fr',
-            fetch: 'my.header.share_social_media',
-            filters: [
-                prismic.filter.at('my.header.share_social_media.display_social_network', true),
-                // prismic.filter.at('my.header.share_social_media.display_social_network', 'Affiché')
-            ]
+            fetch: 'my.header.share_social_media'
         })
-    ).data.value?.data.share_social_media;
+    ).data.value?.data.share_social_media.filter((i: any) => true === i.display_social_network);
 }

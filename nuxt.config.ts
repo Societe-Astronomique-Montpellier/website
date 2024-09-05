@@ -24,41 +24,20 @@ export default defineNuxtConfig({
         { Allow: "*" },
       ],
     }],
+    ["nuxt-mail", {
+      message: {
+        to: "contact@societe-astronomique-montpellier.fr"
+      },
+      smtp: {
+        host: "smtp.test.fr",
+        port: 587
+      }
+    }]
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
     preview: '/api/preview',
-    linkResolver: '~/prismic/linkResolver',
-    // clientConfig: {
-    //   routes: [
-    //     {
-    //       type: 'homepage',
-    //       uid: 'sam_homepage',
-    //       path: '/'
-    //     },
-    //
-    //     {
-    //       type: 'page_thematique',
-    //       path: '/:uid',
-    //     },
-    //     // {
-    //     //   type: 'page_article',
-    //     //   resolvers: {
-    //     //     thematic: 'thematic'
-    //     //   },
-    //     //   path: '/:thematic/:uid'
-    //     // },
-    //     {
-    //       type: 'events',
-    //       uid: 'agenda',
-    //       path: '/agenda'
-    //     },
-    //     {
-    //       type: 'event',
-    //       path: '/agenda/:uid'
-    //     },
-    //   ]
-    // }
+    linkResolver: '~/prismic/linkResolver'
   },
   i18n: {
     detectBrowserLanguage: false,

@@ -1,8 +1,6 @@
 import {type LinkResolverFunction} from '@prismicio/client';
-import type {FilledContentRelationshipField} from "@prismicio/client/src/types/value/contentRelationship";
 
 const linkResolver: LinkResolverFunction = (document: any): string|null => {
-    console.log(document.type)
     if ('page_thematique' === document.type) {
         const thematicUid = document.uid;
         return `/${thematicUid}`;
@@ -25,8 +23,6 @@ const linkResolver: LinkResolverFunction = (document: any): string|null => {
     if ('event' === document.type) {
         return `/agenda/${document.uid}`;
     }
-
-
 
     if ('homepage' === document.type) {
         return "/"

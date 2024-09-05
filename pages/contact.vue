@@ -1,27 +1,43 @@
 <script setup lang="ts">
 import {useSeo} from "~/composables/useSeo";
-const { t } = useI18n();
-
-const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
-const FormContact = defineAsyncComponent(() => import('@/components/forms/contact.vue'))
+import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
+import type {ImageField} from "@prismicio/client";
 
 definePageMeta({
   layout: 'page',
 });
 
-const submittedFormData: Ref<boolean | null> = ref(null)
+const { t } = useI18n();
+const mail = useMail()
 
-import {useBannerImage} from "@/composables/useBannerImage";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import type {ImageField} from "@prismicio/client";
+const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
+const FormContact = defineAsyncComponent(() => import('@/components/forms/contact.vue'))
+
+interface IFormData {
+  name: string,
+  email: string,
+  subject: string,
+  message: string
+}
+const submittedFormData: Ref<IFormData | null> = ref(null)
+const submittedForm: Ref<boolean> = ref(false)
+const submitedFormMessage: Ref<string | null> = ref(null)
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(undefined, false))
 
-const handleContactFormSubmission = async (formData: any) => {
-  // submittedFormData.value = submitFormData;
+const handleContactFormSubmission = async (formData: IFormData) => {
+  submittedFormData.value = formData;
+  console.log(submittedFormData)
   setTimeout(async () => {
     try {
-      console.log(formData)
-    } catch (err) {}
+      mail.send({
+        from: formData.email,
+        subject: formData.subject,
+        text: formData.message
+      })
+      submittedForm.value = true
+    } catch (err) {
+      submittedForm.value = true
+    }
   }, 1000)
 }
 
@@ -46,7 +62,18 @@ const handleContactFormSubmission = async (formData: any) => {
               <p class="text-justify text-base leading-8 mt-2 my-5">
                 {{ $t('contact.subtitle') }}
               </p>
-              <FormContact @submit="handleContactFormSubmission" />
+              <FormContact @submit="handleContactFormSubmission" v-if="!submittedForm" />
+              <div v-if="submittedForm">
+                <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
+                  <Icon name="clarity:success-standard-line" size="12" /> {{ submitedFormMessage }}
+                </div>
+                <div class="mt-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
+                  <span id="hs-soft-color-danger-label" class="font-bold">Danger</span> {{ submitedFormMessage }}
+                </div>
+                <div class="mt-2 bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-warning-label">
+                  <span id="hs-soft-color-warning-label" class="font-bold">Warning</span> {{ submitedFormMessage }}
+                </div>
+              </div>
             </div>
           </div>
         </div>

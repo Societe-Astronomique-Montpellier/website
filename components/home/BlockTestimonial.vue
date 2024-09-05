@@ -39,12 +39,12 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() => isMob
             <Icon name="material-symbols:arrow-right-alt" /> {{ block.data.testimonial_text_3 }}
         </p>
       </div>
-      <div v-if="block.data.link">
+      <div v-if="block.data.link" class="mt-8 flex justify-center">
         <NuxtLink
-            :to="block.data.link"
-            :aria-label="block.data.link_label"
-            type="button"
-            class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+          :to="block?.data.link"
+          :aria-label="block.data.link_label"
+          type="button"
+          class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
         >
           {{ block.data.link_label }}
         </NuxtLink>

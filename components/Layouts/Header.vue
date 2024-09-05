@@ -76,8 +76,8 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       <nav class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" aria-label="navigation">
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
           <HeaderNavItem
-              v-for="(item, index) in menuNavigation?.data.header_navigation"
-              :key="index"
+            v-for="(item, index) in menuNavigation?.data.header_navigation"
+            :key="index"
           >
             <prismic-link :field="item.link_header as LinkField" role="menuitem">
               {{ item.label_header }}

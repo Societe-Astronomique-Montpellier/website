@@ -42,7 +42,7 @@
         "type": "Link",
         "config": {
           "label": "Lien",
-          "placeholder": "",
+          "placeholder": "Lien vers une page",
           "allowTargetBlank": false,
           "select": null
         }

@@ -29,8 +29,13 @@ export default defineNuxtConfig({
         to: "contact@societe-astronomique-montpellier.fr"
       },
       smtp: {
-        host: "smtp.test.fr",
-        port: 587
+        host: process.env.NUXT_SAM_SMTP_HOST || "smtp.test.fr",
+        port: Number(process.env.NUXT_SAM_SMTP_PORT) || 587,
+        auth: {
+          user: process.env.NUXT_SAM_SMTP_USER || '',
+          pass: process.env.NUXT_SAM_SMTP_PWD || ''
+        },
+        secure: false
       }
     }]
   ],

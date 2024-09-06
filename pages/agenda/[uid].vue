@@ -80,33 +80,36 @@ useSeo({
                   />
                 </Fancybox>
 
-                <div class="flex items-center gap-4">
-                  <Icon size="24" name="material-symbols:calendar-clock" />
-                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit p-4">
-                    <span v-if="data.startDate">{{ data.startDate }}</span><span v-if="data.endDate"> au {{ data.endDate }}</span>
-                  </p>
-                </div>
+                <button
+                  type="button"
+                  class="justify-center px-3 py-2.5 text-md font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1"
+                >
+                  <Icon size="18" name="material-symbols:calendar-clock" />
+                  <span v-if="data.startDate">&nbsp;{{ data.startDate }}</span><span v-if="data.endDate"> au {{ data.endDate }}</span>
+                </button>
 
-                <div class="flex items-center gap-4">
-                  <Icon size="24" name="hugeicons:image-composition" />
-                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">{{ data.event.data.place_event_txt }}</p>
-                </div>
+                <button
+                  type="button"
+                  class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1"
+                >
+                  <Icon size="18" name="hugeicons:image-composition" />
+                  &nbsp;{{ data.event.data.place_event_txt }}
+                </button>
 
-                <div class="flex items-center gap-4" v-if="data.event.data.link">
-                  <Icon size="24" name="material-symbols:add-link" />
-                  <p class="block antialiased font-sans text-base leading-relaxed text-inherit ">
-                    <prismic-link
-                        :field="data.event.data.link"
-                        class="text-indigo-400 inline-flex items-center mt-3"
-                        :aria-label="t('layout.moreInfo')"
-                    >
-                      {{ $t('layout.moreInfo') }}
-                      <Icon name="material-symbols:arrow-right-alt" />
-                    </prismic-link>
-                  </p>
-                </div>
+                <prismic-link
+                  :field="data.event.data.link"
+                  class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1"
+                  :aria-label="t('layout.moreInfo')"
+                >
+                  {{ $t('layout.moreInfo') }}
+                  <Icon name="material-symbols:arrow-right-alt" />
+                </prismic-link>
+
+                <AddToCalendarButton
+                  :name="data.event.data.title"
+                />
+
               </div>
-
             </div>
           </div>
         </div>

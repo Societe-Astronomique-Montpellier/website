@@ -21,17 +21,17 @@ const items: IItem[] = reactive([
   {
     path: '#status',
     label: t('layout.sideMenu.status'),
-    icon: 'material-symbols:earthquake'
+    icon: 'material-symbols-light:text-ad-outline'
   },
   {
     path: '#thematiques',
     label: t('layout.sideMenu.thematiques'),
-    icon: 'material-symbols:all-inbox-outline'
+    icon: 'material-symbols-light:stacked-inbox-outline'
   },
   {
     path: '#mise-en-avant',
     label: t('layout.sideMenu.mise-en-avant'),
-    icon: 'material-symbols:attach-email-outline'
+    icon: 'material-symbols-light:label-important-outline'
   },
   {
     path: '#evenements',

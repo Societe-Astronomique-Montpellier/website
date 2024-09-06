@@ -28,7 +28,7 @@ const handleScroll = () => {
   isVisible.value = window.scrollY > 200;
 };
 
-const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-inline bottom-0': '-translate-y-2/4  flex-col top-2/4 left-3 rounded-lg border')
+const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-inline bottom-0 md:w-auto w-full': '-translate-y-2/4  flex-col top-2/4 right-3 rounded-lg border')
 </script>
 
 <template>

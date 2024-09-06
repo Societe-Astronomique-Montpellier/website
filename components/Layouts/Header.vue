@@ -137,6 +137,16 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
 
         <nav aria-label="menu-responsive">
           <ul class="divide-y" role="menubar">
+            <NuxtLink
+              to="/"
+              :aria-label="t('layout.home')"
+              type="button"
+              class="my-4 inline-block"
+              role="menuitem"
+            >
+              {{ $t('layout.home') }}
+            </NuxtLink>
+
             <li v-for="(item, index) in menuNavigation?.data.header_navigation" @click="isOpen = false" :key="index" role="none">
               <prismic-link :field="item.link_header as LinkField" class="my-4 inline-block" role="menuitem">
                 {{ item.label_header }}

@@ -4,7 +4,8 @@ import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
 
 import { useCoordinates } from "@/composables/useCoordinates";
 const centerMap = useCoordinates('babotte') as [number, number];
-const zoom: Ref<number> = ref(18);
+const zoom: Ref<number> = ref<number>(18);
+const zIndex: Ref<number> = ref<number>(20);
 
 // Props
 export interface IProps {
@@ -26,9 +27,10 @@ const { itemMarker } = toRefs(props)
         :center="itemMarker"
       >
         <l-tile-layer
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            layer-type="base"
-            name="OpenStreetMap"
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          layer-type="base"
+          name="OpenStreetMap"
+          v-model:z-index="zIndex"
         ></l-tile-layer>
         <l-marker
           :lat-lng="itemMarker"

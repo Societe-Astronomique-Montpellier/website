@@ -66,7 +66,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
 <template>
   <nav
     :class="`
-      z-20 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
+      z-50 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
       bg-white/50 p-2 shadow-lg backdrop-blur-lg
       dark:border-slate-600/60 dark:bg-slate-800/50
       fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"

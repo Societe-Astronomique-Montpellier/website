@@ -91,7 +91,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
             type="button"
             :aria-label="t('layout.header.btnContact')"
             role="menuitem"
-            class="md:justify-center inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+            class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
           >
             {{ $t('layout.header.btnContact') }}
           </NuxtLink>
@@ -147,7 +147,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
               to="/contact"
               :aria-label="t('layout.header.btnContact')"
               type="button"
-              class="my-4 inline-block rounded bg-indigo-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none"
+              class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
               role="menuitem"
             >
               {{ $t('layout.header.btnContact') }}

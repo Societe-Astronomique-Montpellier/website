@@ -33,7 +33,6 @@
     "nuxt": "^3.12.4",
     "nuxt-mail": "^5.0.1",
     "sharp": "^0.33.4",
-    "tw-elements": "^2.0.0",
     "vue": "latest"
   },
   "devDependencies": {

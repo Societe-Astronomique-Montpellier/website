@@ -18,7 +18,7 @@ import type {
 // https://flowbite.com/blocks/publisher/blog-templates/
 const route = useRoute();
 const prismic = usePrismic()
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { isMobile } = useDevice()
 
 const Breadcrumbs = defineAsyncComponent(() => import('~/components/Layouts/Breadcrumbs.vue'))
@@ -43,6 +43,7 @@ const { data, error} = useAsyncData(
         field: 'my.page_article.date_modification',
         direction: 'desc'
       },
+      lang: locale.value
     }) as PageArticleDocument[]
 
 

@@ -12,6 +12,7 @@ import type { PageArticleDocument, PageThematiqueDocument} from "~/prismicio-typ
 const prismic = usePrismic();
 const { isMobile } = useDevice()
 const route = useRoute();
+const { locale } = useI18n()
 
 const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderPage.vue'))
 const Breadcrumbs = defineAsyncComponent(() => import('~/components/Layouts/Breadcrumbs.vue'))
@@ -20,12 +21,12 @@ const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybo
 const { thematicUid, articleUid } = route.params as { thematicUid: string, articleUid: string }
 const { data: article, error} = useAsyncData(
     articleUid,
-    async () => await prismic.client.getByUID<PageArticleDocument>('page_article', articleUid)
+    async () => await prismic.client.getByUID<PageArticleDocument>('page_article', articleUid, {lang: locale.value})
 )
 
 const { data: parentThematic} = useAsyncData(
     thematicUid,
-    async () => await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', thematicUid)
+    async () => await prismic.client.getByUID<PageThematiqueDocument>('page_thematique', thematicUid, { lang: locale.value })
 )
 
 const richTextSerializer = useRichTextSerializer();
@@ -71,7 +72,7 @@ useSeo({
               </Fancybox>
               <p class="text-gray-700 text-xs mt-5">
             <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              {{ $t('layout.knowMore') }} {{ article?.data.author }}
+              {{ $t('page.author') }} {{ article?.data.author }}
             </span> le
                 <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
               {{ formatedDate }}

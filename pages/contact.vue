@@ -7,7 +7,7 @@ definePageMeta({
   layout: 'page',
 });
 
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const mail = useMail()
 
 const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))

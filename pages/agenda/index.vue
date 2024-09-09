@@ -4,7 +4,7 @@ definePageMeta({
 });
 
 const prismic = usePrismic();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 const { isMobile } = useDevice()
 
 import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
@@ -23,9 +23,9 @@ const { data: list_events, error } = useAsyncData(
   async () => {
     const dateNow = new Date().toISOString().split('T')[0];
     const [agenda, futurEvents, pastEvents] = await Promise.all([
-      await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument,
+      await prismic.client.getSingle('events', {lang: locale.value}) as EventsDocument,
       await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        lang: 'fr-fr',
+        lang: locale.value,
         filters: [
           prismic.filter.dateAfter('my.event.time_start', dateNow),
         ],
@@ -35,7 +35,7 @@ const { data: list_events, error } = useAsyncData(
         }
       }) as EventDocument[],
       await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        lang: 'fr-fr',
+        lang: locale.value,
         filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow)],
         orderings: {
           field: 'my.event.time_start',

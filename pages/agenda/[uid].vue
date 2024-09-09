@@ -11,7 +11,7 @@ import type { EventDocument, EventsDocument} from "~/prismicio-types";
 
 const prismic = usePrismic()
 const route = useRoute();
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { isMobile } = useDevice();
 
 const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
@@ -26,8 +26,8 @@ const { data, error } = useAsyncData(
   uid,
   async () => {
     const [response, parentAgenda] = await Promise.all([
-      await prismic.client.getByUID<EventDocument>('event', uid, {lang: 'fr-fr'}) as EventDocument,
-      await prismic.client.getSingle<EventsDocument>('events', {lang: 'fr-fr'}) as EventsDocument
+      await prismic.client.getByUID<EventDocument>('event', uid, {lang: locale.value}) as EventDocument,
+      await prismic.client.getSingle<EventsDocument>('events', {lang: locale.value}) as EventsDocument
     ])
 
     fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]

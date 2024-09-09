@@ -1,7 +1,7 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
 import type {ComputedRef} from "vue";
-
+const { locale } = useI18n()
 const prismic = usePrismic()
 import { useSeo } from '@/composables/useSeo';
 
@@ -32,7 +32,7 @@ const { data: home, error} = useAsyncData(
   "home",
   async () => {
     const response = await prismic.client.getSingle<HomepageDocument>('homepage', {
-      lang: 'fr-fr',
+      lang: locale.value,
       fetchLinks: [
         'block_hero.title',
         'block_hero.subtitle',
@@ -90,14 +90,15 @@ const { data: home, error} = useAsyncData(
     const dateNow = new Date().toISOString().split('T')[0];
     const [thematics, agenda, events] = await Promise.all([
       await prismic.client.getAllByIDs<AllDocumentTypes>(listThematicsId) as PageThematiqueDocument[],
-      await prismic.client.getSingle('events', {lang: 'fr-fr'}) as EventsDocument,
+      await prismic.client.getSingle('events', {lang: locale.value}) as EventsDocument,
       await prismic.client.getAllByType<AllDocumentTypes>('event', {
         filters: [ prismic.filter.dateAfter('my.event.time_start', dateNow) ],
         orderings: {
           field: 'my.event.time_start',
           direction: 'asc'
         },
-        limit: 3
+        limit: 3,
+        lang: locale.value
       }) as EventDocument[]
     ])
 

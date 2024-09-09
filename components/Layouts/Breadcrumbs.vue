@@ -3,11 +3,12 @@ import type {
   AllDocumentTypes,
   EventDocument,
   EventsDocument,
-  PageArticleDocument,
+  PageArticleDocument, PageEditorialeDocument,
   PageThematiqueDocument
 } from "~/prismicio-types";
 
 const prismic = usePrismic();
+const { locale } = useI18n()
 const isCurrent: Ref<boolean> = ref(false);
 
 export interface IProps {
@@ -20,7 +21,7 @@ const { currentUid, listIds } = toRefs(props)
 
 const { data: items, error } = await useAsyncData(
   'items',
-  async () => await prismic.client.getAllByIDs<EventsDocument | PageThematiqueDocument | PageArticleDocument | EventDocument>(listIds.value, {'lang': 'fr-fr'})
+  async () => await prismic.client.getAllByIDs<EventsDocument | PageThematiqueDocument | PageArticleDocument | EventDocument | PageEditorialeDocument>(listIds.value, {'lang': locale.value})
 )
 
 </script>

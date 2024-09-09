@@ -3,6 +3,8 @@
 import type {EventDocument, EventsDocument, PageArticleDocument, PageThematiqueDocument} from "~/prismicio-types";
 import type {KeyTextField} from "@prismicio/client";
 
+const { isMobile } = useDevice()
+
 export interface Props {
   titleBlock: KeyTextField | undefined
   contentBlock?: KeyTextField | undefined
@@ -30,8 +32,8 @@ const { getComponent } = useDynamicCardComponent();
           <slot name="content-block-top"></slot>
         </div>
       </div>
-      <div class="flex flex-wrap sm:-m-4 -mx-4 -mb-10 -mt-4">
-        <div class="p-4 md:w-1/3 sm:mb-0 mb-6" v-for="(item, index) in items" :key="index">
+      <div class="flex flex-wrap md:flex-row sm:-m-4 -mx-4 -mb-10 -mt-4">
+        <div class="p-4 md:w-1/3 w-full sm:mb-0 mb-6" v-for="(item, index) in items" :key="index">
           <component
             v-if="item && parentItem"
             :is="getComponent(item.type)"

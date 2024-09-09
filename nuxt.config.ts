@@ -46,6 +46,8 @@ export default defineNuxtConfig({
   },
   i18n: {
     detectBrowserLanguage: false,
+    locales: ['fr-fr'],
+    defaultLocale: 'fr-fr',
     vueI18n: './i18n/i18n.config.ts'
   },
   imports: {
@@ -99,7 +101,11 @@ export default defineNuxtConfig({
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
     public: {
-      facebookAppId: 1602972866638341
+      facebookAppId: 1602972866638341,
+      facebookSam: 'https://www.facebook.com/societeastronomiquemontpellier/',
+      twitterSam: 'https://x.com/astro_mtp',
+      instagramSam: '',
+      githubSam: ''
     }
   }
 })

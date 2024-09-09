@@ -15,6 +15,7 @@ const { t } = useI18n();
 const { isMobile } = useDevice()
 
 const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderPage.vue'))
+const Breadcrumbs = defineAsyncComponent(() => import('~/components/Layouts/Breadcrumbs.vue'))
 const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
 
 const { editorialUid } = route.params as { editorialUid: string }
@@ -51,6 +52,7 @@ useSeo({
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+          <Breadcrumbs :listIds="[editorial?.id]" :currentUid="editorialUid" />
           <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ editorial?.data.title }}</h1>
           <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ editorial?.data.subtitle }}</h2>
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />
@@ -64,7 +66,7 @@ useSeo({
               </Fancybox>
               <p class="text-gray-700 text-xs mt-5">
             <span id="span_author" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
-              {{ $t('layout.knowMore') }} {{ editorial?.data.author }}
+              {{ $t('page.author') }} {{ editorial?.data.author }}
             </span> le
                 <span id="span_date" class="font-medium hover:text-gray-900 transition duration-500 ease-in-out">
               {{ formatedDate }}

@@ -3,6 +3,12 @@
 import {reactive} from "vue";
 const { t } = useI18n();
 
+export interface Props {
+  topics?: string[] | undefined
+}
+const props = defineProps<Props>()
+const { topics } = toRefs(props)
+
 interface IFormData {
   name: string,
   email: string,
@@ -70,15 +76,17 @@ const submitForm = () => emit('submit', {...formData})
     </div>
     <div>
       <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.subject.label') }}</label>
-      <input
-          v-model="formData.subject"
-          type="text"
-          id="subject"
-          name="subject"
-          class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-          :placeholder="t('form.contact.subject.placeholder')"
-          required
+      <select
+        v-model="formData.subject"
+        id="subject"
+        name="subject"
+        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+        required
       >
+        <option v-for="topic in topics" v-bind:key="topic" :value="topic">
+          {{ topic }}
+        </option>
+      </select>
     </div>
     <div class="sm:col-span-2">
       <label for="message" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.message.label') }}</label>

@@ -407,6 +407,21 @@ export type BlockTestimonialDocument<Lang extends string = string> =
     Lang
   >;
 
+/**
+ * Item in *Page de contact → Liste des sujets*
+ */
+export interface ContactDocumentDataSubjectsItem {
+  /**
+   * Sujet field in *Page de contact → Liste des sujets*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Sujet du message
+   * - **API ID Path**: contact.subjects[].subject
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subject: prismic.KeyTextField;
+}
+
 type ContactDocumentDataSlicesSlice = never;
 
 /**
@@ -447,15 +462,15 @@ interface ContactDocumentData {
   content: prismic.RichTextField;
 
   /**
-   * Sujets field in *Page de contact*
+   * Liste des sujets field in *Page de contact*
    *
-   * - **Field Type**: Select
+   * - **Field Type**: Group
    * - **Placeholder**: *None*
-   * - **API ID Path**: contact.topics
+   * - **API ID Path**: contact.subjects[]
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#select
+   * - **Documentation**: https://prismic.io/docs/field#group
    */
-  topics: prismic.SelectField<"1" | "2">;
+  subjects: prismic.GroupField<Simplify<ContactDocumentDataSubjectsItem>>;
 
   /**
    * Slice Zone field in *Page de contact*
@@ -1568,6 +1583,7 @@ declare module "@prismicio/client" {
       BlockTestimonialDocumentDataSlicesSlice,
       ContactDocument,
       ContactDocumentData,
+      ContactDocumentDataSubjectsItem,
       ContactDocumentDataSlicesSlice,
       EventDocument,
       EventDocumentData,

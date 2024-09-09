@@ -33,6 +33,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
 
 <template>
   <nav
+    v-if="shareSocialMedia"
     :class="`
       z-20 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
       bg-white/50 p-2 shadow-lg backdrop-blur-lg

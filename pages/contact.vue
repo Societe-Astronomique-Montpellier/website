@@ -2,11 +2,15 @@
 import {useSeo} from "~/composables/useSeo";
 import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
 import type {ImageField} from "@prismicio/client";
+import type {ContactDocument, ContactDocumentDataSubjectsItem} from "~/prismicio-types";
+import type {ComputedRef} from "vue";
+import {isFilled} from "@prismicio/helpers";
 
 definePageMeta({
   layout: 'page',
 });
 
+const prismic = usePrismic()
 const { t, locale } = useI18n();
 const mail = useMail()
 
@@ -20,9 +24,26 @@ interface IFormData {
   message: string
 }
 const submittedFormData: Ref<IFormData | null> = ref(null)
+
+let listTopics = ref<string[]>([])
 const submittedForm: Ref<boolean> = ref(false)
 const submitedFormMessage: Ref<string | null> = ref(null)
+
+
+const { data: contact, error } = useAsyncData(
+    'contact',
+    async () => await prismic.client.getSingle<ContactDocument>('contact', { lang: locale.value })
+)
+
+const richTextSerializer = useRichTextSerializer();
+
+if (contact.value?.data.subjects) {
+  contact.value?.data.subjects.forEach((s: ContactDocumentDataSubjectsItem) => listTopics.value.push(s.subject as string))
+}
+
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(undefined, false))
+const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(contact.value?.data.meta_title) ? `${contact.value?.data.meta_title}` : `Société Astronomique de Montpellier`);
+const metaDescription: ComputedRef<string> = computed<string>(() => (isFilled.keyText(contact.value?.data.meta_description)) ? `${contact.value?.data.meta_description}` : ``);
 
 const handleContactFormSubmission = async (formData: IFormData) => {
   submittedFormData.value = formData;
@@ -41,11 +62,11 @@ const handleContactFormSubmission = async (formData: IFormData) => {
   }, 1000)
 }
 
-// useSeo({
-//   title: t('contact.title'),
-//   description: t('contact.subtitle'),
-//   image: null,
-// })
+useSeo({
+  title: metaTitle,
+  description: metaDescription,
+  image: null,
+})
 </script>
 
 <template>
@@ -57,12 +78,20 @@ const handleContactFormSubmission = async (formData: IFormData) => {
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ $t('contact.title') }}</h1>
+            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ contact?.data.title }}</h1>
             <div class="my-8 grid gap-6 px-2">
-              <p class="text-justify text-base leading-8 mt-2 my-5">
-                {{ $t('contact.subtitle') }}
-              </p>
-              <FormContact @submit="handleContactFormSubmission" v-if="!submittedForm" />
+
+              <div class="my-4 grid gap-4 px-1">
+                <div data-content>
+                    <prismic-rich-text
+                      :field="contact?.data.content"
+                      :serializer="richTextSerializer"
+                    ></prismic-rich-text>
+
+                </div>
+              </div>
+
+              <FormContact @submit="handleContactFormSubmission" v-if="!submittedForm && listTopics" :topics=listTopics />
               <div v-if="submittedForm">
                 <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
                   <Icon name="clarity:success-standard-line" size="12" /> {{ submitedFormMessage }}

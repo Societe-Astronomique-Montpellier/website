@@ -23,36 +23,43 @@ const formData: IFormData = reactive({
   message: ''
 })
 
-const rules = computed(() => {
-  return {
-    name: {
-      required: '',
-      minLength: ''
-    },
-    email: {
-      required: '',
-      email: ''
-    },
-    subject: {
-      required: '',
-      minLength: '' //minLength(5)
-    },
-    message: {
-      required: ''
-    }
-  }
-})
+const isLoading: Ref<boolean> = ref(false);
+type FormFeedbackType = 'incomplete' | 'consent' | 'invalid' | null;
+const errMessage: Ref<FormFeedbackType> = ref(null)
 
 const emit = defineEmits<{
   submit: [formData: IFormData]
 }>();
-const submitForm = () => emit('submit', {...formData})
+const submitForm = (): void => {
+  isLoading.value = true;
+  if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+    errMessage.value = 'incomplete'
+    isLoading.value = false;
+    return;
+  }
+
+  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+  if (formData.email && !regex.test(formData.email)) {
+    errMessage.value = 'invalid';
+    isLoading.value = false;
+    return;
+  }
+
+  setTimeout(() => {
+    isLoading.value = false;
+    emit('submit', {...formData})
+  }, 1000)
+
+}
 </script>
 
 <template>
+  <div v-if="errMessage" class="mt-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
+    <span id="hs-soft-color-danger-label" class="font-bold">Danger</span> Veuillez corriger les erreurs
+  </div>
   <form action="#" class="space-y-8" @submit.prevent="submitForm">
     <div>
-      <label for="name" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.name.label') }}</label>
+      <label for="name" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.name.label') }} <span class="text-red-700">*</span></label>
       <input
           v-model="formData.name"
           type="text"
@@ -64,7 +71,7 @@ const submitForm = () => emit('submit', {...formData})
       >
     </div>
     <div>
-      <label for="email" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.email.label') }}</label>
+      <label for="email" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.email.label') }} <span class="text-red-700">*</span></label>
       <input
           v-model="formData.email"
           type="email"
@@ -75,7 +82,7 @@ const submitForm = () => emit('submit', {...formData})
           required>
     </div>
     <div>
-      <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.subject.label') }}</label>
+      <label for="subject" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.subject.label') }} <span class="text-red-700">*</span></label>
       <select
         v-model="formData.subject"
         id="subject"
@@ -89,7 +96,7 @@ const submitForm = () => emit('submit', {...formData})
       </select>
     </div>
     <div class="sm:col-span-2">
-      <label for="message" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.message.label') }}</label>
+      <label for="message" class="block mb-2 text-sm font-medium text-gray-900">{{ $t('form.contact.message.label') }} <span class="text-red-700">*</span></label>
       <textarea
         id="message"
         rows="6"
@@ -101,7 +108,7 @@ const submitForm = () => emit('submit', {...formData})
       type="submit"
       :aria-label="t('form.contact.submit.label')"
       class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-    >{{ $t('form.contact.submit.label') }}</button>
+    >{{ isLoading ? 'Vérification...' : $t('form.contact.submit.label') }}</button>
   </form>
 </template>
 

@@ -91,7 +91,7 @@ useSeo({
                 </div>
               </div>
 
-              <FormContact @submit="handleContactFormSubmission" v-if="!submittedForm && listTopics" :topics=listTopics />
+              <FormContact @submit="handleContactFormSubmission" v-if="!submittedForm" :topics=listTopics />
               <div v-if="submittedForm">
                 <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
                   <Icon name="clarity:success-standard-line" size="12" /> {{ submitedFormMessage }}

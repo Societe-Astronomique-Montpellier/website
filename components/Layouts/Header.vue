@@ -85,6 +85,13 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
             </prismic-link>
           </HeaderNavItem>
 
+<!--          <prismic-link-->
+<!--            :field="prismic.asLink('contact')"-->
+<!--            role="menuitem"-->
+<!--            class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"-->
+<!--          >-->
+<!--            {{ $t('layout.header.btnContact') }}-->
+<!--          </prismic-link>-->
           <NuxtLink
             to="/contact"
             type="button"

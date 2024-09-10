@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {ComputedRef} from "vue";
-import type {ImageField} from "@prismicio/client";
+import type {ImageField, LinkField} from "@prismicio/client";
 import { useRichTextSerializer } from '@/composables/useRichTextSerializer'
 
 const ImageCopyright = defineAsyncComponent(() => import('@/components/Layouts/imageCopyright.vue'))
@@ -40,14 +40,14 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() => isMob
         </p>
       </div>
       <div v-if="block.data.link" class="mt-8 flex justify-center">
-        <NuxtLink
-          :to="block?.data.link"
+        <prismic-link
+          :field="block?.data.link as LinkField"
           :aria-label="block.data.link_label"
           type="button"
           class="px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1"
         >
           {{ block.data.link_label }}
-        </NuxtLink>
+        </prismic-link>
       </div>
     </div>
       <div class="lg:mt-0 lg:col-span-5 lg:flex rounded-lg">

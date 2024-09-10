@@ -15,14 +15,12 @@ useSeo({
 </script>
 
 <template>
-  <DelayHydration>
-    <Header :isHome=false :menu="menuNavigation" />
-    <div class="flex-fill">
-      <slot />
-    </div>
-    <SocialShare v-if="shareSocialMedia" :shareSocialMedia="shareSocialMedia" />
-    <Footer :menu="menuNavigation" />
-  </DelayHydration>
+  <Header :isHome=false :menu="menuNavigation" />
+  <div class="flex-fill">
+    <slot />
+  </div>
+  <SocialShare :shareSocialMedia="shareSocialMedia" />
+  <Footer :menu="menuNavigation" />
 </template>
 
 <style scoped>

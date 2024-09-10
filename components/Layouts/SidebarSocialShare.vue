@@ -51,7 +51,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
       class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
     >
     </SocialShare>
-    <hr class="dark:border-gray-700/60" />
+<!--    <hr class="dark:border-gray-700/60" />-->
     <button
         @click="scrollToTop"
         :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"

@@ -5,6 +5,8 @@ const SideMenu = defineAsyncComponent(() => import('@/components/Layouts/HomeSid
 const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 const Footer = defineAsyncComponent(() => import('@/components/Layouts/Footer.vue'))
 
+const menuNavigation = useMenuNavigation();
+
 const { isMobile } = useDevice();
 
 useSeo({
@@ -16,12 +18,12 @@ useSeo({
 </script>
 
 <template>
-  <Header :isHome=true v-if="isMobile" />
+  <Header :isHome=true v-if="isMobile" :menu="menuNavigation" />
   <div class="flex-fill">
     <slot />
   </div>
   <SideMenu />
-  <Footer />
+  <Footer :menu="menuNavigation"  />
 </template>
 
 <style scoped>

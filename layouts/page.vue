@@ -4,6 +4,9 @@ const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vu
 const Footer = defineAsyncComponent(() => import('@/components/Layouts/Footer.vue'))
 const SocialShare = defineAsyncComponent(() => import('@/components/Layouts/SidebarSocialShare.vue'))
 
+const menuNavigation = useMenuNavigation();
+const shareSocialMedia = useSocialShareMedia();
+
 useSeo({
    title: 'Société Astronomique de Montpellier',
    description: 'À la découverte du ciel',
@@ -12,14 +15,14 @@ useSeo({
 </script>
 
 <template>
-  <Header :isHome=false />
-  <div class="flex-fill">
-    <DelayHydration>
+  <DelayHydration>
+    <Header :isHome=false :menu="menuNavigation" />
+    <div class="flex-fill">
       <slot />
-    </DelayHydration>
-  </div>
-  <SocialShare />
-  <Footer />
+    </div>
+    <SocialShare v-if="shareSocialMedia" :shareSocialMedia="shareSocialMedia" />
+    <Footer :menu="menuNavigation" />
+  </DelayHydration>
 </template>
 
 <style scoped>

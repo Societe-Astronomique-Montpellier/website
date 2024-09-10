@@ -7,7 +7,7 @@ export const useSocialShareMedia = () => {
     const { locale } = useI18n()
     return useAsyncData(
         '$shareSocialMedia',
-        async (): Promise<PrismicDocumentWithoutUID> => await prismic.client.getSingle<HeaderDocument>('header', {
+        async () => await prismic.client.getSingle<HeaderDocument>('header', {
             lang: locale.value,
             fetch: 'my.header.share_social_media'
         })

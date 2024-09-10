@@ -3,7 +3,12 @@ import type {Ref} from "vue";
 
 const { isMobile } = useDevice()
 const { t } = useI18n();
-const shareSocialMedia = useSocialShareMedia();
+
+export interface Props {
+  shareSocialMedia: any
+}
+const props = defineProps<Props>()
+const { shareSocialMedia } = toRefs(props)
 
 const iconSize: Ref<number> = ref(20)
 const iconSizeMobile: Ref<number> = ref(16)
@@ -33,7 +38,6 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
 
 <template>
   <nav
-    v-if="shareSocialMedia"
     :class="`
       z-20 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
       bg-white/50 p-2 shadow-lg backdrop-blur-lg

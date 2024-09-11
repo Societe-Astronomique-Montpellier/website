@@ -47,17 +47,18 @@ const metaDescription: ComputedRef<string> = computed<string>(() => (isFilled.ke
 
 const handleContactFormSubmission = async (formData: IFormData) => {
   submittedFormData.value = formData;
-  console.log(submittedFormData)
   setTimeout(async () => {
     try {
       mail.send({
         from: formData.email,
-        subject: formData.subject,
+        subject: `[${formData.name}]: ${formData.subject}`,
         text: formData.message
       })
       submittedForm.value = true
+      submitedFormMessage.value = t('form.postSubmit.send')
     } catch (err) {
-      submittedForm.value = true
+      submittedForm.value = false
+      submitedFormMessage.value = t('form.postSubmit.err')
     }
   }, 1000)
 }
@@ -70,7 +71,7 @@ useSeo({
 </script>
 
 <template>
-  <section>
+  <section v-if="contact">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <HeaderPage />
       <div class="max-w-3xl mx-auto">
@@ -87,22 +88,16 @@ useSeo({
                       :field="contact?.data.content"
                       :serializer="richTextSerializer"
                     ></prismic-rich-text>
+                </div>
 
+                <div v-if="submittedForm">
+                  <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
+                    <Icon name="clarity:success-standard-line" size="12" /> {{ submitedFormMessage }}
+                  </div>
                 </div>
               </div>
 
               <FormContact @submit="handleContactFormSubmission" v-if="!submittedForm" :topics=listTopics />
-              <div v-if="submittedForm">
-                <div class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-success-label">
-                  <Icon name="clarity:success-standard-line" size="12" /> {{ submitedFormMessage }}
-                </div>
-                <div class="mt-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
-                  <span id="hs-soft-color-danger-label" class="font-bold">Danger</span> {{ submitedFormMessage }}
-                </div>
-                <div class="mt-2 bg-yellow-100 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-warning-label">
-                  <span id="hs-soft-color-warning-label" class="font-bold">Warning</span> {{ submitedFormMessage }}
-                </div>
-              </div>
             </div>
           </div>
         </div>

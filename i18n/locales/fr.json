@@ -28,18 +28,18 @@
     "author": "Rédigé par "
   },
   "agenda": {
-    "titleBlockNext": "Évenements à venir",
-    "titleBlockPast": "Évenements passés"
+    "titleBlockNext": "Événements à venir",
+    "titleBlockPast": "Événements passés"
   },
   "form": {
     "contact": {
       "name": {
         "label": "Nom",
-        "placeholder": ""
+        "placeholder": "Indiquez votre nom et prénom"
       },
       "email": {
         "label": "Adresse e-mail",
-        "placeholder": ""
+        "placeholder": "Indiquez votre adresse email"
       },
       "subject": {
         "label": "Sujet",
@@ -47,11 +47,18 @@
       },
       "message": {
         "label": "Message",
-        "placeholder": ""
+        "placeholder": "Veuillez saisir voter message"
       },
       "submit": {
         "label": "Envoyer"
       }
+    },
+    "postSubmit": {
+      "loading": "Vérification",
+      "incomplete": "Veuillez corriger les erreurs ou champ vide",
+      "invalid": "Veuillez renseignr une adresse email valide",
+      "send": "Votre message a bien été envoyé, nous vous répondrons le plus rapidement possible.",
+      "err": "L'envoie du message a rencontré un problème, veuillez réessayer ultérieurement ou nous adresser un message à l'adresse contact@societe-astronomique-montpellier.fr. Merci."
     }
   }
 }

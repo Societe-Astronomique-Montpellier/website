@@ -55,7 +55,8 @@ const submitForm = (): void => {
 
 <template>
   <div v-if="errMessage" class="mt-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert" tabindex="-1" aria-labelledby="hs-soft-color-danger-label">
-    <span id="hs-soft-color-danger-label" class="font-bold">Danger</span> Veuillez corriger les erreurs
+    <span id="hs-soft-color-danger-label" class="font-bold">Danger</span>
+    {{ $t(`form.postSubmit.${errMessage}`) }}
   </div>
   <form action="#" class="space-y-8" @submit.prevent="submitForm">
     <div>
@@ -108,7 +109,7 @@ const submitForm = (): void => {
       type="submit"
       :aria-label="t('form.contact.submit.label')"
       class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
-    >{{ isLoading ? 'Vérification...' : $t('form.contact.submit.label') }}</button>
+    >{{ isLoading ? $t('form.postSubmit.loading') : $t('form.contact.submit.label') }}</button>
   </form>
 </template>
 

@@ -30,7 +30,7 @@ const { data, error } = useAsyncData(
       await prismic.client.getSingle<EventsDocument>('events', {lang: locale.value}) as EventsDocument
     ])
 
-    fetchedPointData.value = [response.data.place_event.longitude, response.data.place_event.latitude]
+    fetchedPointData.value = [response.data.place_event.latitude, response.data.place_event.longitude]
 
     return {
       event: response,
@@ -112,7 +112,6 @@ useSeo({
           </div>
         </div>
       </div>
-
       <Map
         v-if="data.event"
         :itemMarker="markerCoordinates"

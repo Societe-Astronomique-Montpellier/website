@@ -19,14 +19,12 @@ useSeo({
 
 <template>
   <div>
-    <DelayHydration>
-      <Header :isHome=true v-if="isMobile" :menu="menuNavigation" />
-      <div class="flex-fill">
-        <slot />
-      </div>
-      <SideMenu />
-      <Footer :menu="menuNavigation"  />
-    </DelayHydration>
+    <Header :isHome=true v-if="isMobile" :menu="menuNavigation" />
+    <div class="flex-fill">
+      <slot />
+    </div>
+    <SideMenu />
+    <Footer :menu="menuNavigation"  />
   </div>
 </template>
 

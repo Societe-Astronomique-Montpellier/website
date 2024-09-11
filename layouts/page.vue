@@ -15,12 +15,15 @@ useSeo({
 </script>
 
 <template>
-  <Header :isHome=false :menu="menuNavigation" />
-  <div class="flex-fill">
-    <slot />
+  <div>
+    <SocialShare :shareSocialMedia="shareSocialMedia" />
+    <Header :isHome=false :menu="menuNavigation" />
+    <div class="flex-fill">
+      <slot />
+    </div>
+    <Footer :menu="menuNavigation" />
   </div>
-  <SocialShare :shareSocialMedia="shareSocialMedia" />
-  <Footer :menu="menuNavigation" />
+
 </template>
 
 <style scoped>

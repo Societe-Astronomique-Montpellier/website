@@ -3,18 +3,18 @@ import { Fancybox as NativeFancybox } from '@fancyapps/ui'
 import { onMounted, onUpdated, onUnmounted,  ref } from "vue"
 
 export interface Props {
-  options?: object
+  isCaroussel: boolean | undefined
 }
-const props = defineProps<Props>()
-const { options } = toRefs(props)
+const props = withDefaults(defineProps<Props>(), {
+  isCaroussel: false,
+})
+const { isCaroussel } = toRefs(props)
 
 const container = ref(null);
 
 onMounted(() => {
   const containerElement = container.value;
-  NativeFancybox.bind(containerElement, '[data-fancybox]', {
-    // ...(options || {})
-  });
+  NativeFancybox.bind(containerElement, '[data-fancybox]', { Carousel: { infinite: isCaroussel.value }, groupAll: isCaroussel.value});
 });
 
 onUpdated(() => {
@@ -22,9 +22,7 @@ onUpdated(() => {
   NativeFancybox.unbind(containerElement);
   NativeFancybox.close();
 
-  NativeFancybox.bind(containerElement, '[data-fancybox]', {
-    // ...(options || {})
-  });
+  NativeFancybox.bind(containerElement, '[data-fancybox]', { Carousel: { infinite: isCaroussel.value }, groupAll: isCaroussel.value});
 });
 
 onUnmounted(() => {

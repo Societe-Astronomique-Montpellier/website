@@ -88,21 +88,13 @@
           "placeholder": ""
         }
       },
-      "images_gallery": {
-        "type": "Group",
+      "carrousel": {
+        "type": "Boolean",
         "config": {
-          "label": "Galerie d'images",
-          "repeat": true,
-          "fields": {
-            "image_gallery": {
-              "type": "Image",
-              "config": {
-                "label": "Image",
-                "constraint": {},
-                "thumbnails": []
-              }
-            }
-          }
+          "label": "Images carrousel",
+          "placeholder_false": "false",
+          "placeholder_true": "true",
+          "default_value": false
         }
       },
       "slices": {

@@ -44,13 +44,15 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
       dark:border-slate-600/60 dark:bg-slate-800/50
       fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"
   >
-    <SocialShare
-      v-for="network in shareSocialMedia"
-      :key="network"
-      :network="network.social_network"
-      class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
-    >
-    </SocialShare>
+    <DelayHydration>
+      <SocialShare
+          v-for="network in shareSocialMedia"
+          :key="network"
+          :network="network.social_network"
+          class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
+      >
+      </SocialShare>
+    </DelayHydration>
 <!--    <hr class="dark:border-gray-700/60" />-->
     <button
         @click="scrollToTop"

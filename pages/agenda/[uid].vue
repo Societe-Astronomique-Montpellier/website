@@ -73,7 +73,7 @@ useSeo({
             <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ data.event.data.title }}</h1>
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
-                <Fancybox>
+                <Fancybox :isCaroussel="data.event.data.carrousel">
                   <prismic-rich-text
                     :field="data.event.data.resume"
                     :serializer="richTextSerializer"
@@ -98,9 +98,9 @@ useSeo({
                   </button>
 
                   <prismic-link
-                      :field="data.event.data.link"
-                      class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1  w-full  md:w-auto"
-                      :aria-label="t('layout.moreInfo')"
+                    :field="data.event.data.link"
+                    class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1  w-full  md:w-auto"
+                    :aria-label="t('layout.moreInfo')"
                   >
                     {{ $t('layout.moreInfo') }}
                     <Icon name="material-symbols:arrow-right-alt" />

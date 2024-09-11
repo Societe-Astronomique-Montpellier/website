@@ -101,6 +101,15 @@
           "select": null
         }
       },
+      "carrousel": {
+        "type": "Boolean",
+        "config": {
+          "label": "Images carrousel",
+          "placeholder_false": "false",
+          "placeholder_true": "true",
+          "default_value": false
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

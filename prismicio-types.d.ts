@@ -637,6 +637,18 @@ interface EventDocumentData {
   link: prismic.LinkField;
 
   /**
+   * Images carrousel field in *Evenement*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event.carrousel
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  carrousel: prismic.BooleanField;
+
+  /**
    * Slice Zone field in *Evenement*
    *
    * - **Field Type**: Slice Zone
@@ -1124,21 +1136,6 @@ export type HomepageDocument<Lang extends string = string> =
     Lang
   >;
 
-/**
- * Item in *Page article → Galerie d'images*
- */
-export interface PageArticleDocumentDataImagesGalleryItem {
-  /**
-   * Image field in *Page article → Galerie d'images*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.images_gallery[].image_gallery
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image_gallery: prismic.ImageField<never>;
-}
-
 type PageArticleDocumentDataSlicesSlice = never;
 
 /**
@@ -1223,17 +1220,16 @@ interface PageArticleDocumentData {
   author: prismic.KeyTextField;
 
   /**
-   * Galerie d'images field in *Page article*
+   * Images carrousel field in *Page article*
    *
-   * - **Field Type**: Group
+   * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.images_gallery[]
+   * - **Default Value**: false
+   * - **API ID Path**: page_article.carrousel
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#group
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  images_gallery: prismic.GroupField<
-    Simplify<PageArticleDocumentDataImagesGalleryItem>
-  >;
+  carrousel: prismic.BooleanField;
 
   /**
    * Slice Zone field in *Page article*
@@ -1602,7 +1598,6 @@ declare module "@prismicio/client" {
       HomepageDocumentDataSlicesSlice,
       PageArticleDocument,
       PageArticleDocumentData,
-      PageArticleDocumentDataImagesGalleryItem,
       PageArticleDocumentDataSlicesSlice,
       PageEditorialeDocument,
       PageEditorialeDocumentData,

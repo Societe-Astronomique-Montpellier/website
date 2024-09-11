@@ -64,7 +64,9 @@ useSeo({
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />
           <div class="my-4 grid gap-4 px-1">
             <div data-content>
-              <Fancybox>
+              <Fancybox
+                :isCaroussel="article?.data.carrousel"
+              >
                 <prismic-rich-text
                     :field="article.data.content"
                     :serializer="richTextSerializer"

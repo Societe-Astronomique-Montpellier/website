@@ -45,6 +45,8 @@ useSeo({
 
 <template>
   <div class="max-w-screen-lg w-full mx-auto relative" v-if="editorial">
+    <Breadcrumbs :listIds="[editorial?.id]" :currentUid="editorialUid" />
+    <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">{{ editorial?.data.title }}</h1>
     <HeaderPage
       :image="imageBanner"
     />
@@ -52,9 +54,8 @@ useSeo({
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
         <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-          <Breadcrumbs :listIds="[editorial?.id]" :currentUid="editorialUid" />
-          <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ editorial?.data.title }}</h1>
-          <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ editorial?.data.subtitle }}</h2>
+
+          <h2 v-if="isFilled.keyText(editorial?.data.subtitle)" class="text-gray-900 font-semibold text-2xl mb-2 leading-normal">{{ editorial?.data.subtitle }}</h2>
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />
           <div class="my-4 grid gap-4 px-1">
             <div data-content>

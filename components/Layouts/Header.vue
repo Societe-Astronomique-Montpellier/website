@@ -1,18 +1,19 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import type { Ref } from 'vue'
-import { PrismicLink } from "@prismicio/vue";
+import type {Ref} from 'vue'
+import {ref} from 'vue'
+import {PrismicLink} from "@prismicio/vue";
 import type {LinkField} from "@prismicio/client";
 
 const prismic = usePrismic()
 const { t } = useI18n()
 const { isMobile } = useDevice();
 
-const props = withDefaults(defineProps<{isHome: boolean, menu: any}>(), {
+const props = withDefaults(defineProps<{isHome: boolean, menu: any, openModal: boolean}>(), {
   isHome: false,
-  menu: null
+  menu: null,
+  openModal: true,
 })
-const { isHome, menu } = toRefs(props);
+const { isHome, menu, openModal } = toRefs(props);
 const isOpen: Ref<boolean>= ref(false);
 
 const HeaderNavItem = defineAsyncComponent(() => import('@/components/Layouts/HeaderNavItem.vue'))
@@ -34,6 +35,13 @@ watch(() => isOpen.value, (isOpen) => {
 
 const drawer = () => isOpen.value = !isOpen.value;
 const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
+
+const emit = defineEmits<{
+  (e: 'openSearchModal', shouldOpenModal: boolean): void
+}>();
+const openSearchModal = () => {
+  emit('openSearchModal', openModal.value )
+}
 </script>
 
 <template>
@@ -41,7 +49,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
     <div class="flex items-center justify-between">
 
       <!-- Header logo -->
-      <div class="" v-if="!isMobile">
+      <div class="" v-if="!isMobile && !isHome">
         <NuxtLink to="/" aria-label="home">
           <prismic-image
             v-if="menu.data.logo.menu"
@@ -75,6 +83,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       <nav class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" aria-label="navigation">
         <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
           <HeaderNavItem
+            v-if="!isHome"
             v-for="(item, index) in menu?.data.header_navigation"
             :key="index"
           >
@@ -85,14 +94,8 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
             </prismic-link>
           </HeaderNavItem>
 
-<!--          <prismic-link-->
-<!--            :field="prismic.asLink('contact')"-->
-<!--            role="menuitem"-->
-<!--            class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"-->
-<!--          >-->
-<!--            {{ $t('layout.header.btnContact') }}-->
-<!--          </prismic-link>-->
           <NuxtLink
+            v-if="!isHome"
             to="/contact"
             type="button"
             :aria-label="t('layout.header.btnContact')"
@@ -101,7 +104,17 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
           >
             {{ $t('layout.header.btnContact') }}
           </NuxtLink>
+
+          <button
+            v-if="!isHome"
+            type="button"
+            class="flex aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 hover:bg-gray-700 hover:text-white"
+            @click="openSearchModal"
+          >
+            <Icon name="material-symbols-light:search" size="24"/>
+          </button>
         </ul>
+
       </nav>
 
       <!-- Dark Background Transition -->
@@ -207,6 +220,7 @@ const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-w
       </aside>
     </div>
   </nav>
+
 </template>
 
 <style scoped>

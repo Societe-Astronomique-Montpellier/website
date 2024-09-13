@@ -23,7 +23,6 @@
     "@nuxtjs/leaflet": "^1.0.14",
     "@nuxtjs/robots": "^4.0.2",
     "@nuxtjs/tailwindcss": "^6.12.0",
-    "@nuxtjs/turnstile": "^0.9.4",
     "@prismicio/helpers": "^2.3.9",
     "@prismicio/richtext": "^2.1.5",
     "@stefanobartoletti/nuxt-social-share": "^1.0.0",

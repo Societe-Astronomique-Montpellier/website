@@ -3,7 +3,7 @@ import { Fancybox as NativeFancybox } from '@fancyapps/ui'
 import { onMounted, onUpdated, onUnmounted,  ref } from "vue"
 
 export interface Props {
-  isCaroussel: boolean | undefined
+  isCaroussel?: boolean | undefined
 }
 const props = withDefaults(defineProps<Props>(), {
   isCaroussel: false,

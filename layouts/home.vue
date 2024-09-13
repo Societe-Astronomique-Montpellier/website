@@ -2,7 +2,6 @@
 const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vue'))
 const SideMenu = defineAsyncComponent(() => import('@/components/Layouts/HomeSideBarMenu.vue'))
   // add shere button + top
-const Copyright = defineAsyncComponent(() => import('@/components/Layouts/Copyright.vue'))
 const Footer = defineAsyncComponent(() => import('@/components/Layouts/Footer.vue'))
 
 const menuNavigation = useMenuNavigation();
@@ -19,7 +18,7 @@ useSeo({
 
 <template>
   <div>
-    <Header :isHome=true v-if="isMobile" :menu="menuNavigation" />
+    <Header :isHome=true :menu="menuNavigation" />
     <div class="flex-fill">
       <slot />
     </div>

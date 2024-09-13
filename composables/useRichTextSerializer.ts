@@ -38,7 +38,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
             return `<a href="${node.data.url}" class="text-indigo-700" target="_blank" rel="noopener" aria-label="${children}">${children}</a>`
         },
         // list
-        list:  ({ children }) => `<ul class="mb-6 font-light text-gray-700 lg:mb-8 ">${children}</ul>`,
+        list:  ({ children }) => `<ul class="mb-6 font-light text-neutral-900 lg:mb-8 ">${children}</ul>`,
         listItem: ({ children }) => `<li class="mb-6 font-light text-neutral-900"><span class="iconify i-material-symbols:arrow-right-alt text-indigo-400 dark:text-indigo-400" aria-hidden="true" style="width: 16px; height: 16px"></span> ${children}</li>`,
 
         // embed

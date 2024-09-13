@@ -63,14 +63,14 @@ useSeo({
 <template>
   <section v-if="data">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2"> <!-- max-w-screen-lg -->
+      <Breadcrumbs v-if="data.parentAgenda && data.event" :listIds="[data.parentAgenda.id, data.event.id]" :currentUid="data.event.uid" />
+      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">{{ data.event.data.title }}</h1>
       <HeaderPage :image="imageBanner" />
       <div class="max-w-3xl mx-auto">
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <Breadcrumbs v-if="data.parentAgenda && data.event" :listIds="[data.parentAgenda.id, data.event.id]" :currentUid="data.event.uid" />
-            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ data.event.data.title }}</h1>
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
                 <Fancybox :isCaroussel="data.event.data.carrousel">

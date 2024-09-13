@@ -73,13 +73,14 @@ useSeo({
 <template>
   <section v-if="contact">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
+      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">{{ contact?.data.title }}</h1>
       <HeaderPage />
       <div class="max-w-3xl mx-auto">
         <div
             class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-            <h1 class="text-gray-900 font-bold text-4xl mb-2 font-raleway">{{ contact?.data.title }}</h1>
+
             <div class="my-8 grid gap-6 px-2">
 
               <div class="my-4 grid gap-4 px-1">

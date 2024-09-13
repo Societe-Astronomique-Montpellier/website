@@ -50,17 +50,17 @@ useSeo({
 </script>
 
 <template>
-  <div class="max-w-screen-lg w-full mx-auto relative" v-if="article">
+  <div class="max-w-screen-lg w-full mx-auto relative mb-2" v-if="article">
+    <Breadcrumbs v-if="parentThematic && article" :listIds="[parentThematic?.id, article.id]" :currentUid="articleUid" />
+    <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">{{ article?.data.title }}</h1>
     <HeaderPage
         :image="imageBanner"
     />
     <div class="max-w-3xl mx-auto">
       <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal">
-        <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
-          <Breadcrumbs v-if="parentThematic && article" :listIds="[parentThematic?.id, article.id]" :currentUid="articleUid" />
-          <h1 class="text-gray-900 font-bold text-4xl mb-2">{{ article?.data.title }}</h1>
-          <h2 class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
+        <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10  leading-normal">
+          <h2 v-if="isFilled.keyText(article.data.subtitle)" class="text-gray-900 font-semibold text-2xl mb-2">{{ article?.data.subtitle }}</h2>
           <Icon name="material-symbols:arrow-right-alt" v-show="false" />
           <div class="my-4 grid gap-4 px-1">
             <div data-content>

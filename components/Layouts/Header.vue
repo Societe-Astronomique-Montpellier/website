@@ -18,6 +18,12 @@ const isOpen: Ref<boolean>= ref(false);
 
 const HeaderNavItem = defineAsyncComponent(() => import('@/components/Layouts/HeaderNavItem.vue'))
 
+// onMounted(() => {
+//   if (true === isHome.value) {
+//     window.addEventListener("scroll", handleScroll);
+//   }
+// });
+
 onMounted(() => {
   document.addEventListener("keydown", e => {
     if (e.keyCode == 27 && isOpen.value) isOpen.value = false;
@@ -45,8 +51,8 @@ const openSearchModal = () => {
 </script>
 
 <template>
-  <nav v-if="menu" :class="`lg:px-16 px-2 w-full shadow-sm sticky top-0 z-50 ${bgHeader} `">
-    <div class="flex items-center justify-between">
+  <nav v-if="menu" :class="`lg:px-8 px-2 w-full shadow-sm top-0 z-50 sticky ${bgHeader} `">
+    <div class="flex items-center justify-between relative">
 
       <!-- Header logo -->
       <div class="" v-if="!isMobile && !isHome">
@@ -80,14 +86,13 @@ const openSearchModal = () => {
       </div>
 
       <!-- Navbar -->
-      <nav class="hidden md:flex md:items-center md:w-auto w-full" v-if="!isMobile" aria-label="navigation">
-        <ul class="md:flex items-center justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
+      <nav :class="isHome ? `lg:px-auto absolute top-0 left-1/2 transform -translate-x-1/2 w-1/2 hidden md:flex md:items-center md:w-auto` : `hidden md:flex md:items-center md:w-auto w-full`" v-if="!isMobile" aria-label="navigation">
+        <ul class="md:flex items-center gap-5 justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
           <HeaderNavItem
-            v-if="!isHome"
             v-for="(item, index) in menu?.data.header_navigation"
             :key="index"
           >
-            <prismic-link :field="item.link_header as LinkField" role="menuitem">
+            <prismic-link :field="item.link_header as LinkField" role="menuitem" :class="isHome ? `text-indigo-400 text-2xl` : ``">
               {{ item.label_header }}
               <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
               <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>

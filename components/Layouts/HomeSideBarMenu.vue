@@ -36,12 +36,12 @@ const items: IItem[] = reactive([
   {
     path: '#evenements',
     label: t('layout.sideMenu.evenements'),
-    icon: 'material-symbols:calendar-clock-outline'
+    icon: 'material-symbols-light:calendar-clock-outline'
   },
   {
     path: '#contact',
     label: t('layout.sideMenu.contact'),
-    icon: 'material-symbols:attach-email-outline'
+    icon: 'material-symbols-light:attach-email-outline'
   }
 ])
 
@@ -67,7 +67,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
   <nav
     :class="`
       z-50 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
-      bg-white/50 p-2 shadow-lg backdrop-blur-lg
+      bg-slate-800/50 p-2 shadow-lg backdrop-blur-lg
       dark:border-slate-600/60 dark:bg-slate-800/50
       fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"
   >
@@ -89,7 +89,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
       type="button"
       :aria-label="backToTopLabel"
     >
-      <Icon name="material-symbols:arrow-upward" :size="displayIconSize" />
+      <Icon name="material-symbols-light:arrow-upward" :size="displayIconSize" />
     </button>
   </nav>
 

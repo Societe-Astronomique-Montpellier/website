@@ -32,7 +32,7 @@ const richTextSerializer = useRichTextSerializer();
       </div>
       <div class="mt-8 lg:mt-20">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div class="rounded-lg overflow-hidden">
+          <div class="rounded-lg overflow-hidden z-0">
             <Map
               :itemMarker="centerMap"
             />

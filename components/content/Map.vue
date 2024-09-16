@@ -17,7 +17,7 @@ const { itemMarker } = toRefs(props)
 </script>
 
 <template>
-  <div class="mx-auto py-4">
+  <div class="mx-auto py-4 z-0">
     <client-only>
       <l-map
         style="height: 700px"

@@ -5,7 +5,7 @@ import type {PrismicDocumentWithoutUID} from "@prismicio/types";
 export const useSocialShareMedia = () => {
     const prismic: PrismicPlugin = usePrismic();
     const { locale } = useI18n()
-    return useAsyncData(
+    return useLazyAsyncData(
         '$shareSocialMedia',
         async () => await prismic.client.getSingle<HeaderDocument>('header', {
             lang: locale.value,

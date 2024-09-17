@@ -18,12 +18,6 @@ const isOpen: Ref<boolean>= ref(false);
 
 const HeaderNavItem = defineAsyncComponent(() => import('@/components/Layouts/HeaderNavItem.vue'))
 
-// onMounted(() => {
-//   if (true === isHome.value) {
-//     window.addEventListener("scroll", handleScroll);
-//   }
-// });
-
 onMounted(() => {
   document.addEventListener("keydown", e => {
     if (e.keyCode == 27 && isOpen.value) isOpen.value = false;
@@ -40,7 +34,10 @@ watch(() => isOpen.value, (isOpen) => {
 });
 
 const drawer = () => isOpen.value = !isOpen.value;
-const bgHeader = computed<string>(() => (isHome.value ? 'bg-transparent' : 'bg-white' ))
+const mainNavClass = computed<string>(() => (isHome.value ? 'bg-slate-800/50' : 'bg-white' ))
+const subNavClass = computed<string>(() => (isHome.value ? 'lg:px-auto absolute top-0 left-1/2 transform -translate-x-1/2 w-1/2 hidden md:flex md:items-center md:w-auto bg-slate-800/50 text-grey-700': 'hidden md:flex md:items-center md:w-auto w-full'))
+const ulNavClass = computed<string>(() => (isHome.value ? 'text-gray-300' : 'text-gray-700' ))
+const itemNavClass = computed<string>(() => (isHome.value ? 'text-2xl': ''))
 
 const emit = defineEmits<{
   (e: 'openSearchModal', shouldOpenModal: boolean): void
@@ -51,7 +48,7 @@ const openSearchModal = () => {
 </script>
 
 <template>
-  <nav v-if="menu" :class="`lg:px-8 px-2 w-full shadow-sm top-0 z-50 sticky ${bgHeader} `">
+  <nav v-if="menu" :class="`lg:px-8 px-2 w-full shadow-sm top-0 z-50 sticky ${mainNavClass}`">
     <div class="flex items-center justify-between relative">
 
       <!-- Header logo -->
@@ -86,13 +83,13 @@ const openSearchModal = () => {
       </div>
 
       <!-- Navbar -->
-      <nav :class="isHome ? `lg:px-auto absolute top-0 left-1/2 transform -translate-x-1/2 w-1/2 hidden md:flex md:items-center md:w-auto` : `hidden md:flex md:items-center md:w-auto w-full`" v-if="!isMobile" aria-label="navigation">
-        <ul class="md:flex items-center gap-5 justify-between text-base text-gray-600 pt-4 md:pt-0" role="menubar">
+      <nav :class="subNavClass" v-if="!isMobile" aria-label="navigation">
+        <ul :class="`md:flex items-center gap-5 justify-between text-base text-gray-300 pt-4 md:pt-0 ${ulNavClass}`" role="menubar">
           <HeaderNavItem
             v-for="(item, index) in menu?.data.header_navigation"
             :key="index"
           >
-            <prismic-link :field="item.link_header as LinkField" role="menuitem" :class="isHome ? `text-indigo-400 text-2xl` : ``">
+            <prismic-link :field="item.link_header as LinkField" role="menuitem" :class="itemNavClass">
               {{ item.label_header }}
               <span class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
               <span class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"></span>
@@ -113,7 +110,7 @@ const openSearchModal = () => {
           <button
             v-if="!isHome"
             type="button"
-            class="flex aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 hover:bg-gray-700 hover:text-white"
+            class="aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 hover:bg-gray-700 hover:text-white"
             @click="openSearchModal"
           >
             <Icon name="material-symbols-light:search" size="24"/>

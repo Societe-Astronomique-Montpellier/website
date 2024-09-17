@@ -4,11 +4,7 @@ import type {Ref} from "vue";
 const { isMobile } = useDevice()
 const { t } = useI18n();
 
-export interface Props {
-  shareSocialMedia: any
-}
-const props = defineProps<Props>()
-const { shareSocialMedia } = toRefs(props)
+const shareSocialMedia = useSocialShareMedia();
 
 const iconSize: Ref<number> = ref(20)
 const iconSizeMobile: Ref<number> = ref(16)
@@ -17,23 +13,13 @@ const isVisible: Ref<boolean> = ref(false);
 const displayBtn = computed<string>(() => isVisible.value ? 'visible' : 'hidden' )
 const displayIconSize: ComputedRef<number> = computed<number>(() => isMobile ? iconSizeMobile.value : iconSize.value)
 const backToTopLabel = computed<string>(() => t('layout.backToTop'))
-
-onMounted(() => {
-  window.addEventListener("scroll", handleScroll);
-});
-onUnmounted(() => {
-  window.removeEventListener("scroll", handleScroll);
-});
-
-const scrollToTop = () => {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-};
-
-const handleScroll = () => {
-  isVisible.value = window.scrollY > 200;
-};
-
 const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-inline bottom-0 md:w-auto w-full': '-translate-y-2/4  flex-col top-2/4 right-3 rounded-lg border')
+
+onMounted(() => window.addEventListener("scroll", handleScroll));
+onUnmounted(() => window.removeEventListener("scroll", handleScroll));
+
+const scrollToTop = () =>  window.scrollTo({ top: 0, behavior: "smooth" });
+const handleScroll = () => isVisible.value = window.scrollY > 200;
 </script>
 
 <template>
@@ -44,7 +30,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
       dark:border-slate-600/60 dark:bg-slate-800/50
       fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"
   >
-    <DelayHydration>
+    <client-only>
       <SocialShare
           v-for="network in shareSocialMedia"
           :key="network"
@@ -52,7 +38,7 @@ const navClasses: ComputedRef<string> = computed<string>(() => isMobile ? 'flex-
           class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
       >
       </SocialShare>
-    </DelayHydration>
+    </client-only>
 <!--    <hr class="dark:border-gray-700/60" />-->
     <button
         @click="scrollToTop"

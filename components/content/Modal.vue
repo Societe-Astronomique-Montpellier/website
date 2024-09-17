@@ -17,7 +17,7 @@ const onclose = () => emit('closeModal', !isOpen.value )
     @click.self="onclose"
     data-dialog-backdrop="dialog"
     data-dialog-backdrop-close="true"
-    class="pointer-events-none fixed inset-0 grid h-screen w-screen place-items-center bg-black bg-opacity-60 backdrop-blur-sm transition-opacity duration-300 z-50"
+    class="pointer-events-none fixed inset-0 grid h-screen w-screen place-items-center bg-black bg-opacity-60 backdrop-blur-sm transition-opacity duration-300 z-[2000]"
   >
     <div
         data-dialog="dialog"
@@ -63,45 +63,8 @@ const onclose = () => emit('closeModal', !isOpen.value )
       </div>
     </div>
   </div>
-
-
-<!--  <div v-if="isOpen" class="modal-mask">-->
-<!--    <div class="modal-wrapper">-->
-<!--      <div class="modal-container" ref="target">-->
-<!--        <div class="modal-header">-->
-<!--          <slot name="header"></slot>-->
-<!--        </div>-->
-<!--        <div class="modal-body">-->
-<!--          <slot name="content"></slot>-->
-<!--        </div>-->
-<!--        <div class="modal-footer">-->
-<!--          <slot name="footer">-->
-<!--            <div>-->
-<!--              <button type="button" @click.stop="onclose">Fermer</button>-->
-<!--            </div>-->
-<!--          </slot>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
 </template>
 
 <style scoped>
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-.modal-container {
-  width: 300px;
-  margin: 150px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-}
+
 </style>

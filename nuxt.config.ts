@@ -14,7 +14,6 @@ export default defineNuxtConfig({
     "@nuxtjs/device",
     "@nuxtjs/i18n",
     "@nuxtjs/robots",
-    "@nuxtjs/html-validator",
     "@nuxt/image",
     "@stefanobartoletti/nuxt-social-share",
     'nuxt-delay-hydration',

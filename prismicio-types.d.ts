@@ -977,6 +977,17 @@ interface HomepageDocumentData {
   titre: prismic.KeyTextField;
 
   /**
+   * Title field in *Page d'accueil*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
    * Bloc Hero field in *Page d'accueil*
    *
    * - **Field Type**: Content Relationship

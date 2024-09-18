@@ -20,6 +20,13 @@
           "placeholder": ""
         }
       },
+      "title": {
+        "type": "Text",
+        "config": {
+          "label": "Title",
+          "placeholder": ""
+        }
+      },
       "block_hero": {
         "type": "Link",
         "config": {

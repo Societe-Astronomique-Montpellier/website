@@ -5,6 +5,7 @@
     "knowMore": "En savoir plus",
     "moreInfo": "Plus d'informations",
     "backToTop": "Retour en haut",
+    "loading": "Chargement des données",
     "header": {
       "btnContact": "Contactez-nous"
     },
@@ -55,10 +56,15 @@
     },
     "postSubmit": {
       "loading": "Vérification",
-      "incomplete": "Veuillez corriger les erreurs ou champ vide",
-      "invalid": "Veuillez renseignr une adresse email valide",
+      "incomplete": "Veuillez corriger les erreurs ou remplir le champ vide",
+      "invalid": "Veuillez renseigner une adresse email valide",
       "send": "Votre message a bien été envoyé, nous vous répondrons le plus rapidement possible.",
       "err": "L'envoie du message a rencontré un problème, veuillez réessayer ultérieurement ou nous adresser un message à l'adresse contact@societe-astronomique-montpellier.fr. Merci."
     }
+  },
+  "search": {
+    "title": "Rechercher sur le site",
+    "placeholder": "Babote, pises, agenda...",
+    "no_result": "Aucun résultat trouvé, veuillez saisir un autre terme."
   }
 }

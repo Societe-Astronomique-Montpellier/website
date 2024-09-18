@@ -45,12 +45,19 @@ useSeo({
           <p v-if="!loading && results !== null && 0 === results?.length">{{ t('search.no_result') }}</p>
           <div v-if="!loading && results !== null && 0 < results?.length">
             <p>Résultats: {{ results?.length }}</p>
-            <ul>
-              <li v-for="result in results" :key="result.id">
+            <ul class="p-6 divide-y divide-slate-200">
+              <li v-for="result in results" :key="result.id" class="flex py-4 first:pt-0 last:pb-0">
+                <!-- Create search list card -->
                 <prismic-link
                     :field="result"
                     class="my-1"
-                >{{ result?.data?.title }}</prismic-link>
+                >
+<!--                  <img class="h-10 w-10 rounded-full" :src="result?.data?.image_vignette.mobile" alt="" />-->
+                  <div class="ml-3 overflow-hidden">
+                    <p class="text-sm font-medium text-slate-900">{{ result?.data?.title }}</p>
+                  </div>
+
+                </prismic-link>
               </li>
             </ul>
           </div>

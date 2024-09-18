@@ -70,8 +70,8 @@ const openSearchModal = () => {
       </div>
 
       <!-- Mobile toggle -->
-      <div class="md:hidden" v-if="isMobile">
-        <button type="button" @click="drawer" name="openMenu" aria-label="openMenu">
+      <div class="md:hidden relative" v-if="isMobile">
+        <button type="button" @click="drawer" name="openMenu" aria-label="openMenu" class="left-0">
           <svg
               class="h-8 w-8 fill-current text-gray-900 mt-1"
               fill="none" stroke-linecap="round"
@@ -79,6 +79,15 @@ const openSearchModal = () => {
               viewBox="0 0 24 24" stroke="currentColor">
             <path d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
+        </button>
+
+        <button
+          type="button"
+          @click="openSearchModal"
+          class="right-0"
+          aria-label="open search modal"
+        >
+          <Icon name="material-symbols-light:search" size="32"/>
         </button>
       </div>
 
@@ -116,7 +125,6 @@ const openSearchModal = () => {
             <Icon name="material-symbols-light:search" size="24"/>
           </button>
         </ul>
-
       </nav>
 
       <!-- Dark Background Transition -->
@@ -152,10 +160,6 @@ const openSearchModal = () => {
           </button>
         </div>
 
-<!--        <span @click="isOpen = false" class="flex w-full items-center p-4 border-b">-->
-<!--          <Tailwind />-->
-<!--        </span>-->
-
         <nav aria-label="menu-responsive">
           <ul class="divide-y" role="menubar">
             <NuxtLink
@@ -185,8 +189,6 @@ const openSearchModal = () => {
             </NuxtLink>
           </ul>
         </nav>
-
-
 <!--        <div class="follow">-->
 <!--          <p class="italic font-sans text-sm">follow us:</p>-->
 <!--          <div class="social flex space-x-5 mt-4 ">-->

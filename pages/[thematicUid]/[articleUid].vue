@@ -35,7 +35,7 @@ const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(arti
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(article.value?.data.image_banner, isMobile))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => {
-  return (!isFilled.keyText(article.value?.data.meta_title))
+  return (isFilled.keyText(article.value?.data.meta_title))
     ? `${article.value?.data.meta_title}`
     : `${article.value?.data.title}`
 });

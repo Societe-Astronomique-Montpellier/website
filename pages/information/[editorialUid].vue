@@ -29,7 +29,7 @@ const formatedDate = useState('formatedDate', () => useFormatIntoFrenchDate(edit
 const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(editorial.value?.data.image_banner, isMobile))
 
 const metaTitle: ComputedRef<string> = computed<string>(() => {
-  return (!isFilled.keyText(editorial.value?.data.meta_title))
+  return (isFilled.keyText(editorial.value?.data.meta_title))
       ? `${editorial.value?.data.meta_title}`
       : `${editorial.value?.data.title}`
 });

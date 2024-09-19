@@ -117,7 +117,7 @@ const { data: home, error} = useAsyncData(
   }
 );
 
-const metaTitle: ComputedRef<string> = computed<string>(() => !isFilled.keyText(home.value?.data.meta_title) ? `${home.value?.data.meta_title}` : `Société Astronomique de Montpellier`);
+const metaTitle: ComputedRef<string> = computed<string>(() => isFilled.keyText(home.value?.data.meta_title) ? `${home.value?.data.meta_title}` : `Société Astronomique de Montpellier`);
 const metaDescription: ComputedRef<string> = computed<string>(() => (isFilled.keyText(home.value?.data.meta_description)) ? `${home.value?.data.meta_description}` : ``);
 
 useSeo({

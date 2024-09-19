@@ -103,7 +103,7 @@ export default defineNuxtConfig({
       facebookAppId: 1602972866638341,
       facebookSam: 'https://www.facebook.com/societeastronomiquemontpellier/',
       twitterSam: 'https://x.com/astro_mtp',
-      youtube: 'https://www.youtube.com/@societeastronomiquedemontp2598',
+      youtubeSam: 'https://www.youtube.com/@societeastronomiquedemontp2598',
       instagramSam: '',
       githubSam: 'https://github.com/Societe-Astronomique-Montpellier/website'
     }

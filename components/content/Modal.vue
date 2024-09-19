@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const { isMobile } = useDevice()
 const props = defineProps<{
   isOpen: boolean
 }>()
@@ -14,18 +15,21 @@ const closeModalOnOutsideClick = (event: MouseEvent) => {
     onclose()
   }
 }
+
+const modalClass: ComputedRef<string>  = computed<string>(() => (isMobile) ? 'top-9 mt-2': 'flex items-center justify-center')
+const containerClass: ComputedRef<string>  = computed<string>(() => (isMobile) ? 'h-full p-2': 'max-w-4xl p-6 rounded-lg ')
 </script>
 
 <template>
-  <div v-if="isOpen" id="modal-overlay" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50" @click="closeModalOnOutsideClick">
+  <div v-if="isOpen" id="modal-overlay" :class="`fixed inset-0 bg-gray-800 bg-opacity-75 z-500 ${modalClass}`" @click="closeModalOnOutsideClick">
     <!-- Modal Container -->
-    <div class="bg-white w-full max-w-4xl p-6 rounded-lg shadow-lg relative" @click.stop>
+    <div :class="`bg-white w-full shadow-lg relative ${containerClass}`" @click.stop>
       <!-- Modal Header -->
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-gray-900 font-semibold text-2xl mb-2"><slot name="header"></slot></h3>
         <button class="text-gray-600 hover:text-gray-800" @click="onclose">✖</button>
       </div>
-      <hr />
+      <hr v-if="!isMobile" />
       <div class="mt-4">
         <slot name="content"></slot>
       </div>

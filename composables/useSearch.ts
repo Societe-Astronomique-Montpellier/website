@@ -19,6 +19,10 @@ export const useSearch = () => {
                     prismic.filter.fulltext('document', searchQuery.value.trim()),
                     prismic.filter.not('document.tags', ['block'])
                 ],
+                orderings: {
+                    field: 'document.last_publication_date',
+                },
+                pageSize: 10
             })
 
             return response.results as unknown as SearchDocumentType[]

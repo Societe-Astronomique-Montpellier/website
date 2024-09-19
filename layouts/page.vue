@@ -2,6 +2,7 @@
  // add header + footer
 
 const { t } = useI18n();
+const { isMobile } = useDevice();
 
 const Header = defineAsyncComponent(() => import('@/components/Layouts/Header.vue'))
 const Footer = defineAsyncComponent(() => import('@/components/Layouts/Footer.vue'))
@@ -13,7 +14,13 @@ const { searchQuery, results, loading, refresh } = useSearch()
 
 const isModalOpened: Ref<boolean> = ref(false);
 const handleOpenModal = (isOpenModal: boolean) => isModalOpened.value = isOpenModal
-const handleCloseModal = (isCloseModal: boolean) => isModalOpened.value = isCloseModal
+const handleCloseModal = (isCloseModal: boolean) => {
+  isModalOpened.value = isCloseModal;
+  results.value = [];
+  searchQuery.value = '';
+}
+
+const contentModalClass: ComputedRef<string> = computed<string>(() => isMobile ? 'pt-2' : 'overflow-y-auto pt-4')
 
 useSeo({
   title: t('layout.title'),
@@ -40,17 +47,17 @@ useSeo({
         </div>
 
         <!-- Query Results -->
-        <div class="h-64 overflow-y-auto border-t border-gray-200 pt-4" v-if="searchQuery">
+        <div :class="`${contentModalClass} h-64 border-t border-gray-200 `" v-if="searchQuery">
           <p v-if="loading">{{ t('layout.loading') }}</p>
           <p v-if="!loading && results !== null && 0 === results?.length">{{ t('search.no_result') }}</p>
           <div v-if="!loading && results !== null && 0 < results?.length">
-            <p>Résultats: {{ results?.length }}</p>
+            <p class="text-justify text-base leading-8 mt-2 my-2">{{ results?.length }} résultats trouvés: </p>
             <ul class="p-6 divide-y divide-slate-200">
-              <li v-for="result in results" :key="result.id" class="flex py-4 first:pt-0 last:pb-0">
+              <li v-for="result in results" :key="result.id" class="flex py-4 first:pt-0 last:pb-0 hover:border-indigo-500">
                 <!-- Create search list card -->
                 <prismic-link
-                    :field="result"
-                    class="my-1"
+                  :field="result"
+                  class="my-1"
                 >
 <!--                  <img class="h-10 w-10 rounded-full" :src="result?.data?.image_vignette.mobile" alt="" />-->
                   <div class="ml-3 overflow-hidden">

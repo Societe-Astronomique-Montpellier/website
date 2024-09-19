@@ -1,4 +1,4 @@
-# sam-nuxt
+# SAM - Website
 
 This template should help get you started developing with Vue 3 in Vite.
 
@@ -11,6 +11,7 @@ This template should help get you started developing with Vue 3 in Vite.
 See [Vite Configuration Reference](https://vitejs.dev/config/).
 
 ## Project Setup
+Add prismic repository in .env file
 
 ```sh
 npm install

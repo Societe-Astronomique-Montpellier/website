@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
 useSeo({
-  title: 'Société Astronomique de Montpellier - Page 404',
-  description: 'À la découverte du ciel',
-  image: ''
-})
+  title: "Société Astronomique de Montpellier - Page 404",
+  description: "À la découverte du ciel",
+  image: "",
+});
 </script>
 
 <template>
@@ -15,6 +14,4 @@ useSeo({
   </template>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,19 +1,18 @@
 <script setup lang="ts">
-import 'leaflet/dist/leaflet.css';
+import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
 
 import { useCoordinates } from "@/composables/useCoordinates";
-const centerMap = useCoordinates('babotte') as [number, number];
+const centerMap = useCoordinates("babotte") as [number, number];
 const zoom: Ref<number> = ref<number>(18);
 const zIndex: Ref<number> = ref<number>(20);
 
 // Props
 export interface IProps {
-  itemMarker: [number, number]
+  itemMarker: [number, number];
 }
-const props = defineProps<IProps>()
-const { itemMarker } = toRefs(props)
-
+const props = defineProps<IProps>();
+const { itemMarker } = toRefs(props);
 </script>
 
 <template>
@@ -32,15 +31,10 @@ const { itemMarker } = toRefs(props)
           name="OpenStreetMap"
           v-model:z-index="zIndex"
         ></l-tile-layer>
-        <l-marker
-          :lat-lng="itemMarker"
-        >
-        </l-marker>
+        <l-marker :lat-lng="itemMarker"> </l-marker>
       </l-map>
     </client-only>
   </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

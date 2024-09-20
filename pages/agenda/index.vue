@@ -1,82 +1,114 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'page',
+  layout: "page",
 });
 
 const prismic = usePrismic();
 const { t, locale } = useI18n();
-const { isMobile } = useDevice()
+const { isMobile } = useDevice();
 
-import type {AllDocumentTypes, EventDocument, EventsDocument} from "~/prismicio-types";
-import type {ComputedRef} from "vue";
-import type {ImageField} from "@prismicio/client";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import {asImageSrc, isFilled} from "@prismicio/helpers";
+import type {
+  AllDocumentTypes,
+  EventDocument,
+  EventsDocument,
+} from "~/prismicio-types";
+import type { ComputedRef } from "vue";
+import type { ImageField } from "@prismicio/client";
+import type {
+  EmptyImageFieldImage,
+  FilledImageFieldImage,
+} from "@prismicio/types";
+import { asImageSrc, isFilled } from "@prismicio/helpers";
 
-const HeaderPage = defineAsyncComponent(() => import('~/components/pages/HeaderPage.vue'))
-const Breadcrumbs = defineAsyncComponent(() => import('~/components/Layouts/Breadcrumbs.vue'))
-const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
-const BlockListCards = defineAsyncComponent(() => import('~/components/home/BlockListCards.vue'))
+const HeaderPage = defineAsyncComponent(
+  () => import("~/components/pages/HeaderPage.vue"),
+);
+const Breadcrumbs = defineAsyncComponent(
+  () => import("~/components/Layouts/Breadcrumbs.vue"),
+);
+const Fancybox = defineAsyncComponent(
+  () => import("~/components/content/Fancybox.vue"),
+);
+const BlockListCards = defineAsyncComponent(
+  () => import("~/components/home/BlockListCards.vue"),
+);
 
-const { data: list_events, error } = useAsyncData(
-  'list_events',
-  async () => {
-    const dateNow = new Date().toISOString().split('T')[0];
-    const [agenda, futurEvents, pastEvents] = await Promise.all([
-      await prismic.client.getSingle('events', {lang: locale.value}) as EventsDocument,
-      await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        lang: locale.value,
-        filters: [
-          prismic.filter.dateAfter('my.event.time_start', dateNow),
-        ],
-        orderings: {
-          field: 'my.event.time_start',
-          direction: 'asc'
-        }
-      }) as EventDocument[],
-      await prismic.client.getAllByType<AllDocumentTypes>('event', {
-        lang: locale.value,
-        filters: [ prismic.filter.dateBefore('my.event.time_start', dateNow)],
-        orderings: {
-          field: 'my.event.time_start',
-          direction: 'desc'
-        }
-      }) as EventDocument[]
-    ])
+const { data: list_events, error } = useAsyncData("list_events", async () => {
+  const dateNow = new Date().toISOString().split("T")[0];
+  const [agenda, futurEvents, pastEvents] = await Promise.all([
+    (await prismic.client.getSingle("events", {
+      lang: locale.value,
+    })) as EventsDocument,
+    (await prismic.client.getAllByType<AllDocumentTypes>("event", {
+      lang: locale.value,
+      filters: [prismic.filter.dateAfter("my.event.time_start", dateNow)],
+      orderings: {
+        field: "my.event.time_start",
+        direction: "asc",
+      },
+    })) as EventDocument[],
+    (await prismic.client.getAllByType<AllDocumentTypes>("event", {
+      lang: locale.value,
+      filters: [prismic.filter.dateBefore("my.event.time_start", dateNow)],
+      orderings: {
+        field: "my.event.time_start",
+        direction: "desc",
+      },
+    })) as EventDocument[],
+  ]);
 
-    return {
-      agenda: agenda,
-      next: futurEvents,
-      past: pastEvents
-    }
-  }
-)
+  return {
+    agenda: agenda,
+    next: futurEvents,
+    past: pastEvents,
+  };
+});
 const richTextSerializer = useRichTextSerializer();
 
-const titleBlockNext: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockNext'))
-const titleBlockPast: ComputedRef<string> = computed<string>(() => t('agenda.titleBlockPast'))
+const titleBlockNext: ComputedRef<string> = computed<string>(() =>
+  t("agenda.titleBlockNext"),
+);
+const titleBlockPast: ComputedRef<string> = computed<string>(() =>
+  t("agenda.titleBlockPast"),
+);
 
-const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(list_events.value?.agenda.data.image_banner, isMobile))
+const imageBanner = computed<
+  ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
+>(() => useBannerImage(list_events.value?.agenda.data.image_banner, isMobile));
 
-const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(list_events.value?.agenda.data.meta_title)) ? `${list_events.value?.agenda.data.meta_title}` : `${list_events.value?.agenda.data.title}`);
-const metaDescription: ComputedRef<string> = computed<string>(() => (!isFilled.keyText(list_events.value?.agenda.data.meta_description)) ? `${list_events.value?.agenda.data.meta_description}` : `${list_events.value?.agenda.data.title}`);
-const metaImage = computed(() => asImageSrc(list_events.value?.agenda.data.meta_image));
+const metaTitle: ComputedRef<string> = computed<string>(() =>
+  isFilled.keyText(list_events.value?.agenda.data.meta_title)
+    ? `${list_events.value?.agenda.data.meta_title}`
+    : `${list_events.value?.agenda.data.title}`,
+);
+const metaDescription: ComputedRef<string> = computed<string>(() =>
+  !isFilled.keyText(list_events.value?.agenda.data.meta_description)
+    ? `${list_events.value?.agenda.data.meta_description}`
+    : `${list_events.value?.agenda.data.title}`,
+);
+const metaImage = computed(() =>
+  asImageSrc(list_events.value?.agenda.data.meta_image),
+);
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: metaImage
-})
+  image: metaImage,
+});
 </script>
 
 <template>
   <section v-if="list_events">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <Breadcrumbs v-if="list_events" :listIds="[list_events.agenda.id]" :currentUid="list_events.agenda.uid" />
-      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">{{ list_events?.agenda.data.title }}</h1>
-      <HeaderPage
-       :image="imageBanner"
+      <Breadcrumbs
+        v-if="list_events"
+        :listIds="[list_events.agenda.id]"
+        :currentUid="list_events.agenda.uid"
       />
+      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
+        {{ list_events?.agenda.data.title }}
+      </h1>
+      <HeaderPage :image="imageBanner" />
       <div class="max-w-3xl mx-auto">
         <div
           class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
@@ -90,9 +122,7 @@ useSeo({
                     :serializer="richTextSerializer"
                   />
                 </Fancybox>
-
               </div>
-
             </div>
           </div>
         </div>
@@ -113,6 +143,4 @@ useSeo({
   </section>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

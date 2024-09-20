@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@stefanobartoletti/nuxt-social-share",
     'nuxt-delay-hydration',
+    '@nuxt/eslint',
     ["@nuxtjs/robots", {
       rules: [
         { UserAgent: "*" },
@@ -73,6 +74,8 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+  eslint: {
   },
   app:{
     head: {

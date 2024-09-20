@@ -1,70 +1,105 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'page',
+  layout: "page",
 });
 
-import type {ComputedRef} from "vue";
-import {asImageSrc, isFilled} from "@prismicio/helpers";
-import type {EmptyImageFieldImage, FilledImageFieldImage} from "@prismicio/types";
-import type {ImageField} from "@prismicio/client";
-import type { EventDocument, EventsDocument} from "~/prismicio-types";
+import type { ComputedRef } from "vue";
+import { asImageSrc, isFilled } from "@prismicio/helpers";
+import type {
+  EmptyImageFieldImage,
+  FilledImageFieldImage,
+} from "@prismicio/types";
+import type { ImageField } from "@prismicio/client";
+import type { EventDocument, EventsDocument } from "~/prismicio-types";
 
-const prismic = usePrismic()
+const prismic = usePrismic();
 const route = useRoute();
-const { t, locale } = useI18n()
+const { t, locale } = useI18n();
 const { isMobile } = useDevice();
 
-const Breadcrumbs = defineAsyncComponent(() => import('@/components/Layouts/Breadcrumbs.vue'))
-const HeaderPage = defineAsyncComponent(() => import('@/components/pages/HeaderPage.vue'))
-const Fancybox = defineAsyncComponent(() => import("@/components/content/Fancybox.vue"));
-const Map = defineAsyncComponent(() => import('@/components/content/Map.vue'));
+const Breadcrumbs = defineAsyncComponent(
+  () => import("@/components/Layouts/Breadcrumbs.vue"),
+);
+const HeaderPage = defineAsyncComponent(
+  () => import("@/components/pages/HeaderPage.vue"),
+);
+const Fancybox = defineAsyncComponent(
+  () => import("@/components/content/Fancybox.vue"),
+);
+const Map = defineAsyncComponent(() => import("@/components/content/Map.vue"));
 
 const fetchedPointData: Ref<[number, number]> = ref([0, 0]);
-const { uid } = route.params as { uid: string }
+const { uid } = route.params as { uid: string };
 
-const { data, error } = useAsyncData(
-  uid,
-  async () => {
-    const [response, parentAgenda] = await Promise.all([
-      await prismic.client.getByUID<EventDocument>('event', uid, {lang: locale.value}) as EventDocument,
-      await prismic.client.getSingle<EventsDocument>('events', {lang: locale.value}) as EventsDocument
-    ])
+const { data, error } = useAsyncData(uid, async () => {
+  const [response, parentAgenda] = await Promise.all([
+    (await prismic.client.getByUID<EventDocument>("event", uid, {
+      lang: locale.value,
+    })) as EventDocument,
+    (await prismic.client.getSingle<EventsDocument>("events", {
+      lang: locale.value,
+    })) as EventsDocument,
+  ]);
 
-    fetchedPointData.value = [response.data.place_event.latitude, response.data.place_event.longitude]
+  fetchedPointData.value = [
+    response.data.place_event.latitude,
+    response.data.place_event.longitude,
+  ];
 
-    return {
-      event: response,
-      parentAgenda: parentAgenda,
-      startDate: useFormatIntoFrenchDate(response.data.time_start, 'long'),
-      endDate: (null !== response.data.time_end) ? useFormatIntoFrenchDate(response.data.time_end, 'long') : null
-    }
-  }
-)
+  return {
+    event: response,
+    parentAgenda: parentAgenda,
+    startDate: useFormatIntoFrenchDate(response.data.time_start, "long"),
+    endDate:
+      null !== response.data.time_end
+        ? useFormatIntoFrenchDate(response.data.time_end, "long")
+        : null,
+  };
+});
 
 const richTextSerializer = useRichTextSerializer();
-const centerMap: [number, number] = useCoordinates('babotte');
+const centerMap: [number, number] = useCoordinates("babotte");
 
 const markerCoordinates = computed(() => {
-  return fetchedPointData.value[0] &&  fetchedPointData.value[1] ? fetchedPointData.value : centerMap
-})
+  return fetchedPointData.value[0] && fetchedPointData.value[1]
+    ? fetchedPointData.value
+    : centerMap;
+});
 
-const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() => useBannerImage(data.value?.event.data.image_banner, isMobile))
-const metaTitle: ComputedRef<string> = computed<string>(() => (isFilled.keyText(data.value?.event.data.meta_title)) ? `${data.value?.event.data.meta_title}` : `${data.value?.event.data.title}`);
-const metaDescription: ComputedRef<string> = computed<string>(() => `${data.value?.event.data.meta_description}`);
-const metaImage = computed(() => asImageSrc(data.value?.event.data.image_vignette.mobile))
+const imageBanner = computed<
+  ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
+>(() => useBannerImage(data.value?.event.data.image_banner, isMobile));
+const metaTitle: ComputedRef<string> = computed<string>(() =>
+  isFilled.keyText(data.value?.event.data.meta_title)
+    ? `${data.value?.event.data.meta_title}`
+    : `${data.value?.event.data.title}`,
+);
+const metaDescription: ComputedRef<string> = computed<string>(
+  () => `${data.value?.event.data.meta_description}`,
+);
+const metaImage = computed(() =>
+  asImageSrc(data.value?.event.data.image_vignette.mobile),
+);
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: metaImage
-})
+  image: metaImage,
+});
 </script>
 
 <template>
   <section v-if="data">
-    <div class="max-w-screen-xl w-full mx-auto relative mb-2"> <!-- max-w-screen-lg -->
-      <Breadcrumbs v-if="data.parentAgenda && data.event" :listIds="[data.parentAgenda.id, data.event.id]" :currentUid="data.event.uid" />
-      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">{{ data.event.data.title }}</h1>
+    <div class="max-w-screen-xl w-full mx-auto relative mb-2">
+      <!-- max-w-screen-lg -->
+      <Breadcrumbs
+        v-if="data.parentAgenda && data.event"
+        :listIds="[data.parentAgenda.id, data.event.id]"
+        :currentUid="data.event.uid"
+      />
+      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
+        {{ data.event.data.title }}
+      </h1>
       <HeaderPage :image="imageBanner" />
       <div class="max-w-3xl mx-auto">
         <div
@@ -83,15 +118,16 @@ useSeo({
                 <div class="md:flex-row">
                   <button
                     type="button"
-                    class="justify-center px-3 py-2.5 text-md font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1  w-full md:w-auto"
+                    class="justify-center px-3 py-2.5 text-md font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
                   >
                     <Icon size="18" name="material-symbols:calendar-clock" />
-                    <span v-if="data.startDate">&nbsp;{{ data.startDate }}</span><span v-if="data.endDate"> au {{ data.endDate }}</span>
+                    <span v-if="data.startDate">&nbsp;{{ data.startDate }}</span
+                    ><span v-if="data.endDate"> au {{ data.endDate }}</span>
                   </button>
 
                   <button
-                      type="button"
-                      class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1  w-full md:w-auto"
+                    type="button"
+                    class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
                   >
                     <Icon size="18" name="hugeicons:image-composition" />
                     &nbsp;{{ data.event.data.place_event_txt }}
@@ -99,27 +135,21 @@ useSeo({
 
                   <prismic-link
                     :field="data.event.data.link"
-                    class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1  w-full  md:w-auto"
+                    class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
                     :aria-label="t('layout.moreInfo')"
                   >
-                    {{ $t('layout.moreInfo') }}
+                    {{ $t("layout.moreInfo") }}
                     <Icon name="material-symbols:arrow-right-alt" />
                   </prismic-link>
                 </div>
-
               </div>
             </div>
           </div>
         </div>
       </div>
-      <Map
-        v-if="data.event"
-        :itemMarker="markerCoordinates"
-      />
+      <Map v-if="data.event" :itemMarker="markerCoordinates" />
     </div>
   </section>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

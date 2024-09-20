@@ -29,7 +29,7 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
       class="bg-white grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12"
     >
       <div class="mr-auto place-self-center lg:col-span-7">
-        <Icon name="material-symbols:arrow-right-alt" v-show="false" />
+        <Icon v-show="false" name="material-symbols:arrow-right-alt" />
         <prismic-rich-text
           :field="block.data.content"
           :serializer="richTextSerializer"

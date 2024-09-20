@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { ComputedRef } from "vue";
+import { useRichTextSerializer } from "@/composables/useRichTextSerializer";
+import type { ImageField } from "@prismicio/client";
 
 const { t } = useI18n();
 // source https://tailwindflex.com/@noah/call-to-action-card-with-image
@@ -14,8 +16,6 @@ const props = defineProps<Props>();
 const { block } = toRefs(props);
 
 // RichText serializer
-import { useRichTextSerializer } from "@/composables/useRichTextSerializer";
-import type { ImageField } from "@prismicio/client";
 const richTextSerializer = useRichTextSerializer();
 
 const { isMobile, isDesktop } = useDevice();
@@ -27,7 +27,7 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
 <template>
   <div class="lg:px-2 lg:py-20 py-0 w-full flex justify-center">
     <div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
-      <div class="lg:w-1/2" v-if="isDesktop">
+      <div v-if="isDesktop" class="lg:w-1/2">
         <div
           class="lg:scale-110 lg:h-full h-100 bg-cover rounded-b-none border lg:rounded-lg"
           :style="{ backgroundImage: `url(${optimizedImage?.url})` }"
@@ -69,7 +69,7 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
           </NuxtLink>
         </div>
       </div>
-      <ImageCopyright :image="optimizedImage" v-if="isMobile" />
+      <ImageCopyright v-if="isMobile" :image="optimizedImage" />
     </div>
   </div>
 </template>

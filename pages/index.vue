@@ -1,8 +1,6 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
 import type { ComputedRef } from "vue";
-const { locale } = useI18n();
-const prismic = usePrismic();
 import { useSeo } from "@/composables/useSeo";
 
 // Layout
@@ -17,7 +15,10 @@ import type {
   PageThematiqueDocument,
   EventsDocument,
 } from "~/prismicio-types";
+
 import { isFilled } from "@prismicio/helpers";
+const { locale } = useI18n();
+const prismic = usePrismic();
 
 definePageMeta({
   layout: "home",
@@ -192,11 +193,11 @@ useSeo({
     <!-- thematics block -->
     <a id="thematiques" />
     <BlockListCards
-      :titleBlock="home.data.block_thematics_title"
+      :title-block="home.data.block_thematics_title"
       :items="home.blocks.thematics"
-      :parentItem="null"
+      :parent-item="null"
     >
-      <template v-slot:content-block-top>
+      <template #content-block-top>
         <p
           v-if="home.data.bloc_thematic_text"
           class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0"
@@ -213,11 +214,11 @@ useSeo({
     <!-- Evenements -->
     <a id="evenements" />
     <BlockListCards
-      :titleBlock="home.data.block_events_title"
+      :title-block="home.data.block_events_title"
       :items="home.blocks.events"
-      :parentItem="home.agendaHome"
+      :parent-item="home.agendaHome"
     >
-      <template v-slot:content-block-bottom>
+      <template #content-block-bottom>
         <NuxtLink
           to="/agenda"
           class="text-indigo-400 inline-flex items-start mt-4 text-xl"

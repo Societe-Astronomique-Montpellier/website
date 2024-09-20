@@ -22,9 +22,9 @@ const { menu } = toRefs(props);
       aria-label="navigation footer"
     >
       <div
-        class="px-5 py-2"
         v-for="(item, index) in menu?.data.footer_navigation"
         :key="index"
+        class="px-5 py-2"
         role="menubar"
       >
         <prismic-link

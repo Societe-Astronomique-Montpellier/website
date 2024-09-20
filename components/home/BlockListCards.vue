@@ -8,7 +8,7 @@ import type {
 } from "~/prismicio-types";
 import type { KeyTextField } from "@prismicio/client";
 
-const { isMobile } = useDevice();
+import { useDynamicCardComponent } from "@/composables/useDynamicCardComponent";
 
 export interface Props {
   titleBlock: KeyTextField | undefined;
@@ -19,8 +19,6 @@ export interface Props {
 
 const props = defineProps<Props>();
 const { items, parentItem } = toRefs(props);
-
-import { useDynamicCardComponent } from "@/composables/useDynamicCardComponent";
 const { getComponent } = useDynamicCardComponent();
 </script>
 
@@ -42,19 +40,19 @@ const { getComponent } = useDynamicCardComponent();
       </div>
       <div class="flex flex-wrap md:flex-row sm:-m-4 -mx-4 -mb-10 -mt-4">
         <div
-          class="p-4 md:w-1/3 w-full sm:mb-0 mb-6"
           v-for="(item, index) in items"
           :key="index"
+          class="p-4 md:w-1/3 w-full sm:mb-0 mb-6"
         >
           <component
-            v-if="item && parentItem"
             :is="getComponent(item.type)"
+            v-if="item && parentItem"
             :item="item"
-            :parentItem="parentItem"
+            :parent-item="parentItem"
           />
           <component
-            v-else-if="null === parentItem && item"
             :is="getComponent(item.type)"
+            v-else-if="null === parentItem && item"
             :item="item"
           />
         </div>

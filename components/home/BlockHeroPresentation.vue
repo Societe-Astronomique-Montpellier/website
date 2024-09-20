@@ -3,7 +3,6 @@ import type { ComputedRef } from "vue";
 import type { ImageField } from "@prismicio/client";
 
 const { t } = useI18n();
-const prismic = usePrismic();
 
 export interface Props {
   block: any;
@@ -14,8 +13,9 @@ const { block } = toRefs(props);
 const { isMobile } = useDevice();
 
 const currentIndex: Ref<number> = ref(0);
-let slideInterval: Ref<number | undefined> = ref(undefined);
+const slideInterval: Ref<number | undefined> = ref(undefined);
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const title: ComputedRef<string> = computed<string>(() => t("layout.title"));
 const nbImages: ComputedRef<number> = computed<number>(
   () => block.value.data.carousel.length,
@@ -49,7 +49,7 @@ onUnmounted(() => {
       <div class="w-full h-full relative">
         <div
           v-for="(image, index) in listImages"
-          v-bind:key="index"
+          :key="index"
           :class="[
             'absolute inset-0 transition-opacity duration-1000',
             {
@@ -85,8 +85,8 @@ onUnmounted(() => {
     </div>
   </div>
   <div
-    class="text-gray-400 bg-gray-900 body-font mb-4 mt-0 text-base items-center text-center font-light leading-relaxed h-full w-full p-2"
     v-if="isMobile"
+    class="text-gray-400 bg-gray-900 body-font mb-4 mt-0 text-base items-center text-center font-light leading-relaxed h-full w-full p-2"
   >
     <h1 class="mt-2 text-2xl">
       {{ block.data.title }}

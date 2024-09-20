@@ -1,12 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: "page",
-});
-
-const prismic = usePrismic();
-const { t, locale } = useI18n();
-const { isMobile } = useDevice();
-
 import type {
   AllDocumentTypes,
   EventDocument,
@@ -19,6 +11,14 @@ import type {
   FilledImageFieldImage,
 } from "@prismicio/types";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
+
+definePageMeta({
+  layout: "page",
+});
+
+const prismic = usePrismic();
+const { t, locale } = useI18n();
+const { isMobile } = useDevice();
 
 const HeaderPage = defineAsyncComponent(
   () => import("~/components/pages/HeaderPage.vue"),
@@ -102,8 +102,8 @@ useSeo({
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <Breadcrumbs
         v-if="list_events"
-        :listIds="[list_events.agenda.id]"
-        :currentUid="list_events.agenda.uid"
+        :list-ids="[list_events.agenda.id]"
+        :current-uid="list_events.agenda.uid"
       />
       <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
         {{ list_events?.agenda.data.title }}
@@ -131,13 +131,13 @@ useSeo({
       <BlockListCards
         :title-block="titleBlockNext"
         :items="list_events?.next"
-        :parentItem="list_events?.agenda"
+        :parent-item="list_events?.agenda"
       />
 
       <BlockListCards
         :title-block="titleBlockPast"
         :items="list_events?.past"
-        :parentItem="list_events?.agenda"
+        :parent-item="list_events?.agenda"
       />
     </div>
   </section>

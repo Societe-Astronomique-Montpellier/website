@@ -23,7 +23,7 @@ const richTextSerializer = useRichTextSerializer();
 </script>
 
 <template>
-  <section class="bg-gray-100" v-if="block">
+  <section v-if="block" class="bg-gray-100">
     <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
       <div class="max-w-2xl lg:max-w-4xl mx-auto text-center">
         <h3 class="text-3xl font-extrabold text-gray-800">
@@ -39,16 +39,16 @@ const richTextSerializer = useRichTextSerializer();
       <div class="mt-8 lg:mt-20">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div class="rounded-lg overflow-hidden z-0">
-            <Map :itemMarker="centerMap" />
+            <Map :item-marker="centerMap" />
           </div>
           <div>
             <div
               class="max-w-full mx-auto rounded-lg overflow-hidden text-gray-600"
             >
               <prismic-rich-text
+                v-if="block_contact"
                 :field="block_contact.data.content"
                 :serializer="richTextSerializer"
-                v-if="block_contact"
               />
             </div>
           </div>

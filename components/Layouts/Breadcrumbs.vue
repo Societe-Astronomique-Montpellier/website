@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type {
-  AllDocumentTypes,
   EventDocument,
   EventsDocument,
   PageArticleDocument,
@@ -55,14 +54,14 @@ const { data: items, error } = await useAsyncData(
             size="16"
           />
           <prismic-link
+            v-if="currentUid !== item.uid"
             :field="item"
             class="ms-1 inline-flex items-center text-sm font-medium text-gray-700"
-            v-if="currentUid !== item.uid"
             :aria-label="item.data.title"
           >
             <span
-              class="ms-1 text-sm font-medium text-gray-700 md:ms-2"
               v-if="item"
+              class="ms-1 text-sm font-medium text-gray-700 md:ms-2"
             >
               {{ item.data.title }}
             </span>

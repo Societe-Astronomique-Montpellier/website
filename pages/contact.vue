@@ -35,7 +35,7 @@ interface IFormData {
 }
 const submittedFormData: Ref<IFormData | null> = ref(null);
 
-let listTopics = ref<string[]>([]);
+const listTopics = ref<string[]>([]);
 const submittedForm: Ref<boolean> = ref(false);
 const submitedFormMessage: Ref<string | null> = ref(null);
 
@@ -130,9 +130,9 @@ useSeo({
 
               <DelayHydration>
                 <FormContact
-                  @submit="handleContactFormSubmission"
                   v-if="!submittedForm"
                   :topics="listTopics"
+                  @submit="handleContactFormSubmission"
                 />
               </DelayHydration>
             </div>

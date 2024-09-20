@@ -5,7 +5,6 @@ import type {
   FilledImageFieldImage,
 } from "@prismicio/types";
 import type { PrismicPlugin } from "@prismicio/vue";
-import type { AllDocumentTypes } from "~/prismicio-types";
 
 export const useBannerImage = (
   imageField: ImageField<"banner" | "mobile"> | undefined,

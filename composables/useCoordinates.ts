@@ -1,8 +1,5 @@
-// import type {GeoPoint} from "@prismicio/types-internal/lib/customtypes";
-
 interface ICoords {
-  // [key: string]: PointExpression
-  [key: string]: [number, number]; //| GeoPoint
+  [key: string]: [number, number];
 }
 
 export const useCoordinates = (item: string) => {

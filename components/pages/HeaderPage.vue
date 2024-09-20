@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { ImageField } from "@prismicio/client";
 import type { ComputedRef } from "vue";
-
-const { isMobile } = useDevice();
 import defaultImg from "../../public/images/default_banner.jpg";
 import { isFilled } from "@prismicio/helpers";
+
+const { isMobile } = useDevice();
 
 export interface IProps {
   image?: ImageField<never> | undefined | null;

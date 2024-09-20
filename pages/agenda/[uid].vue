@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: "page",
-});
-
 import type { ComputedRef } from "vue";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type {
@@ -11,6 +7,10 @@ import type {
 } from "@prismicio/types";
 import type { ImageField } from "@prismicio/client";
 import type { EventDocument, EventsDocument } from "~/prismicio-types";
+
+definePageMeta({
+  layout: "page",
+});
 
 const prismic = usePrismic();
 const route = useRoute();
@@ -94,8 +94,8 @@ useSeo({
       <!-- max-w-screen-lg -->
       <Breadcrumbs
         v-if="data.parentAgenda && data.event"
-        :listIds="[data.parentAgenda.id, data.event.id]"
-        :currentUid="data.event.uid"
+        :list-ids="[data.parentAgenda.id, data.event.id]"
+        :current-uid="data.event.uid"
       />
       <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
         {{ data.event.data.title }}
@@ -108,7 +108,7 @@ useSeo({
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
-                <Fancybox :isCaroussel="data.event.data.carrousel">
+                <Fancybox :is-caroussel="data.event.data.carrousel">
                   <prismic-rich-text
                     :field="data.event.data.resume"
                     :serializer="richTextSerializer"
@@ -147,7 +147,7 @@ useSeo({
           </div>
         </div>
       </div>
-      <Map v-if="data.event" :itemMarker="markerCoordinates" />
+      <Map v-if="data.event" :item-marker="markerCoordinates" />
     </div>
   </section>
 </template>

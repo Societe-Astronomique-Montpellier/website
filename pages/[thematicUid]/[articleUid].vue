@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-  layout: "page",
-});
-
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type { ComputedRef } from "vue";
 import type { ImageField } from "@prismicio/client";
@@ -14,6 +10,10 @@ import type {
   PageArticleDocument,
   PageThematiqueDocument,
 } from "~/prismicio-types";
+
+definePageMeta({
+  layout: "page",
+});
 
 const prismic = usePrismic();
 const { isMobile } = useDevice();
@@ -81,11 +81,11 @@ useSeo({
 </script>
 
 <template>
-  <div class="max-w-screen-lg w-full mx-auto relative mb-2" v-if="article">
+  <div v-if="article" class="max-w-screen-lg w-full mx-auto relative mb-2">
     <Breadcrumbs
       v-if="parentThematic && article"
-      :listIds="[parentThematic?.id, article.id]"
-      :currentUid="articleUid"
+      :list-ids="[parentThematic?.id, article.id]"
+      :current-uid="articleUid"
     />
     <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
       {{ article?.data.title }}
@@ -102,10 +102,10 @@ useSeo({
           >
             {{ article?.data.subtitle }}
           </h2>
-          <Icon name="material-symbols:arrow-right-alt" v-show="false" />
+          <Icon v-show="false" name="material-symbols:arrow-right-alt" />
           <div class="my-4 grid gap-4 px-1">
             <div data-content>
-              <Fancybox :isCaroussel="article?.data.carrousel">
+              <Fancybox :is-caroussel="article?.data.carrousel">
                 <prismic-rich-text
                   :field="article.data.content"
                   :serializer="richTextSerializer"

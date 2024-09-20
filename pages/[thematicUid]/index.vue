@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import type { ComputedRef } from "vue";
-
-definePageMeta({
-  layout: "page",
-});
-
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type { ImageField } from "@prismicio/client";
 import type {
@@ -16,6 +11,10 @@ import type {
   PageArticleDocument,
   PageThematiqueDocument,
 } from "~/prismicio-types";
+
+definePageMeta({
+  layout: "page",
+});
 
 // https://tailwindflex.com/@ron-hicks/blog-page
 // https://flowbite.com/blocks/publisher/blog-templates/
@@ -99,8 +98,8 @@ useSeo({
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <!-- max-w-screen-lg -->
       <Breadcrumbs
-        :listIds="[data.page_thematic.id]"
-        :currentUid="data.page_thematic.uid"
+        :list-ids="[data.page_thematic.id]"
+        :current-uid="data.page_thematic.uid"
       />
       <h1
         class="text-gray-900 font-bold text-4xl my-8 text-center"
@@ -122,7 +121,7 @@ useSeo({
               {{ data.page_thematic.data.subtitle }}
             </h2>
 
-            <Icon name="material-symbols:arrow-right-alt" v-show="false" />
+            <Icon v-show="false" name="material-symbols:arrow-right-alt" />
             <div class="`my-4 grid gap-4 px-1`">
               <div data-content>
                 <Fancybox>
@@ -141,9 +140,9 @@ useSeo({
                   </span>
                   le
                   <span
+                    v-if="data.publication_date"
                     id="span_date"
                     class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
-                    v-if="data.publication_date"
                   >
                     {{ data.publication_date }}
                   </span>
@@ -158,7 +157,7 @@ useSeo({
         v-if="0 < data.articles.length"
         :title-block="knowMoreLabel"
         :items="data.articles"
-        :parentItem="data.page_thematic"
+        :parent-item="data.page_thematic"
       />
     </div>
   </section>

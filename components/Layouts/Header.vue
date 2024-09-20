@@ -4,7 +4,6 @@ import { ref } from "vue";
 import { PrismicLink } from "@prismicio/vue";
 import type { LinkField } from "@prismicio/client";
 
-const prismic = usePrismic();
 const { t } = useI18n();
 const { isMobile } = useDevice();
 
@@ -73,7 +72,7 @@ const openSearchModal = () => {
   >
     <div class="flex items-center justify-between relative">
       <!-- Header logo -->
-      <div class="" v-if="!isMobile && !isHome">
+      <div v-if="!isMobile && !isHome" class="">
         <NuxtLink to="/" aria-label="home">
           <prismic-image
             v-if="menu.data.logo.menu"
@@ -90,13 +89,13 @@ const openSearchModal = () => {
       </div>
 
       <!-- Mobile toggle -->
-      <div class="md:hidden relative" v-if="isMobile">
+      <div v-if="isMobile" class="md:hidden relative">
         <button
           type="button"
-          @click="drawer"
           name="openMenu"
           aria-label="openMenu"
           class="left-0"
+          @click="drawer"
         >
           <svg
             class="h-8 w-8 fill-current text-gray-900 mt-1"
@@ -113,16 +112,16 @@ const openSearchModal = () => {
 
         <button
           type="button"
-          @click="openSearchModal"
           class="right-0"
           aria-label="open search modal"
+          @click="openSearchModal"
         >
           <Icon name="material-symbols-light:search" size="32" />
         </button>
       </div>
 
       <!-- Navbar -->
-      <nav :class="subNavClass" v-if="!isMobile" aria-label="navigation">
+      <nav v-if="!isMobile" :class="subNavClass" aria-label="navigation">
         <ul
           :class="`md:flex items-center gap-5 justify-between text-base text-gray-300 pt-4 md:pt-0 ${ulNavClass}`"
           role="menubar"
@@ -192,32 +191,32 @@ const openSearchModal = () => {
         leave-to-class="opacity-0"
       >
         <div
-          @keydown.esc="isOpen = false"
           v-show="isOpen"
           v-if="isMobile"
           class="z-10 fixed inset-0 transition-opacity"
+          @keydown.esc="isOpen = false"
         >
           <div
-            @click="isOpen = false"
             class="absolute inset-0 bg-black opacity-50"
             tabindex="0"
+            @click="isOpen = false"
           ></div>
         </div>
       </transition>
 
       <!-- Drawer Menu -->
       <aside
+        v-if="isMobile"
         class="p-5 transform top-0 left-0 w-64 bg-white fixed h-full overflow-auto ease-in-out transition-all duration-300 z-30"
         :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
-        v-if="isMobile"
         role="region"
       >
         <div class="close">
           <button
             class="absolute top-0 right-0 mt-4 mr-4"
             type="button"
-            @click="isOpen = false"
             aria-label="Close"
+            @click="isOpen = false"
           >
             <svg
               class="w-6 h-6"
@@ -247,9 +246,9 @@ const openSearchModal = () => {
 
             <li
               v-for="(item, index) in menu?.data.header_navigation"
-              @click="isOpen = false"
               :key="index"
               role="none"
+              @click="isOpen = false"
             >
               <prismic-link
                 :field="item.link_header as LinkField"

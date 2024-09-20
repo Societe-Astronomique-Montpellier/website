@@ -1,5 +1,12 @@
 <script setup lang="ts">
 import type { PageThematiqueDocument } from "@/prismicio-types";
+import { useRichTextSerializer } from "@/composables/useRichTextSerializer";
+import type { ImageField } from "@prismicio/client";
+import type {
+  EmptyImageFieldImage,
+  FilledImageFieldImage,
+} from "@prismicio/types";
+
 const { isMobile } = useDevice();
 
 export interface Props {
@@ -9,12 +16,6 @@ export interface Props {
 const props = defineProps<Props>();
 const { item } = toRefs(props);
 
-import { useRichTextSerializer } from "@/composables/useRichTextSerializer";
-import type { ImageField } from "@prismicio/client";
-import type {
-  EmptyImageFieldImage,
-  FilledImageFieldImage,
-} from "@prismicio/types";
 const richTextSerializer = useRichTextSerializer();
 const imageVignette = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage

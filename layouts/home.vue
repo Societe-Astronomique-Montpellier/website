@@ -41,9 +41,9 @@ useSeo({
 <template>
   <div>
     <Header
-      :isHome="true"
+      :is-home="true"
       :menu="menuNavigation"
-      :openModal="!isModalOpened"
+      :open-modal="!isModalOpened"
       @openSearchModal="handleOpenModal"
     />
     <div class="flex-fill">
@@ -51,24 +51,24 @@ useSeo({
     </div>
     <Modal
       v-if="isModalOpened"
-      :isOpen="isModalOpened"
+      :is-open="isModalOpened"
       @closeModal="handleCloseModal"
     >
-      <template v-slot:header>{{ t("search.title") }}</template>
-      <template v-slot:content>
+      <template #header>{{ t("search.title") }}</template>
+      <template #content>
         <div class="relative p-3 border border-gray-200 rounded-lg w-full">
           <input
+            v-model="searchQuery"
             type="search"
             class="rounded-md p-1 w-full focus:outline-none focus:focus-none"
             :placeholder="$t('search.placeholder')"
-            v-model="searchQuery"
           />
         </div>
 
         <!-- Query Results -->
         <div
-          :class="`${contentModalClass} h-64 border-t border-gray-200 `"
           v-if="searchQuery"
+          :class="`${contentModalClass} h-64 border-t border-gray-200 `"
         >
           <p v-if="loading">{{ t("layout.loading") }}</p>
           <p v-if="!loading && results !== null && 0 === results?.length">

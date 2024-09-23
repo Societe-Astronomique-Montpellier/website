@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const year: Ref<string | number> = ref("2024");
+const year: Ref<number> = ref(new Date().getFullYear());
 </script>
 
 <template>

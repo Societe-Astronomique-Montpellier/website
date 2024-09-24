@@ -74,11 +74,7 @@ const metaDescription: ComputedRef<string> = computed<string>(() => {
     : `${article.value?.data.title}`;
 });
 
-const metaImage = computed(() =>
-  isFilled.image(article.value?.data.meta_image)
-    ? asImageSrc(article.value?.data.meta_image)
-    : null,
-);
+const metaImage = computed(() => asImageSrc(article.value?.data.meta_image));
 
 useSeo({
   title: metaTitle,

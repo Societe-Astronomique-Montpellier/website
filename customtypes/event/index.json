@@ -132,6 +132,14 @@
           "placeholder": "A brief summary of the page"
         },
         "type": "Text"
+      },
+      "meta_image": {
+        "type": "Image",
+        "config": {
+          "label": "Meta image",
+          "constraint": {},
+          "thumbnails": []
+        }
       }
     }
   }

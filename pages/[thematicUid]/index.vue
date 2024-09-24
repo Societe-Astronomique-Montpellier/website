@@ -95,10 +95,9 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     ? `${dataThematic.value?.page_thematic?.data.meta_description}`
     : `${dataThematic.value?.page_thematic?.data.title}`,
 );
+
 const metaImage = computed(() =>
-  isFilled.image(dataThematic.value?.page_thematic.data.image_vignette.vignette)
-    ? asImageSrc(dataThematic.value?.page_thematic.data.image_vignette.vignette)
-    : null,
+  asImageSrc(dataThematic.value?.page_thematic.data.meta_image),
 );
 
 useSeo({

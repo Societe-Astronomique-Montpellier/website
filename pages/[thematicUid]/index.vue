@@ -56,23 +56,30 @@ const { data: dataThematic, error } = useAsyncData(thematicUid, async () => {
   };
 });
 
-const { data: articles } = useAsyncData("articles", async () => {
-  if (!dataThematic.value?.page_thematic.id) {
-    return null;
+const articles = ref<PageArticleDocument[] | null>([]);
+watch(dataThematic, async (newData) => {
+  if (newData?.page_thematic.id) {
+    const thematicId = newData.page_thematic.id;
+    const { data: articlesQuery } = useAsyncData("articles", async () => {
+      return (await prismic.client.getAllByType<AllDocumentTypes>(
+        "page_article",
+        {
+          filters: [prismic.filter.at("my.page_article.thematic", thematicId)],
+          orderings: {
+            field: "my.page_article.date_modification",
+            direction: "desc",
+          },
+          lang: locale.value,
+        },
+      )) as PageArticleDocument[];
+    });
+
+    if (articlesQuery) {
+      articlesQuery?.value?.forEach((article) =>
+        articles?.value?.push(article),
+      );
+    }
   }
-  return (await prismic.client.getAllByType<AllDocumentTypes>("page_article", {
-    filters: [
-      prismic.filter.at(
-        "my.page_article.thematic",
-        dataThematic.value?.page_thematic.id,
-      ),
-    ],
-    orderings: {
-      field: "my.page_article.date_modification",
-      direction: "desc",
-    },
-    lang: locale.value,
-  })) as PageArticleDocument[];
 });
 
 const knowMoreLabel = computed<string>(() => t("layout.knowMore"));
@@ -169,7 +176,7 @@ useSeo({
       </div>
 
       <BlockListCards
-        v-if="articles"
+        v-if="articles?.length"
         :title-block="knowMoreLabel"
         :items="articles"
         :parent-item="dataThematic.page_thematic"

@@ -42,43 +42,49 @@ const richTextSerializer = useRichTextSerializer();
 const { thematicUid } = route.params as { thematicUid: string };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data: dataThematic, error } = useAsyncData(thematicUid, async () => {
-  const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
-    "page_thematique",
-    thematicUid,
-    { lang: locale.value },
-  )) as PageThematiqueDocument;
-  return {
-    page_thematic: thematic,
-    publication_date:
-      useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
-      useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
-  };
-});
+const { data: dataThematic, error } = useLazyAsyncData(
+  thematicUid,
+  async () => {
+    const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
+      "page_thematique",
+      thematicUid,
+      { lang: locale.value },
+    )) as PageThematiqueDocument;
+    return {
+      page_thematic: thematic,
+      publication_date:
+        useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
+        useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
+    };
+  },
+);
 
-const articles = ref<PageArticleDocument[] | null>([]);
-watch(dataThematic, async (newData) => {
-  if (newData?.page_thematic.id) {
-    const thematicId = newData.page_thematic.id;
-    const { data: articlesQuery } = useAsyncData("articles", async () => {
-      return (await prismic.client.getAllByType<AllDocumentTypes>(
-        "page_article",
-        {
-          filters: [prismic.filter.at("my.page_article.thematic", thematicId)],
-          orderings: {
-            field: "my.page_article.date_modification",
-            direction: "desc",
-          },
-          lang: locale.value,
+const { data: articles, execute } = useAsyncData(
+  "articles",
+  async () => {
+    return (await prismic.client.getAllByType<AllDocumentTypes>(
+      "page_article",
+      {
+        filters: [
+          prismic.filter.at(
+            "my.page_article.thematic",
+            dataThematic.value?.page_thematic.id as string,
+          ),
+        ],
+        orderings: {
+          field: "my.page_article.date_modification",
+          direction: "desc",
         },
-      )) as PageArticleDocument[];
-    });
+        lang: locale.value,
+      },
+    )) as PageArticleDocument[];
+  },
+  { immediate: false },
+);
 
-    if (articlesQuery) {
-      articlesQuery?.value?.forEach((article) =>
-        articles?.value?.push(article),
-      );
-    }
+watch(dataThematic, async (newValue) => {
+  if (newValue) {
+    await execute();
   }
 });
 

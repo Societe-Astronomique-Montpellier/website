@@ -33,6 +33,7 @@ const BlockListCards = defineAsyncComponent(
   () => import("~/components/home/BlockListCards.vue"),
 );
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: list_events, error } = useAsyncData("list_events", async () => {
   const dateNow = new Date().toISOString().split("T")[0];
   const [agenda, futurEvents, pastEvents] = await Promise.all([

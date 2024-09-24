@@ -41,6 +41,7 @@ export default defineNuxtConfig({
         },
       },
     ],
+    "@nuxt/scripts",
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,

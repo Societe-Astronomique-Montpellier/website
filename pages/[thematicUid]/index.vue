@@ -40,50 +40,65 @@ const richTextSerializer = useRichTextSerializer();
 
 // RichText serializer
 const { thematicUid } = route.params as { thematicUid: string };
-const { data, error } = useAsyncData(thematicUid, async () => {
-  const response = await prismic.client.getByUID<PageThematiqueDocument>(
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { data: dataThematic, error } = useAsyncData(thematicUid, async () => {
+  const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
     "page_thematique",
     thematicUid,
-  );
-  const articles = (await prismic.client.getAllByType<AllDocumentTypes>(
-    "page_article",
-    {
-      filters: [
-        // prismic.filter.at('document.type', 'page_thematique'),
-        prismic.filter.at("my.page_article.thematic", response.id),
-      ],
-      orderings: {
-        field: "my.page_article.date_modification",
-        direction: "desc",
-      },
-      lang: locale.value,
-    },
-  )) as PageArticleDocument[];
-
+    { lang: locale.value },
+  )) as PageThematiqueDocument;
   return {
-    page_thematic: response,
+    page_thematic: thematic,
     publication_date:
-      useFormatIntoFrenchDate(response.last_publication_date, "short") ??
-      useFormatIntoFrenchDate(response.first_publication_date, "short"),
-    articles: articles,
+      useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
+      useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
   };
+});
+
+const { data: articles } = useAsyncData("articles", async () => {
+  if (!dataThematic.value?.page_thematic.id) {
+    return null;
+  }
+  return (await prismic.client.getAllByType<AllDocumentTypes>("page_article", {
+    filters: [
+      prismic.filter.at(
+        "my.page_article.thematic",
+        dataThematic.value?.page_thematic.id,
+      ),
+    ],
+    orderings: {
+      field: "my.page_article.date_modification",
+      direction: "desc",
+    },
+    lang: locale.value,
+  })) as PageArticleDocument[];
 });
 
 const knowMoreLabel = computed<string>(() => t("layout.knowMore"));
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
->(() => useBannerImage(data.value?.page_thematic.data.image_banner, isMobile));
+>(() =>
+  useBannerImage(
+    dataThematic.value?.page_thematic?.data.image_banner,
+    isMobile,
+  ),
+);
 
 const metaTitle: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(data.value?.page_thematic.data.meta_title)
-    ? `${data.value?.page_thematic.data.meta_title}`
-    : `${data.value?.page_thematic.data.title}`,
+  isFilled.keyText(dataThematic.value?.page_thematic?.data.meta_title)
+    ? `${dataThematic.value?.page_thematic?.data.meta_title}`
+    : `${dataThematic.value?.page_thematic?.data.title}`,
 );
-const metaDescription: ComputedRef<string> = computed<string>(
-  () => `${data.value?.page_thematic.data.meta_description}`,
+const metaDescription: ComputedRef<string> = computed<string>(() =>
+  isFilled.keyText(dataThematic.value?.page_thematic?.data.meta_description)
+    ? `${dataThematic.value?.page_thematic?.data.meta_description}`
+    : `${dataThematic.value?.page_thematic?.data.title}`,
 );
 const metaImage = computed(() =>
-  asImageSrc(data.value?.page_thematic.data.image_vignette.vignette),
+  isFilled.image(dataThematic.value?.page_thematic.data.image_vignette.vignette)
+    ? asImageSrc(dataThematic.value?.page_thematic.data.image_vignette.vignette)
+    : null,
 );
 
 useSeo({
@@ -94,18 +109,18 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="data">
+  <section v-if="dataThematic">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <!-- max-w-screen-lg -->
       <Breadcrumbs
-        :list-ids="[data.page_thematic.id]"
-        :current-uid="data.page_thematic.uid"
+        :list-ids="[dataThematic?.page_thematic.id]"
+        :current-uid="dataThematic?.page_thematic.uid"
       />
       <h1
         class="text-gray-900 font-bold text-4xl my-8 text-center"
         aria-label="title"
       >
-        {{ data.page_thematic.data.title }}
+        {{ dataThematic?.page_thematic.data.title }}
       </h1>
       <HeaderPage :image="imageBanner" />
       <div class="max-w-screen-md mx-auto">
@@ -114,11 +129,11 @@ useSeo({
         >
           <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
             <h2
-              v-if="isFilled.keyText(data.page_thematic.data.subtitle)"
+              v-if="isFilled.keyText(dataThematic?.page_thematic.data.subtitle)"
               class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"
               aria-label="subtitle"
             >
-              {{ data.page_thematic.data.subtitle }}
+              {{ dataThematic?.page_thematic.data.subtitle }}
             </h2>
 
             <Icon v-show="false" name="material-symbols:arrow-right-alt" />
@@ -126,7 +141,7 @@ useSeo({
               <div data-content>
                 <Fancybox>
                   <prismic-rich-text
-                    :field="data.page_thematic.data.content"
+                    :field="dataThematic.page_thematic.data.content"
                     :serializer="richTextSerializer"
                   />
                 </Fancybox>
@@ -136,15 +151,16 @@ useSeo({
                     id="span_author"
                     class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
                   >
-                    {{ $t("page.author") }} {{ data.page_thematic.data.author }}
+                    {{ $t("page.author") }}
+                    {{ dataThematic.page_thematic.data.author }}
                   </span>
                   le
                   <span
-                    v-if="data.publication_date"
+                    v-if="dataThematic.publication_date"
                     id="span_date"
                     class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
                   >
-                    {{ data.publication_date }}
+                    {{ dataThematic.publication_date }}
                   </span>
                 </div>
               </div>
@@ -154,10 +170,10 @@ useSeo({
       </div>
 
       <BlockListCards
-        v-if="0 < data.articles.length"
+        v-if="articles"
         :title-block="knowMoreLabel"
-        :items="data.articles"
-        :parent-item="data.page_thematic"
+        :items="articles"
+        :parent-item="dataThematic.page_thematic"
       />
     </div>
   </section>

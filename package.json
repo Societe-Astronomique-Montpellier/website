@@ -39,6 +39,7 @@
     "@iconify-json/material-symbols": "^1.1.85",
     "@iconify-json/material-symbols-light": "^1.1.25",
     "@nuxt/eslint": "^0.5.7",
+    "@nuxt/scripts": "^0.9.3",
     "@nuxt/types": "^2.18.1",
     "@nuxt/typescript-build": "^3.0.2",
     "@nuxtjs/device": "^3.1.1",

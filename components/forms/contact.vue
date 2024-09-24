@@ -13,6 +13,7 @@ interface IFormData {
   email: string;
   subject: string;
   message: string;
+  honeypot: string;
 }
 
 const formData: IFormData = reactive({
@@ -20,6 +21,7 @@ const formData: IFormData = reactive({
   email: "",
   subject: "",
   message: "",
+  honeypot: "",
 });
 
 const isLoading: Ref<boolean> = ref(false);
@@ -29,8 +31,15 @@ const errMessage: Ref<FormFeedbackType> = ref(null);
 const emit = defineEmits<{
   submit: [formData: IFormData];
 }>();
+
 const submitForm = (): void => {
   isLoading.value = true;
+
+  if (formData.honeypot.trim()) {
+    isLoading.value = false;
+    return;
+  }
+
   if (
     !formData.name.trim() ||
     !formData.email.trim() ||
@@ -73,9 +82,9 @@ const submitForm = (): void => {
         <span class="text-red-700">*</span></label
       >
       <input
+        id="name"
         v-model="formData.name"
         type="text"
-        id="name"
         name="name"
         class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
         :placeholder="t('form.contact.name.placeholder')"
@@ -88,9 +97,9 @@ const submitForm = (): void => {
         <span class="text-red-700">*</span></label
       >
       <input
+        id="email"
         v-model="formData.email"
         type="email"
-        id="email"
         name="email"
         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
         :placeholder="t('form.contact.email.placeholder')"
@@ -103,13 +112,13 @@ const submitForm = (): void => {
         <span class="text-red-700">*</span></label
       >
       <select
-        v-model="formData.subject"
         id="subject"
+        v-model="formData.subject"
         name="subject"
         class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
         required
       >
-        <option v-for="topic in topics" v-bind:key="topic" :value="topic">
+        <option v-for="topic in topics" :key="topic" :value="topic">
           {{ topic }}
         </option>
       </select>
@@ -121,10 +130,13 @@ const submitForm = (): void => {
       >
       <textarea
         id="message"
-        rows="6"
         v-model="formData.message"
+        rows="6"
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
       ></textarea>
+    </div>
+    <div class="hidden">
+      <input v-model="formData.honeypot" type="text" />
     </div>
     <button
       type="submit"

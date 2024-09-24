@@ -33,7 +33,6 @@ export const useSeo = (item: IItem): void => {
     ogTitle: (): string => unref(item.title),
     ogDescription: (): string => unref(item.description),
     ogImage: (): any => unref(item.image) ?? defaultImg,
-    // ogImageAlt: (): string => item.imageAlt ?? '',
     ogLocale: locale.value,
     ogSiteName: (): string => titleName,
     twitterCard: "summary_large_image",
@@ -41,6 +40,5 @@ export const useSeo = (item: IItem): void => {
     twitterTitle: (): string => unref(item.title),
     twitterDescription: (): string => unref(item.description),
     twitterImage: (): any => unref(item.image) ?? defaultImg,
-    // twitterImageAlt: (): string => item.imageAlt
   });
 };

@@ -179,7 +179,7 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: "",
+  image: undefined,
 });
 </script>
 

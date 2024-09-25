@@ -53,7 +53,7 @@ const metaTitle: ComputedRef<string> = computed<string>(() => {
 const metaDescription: ComputedRef<string> = computed<string>(
   () => `${editorial.value?.data.meta_description}`,
 );
-const metaImage = computed(() => asImageSrc(editorial.value?.data.meta_image));
+const metaImage = asImageSrc(editorial.value?.data.meta_image);
 
 useSeo({
   title: metaTitle,

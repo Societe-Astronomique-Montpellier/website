@@ -34,7 +34,7 @@ const contentModalClass: ComputedRef<string> = computed<string>(() =>
 useSeo({
   title: "Société Astronomique de Montpellier",
   description: "À la découverte du ciel",
-  image: "",
+  image: undefined,
 });
 </script>
 
@@ -44,7 +44,7 @@ useSeo({
       :is-home="true"
       :menu="menuNavigation"
       :open-modal="!isModalOpened"
-      @openSearchModal="handleOpenModal"
+      @open-search-modal="handleOpenModal"
     />
     <div class="flex-fill">
       <slot />
@@ -52,7 +52,7 @@ useSeo({
     <Modal
       v-if="isModalOpened"
       :is-open="isModalOpened"
-      @closeModal="handleCloseModal"
+      @close-modal="handleCloseModal"
     >
       <template #header>{{ t("search.title") }}</template>
       <template #content>

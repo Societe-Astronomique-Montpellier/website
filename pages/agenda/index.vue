@@ -87,9 +87,7 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     ? `${list_events.value?.agenda.data.meta_description}`
     : `${list_events.value?.agenda.data.title}`,
 );
-const metaImage = computed(() =>
-  asImageSrc(list_events.value?.agenda.data.meta_image),
-);
+const metaImage = asImageSrc(list_events.value?.agenda.data.meta_image);
 
 useSeo({
   title: metaTitle,

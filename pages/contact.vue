@@ -90,7 +90,7 @@ const handleContactFormSubmission = async (formData: IFormData) => {
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: "",
+  image: undefined,
 });
 </script>
 

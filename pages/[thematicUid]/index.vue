@@ -109,9 +109,7 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     : `${dataThematic.value?.page_thematic?.data.title}`,
 );
 
-const metaImage = computed(() =>
-  asImageSrc(dataThematic.value?.page_thematic.data.meta_image),
-);
+const metaImage = asImageSrc(dataThematic.value?.page_thematic.data.meta_image)
 
 useSeo({
   title: metaTitle,

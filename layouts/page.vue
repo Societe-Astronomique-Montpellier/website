@@ -36,7 +36,7 @@ const contentModalClass: ComputedRef<string> = computed<string>(() =>
 useSeo({
   title: t("layout.title"),
   description: "À la découverte du ciel",
-  image: "",
+  image: undefined,
 });
 </script>
 

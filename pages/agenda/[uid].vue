@@ -77,9 +77,7 @@ const metaTitle: ComputedRef<string> = computed<string>(() =>
 const metaDescription: ComputedRef<string> = computed<string>(
   () => `${data.value?.event.data.meta_description}`,
 );
-const metaImage = computed(() =>
-  asImageSrc(data.value?.event.data.image_vignette.mobile),
-);
+const metaImage = asImageSrc(data.value?.event.data.meta_image);
 
 useSeo({
   title: metaTitle,

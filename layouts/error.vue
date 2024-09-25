@@ -2,16 +2,14 @@
 useSeo({
   title: "Société Astronomique de Montpellier - Page 404",
   description: "À la découverte du ciel",
-  image: "",
+  image: undefined
 });
 </script>
 
 <template>
-  <template>
-    <div class="flex-fill">
-      <slot />
-    </div>
-  </template>
+  <div class="flex-fill">
+    <slot />
+  </div>
 </template>
 
 <style scoped></style>

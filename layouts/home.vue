@@ -8,6 +8,9 @@ const Header = defineAsyncComponent(
 const SideMenu = defineAsyncComponent(
   () => import("@/components/Layouts/HomeSideBarMenu.vue"),
 );
+const SidebarSocialShare = defineAsyncComponent(
+    () => import("@/components/Layouts/SidebarSocialShare.vue"),
+);
 const Footer = defineAsyncComponent(
   () => import("@/components/Layouts/Footer.vue"),
 );
@@ -101,6 +104,7 @@ useSeo({
     </Modal>
     <SideMenu />
     <Footer :menu="menuNavigation" />
+    <SidebarSocialShare />
   </div>
 </template>
 

@@ -10,23 +10,21 @@ export const useSocialShareMedia = () => {
   const { locale } = useI18n();
 
   const shareSocialMedia = ref<Simplify<HeaderDocumentDataShareSocialMediaItem>[] | undefined | null>(null);
+  const { data: shareSocialMediaData } = useAsyncData(
+    "shareSocialMedia",
+    async () =>
+      await prismic.client.getSingle<HeaderDocument>("header", {
+        lang: locale.value,
+        fetch: "my.header.share_social_media",
+      }),
+  );
 
-  onMounted(async () => {
-    const { data: shareSocialMediaData } = useAsyncData(
-      "shareSocialMedia",
-      async () =>
-        await prismic.client.getSingle<HeaderDocument>("header", {
-          lang: locale.value,
-          fetch: "my.header.share_social_media",
-        }),
-    );
+  shareSocialMedia.value =
+    shareSocialMediaData?.value?.data.share_social_media.filter(
+      (i: HeaderDocumentDataShareSocialMediaItem) =>
+        true === i.display_social_network,
+    ) || null;
 
-    shareSocialMedia.value =
-      shareSocialMediaData?.value?.data.share_social_media.filter(
-        (i: HeaderDocumentDataShareSocialMediaItem) =>
-          true === i.display_social_network,
-      ) || null;
-  });
-
+  console.log(shareSocialMedia)
   return { shareSocialMedia };
 };

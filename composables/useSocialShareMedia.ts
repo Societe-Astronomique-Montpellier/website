@@ -1,18 +1,32 @@
 import type { PrismicPlugin } from "@prismicio/vue";
-import type { HeaderDocument } from "~/prismicio-types";
-import type { PrismicDocumentWithoutUID } from "@prismicio/types";
+import type {
+  HeaderDocument,
+  Simplify,
+  HeaderDocumentDataShareSocialMediaItem,
+} from "~/prismicio-types";
 
 export const useSocialShareMedia = () => {
   const prismic: PrismicPlugin = usePrismic();
   const { locale } = useI18n();
-  return useLazyAsyncData(
-    "$shareSocialMedia",
-    async () =>
-      await prismic.client.getSingle<HeaderDocument>("header", {
-        lang: locale.value,
-        fetch: "my.header.share_social_media",
-      }),
-  ).data.value?.data.share_social_media.filter(
-    (i: any) => true === i.display_social_network,
-  );
+
+  const shareSocialMedia = ref<Simplify<HeaderDocumentDataShareSocialMediaItem>[] | undefined | null>(null);
+
+  onMounted(async () => {
+    const { data: shareSocialMediaData } = useAsyncData(
+      "shareSocialMedia",
+      async () =>
+        await prismic.client.getSingle<HeaderDocument>("header", {
+          lang: locale.value,
+          fetch: "my.header.share_social_media",
+        }),
+    );
+
+    shareSocialMedia.value =
+      shareSocialMediaData?.value?.data.share_social_media.filter(
+        (i: HeaderDocumentDataShareSocialMediaItem) =>
+          true === i.display_social_network,
+      ) || null;
+  });
+
+  return { shareSocialMedia };
 };

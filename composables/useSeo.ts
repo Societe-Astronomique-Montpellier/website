@@ -1,10 +1,11 @@
 import type { RuntimeConfig } from "@nuxt/schema";
 import defaultImg from "../public/logo.png";
+import type { ImageField } from "@prismicio/client";
 
 export interface IItem {
   title: string | Ref<string>;
   description: string | Ref<string>;
-  image: any | Ref<any>;
+  image: ImageField<never> | Ref<ImageField<never>>;
 }
 export const useSeo = (item: IItem): void => {
   const { t, locale } = useI18n();
@@ -33,6 +34,8 @@ export const useSeo = (item: IItem): void => {
     ogTitle: (): string => unref(item.title),
     ogDescription: (): string => unref(item.description),
     ogImage: (): any => unref(item.image) ?? defaultImg,
+    ogImageWidth: (): number => 1200,
+    ogImageHeight: (): number => 630,
     ogLocale: locale.value,
     ogSiteName: (): string => titleName,
     twitterCard: "summary_large_image",

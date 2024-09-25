@@ -25,6 +25,5 @@ export const useSocialShareMedia = () => {
         true === i.display_social_network,
     ) || null;
 
-  console.log(shareSocialMedia)
   return { shareSocialMedia };
 };

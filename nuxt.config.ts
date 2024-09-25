@@ -42,6 +42,7 @@ export default defineNuxtConfig({
       },
     ],
     "@nuxt/scripts",
+    "@nuxtjs/turnstile",
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -74,6 +75,9 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
+  },
+  turnstile: {
+    siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY,
   },
   eslint: {},
   app: {
@@ -109,6 +113,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
+    turnstile: {
+      secretKey: process.env.NUXT_TURNSTILE_PRIVATE_KEY,
+    },
     public: {
       facebookAppId: 1602972866638341,
       facebookSam: "https://www.facebook.com/societeastronomiquemontpellier/",

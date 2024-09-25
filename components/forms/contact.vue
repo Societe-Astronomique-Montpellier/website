@@ -14,6 +14,7 @@ interface IFormData {
   subject: string;
   message: string;
   honeypot: string;
+  token: string;
 }
 
 const formData: IFormData = reactive({
@@ -22,9 +23,11 @@ const formData: IFormData = reactive({
   subject: "",
   message: "",
   honeypot: "",
+  token: "",
 });
 
 const isLoading: Ref<boolean> = ref(false);
+const tokenReponse: Ref<string> = ref('')
 type FormFeedbackType = "incomplete" | "consent" | "invalid" | null;
 const errMessage: Ref<FormFeedbackType> = ref(null);
 
@@ -32,7 +35,7 @@ const emit = defineEmits<{
   submit: [formData: IFormData];
 }>();
 
-const submitForm = (): void => {
+const submitForm = async (): Promise<void> => {
   isLoading.value = true;
 
   if (formData.honeypot.trim()) {
@@ -56,6 +59,13 @@ const submitForm = (): void => {
     isLoading.value = false;
     return;
   }
+
+  tokenReponse.value = await $fetch("/api/validateTurnstile", {
+    method: "POST",
+    body: {
+      token: formData.token,
+    },
+  });
 
   setTimeout(() => {
     isLoading.value = false;
@@ -138,6 +148,7 @@ const submitForm = (): void => {
     <div class="hidden">
       <input v-model="formData.honeypot" type="text" />
     </div>
+    <NuxtTurnstile v-model="formData.token" />
     <button
       type="submit"
       :aria-label="t('form.contact.submit.label')"

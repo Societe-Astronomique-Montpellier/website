@@ -100,7 +100,7 @@ export default defineNuxtConfig({
     },
   },
   socialShare: {
-    baseUrl: "https://demo-sam.netlify.app/",
+    baseUrl: "https://societe-astronomique-montpellier.netlify.app/",
     styled: false,
     label: false,
     icon: true,

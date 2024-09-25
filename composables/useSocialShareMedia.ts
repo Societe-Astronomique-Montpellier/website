@@ -10,7 +10,7 @@ export const useSocialShareMedia = () => {
   const { locale } = useI18n();
 
   const shareSocialMedia = ref<Simplify<HeaderDocumentDataShareSocialMediaItem>[] | undefined | null>(null);
-  const { data: shareSocialMediaData } = useAsyncData(
+  const { data: shareSocialMediaData } = useLazyAsyncData(
     "shareSocialMedia",
     async () =>
       await prismic.client.getSingle<HeaderDocument>("header", {

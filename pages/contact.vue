@@ -39,7 +39,7 @@ const listTopics = ref<string[]>([]);
 const submittedForm: Ref<boolean> = ref(false);
 const submitedFormMessage: Ref<string | null> = ref(null);
 
-const { data: contact, error } = useAsyncData(
+const { data: contact, error } = useLazyAsyncData(
   "contact",
   async () =>
     await prismic.client.getSingle<ContactDocument>("contact", {
@@ -54,15 +54,16 @@ if (contact.value?.data.subjects) {
     listTopics.value.push(s.subject as string),
   );
 }
+computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(
+  () => useBannerImage(undefined, false),
+);
 
-const imageBanner = computed<
-  ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
->(() => useBannerImage(undefined, false));
 const metaTitle: ComputedRef<string> = computed<string>(() =>
   !isFilled.keyText(contact.value?.data.meta_title)
     ? `${contact.value?.data.meta_title}`
     : `Société Astronomique de Montpellier`,
 );
+
 const metaDescription: ComputedRef<string> = computed<string>(() =>
   isFilled.keyText(contact.value?.data.meta_description)
     ? `${contact.value?.data.meta_description}`

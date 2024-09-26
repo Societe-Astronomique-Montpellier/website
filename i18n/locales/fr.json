@@ -32,6 +32,12 @@
     "titleBlockNext": "Événements à venir",
     "titleBlockPast": "Événements passés"
   },
+  "activity": {
+    "type": {
+      "permanent": "Activités permanantes",
+      "period": "Activités périodiques"
+    }
+  },
   "form": {
     "contact": {
       "name": {

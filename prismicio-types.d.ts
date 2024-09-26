@@ -1176,17 +1176,6 @@ interface PageArticleDocumentData {
   title: prismic.KeyTextField;
 
   /**
-   * Thématique field in *Page article*
-   *
-   * - **Field Type**: Content Relationship
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.thematic
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
-   */
-  thematic: prismic.ContentRelationshipField<"page_thematique">;
-
-  /**
    * Sous-titre field in *Page article*
    *
    * - **Field Type**: Text
@@ -1198,15 +1187,27 @@ interface PageArticleDocumentData {
   subtitle: prismic.KeyTextField;
 
   /**
-   * Bannière field in *Page article*
+   * Thématique field in *Page article*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Content Relationship
    * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.image_banner
+   * - **API ID Path**: page_article.thematic
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  image_banner: prismic.ImageField<"banner" | "mobile">;
+  thematic: prismic.ContentRelationshipField<"page_thematique">;
+
+  /**
+   * Images carrousel field in *Page article*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: page_article.carrousel
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  carrousel: prismic.BooleanField;
 
   /**
    * Vignette (page d'accueil) field in *Page article*
@@ -1220,15 +1221,15 @@ interface PageArticleDocumentData {
   image_vignette: prismic.ImageField<"vignette" | "mobile">;
 
   /**
-   * Contenu field in *Page article*
+   * Bannière field in *Page article*
    *
-   * - **Field Type**: Rich Text
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.content
+   * - **API ID Path**: page_article.image_banner
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  content: prismic.RichTextField;
+  image_banner: prismic.ImageField<"banner" | "mobile">;
 
   /**
    * Auteur field in *Page article*
@@ -1242,16 +1243,26 @@ interface PageArticleDocumentData {
   author: prismic.KeyTextField;
 
   /**
-   * Images carrousel field in *Page article*
+   * Contenu field in *Page article*
    *
-   * - **Field Type**: Boolean
+   * - **Field Type**: Rich Text
    * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: page_article.carrousel
+   * - **API ID Path**: page_article.content
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#boolean
+   * - **Documentation**: https://prismic.io/docs/field#rich-text-title
    */
-  carrousel: prismic.BooleanField;
+  content: prismic.RichTextField;
+
+  /**
+   * Position field in *Page article*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Position de la page dans l'arborescence
+   * - **API ID Path**: page_article.position
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  position: prismic.NumberField;
 
   /**
    * Slice Zone field in *Page article*

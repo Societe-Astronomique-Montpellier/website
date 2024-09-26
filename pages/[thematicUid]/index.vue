@@ -7,7 +7,7 @@ import type {
   FilledImageFieldImage,
 } from "@prismicio/types";
 import type {
-  AllDocumentTypes,
+  EventDocument,
   PageArticleDocument,
   PageThematiqueDocument,
 } from "~/prismicio-types";
@@ -23,6 +23,9 @@ const prismic = usePrismic();
 const { t, locale } = useI18n();
 const { isMobile } = useDevice();
 
+const articles = ref<PageArticleDocument[]>([]);
+const events = ref<EventDocument[]>([]);
+
 const Breadcrumbs = defineAsyncComponent(
   () => import("~/components/Layouts/Breadcrumbs.vue"),
 );
@@ -37,58 +40,36 @@ const BlockListCards = defineAsyncComponent(
 );
 
 const richTextSerializer = useRichTextSerializer();
+const { fetchChildrenPages } = useArticlesByThematic();
 
 // RichText serializer
 const { thematicUid } = route.params as { thematicUid: string };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data: dataThematic, error } = useLazyAsyncData(
-  thematicUid,
-  async () => {
-    const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
-      "page_thematique",
-      thematicUid,
-      { lang: locale.value },
-    )) as PageThematiqueDocument;
-    return {
-      page_thematic: thematic,
-      publication_date:
-        useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
-        useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
-    };
-  },
-);
+const { data: dataThematic, error } = useAsyncData(thematicUid, async () => {
+  const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
+    "page_thematique",
+    thematicUid,
+    { lang: locale.value },
+  )) as PageThematiqueDocument;
+  return {
+    page_thematic: thematic,
+    publication_date:
+      useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
+      useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
+  };
+});
 
-const { data: articles, execute } = useAsyncData(
-  "articles",
-  async () => {
-    return (await prismic.client.getAllByType<AllDocumentTypes>(
-      "page_article",
-      {
-        filters: [
-          prismic.filter.at(
-            "my.page_article.thematic",
-            dataThematic.value?.page_thematic.id as string,
-          ),
-        ],
-        orderings: {
-          field: "my.page_article.date_modification",
-          direction: "desc",
-        },
-        lang: locale.value,
-      },
-    )) as PageArticleDocument[];
-  },
-  { immediate: false },
-);
-
-watch(dataThematic, async (newValue) => {
-  if (newValue) {
-    await execute();
+onMounted(async () => {
+  if (dataThematic.value?.page_thematic) {
+    const { dataArticles, dataEvents } = await fetchChildrenPages(
+      dataThematic.value?.page_thematic.id,
+    );
+    articles.value = dataArticles || [];
+    events.value = dataEvents || [];
   }
 });
 
-const knowMoreLabel = computed<string>(() => t("layout.knowMore"));
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() =>
@@ -97,6 +78,9 @@ const imageBanner = computed<
     isMobile,
   ),
 );
+
+const labelListArticles: string = t("activity.type.permanent");
+const labelListEvents: string = t("activity.type.period");
 
 const metaTitle: ComputedRef<string> = computed<string>(() =>
   isFilled.keyText(dataThematic.value?.page_thematic?.data.meta_title)
@@ -109,7 +93,7 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     : `${dataThematic.value?.page_thematic?.data.title}`,
 );
 
-const metaImage = asImageSrc(dataThematic.value?.page_thematic.data.meta_image)
+const metaImage = asImageSrc(dataThematic.value?.page_thematic.data.meta_image);
 
 useSeo({
   title: metaTitle,
@@ -181,8 +165,15 @@ useSeo({
 
       <BlockListCards
         v-if="articles?.length"
-        :title-block="knowMoreLabel"
+        :title-block="labelListArticles"
         :items="articles"
+        :parent-item="dataThematic.page_thematic"
+      />
+
+      <BlockListCards
+        v-if="events?.length && 'activites' === thematicUid"
+        :title-block="labelListEvents"
+        :items="events"
         :parent-item="dataThematic.page_thematic"
       />
     </div>

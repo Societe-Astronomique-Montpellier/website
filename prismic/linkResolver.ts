@@ -28,6 +28,11 @@ const linkResolver: LinkResolverFunction = (document: any): string | null => {
   if ("homepage" === document.type) {
     return "/";
   }
+
+  if ("contact" === document.type) {
+    return "/contact";
+  }
+
   return null;
 };
 

@@ -1,7 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { ScheduleXCalendar } from "@schedule-x/vue";
 import {
   createCalendar,
+  viewDay,
+  viewWeek,
   viewMonthGrid,
   viewMonthAgenda,
 } from "@schedule-x/calendar";
@@ -14,9 +16,9 @@ const { locale } = useI18n();
 const calendarApp = ref(
   createCalendar({
     locale: locale.value,
-    selectedDate: new Date().toISOString(),
-    views: [viewMonthGrid, viewMonthAgenda],
-    defaultView: viewMonthGrid.name,
+    selectedDate: "2024-09-27",
+    views: [viewDay, viewWeek, viewMonthGrid, viewMonthAgenda],
+    defaultView: viewWeek.name,
     plugins: [
       createResizePlugin(),
       createScrollControllerPlugin({
@@ -26,9 +28,9 @@ const calendarApp = ref(
     events: [
       {
         id: 1,
-        title: 'Event 2',
-        start: '2024-09-20',
-        end: '2023-09-20',
+        title: "Event 2",
+        start: "2024-09-20",
+        end: "2023-09-20",
       },
     ],
     calendars: {
@@ -39,10 +41,34 @@ const calendarApp = ref(
           onContainer: "#000",
           main: "#fff",
         },
+        darkColors: {
+          container: "#000",
+          onContainer: "#fff",
+          main: "#000",
+        },
       },
     },
   }),
 );
+
+onMounted(() => {
+  setTimeout(() => {
+    calendarApp.value.events.set([
+      {
+        id: 1,
+        title: "Event 1",
+        start: "2024-09-19",
+        end: "2024-09-19",
+      },
+      {
+        id: 2,
+        title: "Event 2",
+        start: "2024-09-26",
+        end: "2024-10-11",
+      },
+    ]);
+  }, 500);
+});
 </script>
 
 <template>

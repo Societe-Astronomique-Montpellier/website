@@ -95,10 +95,7 @@ onUnmounted(() => {
           >
             {{ block.data.text_button_right }}
           </prismic-link>
-
         </div>
-
-
       </div>
     </div>
   </div>

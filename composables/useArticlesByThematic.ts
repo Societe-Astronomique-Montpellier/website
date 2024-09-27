@@ -22,7 +22,10 @@ export const useArticlesByThematic = () => {
       })) as PageArticleDocument[],
       (await prismic.client.getAllByType<AllDocumentTypes>("event", {
         lang: locale.value,
-        filters: [prismic.filter.dateAfter("my.event.time_start", dateNow)],
+        filters: [
+          prismic.filter.dateAfter("my.event.time_start", dateNow),
+          prismic.filter.at("my.event.activite_periodique", true),
+        ],
         orderings: {
           field: "my.event.time_start",
           direction: "asc",

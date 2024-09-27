@@ -236,6 +236,50 @@ interface BlockHeroDocumentData {
   carousel: prismic.GroupField<Simplify<BlockHeroDocumentDataCarouselItem>>;
 
   /**
+   * Bouton gauche field in *Bloc de présentation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Bouton gauche
+   * - **API ID Path**: block_hero.button_left
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  button_left: prismic.LinkField;
+
+  /**
+   * Texte bouton gauche field in *Bloc de présentation*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Texte bouton gauche
+   * - **API ID Path**: block_hero.text_button_left
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  text_button_left: prismic.KeyTextField;
+
+  /**
+   * Bouton droite field in *Bloc de présentation*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Bouton de droite
+   * - **API ID Path**: block_hero.button_right
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
+   */
+  button_right: prismic.LinkField;
+
+  /**
+   * Texte bouton droite field in *Bloc de présentation*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: Texte bouton droite
+   * - **API ID Path**: block_hero.text_button_right
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  text_button_right: prismic.KeyTextField;
+
+  /**
    * Slice Zone field in *Bloc de présentation*
    *
    * - **Field Type**: Slice Zone

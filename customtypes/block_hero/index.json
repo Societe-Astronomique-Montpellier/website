@@ -6,12 +6,6 @@
   "status": true,
   "json": {
     "Main": {
-      "uid": {
-        "config": {
-          "label": "UID"
-        },
-        "type": "UID"
-      },
       "title": {
         "type": "Text",
         "config": {
@@ -52,6 +46,44 @@
               }
             }
           }
+        }
+      },
+      "button_left": {
+        "type": "Link",
+        "config": {
+          "label": "Bouton gauche",
+          "placeholder": "Bouton gauche",
+          "allowTargetBlank": false,
+          "select": null
+        }
+      },
+      "text_button_left": {
+        "type": "Text",
+        "config": {
+          "label": "Texte bouton gauche",
+          "placeholder": "Texte bouton gauche"
+        }
+      },
+      "button_right": {
+        "type": "Link",
+        "config": {
+          "label": "Bouton droite",
+          "placeholder": "Bouton de droite",
+          "allowTargetBlank": false,
+          "select": null
+        }
+      },
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
+      "text_button_right": {
+        "type": "Text",
+        "config": {
+          "label": "Texte bouton droite",
+          "placeholder": "Texte bouton droite"
         }
       },
       "slices": {

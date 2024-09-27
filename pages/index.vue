@@ -51,6 +51,10 @@ const { data: home, error } = useAsyncData("home", async () => {
         "block_hero.title",
         "block_hero.subtitle",
         "block_hero.carousel",
+        "block_hero.button_left",
+        "block_hero.text_button_left",
+        "block_hero.button_right",
+        "block_hero.text_button_right",
         "block_testimonial.title",
         "block_testimonial.content",
         "block_testimonial.testimonial_text_1",
@@ -83,7 +87,16 @@ const { data: home, error } = useAsyncData("home", async () => {
    */
   const relatedBlockHero = response.data
     .block_hero as typeof response.data.block_hero & {
-    data: Pick<BlockHeroDocument["data"], "title" | "subtitle" | "carousel">;
+    data: Pick<
+      BlockHeroDocument["data"],
+      | "title"
+      | "subtitle"
+      | "carousel"
+      | "button_left"
+      | "text_button_left"
+      | "button_right"
+      | "text_button_right"
+    >;
   };
 
   const relatedBlockTestimonial = response.data

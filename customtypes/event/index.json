@@ -110,6 +110,15 @@
           "default_value": false
         }
       },
+      "activite_periodique": {
+        "type": "Boolean",
+        "config": {
+          "label": "Activité périodique",
+          "placeholder_false": "Masquer",
+          "placeholder_true": "Afficher",
+          "default_value": true
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

@@ -693,6 +693,18 @@ interface EventDocumentData {
   carrousel: prismic.BooleanField;
 
   /**
+   * Activité périodique field in *Evenement*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: true
+   * - **API ID Path**: event.activite_periodique
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  activite_periodique: prismic.BooleanField;
+
+  /**
    * Slice Zone field in *Evenement*
    *
    * - **Field Type**: Slice Zone

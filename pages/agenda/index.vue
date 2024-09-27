@@ -17,21 +17,26 @@ definePageMeta({
 });
 
 const prismic = usePrismic();
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 const { isMobile } = useDevice();
 
 const HeaderPage = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPage.vue"),
+  () => import("@/components//pages/HeaderPage.vue"),
 );
 const Breadcrumbs = defineAsyncComponent(
-  () => import("~/components/Layouts/Breadcrumbs.vue"),
+  () => import("@/components//Layouts/Breadcrumbs.vue"),
 );
 const Fancybox = defineAsyncComponent(
-  () => import("~/components/content/Fancybox.vue"),
+  () => import("@/components//content/Fancybox.vue"),
 );
-const BlockListCards = defineAsyncComponent(
-  () => import("~/components/home/BlockListCards.vue"),
+
+const ScheduleSam = defineAsyncComponent(
+  () => import("@/components/content/Scheduler.vue"),
 );
+
+// const BlockListCards = defineAsyncComponent(
+//   () => import("~/components/home/BlockListCards.vue"),
+// );
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: list_events, error } = useAsyncData("list_events", async () => {
@@ -64,14 +69,15 @@ const { data: list_events, error } = useAsyncData("list_events", async () => {
     past: pastEvents,
   };
 });
+
 const richTextSerializer = useRichTextSerializer();
 
-const titleBlockNext: ComputedRef<string> = computed<string>(() =>
-  t("agenda.titleBlockNext"),
-);
-const titleBlockPast: ComputedRef<string> = computed<string>(() =>
-  t("agenda.titleBlockPast"),
-);
+// const titleBlockNext: ComputedRef<string> = computed<string>(() =>
+//   t("agenda.titleBlockNext"),
+// );
+// const titleBlockPast: ComputedRef<string> = computed<string>(() =>
+//   t("agenda.titleBlockPast"),
+// );
 
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
@@ -127,19 +133,24 @@ useSeo({
         </div>
       </div>
 
-      <BlockListCards
-        :title-block="titleBlockNext"
-        :items="list_events?.next"
-        :parent-item="list_events?.agenda"
-      />
+      <ClientOnly>
+        <ScheduleSam />
+      </ClientOnly>
 
-      <BlockListCards
-        :title-block="titleBlockPast"
-        :items="list_events?.past"
-        :parent-item="list_events?.agenda"
-      />
+      <!--      <BlockListCards-->
+      <!--        :title-block="titleBlockNext"-->
+      <!--        :items="list_events?.next"-->
+      <!--        :parent-item="list_events?.agenda"-->
+      <!--      />-->
+
+      <!--      <BlockListCards-->
+      <!--        :title-block="titleBlockPast"-->
+      <!--        :items="list_events?.past"-->
+      <!--        :parent-item="list_events?.agenda"-->
+      <!--      />-->
     </div>
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+</style>

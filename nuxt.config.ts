@@ -69,6 +69,7 @@ export default defineNuxtConfig({
     "@fontsource/raleway/200-italic.css",
     "leaflet/dist/leaflet.css",
     "@fancyapps/ui/dist/fancybox/fancybox.css",
+    "@schedule-x/theme-default/dist/index.css",
   ],
   postcss: {
     plugins: {

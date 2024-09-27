@@ -23,6 +23,8 @@ const prismic = usePrismic();
 const { t, locale } = useI18n();
 const { isMobile } = useDevice();
 
+const { thematicUid } = route.params as { thematicUid: string };
+
 const articles = ref<PageArticleDocument[]>([]);
 const events = ref<EventDocument[]>([]);
 
@@ -41,9 +43,6 @@ const BlockListCards = defineAsyncComponent(
 
 const richTextSerializer = useRichTextSerializer();
 const { fetchChildrenPages } = useArticlesByThematic();
-
-// RichText serializer
-const { thematicUid } = route.params as { thematicUid: string };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: dataThematic, error } = useAsyncData(thematicUid, async () => {
@@ -70,6 +69,15 @@ onMounted(async () => {
   }
 });
 
+watch(
+  () => thematicUid,
+  (newThematicUid) => {
+    if (newThematicUid) {
+      console.log(newThematicUid);
+    }
+  },
+);
+
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() =>
@@ -81,6 +89,7 @@ const imageBanner = computed<
 
 const labelListArticles: string = t("activity.type.permanent");
 const labelListEvents: string = t("activity.type.period");
+const labelKnowMore: string = t("layout.knowMore");
 
 const metaTitle: ComputedRef<string> = computed<string>(() =>
   isFilled.keyText(dataThematic.value?.page_thematic?.data.meta_title)
@@ -165,7 +174,7 @@ useSeo({
 
       <BlockListCards
         v-if="articles?.length"
-        :title-block="labelListArticles"
+        :title-block="('activites' === thematicUid) ? labelListArticles: labelKnowMore"
         :items="articles"
         :parent-item="dataThematic.page_thematic"
       />

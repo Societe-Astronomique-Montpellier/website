@@ -71,9 +71,9 @@ useSeo({
     <HeaderPage :image="imageBanner" />
     <div class="max-w-3xl mx-auto">
       <div
-        class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+        class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
       >
-        <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+        <div class="bg-white relative top-0 p-5 sm:p-10">
           <h2
             v-if="isFilled.keyText(editorial?.data.subtitle)"
             class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"

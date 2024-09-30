@@ -8,11 +8,10 @@ const { isMobile } = useDevice();
 
 export interface Props {
   item: PageArticleDocument;
-  parentItem: PageThematiqueDocument;
 }
 
 const props = defineProps<Props>();
-const { item, parentItem } = toRefs(props);
+const { item } = toRefs(props);
 
 const imageVignette = computed<ImageField>(() =>
   isMobile

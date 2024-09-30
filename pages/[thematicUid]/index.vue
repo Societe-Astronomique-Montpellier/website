@@ -6,11 +6,7 @@ import type {
   EmptyImageFieldImage,
   FilledImageFieldImage,
 } from "@prismicio/types";
-import type {
-  EventDocument,
-  PageArticleDocument,
-  PageThematiqueDocument,
-} from "~/prismicio-types";
+import type { PageThematiqueDocument } from "~/prismicio-types";
 
 definePageMeta({
   layout: "page",
@@ -20,13 +16,10 @@ definePageMeta({
 // https://flowbite.com/blocks/publisher/blog-templates/
 const route = useRoute();
 const prismic = usePrismic();
-const { t, locale } = useI18n();
+const { locale } = useI18n();
 const { isMobile } = useDevice();
 
 const { thematicUid } = route.params as { thematicUid: string };
-
-const articles = ref<PageArticleDocument[]>([]);
-const events = ref<EventDocument[]>([]);
 
 const Breadcrumbs = defineAsyncComponent(
   () => import("~/components/Layouts/Breadcrumbs.vue"),
@@ -37,44 +30,28 @@ const HeaderPage = defineAsyncComponent(
 const Fancybox = defineAsyncComponent(
   () => import("~/components/content/Fancybox.vue"),
 );
-const BlockListCards = defineAsyncComponent(
-  () => import("~/components/home/BlockListCards.vue"),
+const ListChildren = defineAsyncComponent(
+  () => import("~/components/thematic/list_children.vue"),
 );
 
 const richTextSerializer = useRichTextSerializer();
-const { fetchChildrenPages } = useArticlesByThematic();
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data: dataThematic, error } = useAsyncData(thematicUid, async () => {
-  const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
-    "page_thematique",
-    thematicUid,
-    { lang: locale.value },
-  )) as PageThematiqueDocument;
-  return {
-    page_thematic: thematic,
-    publication_date:
-      useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
-      useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
-  };
-});
+const { data: dataThematic, error } = await useAsyncData(
+  thematicUid,
+  async () => {
+    const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
+      "page_thematique",
+      thematicUid,
+      { lang: locale.value },
+    )) as PageThematiqueDocument;
 
-onMounted(async () => {
-  if (dataThematic.value?.page_thematic) {
-    const { dataArticles, dataEvents } = await fetchChildrenPages(
-      dataThematic.value?.page_thematic.id,
-    );
-    articles.value = dataArticles || [];
-    events.value = dataEvents || [];
-  }
-});
-
-watch(
-  () => thematicUid,
-  (newThematicUid) => {
-    if (newThematicUid) {
-      console.log(newThematicUid);
-    }
+    return {
+      page_thematic: thematic,
+      publication_date:
+        useFormatIntoFrenchDate(thematic.last_publication_date, "short") ??
+        useFormatIntoFrenchDate(thematic.first_publication_date, "short"),
+    };
   },
 );
 
@@ -87,10 +64,6 @@ const imageBanner = computed<
   ),
 );
 
-const labelListArticles: string = t("activity.type.permanent");
-const labelListEvents: string = t("activity.type.period");
-const labelKnowMore: string = t("layout.knowMore");
-
 const metaTitle: ComputedRef<string> = computed<string>(() =>
   isFilled.keyText(dataThematic.value?.page_thematic?.data.meta_title)
     ? `${dataThematic.value?.page_thematic?.data.meta_title}`
@@ -102,7 +75,9 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     : `${dataThematic.value?.page_thematic?.data.title}`,
 );
 
-const metaImage = asImageSrc(dataThematic.value?.page_thematic.data.meta_image);
+const metaImage = asImageSrc(
+  dataThematic?.value?.page_thematic.data.meta_image,
+);
 
 useSeo({
   title: metaTitle,
@@ -128,9 +103,9 @@ useSeo({
       <HeaderPage :image="imageBanner" />
       <div class="max-w-screen-md mx-auto">
         <div
-          class="mt-3 bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+          class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white relative top-0 -mt-32 p-5 sm:p-10">
+          <div class="bg-white relative top-0 p-5 sm:p-10">
             <h2
               v-if="isFilled.keyText(dataThematic?.page_thematic.data.subtitle)"
               class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"
@@ -172,18 +147,9 @@ useSeo({
         </div>
       </div>
 
-      <BlockListCards
-        v-if="articles?.length"
-        :title-block="('activites' === thematicUid) ? labelListArticles: labelKnowMore"
-        :items="articles"
-        :parent-item="dataThematic.page_thematic"
-      />
-
-      <BlockListCards
-        v-if="events?.length && 'activites' === thematicUid"
-        :title-block="labelListEvents"
-        :items="events"
-        :parent-item="dataThematic.page_thematic"
+      <ListChildren
+        v-if="dataThematic"
+        :thematic="dataThematic.page_thematic"
       />
     </div>
   </section>

@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import type { EventDocument, EventsDocument } from "@/prismicio-types";
+import type { EventDocument } from "@/prismicio-types";
 import type { ImageField } from "@prismicio/client";
 
-const { t } = useI18n();
 const { isMobile } = useDevice();
 
 export interface Props {
   item: EventDocument;
-  parentItem: EventsDocument;
 }
 
 const props = defineProps<Props>();

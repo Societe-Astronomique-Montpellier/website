@@ -2,7 +2,6 @@
 // https://tailwindcomponents.com/component/content-2
 import type {
   EventDocument,
-  EventsDocument,
   PageArticleDocument,
   PageThematiqueDocument,
 } from "~/prismicio-types";
@@ -14,11 +13,10 @@ export interface Props {
   titleBlock: KeyTextField | undefined;
   contentBlock?: KeyTextField | undefined;
   items?: Array<PageThematiqueDocument | EventDocument | PageArticleDocument>;
-  parentItem?: PageThematiqueDocument | EventsDocument | null;
 }
 
 const props = defineProps<Props>();
-const { items, parentItem } = toRefs(props);
+const { items } = toRefs(props);
 const { getComponent } = useDynamicCardComponent();
 </script>
 
@@ -44,17 +42,7 @@ const { getComponent } = useDynamicCardComponent();
           :key="index"
           class="p-4 md:w-1/3 w-full sm:mb-0 mb-6"
         >
-          <component
-            :is="getComponent(item.type)"
-            v-if="item && parentItem"
-            :item="item"
-            :parent-item="parentItem"
-          />
-          <component
-            :is="getComponent(item.type)"
-            v-else-if="null === parentItem && item"
-            :item="item"
-          />
+          <component :is="getComponent(item.type)" v-if="item" :item="item" />
         </div>
       </div>
       <slot name="content-block-bottom"></slot>

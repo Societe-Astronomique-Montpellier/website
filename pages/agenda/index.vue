@@ -11,6 +11,7 @@ import type {
   FilledImageFieldImage,
 } from "@prismicio/types";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
+import type { IListSamEvents } from "~/types/calendarEvent";
 
 definePageMeta({
   layout: "page",
@@ -19,6 +20,8 @@ definePageMeta({
 const prismic = usePrismic();
 const { locale } = useI18n();
 const { isMobile } = useDevice();
+
+const listEvents: IListSamEvents = reactive({ events: [] });
 
 const HeaderPage = defineAsyncComponent(
   () => import("@/components//pages/HeaderPage.vue"),
@@ -71,6 +74,18 @@ const { data: list_events, error } = useAsyncData("list_events", async () => {
 });
 
 const richTextSerializer = useRichTextSerializer();
+
+list_events.value?.next.forEach((event: EventDocument) => {
+  listEvents?.events?.push({
+    id: event.id,
+    uid: event.uid,
+    title: event.data.title as string,
+    start: "2024-10-01", //prismic.asDate(event?.data.time_start), // useFormatIntoFrenchDate(event?.data.time_start, "onlynumeric"),
+    end: null,
+    description: "",
+    location: "",
+  });
+});
 
 // const titleBlockNext: ComputedRef<string> = computed<string>(() =>
 //   t("agenda.titleBlockNext"),
@@ -134,7 +149,7 @@ useSeo({
       </div>
 
       <ClientOnly>
-        <ScheduleSam />
+        <ScheduleSam :list-events="listEvents" />
       </ClientOnly>
 
       <!--      <BlockListCards-->
@@ -152,5 +167,4 @@ useSeo({
   </section>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

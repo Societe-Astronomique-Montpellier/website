@@ -6,11 +6,15 @@ import {
   viewMonthGrid,
   viewMonthAgenda,
 } from "@schedule-x/calendar";
-import "@schedule-x/theme-default/dist/index.css";
 import { createResizePlugin } from "@schedule-x/resize";
 import { createScrollControllerPlugin } from "@schedule-x/scroll-controller";
 
-const { locale } = useI18n();
+import type { ISamEvent, IListSamEvents } from "~/types/calendarEvent";
+
+const props = defineProps<{
+  listEvents: IListSamEvents;
+}>();
+const { listEvents } = toRefs(props);
 
 const calendarApp = shallowRef(
   createCalendar({
@@ -24,7 +28,6 @@ const calendarApp = shallowRef(
       }),
     ],
     locale: "fr-FR",
-    events: [],
     calendars: {
       work: {
         colorName: "work",
@@ -45,20 +48,10 @@ const calendarApp = shallowRef(
 
 onMounted(() => {
   setTimeout(() => {
-    calendarApp.value.events.set([
-      {
-        id: 1,
-        title: "Event 1",
-        start: "2023-12-19",
-        end: "2023-12-19",
-      },
-      {
-        id: 2,
-        title: "Event 2",
-        start: "2023-12-20 12:00",
-        end: "2023-12-20 13:00",
-      },
-    ]);
+    listEvents?.value.events?.forEach(
+      (event: ISamEvent) => console.log(event),
+      // calendarApp.value.events.set(event as calendarEvent),
+    );
   }, 500);
 });
 </script>

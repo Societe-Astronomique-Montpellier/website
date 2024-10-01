@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ComputedRef } from "vue";
-import type {ImageField, LinkField} from "@prismicio/client";
+import type { ImageField, LinkField } from "@prismicio/client";
 
 const { t } = useI18n();
 
@@ -78,22 +78,21 @@ onUnmounted(() => {
           <prismic-link
             :field="block?.data.button_left as LinkField"
             type="button"
-            class="md:justify-center inline-flex text-2xl items-center justify-center px-5 py-3 mr-3 font-medium text-white rounded-lg border border-gray-700 bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center m-1"
+            class="md:justify-center inline-flex text-xl items-center justify-center px-4 py-3 mr-3 font-medium text-white rounded-lg border border-gray-700 bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center m-1"
           >
             {{ block.data.text_button_left }}
+          </prismic-link>
+
+          <prismic-link
+            :field="block?.data.button_right as LinkField"
+            class="md:justify-center inline-flex items-center justify-center px-4 py-3 ml-3 text-xl font-medium text-center text-grey-700"
+          >
+            {{ block.data.text_button_right }}
             <Icon
               name="material-symbols:arrow-right-alt"
               class="w-5 h-5 ml-2"
               size="20"
             />
-          </prismic-link>
-
-          <prismic-link
-            :field="block?.data.button_right as LinkField"
-            type="button"
-            class="md:justify-center inline-flex items-center justify-center px-5 py-3 ml-3 text-2xl font-medium text-center text-white border border-gray-300 rounded-lg text-grey-700 hover:bg-indigo-700 hover:text-white"
-          >
-            {{ block.data.text_button_right }}
           </prismic-link>
         </div>
       </div>

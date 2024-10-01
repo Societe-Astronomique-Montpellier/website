@@ -10,7 +10,6 @@ export const useArticlesByThematic = () => {
   const { locale } = useI18n();
 
   const fetchChildrenPages = async (thematicId: string) => {
-    console.log()
     const dateNow = new Date().toISOString().split("T")[0];
     const [dataArticles, dataEvents] = await Promise.all([
       (await prismic.client.getAllByType<AllDocumentTypes>("page_article", {

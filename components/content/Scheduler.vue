@@ -1,38 +1,30 @@
-<script setup>
+<script setup lang="ts">
 import { ScheduleXCalendar } from "@schedule-x/vue";
 import {
   createCalendar,
-  viewDay,
   viewWeek,
   viewMonthGrid,
   viewMonthAgenda,
 } from "@schedule-x/calendar";
-
+import "@schedule-x/theme-default/dist/index.css";
 import { createResizePlugin } from "@schedule-x/resize";
 import { createScrollControllerPlugin } from "@schedule-x/scroll-controller";
 
 const { locale } = useI18n();
 
-const calendarApp = ref(
+const calendarApp = shallowRef(
   createCalendar({
-    locale: locale.value,
-    selectedDate: "2024-09-27",
-    views: [viewDay, viewWeek, viewMonthGrid, viewMonthAgenda],
-    defaultView: viewWeek.name,
+    selectedDate: new Date().toISOString().split("T")[0],
+    views: [viewWeek, viewMonthGrid, viewMonthAgenda],
+    defaultView: viewMonthGrid.name,
     plugins: [
       createResizePlugin(),
       createScrollControllerPlugin({
         initialScroll: "08:00",
       }),
     ],
-    events: [
-      {
-        id: 1,
-        title: "Event 2",
-        start: "2024-09-20",
-        end: "2023-09-20",
-      },
-    ],
+    locale: "fr-FR",
+    events: [],
     calendars: {
       work: {
         colorName: "work",
@@ -57,14 +49,14 @@ onMounted(() => {
       {
         id: 1,
         title: "Event 1",
-        start: "2024-09-19",
-        end: "2024-09-19",
+        start: "2023-12-19",
+        end: "2023-12-19",
       },
       {
         id: 2,
         title: "Event 2",
-        start: "2024-09-26",
-        end: "2024-10-11",
+        start: "2023-12-20 12:00",
+        end: "2023-12-20 13:00",
       },
     ]);
   }, 500);
@@ -74,7 +66,13 @@ onMounted(() => {
 <template>
   <div>
     <ClientOnly>
-      <ScheduleXCalendar :calendar-app="calendarApp" />
+      <ScheduleXCalendar :calendar-app="calendarApp">
+        <!--        <template #timeGridEvent="{ calendarEvent }">-->
+        <!--          <div class="event">-->
+        <!--            {{ calendarEvent.title }}-->
+        <!--          </div>-->
+        <!--        </template>-->
+      </ScheduleXCalendar>
     </ClientOnly>
   </div>
 </template>

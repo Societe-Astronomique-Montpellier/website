@@ -20,23 +20,6 @@ const { locale } = useI18n();
 const { isMobile } = useDevice();
 
 const { thematicUid } = route.params as { thematicUid: string };
-
-const Breadcrumbs = defineAsyncComponent(
-  () => import("~/components/Layouts/Breadcrumbs.vue"),
-);
-const HeaderPage = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPage.vue"),
-);
-const Fancybox = defineAsyncComponent(
-  () => import("~/components/content/Fancybox.vue"),
-);
-const ListChildren = defineAsyncComponent(
-  () => import("~/components/thematic/list_children.vue"),
-);
-
-const richTextSerializer = useRichTextSerializer();
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: dataThematic, error } = await useAsyncData(
   thematicUid,
   async () => {
@@ -54,6 +37,21 @@ const { data: dataThematic, error } = await useAsyncData(
     };
   },
 );
+
+const Breadcrumbs = defineAsyncComponent(
+  () => import("~/components/Layouts/Breadcrumbs.vue"),
+);
+const HeaderPage = defineAsyncComponent(
+  () => import("~/components/pages/HeaderPage.vue"),
+);
+const Fancybox = defineAsyncComponent(
+  () => import("~/components/content/Fancybox.vue"),
+);
+const ListChildren = defineAsyncComponent(
+  () => import("~/components/thematic/list_children.vue"),
+);
+
+const richTextSerializer = useRichTextSerializer();
 
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
@@ -147,10 +145,7 @@ useSeo({
         </div>
       </div>
 
-      <ListChildren
-        v-if="dataThematic"
-        :thematic="dataThematic.page_thematic"
-      />
+      <ListChildren :thematic="dataThematic.page_thematic" />
     </div>
   </section>
 </template>

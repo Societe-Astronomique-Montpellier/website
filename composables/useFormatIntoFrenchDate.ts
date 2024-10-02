@@ -5,10 +5,9 @@ export const useFormatIntoFrenchDate = (
   date: DateField | TimestampField | undefined,
   format: string | null,
 ): string => {
-  const { locale } = useI18n();
   const prismicDate: Date | null = prismic.asDate(date);
   let paramsDate = {};
-  let lang = locale.value;
+  let lang = "fr-FR";
   format = format ?? "short";
   switch (format) {
     case "short": {

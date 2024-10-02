@@ -80,10 +80,10 @@ list_events.value?.next.forEach((event: EventDocument) => {
     id: event.id,
     uid: event.uid,
     title: event.data.title as string,
-    start: "2024-10-01", //prismic.asDate(event?.data.time_start), // useFormatIntoFrenchDate(event?.data.time_start, "onlynumeric"),
-    end: null,
-    description: "",
-    location: "",
+    start: event?.data.time_start as string,
+    end: event?.data.time_end as string,
+    description: prismic.asText(event.data.resume) as string,
+    location: event.data.place_event_txt as string,
   });
 });
 
@@ -151,18 +151,6 @@ useSeo({
       <ClientOnly>
         <ScheduleSam :list-events="listEvents" />
       </ClientOnly>
-
-      <!--      <BlockListCards-->
-      <!--        :title-block="titleBlockNext"-->
-      <!--        :items="list_events?.next"-->
-      <!--        :parent-item="list_events?.agenda"-->
-      <!--      />-->
-
-      <!--      <BlockListCards-->
-      <!--        :title-block="titleBlockPast"-->
-      <!--        :items="list_events?.past"-->
-      <!--        :parent-item="list_events?.agenda"-->
-      <!--      />-->
     </div>
   </section>
 </template>

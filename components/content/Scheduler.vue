@@ -8,7 +8,10 @@ import {
 } from "@schedule-x/calendar";
 import { createResizePlugin } from "@schedule-x/resize";
 import { createScrollControllerPlugin } from "@schedule-x/scroll-controller";
+import { createEventModalPlugin } from "@schedule-x/event-modal";
+import { createEventsServicePlugin } from "@schedule-x/events-service";
 
+import type { CalendarEvent } from "@schedule-x/calendar";
 import type { ISamEvent, IListSamEvents } from "~/types/calendarEvent";
 
 const props = defineProps<{
@@ -16,6 +19,7 @@ const props = defineProps<{
 }>();
 const { listEvents } = toRefs(props);
 
+const eventsServicePlugin = createEventsServicePlugin();
 const calendarApp = shallowRef(
   createCalendar({
     selectedDate: new Date().toISOString().split("T")[0],
@@ -26,6 +30,8 @@ const calendarApp = shallowRef(
       createScrollControllerPlugin({
         initialScroll: "08:00",
       }),
+      createEventModalPlugin(),
+      eventsServicePlugin,
     ],
     locale: "fr-FR",
     calendars: {
@@ -48,9 +54,16 @@ const calendarApp = shallowRef(
 
 onMounted(() => {
   setTimeout(() => {
-    listEvents?.value.events?.forEach(
-      (event: ISamEvent) => console.log(event),
-      // calendarApp.value.events.set(event as calendarEvent),
+    // listEvents?.value.events?.forEach((event: ISamEvent) => console.log(event.end))
+    listEvents?.value.events?.forEach((event: ISamEvent) =>
+      calendarApp.value.eventsService.add({
+        id: event.id,
+        title: event.title,
+        start: event.start,
+        end: event.end ?? event.start,
+        description: event.description ?? "",
+        location: event.location ?? "",
+      } as CalendarEvent),
     );
   }, 500);
 });

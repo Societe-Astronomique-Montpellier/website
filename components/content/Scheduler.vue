@@ -5,6 +5,9 @@ import {
   viewWeek,
   viewMonthGrid,
   viewMonthAgenda,
+  createViewMonthAgenda,
+  createViewMonthGrid,
+  createViewWeek,
 } from "@schedule-x/calendar";
 import { createResizePlugin } from "@schedule-x/resize";
 import { createScrollControllerPlugin } from "@schedule-x/scroll-controller";
@@ -19,12 +22,16 @@ const props = defineProps<{
 }>();
 const { listEvents } = toRefs(props);
 
+const { isMobile } = useDevice();
+
 const eventsServicePlugin = createEventsServicePlugin();
 const calendarApp = shallowRef(
   createCalendar({
     selectedDate: new Date().toISOString().split("T")[0],
-    views: [viewWeek, viewMonthGrid, viewMonthAgenda],
-    defaultView: viewMonthGrid.name,
+    views: [createViewWeek(), createViewMonthAgenda(), createViewMonthGrid()],
+    defaultView: isMobile
+      ? createViewMonthAgenda().name
+      : createViewMonthGrid().name,
     plugins: [
       createResizePlugin(),
       createScrollControllerPlugin({
@@ -54,17 +61,16 @@ const calendarApp = shallowRef(
 
 onMounted(() => {
   setTimeout(() => {
-    // listEvents?.value.events?.forEach((event: ISamEvent) => console.log(event.end))
-    listEvents?.value.events?.forEach((event: ISamEvent) =>
-      calendarApp.value.eventsService.add({
+    listEvents?.value.events?.forEach((event: ISamEvent) => {
+      eventsServicePlugin.add({
         id: event.id,
         title: event.title,
         start: event.start,
         end: event.end ?? event.start,
         description: event.description ?? "",
         location: event.location ?? "",
-      } as CalendarEvent),
-    );
+      } as CalendarEvent);
+    });
   }, 500);
 });
 </script>
@@ -72,13 +78,7 @@ onMounted(() => {
 <template>
   <div>
     <ClientOnly>
-      <ScheduleXCalendar :calendar-app="calendarApp">
-        <!--        <template #timeGridEvent="{ calendarEvent }">-->
-        <!--          <div class="event">-->
-        <!--            {{ calendarEvent.title }}-->
-        <!--          </div>-->
-        <!--        </template>-->
-      </ScheduleXCalendar>
+      <ScheduleXCalendar :calendar-app="calendarApp" />
     </ClientOnly>
   </div>
 </template>

@@ -19,25 +19,6 @@
           "placeholder": ""
         }
       },
-      "image_banner": {
-        "type": "Image",
-        "config": {
-          "label": "Bannière image",
-          "constraint": {},
-          "thumbnails": [
-            {
-              "name": "banner",
-              "width": 1280,
-              "height": 450
-            },
-            {
-              "name": "mobile",
-              "width": 640,
-              "height": 225
-            }
-          ]
-        }
-      },
       "image_vignette": {
         "type": "Image",
         "config": {
@@ -57,6 +38,47 @@
           ]
         }
       },
+      "image_banner": {
+        "type": "Image",
+        "config": {
+          "label": "Bannière image",
+          "constraint": {},
+          "thumbnails": [
+            {
+              "name": "banner",
+              "width": 1280,
+              "height": 450
+            },
+            {
+              "name": "mobile",
+              "width": 640,
+              "height": 225
+            }
+          ]
+        }
+      },
+      "access_type": {
+        "type": "Select",
+        "config": {
+          "label": "Type d'accès",
+          "placeholder": "Type d'accès à l'évenement",
+          "options": [
+            "Évenement public",
+            "Évenement soumis à inscription",
+            "Réservé aux membres"
+          ],
+          "default_value": "Évenement public"
+        }
+      },
+      "activite_periodique": {
+        "type": "Boolean",
+        "config": {
+          "label": "Afficher dans activité périodique",
+          "placeholder_false": "Masquer",
+          "placeholder_true": "Afficher",
+          "default_value": true
+        }
+      },
       "resume": {
         "type": "StructuredText",
         "config": {
@@ -64,6 +86,15 @@
           "placeholder": "Contenu",
           "allowTargetBlank": true,
           "multi": "paragraph,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,rtl,image"
+        }
+      },
+      "carrousel": {
+        "type": "Boolean",
+        "config": {
+          "label": "Images carrousel",
+          "placeholder_false": "false",
+          "placeholder_true": "true",
+          "default_value": false
         }
       },
       "time_start": {
@@ -97,26 +128,9 @@
         "type": "Link",
         "config": {
           "label": "Lien",
-          "placeholder": "",
+          "placeholder": "Lien vers une page",
+          "allowTargetBlank": false,
           "select": null
-        }
-      },
-      "carrousel": {
-        "type": "Boolean",
-        "config": {
-          "label": "Images carrousel",
-          "placeholder_false": "false",
-          "placeholder_true": "true",
-          "default_value": false
-        }
-      },
-      "activite_periodique": {
-        "type": "Boolean",
-        "config": {
-          "label": "Activité périodique",
-          "placeholder_false": "Masquer",
-          "placeholder_true": "Afficher",
-          "default_value": true
         }
       },
       "slices": {

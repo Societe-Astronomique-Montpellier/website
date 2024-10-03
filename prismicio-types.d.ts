@@ -582,6 +582,28 @@ type EventDocumentDataSlicesSlice = never;
  */
 interface EventDocumentData {
   /**
+   * Vignette field in *Evenement*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.image_vignette
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#image
+   */
+  image_vignette: prismic.ImageField<"vignette" | "mobile">;
+
+  /**
+   * Date & Heure de fin field in *Evenement*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: Date & Heure de fin
+   * - **API ID Path**: event.time_end
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  time_end: prismic.TimestampField;
+
+  /**
    * Titre field in *Evenement*
    *
    * - **Field Type**: Text
@@ -593,26 +615,16 @@ interface EventDocumentData {
   title: prismic.KeyTextField;
 
   /**
-   * Bannière image field in *Evenement*
+   * Afficher dans activité périodique field in *Evenement*
    *
-   * - **Field Type**: Image
+   * - **Field Type**: Boolean
    * - **Placeholder**: *None*
-   * - **API ID Path**: event.image_banner
+   * - **Default Value**: true
+   * - **API ID Path**: event.activite_periodique
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  image_banner: prismic.ImageField<"banner" | "mobile">;
-
-  /**
-   * Vignette field in *Evenement*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: event.image_vignette
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image_vignette: prismic.ImageField<"vignette" | "mobile">;
+  activite_periodique: prismic.BooleanField;
 
   /**
    * Contenu field in *Evenement*
@@ -626,26 +638,16 @@ interface EventDocumentData {
   resume: prismic.RichTextField;
 
   /**
-   * Date & Heure de début field in *Evenement*
+   * Images carrousel field in *Evenement*
    *
-   * - **Field Type**: Timestamp
-   * - **Placeholder**: Date & Heure de début
-   * - **API ID Path**: event.time_start
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event.carrousel
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   * - **Documentation**: https://prismic.io/docs/field#boolean
    */
-  time_start: prismic.TimestampField;
-
-  /**
-   * Date & Heure de fin field in *Evenement*
-   *
-   * - **Field Type**: Timestamp
-   * - **Placeholder**: Date & Heure de fin
-   * - **API ID Path**: event.time_end
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#timestamp
-   */
-  time_end: prismic.TimestampField;
+  carrousel: prismic.BooleanField;
 
   /**
    * Lieu de l'évenement field in *Evenement*
@@ -673,7 +675,7 @@ interface EventDocumentData {
    * Lien field in *Evenement*
    *
    * - **Field Type**: Link
-   * - **Placeholder**: *None*
+   * - **Placeholder**: Lien vers une page
    * - **API ID Path**: event.link
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
@@ -681,28 +683,43 @@ interface EventDocumentData {
   link: prismic.LinkField;
 
   /**
-   * Images carrousel field in *Evenement*
+   * Date & Heure de début field in *Evenement*
    *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: event.carrousel
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: Date & Heure de début
+   * - **API ID Path**: event.time_start
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#boolean
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
    */
-  carrousel: prismic.BooleanField;
+  time_start: prismic.TimestampField;
 
   /**
-   * Activité périodique field in *Evenement*
+   * Bannière image field in *Evenement*
    *
-   * - **Field Type**: Boolean
+   * - **Field Type**: Image
    * - **Placeholder**: *None*
-   * - **Default Value**: true
-   * - **API ID Path**: event.activite_periodique
+   * - **API ID Path**: event.image_banner
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#boolean
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  activite_periodique: prismic.BooleanField;
+  image_banner: prismic.ImageField<"banner" | "mobile">;
+
+  /**
+   * Type d'accès field in *Evenement*
+   *
+   * - **Field Type**: Select
+   * - **Placeholder**: Type d'accès à l'évenement
+   * - **Default Value**: Évenement public
+   * - **API ID Path**: event.access_type
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#select
+   */
+  access_type: prismic.SelectField<
+    | "Évenement public"
+    | "Évenement soumis à inscription"
+    | "Réservé aux membres",
+    "filled"
+  >;
 
   /**
    * Slice Zone field in *Evenement*

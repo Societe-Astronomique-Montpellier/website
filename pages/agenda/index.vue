@@ -87,9 +87,10 @@ list_events.value?.next.forEach((event: EventDocument) => {
     end: event?.data.time_end as string,
     description: prismic.asText(event.data.resume) as string,
     location: event.data.place_event_txt as string,
-    access_type_txt: event.data.access_type as string,
+    access_type_txt: (event.data.access_type as string) ?? "Évenement public",
     access_type:
-      getKeyFromValue(listTypeEvents.value, event.data.access_type) ?? "allpublic",
+      getKeyFromValue(listTypeEvents.value, event.data.access_type) ??
+      "allpublic",
   });
 });
 

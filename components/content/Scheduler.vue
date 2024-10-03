@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ScheduleXCalendar } from "@schedule-x/vue";
 import {
+  CalendarApp,
   createCalendar,
   createViewMonthAgenda,
   createViewMonthGrid,
@@ -22,6 +23,7 @@ const { listEvents } = toRefs(props);
 const { isMobile } = useDevice();
 
 const eventsServicePlugin = createEventsServicePlugin();
+
 const calendarApp = shallowRef(
   createCalendar({
     selectedDate: new Date().toISOString().split("T")[0],
@@ -92,7 +94,7 @@ onMounted(() => {
         end: event.end ?? event.start,
         description: event.description ?? "",
         location: event.location ?? "",
-        // people: event.access_type_txt,
+        people: [event.access_type_txt],
         calendarId: event.access_type,
       } as CalendarEvent);
     });

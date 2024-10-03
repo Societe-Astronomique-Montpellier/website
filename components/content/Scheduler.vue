@@ -2,9 +2,6 @@
 import { ScheduleXCalendar } from "@schedule-x/vue";
 import {
   createCalendar,
-  viewWeek,
-  viewMonthGrid,
-  viewMonthAgenda,
   createViewMonthAgenda,
   createViewMonthGrid,
   createViewWeek,
@@ -42,17 +39,43 @@ const calendarApp = shallowRef(
     ],
     locale: "fr-FR",
     calendars: {
-      work: {
-        colorName: "work",
+      members: {
+        colorName: "members",
         lightColors: {
-          container: "#fff",
-          onContainer: "#000",
-          main: "#fff",
+          main: "#f91c45",
+          container: "#ffd2dc",
+          onContainer: "#59000d",
         },
         darkColors: {
-          container: "#000",
-          onContainer: "#fff",
-          main: "#000",
+          main: "#ffc0cc",
+          onContainer: "#ffdee6",
+          container: "#a24258",
+        },
+      },
+      subscribers: {
+        colorName: "subscribers",
+        lightColors: {
+          main: "#f9d71c",
+          container: "#fff5aa",
+          onContainer: "#594800",
+        },
+        darkColors: {
+          main: "#fff5c0",
+          onContainer: "#fff5de",
+          container: "#a29742",
+        },
+      },
+      allpublic: {
+        colorName: "allpublic",
+        lightColors: {
+          main: "#1cf9b0",
+          container: "#dafff0",
+          onContainer: "#004d3d",
+        },
+        darkColors: {
+          main: "#c0fff5",
+          onContainer: "#e6fff5",
+          container: "#42a297",
         },
       },
     },
@@ -69,6 +92,8 @@ onMounted(() => {
         end: event.end ?? event.start,
         description: event.description ?? "",
         location: event.location ?? "",
+        // people: event.access_type_txt,
+        calendarId: event.access_type,
       } as CalendarEvent);
     });
   }, 500);

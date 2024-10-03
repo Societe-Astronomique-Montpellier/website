@@ -12,6 +12,7 @@ import type {
 } from "@prismicio/types";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type { IListSamEvents } from "~/types/calendarEvent";
+import { useKeyFromValue } from "~/composables/useFindKeyByValue";
 
 definePageMeta({
   layout: "page",
@@ -22,6 +23,11 @@ const { locale } = useI18n();
 const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
+const listTypeEvents = ref({
+  allpublic: "Évenement public",
+  subscribers: "Évenement soumis à inscription",
+  members: "Réservé aux membres",
+});
 
 const HeaderPage = defineAsyncComponent(
   () => import("@/components//pages/HeaderPage.vue"),
@@ -36,10 +42,6 @@ const Fancybox = defineAsyncComponent(
 const ScheduleSam = defineAsyncComponent(
   () => import("@/components/content/Scheduler.vue"),
 );
-
-// const BlockListCards = defineAsyncComponent(
-//   () => import("~/components/home/BlockListCards.vue"),
-// );
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: list_events, error } = useAsyncData("list_events", async () => {
@@ -74,6 +76,7 @@ const { data: list_events, error } = useAsyncData("list_events", async () => {
 });
 
 const richTextSerializer = useRichTextSerializer();
+const { getKeyFromValue } = useKeyFromValue<typeof listTypeEvents.value>();
 
 list_events.value?.next.forEach((event: EventDocument) => {
   listEvents?.events?.push({
@@ -84,6 +87,9 @@ list_events.value?.next.forEach((event: EventDocument) => {
     end: event?.data.time_end as string,
     description: prismic.asText(event.data.resume) as string,
     location: event.data.place_event_txt as string,
+    access_type_txt: event.data.access_type as string,
+    access_type:
+      getKeyFromValue(listTypeEvents.value, event.data.access_type) ?? "allpublic",
   });
 });
 

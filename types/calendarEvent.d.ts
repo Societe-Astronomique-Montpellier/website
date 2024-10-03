@@ -8,6 +8,8 @@ interface ISamEvent {
   end?: Nullable<string>;
   description?: Nullable<string>;
   location?: Nullable<string>;
+  access_type?: Nullable<string>;
+  access_type_txt?: Nullable<string>;
 }
 
 interface IListSamEvents {

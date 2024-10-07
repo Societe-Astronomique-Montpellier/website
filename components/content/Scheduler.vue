@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ScheduleXCalendar } from "@schedule-x/vue";
 import {
-  CalendarApp,
   createCalendar,
   createViewMonthAgenda,
   createViewMonthGrid,

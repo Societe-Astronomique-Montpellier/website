@@ -45,25 +45,26 @@ const ScheduleSam = defineAsyncComponent(
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const { data: list_events, error } = useAsyncData("list_events", async () => {
-  const dateNow = new Date().toISOString().split("T")[0];
-  const [agenda, futurEvents, pastEvents] = await Promise.all([
+  // const dateNow = new Date().toISOString().split("T")[0];
+  const currentDate = new Date();
+  const monthsAgo = new Date();
+  monthsAgo.setMonth(currentDate.getMonth() - 1);
+
+  const [agenda, futurEvents] = await Promise.all([
     (await prismic.client.getSingle("events", {
       lang: locale.value,
     })) as EventsDocument,
     (await prismic.client.getAllByType<AllDocumentTypes>("event", {
       lang: locale.value,
-      filters: [prismic.filter.dateAfter("my.event.time_start", dateNow)],
+      filters: [
+        prismic.filter.dateAfter(
+          "my.event.time_start",
+          monthsAgo.toISOString().split("T")[0],
+        ),
+      ],
       orderings: {
         field: "my.event.time_start",
         direction: "asc",
-      },
-    })) as EventDocument[],
-    (await prismic.client.getAllByType<AllDocumentTypes>("event", {
-      lang: locale.value,
-      filters: [prismic.filter.dateBefore("my.event.time_start", dateNow)],
-      orderings: {
-        field: "my.event.time_start",
-        direction: "desc",
       },
     })) as EventDocument[],
   ]);
@@ -71,7 +72,6 @@ const { data: list_events, error } = useAsyncData("list_events", async () => {
   return {
     agenda: agenda,
     next: futurEvents,
-    past: pastEvents,
   };
 });
 
@@ -93,13 +93,6 @@ list_events.value?.next.forEach((event: EventDocument) => {
       "allpublic",
   });
 });
-
-// const titleBlockNext: ComputedRef<string> = computed<string>(() =>
-//   t("agenda.titleBlockNext"),
-// );
-// const titleBlockPast: ComputedRef<string> = computed<string>(() =>
-//   t("agenda.titleBlockPast"),
-// );
 
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
@@ -156,7 +149,7 @@ useSeo({
       </div>
 
       <ClientOnly>
-        <ScheduleSam :list-events="listEvents" />
+        <ScheduleSam v-if="list_events.next" :list-events="listEvents" />
       </ClientOnly>
     </div>
   </section>

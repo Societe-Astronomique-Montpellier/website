@@ -19,7 +19,7 @@ definePageMeta({
 });
 
 const prismic = usePrismic();
-const { locale } = useI18n();
+const { locale, t } = useI18n();
 const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
@@ -43,42 +43,44 @@ const ScheduleSam = defineAsyncComponent(
   () => import("@/components/content/Scheduler.vue"),
 );
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { data: list_events, error } = useAsyncData("list_events", async () => {
-  // const dateNow = new Date().toISOString().split("T")[0];
-  const currentDate = new Date();
-  const monthsAgo = new Date();
-  monthsAgo.setMonth(currentDate.getMonth() - 1);
+const currentDate = new Date();
+const monthsAgo = new Date();
+monthsAgo.setMonth(currentDate.getMonth() - 1);
 
-  const [agenda, futurEvents] = await Promise.all([
-    (await prismic.client.getSingle("events", {
-      lang: locale.value,
-    })) as EventsDocument,
-    (await prismic.client.getAllByType<AllDocumentTypes>("event", {
-      lang: locale.value,
-      filters: [
-        prismic.filter.dateAfter(
-          "my.event.time_start",
-          monthsAgo.toISOString().split("T")[0],
-        ),
-      ],
-      orderings: {
-        field: "my.event.time_start",
-        direction: "asc",
-      },
-    })) as EventDocument[],
-  ]);
-
-  return {
-    agenda: agenda,
-    next: futurEvents,
-  };
-});
+const [
+  { data: events, error: eventsError },
+  { data: agenda, error: agendaError },
+] = await Promise.all([
+  useAsyncData(
+    "events",
+    async () =>
+      (await prismic.client.getAllByType<AllDocumentTypes>("event", {
+        lang: locale.value,
+        filters: [
+          prismic.filter.dateAfter(
+            "my.event.time_start",
+            monthsAgo.toISOString().split("T")[0],
+          ),
+        ],
+        orderings: {
+          field: "my.event.time_start",
+          direction: "asc",
+        },
+      })) as EventDocument[],
+  ),
+  useAsyncData(
+    "agenda",
+    async () =>
+      (await prismic.client.getSingle("events", {
+        lang: locale.value,
+      })) as EventsDocument,
+  ),
+]);
 
 const richTextSerializer = useRichTextSerializer();
 const { getKeyFromValue } = useKeyFromValue<typeof listTypeEvents.value>();
 
-list_events.value?.next.forEach((event: EventDocument) => {
+events?.value?.forEach((event: EventDocument) => {
   listEvents?.events?.push({
     id: event.id,
     uid: event.uid,
@@ -96,19 +98,19 @@ list_events.value?.next.forEach((event: EventDocument) => {
 
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
->(() => useBannerImage(list_events.value?.agenda.data.image_banner, isMobile));
+>(() => useBannerImage(agenda?.value?.data.image_banner, isMobile));
 
 const metaTitle: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(list_events.value?.agenda.data.meta_title)
-    ? `${list_events.value?.agenda.data.meta_title}`
-    : `${list_events.value?.agenda.data.title}`,
+  isFilled.keyText(agenda?.value?.data.meta_title)
+    ? `${agenda?.value?.data.meta_title}`
+    : `${agenda?.value?.data.title}`,
 );
 const metaDescription: ComputedRef<string> = computed<string>(() =>
-  !isFilled.keyText(list_events.value?.agenda.data.meta_description)
-    ? `${list_events.value?.agenda.data.meta_description}`
-    : `${list_events.value?.agenda.data.title}`,
+  !isFilled.keyText(agenda?.value?.data.meta_description)
+    ? `${agenda?.value?.data.meta_description}`
+    : `${agenda?.value?.data.title}`,
 );
-const metaImage = asImageSrc(list_events.value?.agenda.data.meta_image);
+const metaImage = asImageSrc(agenda?.value?.data.meta_image);
 
 useSeo({
   title: metaTitle,
@@ -118,15 +120,11 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="list_events">
+  <section v-if="agenda">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <Breadcrumbs
-        v-if="list_events"
-        :list-ids="[list_events.agenda.id]"
-        :current-uid="list_events.agenda.uid"
-      />
+      <Breadcrumbs :list-ids="[agenda.id]" :current-uid="agenda.uid" />
       <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
-        {{ list_events?.agenda.data.title }}
+        {{ agenda.data.title }}
       </h1>
       <HeaderPage :image="imageBanner" />
       <div class="max-w-3xl mx-auto">
@@ -138,7 +136,7 @@ useSeo({
               <div data-content>
                 <Fancybox>
                   <prismic-rich-text
-                    :field="list_events?.agenda.data.content"
+                    :field="agenda.data.content"
                     :serializer="richTextSerializer"
                   />
                 </Fancybox>
@@ -148,9 +146,21 @@ useSeo({
         </div>
       </div>
 
-      <ClientOnly>
-        <ScheduleSam v-if="list_events.next" :list-events="listEvents" />
+      <ClientOnly fallback-tag="span" :fallback="t('layout.loading')">
+        <ScheduleSam :list-events="listEvents" />
       </ClientOnly>
+    </div>
+  </section>
+  <section v-else>
+    <div
+      class="flex items-center p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+      role="alert"
+    >
+      <Icon name="eos-icons:loading" />
+      <span class="sr-only">Info</span>
+      <div>
+        {{ $t("layout.loading") }}
+      </div>
     </div>
   </section>
 </template>

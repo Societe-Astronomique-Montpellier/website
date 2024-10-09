@@ -83,7 +83,7 @@ const calendarApp = shallowRef(
   }),
 );
 
-onMounted(() => {
+onMounted(async () => {
   setTimeout(() => {
     listEvents?.value.events?.forEach((event: ISamEvent) => {
       eventsServicePlugin.add({
@@ -97,7 +97,7 @@ onMounted(() => {
         calendarId: event.access_type,
       } as CalendarEvent);
     });
-  }, 500);
+  }, 1000);
 });
 </script>
 

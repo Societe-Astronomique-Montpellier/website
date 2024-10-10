@@ -84,57 +84,74 @@ useSeo({
 </script>
 
 <template>
-  <div v-if="article" class="max-w-screen-lg w-full mx-auto relative mb-2">
-    <Breadcrumbs
-      v-if="parentThematic && article"
-      :list-ids="[parentThematic?.id, article.id]"
-      :current-uid="articleUid"
-    />
-    <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
-      {{ article?.data.title }}
-    </h1>
-    <HeaderPage :image="imageBanner" />
-    <div class="max-w-3xl mx-auto">
-      <div
-        class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
-      >
-        <div class="bg-white relative top-0 p-5 sm:p-10 leading-normal">
-          <h2
-            v-if="isFilled.keyText(article.data.subtitle)"
-            class="text-gray-900 font-semibold text-2xl mb-2"
-          >
-            {{ article?.data.subtitle }}
-          </h2>
-          <Icon v-show="false" name="material-symbols:arrow-right-alt" />
-          <div class="my-4 grid gap-4 px-1">
-            <div data-content>
-              <Fancybox :is-caroussel="article?.data.carrousel">
-                <prismic-rich-text
-                  :field="article.data.content"
-                  :serializer="richTextSerializer"
-                ></prismic-rich-text>
-              </Fancybox>
-              <p class="text-gray-700 text-xs mt-5">
-                <span
-                  id="span_author"
-                  class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
-                >
-                  {{ $t("page.author") }} {{ article?.data.author }}
-                </span>
-                le
-                <span
-                  id="span_date"
-                  class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
-                >
-                  {{ formatedDate }}
-                </span>
-              </p>
+  <section>
+    <div
+      v-if="error"
+      class="max-w-screen-xl w-full mx-auto relative mt-3 mb-2 flex items-center p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded-md"
+      role="alert"
+    >
+      <Icon
+        name="material-symbols:error-outline-rounded"
+        class="flex-shrink-0 inline w-4 h-4 me-3"
+        aria-hidden="true"
+        size="18"
+      />
+      <span class="sr-only">Erreur</span>
+      <div>Une erreur est survenue lors de la récupération des données.</div>
+    </div>
+
+    <div v-if="article" class="max-w-screen-lg w-full mx-auto relative mb-2">
+      <Breadcrumbs
+        v-if="parentThematic && article"
+        :list-ids="[parentThematic?.id, article.id]"
+        :current-uid="articleUid"
+      />
+      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
+        {{ article?.data.title }}
+      </h1>
+      <HeaderPage :image="imageBanner" />
+      <div class="max-w-3xl mx-auto">
+        <div
+          class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+        >
+          <div class="bg-white relative top-0 p-5 sm:p-10 leading-normal">
+            <h2
+              v-if="isFilled.keyText(article.data.subtitle)"
+              class="text-gray-900 font-semibold text-2xl mb-2"
+            >
+              {{ article?.data.subtitle }}
+            </h2>
+            <Icon v-show="false" name="material-symbols:arrow-right-alt" />
+            <div class="my-4 grid gap-4 px-1">
+              <div data-content>
+                <Fancybox :is-caroussel="article?.data.carrousel">
+                  <prismic-rich-text
+                    :field="article.data.content"
+                    :serializer="richTextSerializer"
+                  ></prismic-rich-text>
+                </Fancybox>
+                <p class="text-gray-700 text-xs mt-5">
+                  <span
+                    id="span_author"
+                    class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
+                  >
+                    {{ $t("page.author") }} {{ article?.data.author }}
+                  </span>
+                  le
+                  <span
+                    id="span_date"
+                    class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
+                  >
+                    {{ formatedDate }}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
 
 <style scoped></style>

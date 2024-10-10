@@ -85,8 +85,25 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="dataThematic">
-    <div class="max-w-screen-xl w-full mx-auto relative mb-2">
+  <section>
+    <div
+      v-if="error"
+      class="max-w-screen-xl w-full mx-auto relative mt-3 mb-2 flex items-center p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded-md"
+      role="alert"
+    >
+      <Icon
+        name="material-symbols:error-outline-rounded"
+        class="flex-shrink-0 inline w-4 h-4 me-3"
+        aria-hidden="true"
+        size="18"
+      />
+      <span class="sr-only">Erreur</span>
+      <div>Une erreur est survenue lors de la récupération des données.</div>
+    </div>
+    <div
+      v-if="dataThematic"
+      class="max-w-screen-xl w-full mx-auto relative mb-2"
+    >
       <!-- max-w-screen-lg -->
       <Breadcrumbs
         :list-ids="[dataThematic?.page_thematic.id]"

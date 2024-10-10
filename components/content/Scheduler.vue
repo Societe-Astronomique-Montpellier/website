@@ -16,12 +16,55 @@ import type { ISamEvent, IListSamEvents } from "~/types/calendarEvent";
 
 const props = defineProps<{
   listEvents: IListSamEvents;
+  listTypeEvents: Record<string, string | undefined>;
 }>();
-const { listEvents } = toRefs(props);
+const { listEvents, listTypeEvents } = toRefs(props);
 
 const { isMobile } = useDevice();
 
 const eventsServicePlugin = createEventsServicePlugin();
+
+const listCalendars = reactive({
+  members: {
+    colorName: "members",
+    lightColors: {
+      main: "#f91c45",
+      container: "#ffd2dc",
+      onContainer: "#59000d",
+    },
+    darkColors: {
+      main: "#ffc0cc",
+      onContainer: "#ffdee6",
+      container: "#a24258",
+    },
+  },
+  subscribers: {
+    colorName: "subscribers",
+    lightColors: {
+      main: "#f9d71c",
+      container: "#fff5aa",
+      onContainer: "#594800",
+    },
+    darkColors: {
+      main: "#fff5c0",
+      onContainer: "#fff5de",
+      container: "#a29742",
+    },
+  },
+  allpublic: {
+    colorName: "allpublic",
+    lightColors: {
+      main: "#1cf9b0",
+      container: "#dafff0",
+      onContainer: "#004d3d",
+    },
+    darkColors: {
+      main: "#c0fff5",
+      onContainer: "#e6fff5",
+      container: "#42a297",
+    },
+  },
+});
 
 const calendarApp = shallowRef(
   createCalendar({
@@ -39,47 +82,7 @@ const calendarApp = shallowRef(
       eventsServicePlugin,
     ],
     locale: "fr-FR",
-    calendars: {
-      members: {
-        colorName: "members",
-        lightColors: {
-          main: "#f91c45",
-          container: "#ffd2dc",
-          onContainer: "#59000d",
-        },
-        darkColors: {
-          main: "#ffc0cc",
-          onContainer: "#ffdee6",
-          container: "#a24258",
-        },
-      },
-      subscribers: {
-        colorName: "subscribers",
-        lightColors: {
-          main: "#f9d71c",
-          container: "#fff5aa",
-          onContainer: "#594800",
-        },
-        darkColors: {
-          main: "#fff5c0",
-          onContainer: "#fff5de",
-          container: "#a29742",
-        },
-      },
-      allpublic: {
-        colorName: "allpublic",
-        lightColors: {
-          main: "#1cf9b0",
-          container: "#dafff0",
-          onContainer: "#004d3d",
-        },
-        darkColors: {
-          main: "#c0fff5",
-          onContainer: "#e6fff5",
-          container: "#42a297",
-        },
-      },
-    },
+    calendars: listCalendars,
   }),
 );
 
@@ -104,6 +107,21 @@ onMounted(async () => {
 <template>
   <div>
     <ClientOnly>
+      <div
+        v-for="calendar in listCalendars"
+        :key="calendar.colorName"
+        class="inline-flex items-center px-3"
+      >
+        <span
+          class="size-2 inline-block rounded-full me-2"
+          :style="{
+            backgroundColor: calendar.lightColors.main,
+          }"
+        ></span>
+        <span class="text-gray-600 dark:text-neutral-400">{{
+          listTypeEvents[calendar.colorName]
+        }}</span>
+      </div>
       <ScheduleXCalendar :calendar-app="calendarApp" />
     </ClientOnly>
   </div>

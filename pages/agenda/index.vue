@@ -23,17 +23,17 @@ const { locale, t } = useI18n();
 const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
-const listTypeEvents = ref({
+const listTypeEvents: Ref<Record<string, string | undefined>> = ref({
   allpublic: "Évenement public",
   subscribers: "Évenement soumis à inscription",
   members: "Réservé aux membres",
 });
 
 const HeaderPage = defineAsyncComponent(
-  () => import("@/components//pages/HeaderPage.vue"),
+  () => import("@/components/pages/HeaderPage.vue"),
 );
 const Breadcrumbs = defineAsyncComponent(
-  () => import("@/components//Layouts/Breadcrumbs.vue"),
+  () => import("@/components/Layouts/Breadcrumbs.vue"),
 );
 const Fancybox = defineAsyncComponent(
   () => import("@/components//content/Fancybox.vue"),
@@ -147,7 +147,10 @@ useSeo({
       </div>
 
       <ClientOnly fallback-tag="span" :fallback="t('layout.loading')">
-        <ScheduleSam :list-events="listEvents" />
+        <ScheduleSam
+          :list-events="listEvents"
+          :list-type-events="listTypeEvents"
+        />
       </ClientOnly>
     </div>
   </section>

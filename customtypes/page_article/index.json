@@ -6,6 +6,12 @@
   "status": true,
   "json": {
     "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
       "title": {
         "type": "Text",
         "config": {
@@ -28,13 +34,11 @@
           "customtypes": ["page_thematique"]
         }
       },
-      "carrousel": {
-        "type": "Boolean",
+      "title_vignette": {
+        "type": "Text",
         "config": {
-          "label": "Images carrousel",
-          "placeholder_false": "false",
-          "placeholder_true": "true",
-          "default_value": false
+          "label": "Titre (court) de vignette",
+          "placeholder": "Titre pour vignette"
         }
       },
       "image_vignette": {
@@ -75,19 +79,6 @@
           ]
         }
       },
-      "author": {
-        "type": "Text",
-        "config": {
-          "label": "Auteur",
-          "placeholder": ""
-        }
-      },
-      "uid": {
-        "config": {
-          "label": "UID"
-        },
-        "type": "UID"
-      },
       "content": {
         "type": "StructuredText",
         "config": {
@@ -95,6 +86,22 @@
           "placeholder": "",
           "allowTargetBlank": true,
           "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
+        }
+      },
+      "carrousel": {
+        "type": "Boolean",
+        "config": {
+          "label": "Images carrousel",
+          "placeholder_false": "false",
+          "placeholder_true": "true",
+          "default_value": false
+        }
+      },
+      "author": {
+        "type": "Text",
+        "config": {
+          "label": "Auteur",
+          "placeholder": ""
         }
       },
       "position": {

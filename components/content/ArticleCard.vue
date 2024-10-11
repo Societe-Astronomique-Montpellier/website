@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type {
   PageArticleDocument,
-  PageThematiqueDocument,
 } from "~/prismicio-types";
-import type { ImageField } from "@prismicio/client";
+import type { ImageField, KeyTextField } from "@prismicio/client";
+import { isFilled } from "@prismicio/helpers";
 const { isMobile } = useDevice();
 
 export interface Props {
@@ -17,6 +17,12 @@ const imageVignette = computed<ImageField>(() =>
   isMobile
     ? item.value.data.image_vignette.mobile
     : item.value.data.image_vignette.vignette,
+);
+
+const title: ComputedRef<KeyTextField> = computed<KeyTextField>(() =>
+  isFilled.keyText(item.value.data.title_vignette)
+    ? item.value.data.title_vignette
+    : item.value.data.title,
 );
 </script>
 
@@ -42,7 +48,7 @@ const imageVignette = computed<ImageField>(() =>
         <h3
           class="mt-1 absolute inset-0 z-10 flex justify-center items-center text-xl text-white bg-gradient-to-t from-gray-900"
         >
-          {{ item.data.title }}
+          {{ title }}
         </h3>
       </div>
     </prismic-link>

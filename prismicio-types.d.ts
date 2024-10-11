@@ -582,6 +582,17 @@ type EventDocumentDataSlicesSlice = never;
  */
 interface EventDocumentData {
   /**
+   * Titre field in *Evenement*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.title
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  title: prismic.KeyTextField;
+
+  /**
    * Vignette field in *Evenement*
    *
    * - **Field Type**: Image
@@ -593,26 +604,32 @@ interface EventDocumentData {
   image_vignette: prismic.ImageField<"vignette" | "mobile">;
 
   /**
-   * Date & Heure de fin field in *Evenement*
+   * Bannière image field in *Evenement*
    *
-   * - **Field Type**: Timestamp
-   * - **Placeholder**: Date & Heure de fin
-   * - **API ID Path**: event.time_end
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.image_banner
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   * - **Documentation**: https://prismic.io/docs/field#image
    */
-  time_end: prismic.TimestampField;
+  image_banner: prismic.ImageField<"banner" | "mobile">;
 
   /**
-   * Titre field in *Evenement*
+   * Type d'accès field in *Evenement*
    *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: event.title
+   * - **Field Type**: Select
+   * - **Placeholder**: Type d'accès à l'évenement
+   * - **Default Value**: Évenement public
+   * - **API ID Path**: event.access_type
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
+   * - **Documentation**: https://prismic.io/docs/field#select
    */
-  title: prismic.KeyTextField;
+  access_type: prismic.SelectField<
+    | "Évenement public"
+    | "Évenement soumis à inscription"
+    | "Réservé aux membres",
+    "filled"
+  >;
 
   /**
    * Afficher dans activité périodique field in *Evenement*
@@ -650,6 +667,28 @@ interface EventDocumentData {
   carrousel: prismic.BooleanField;
 
   /**
+   * Date & Heure de début field in *Evenement*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: Date & Heure de début
+   * - **API ID Path**: event.time_start
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  time_start: prismic.TimestampField;
+
+  /**
+   * Date & Heure de fin field in *Evenement*
+   *
+   * - **Field Type**: Timestamp
+   * - **Placeholder**: Date & Heure de fin
+   * - **API ID Path**: event.time_end
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#timestamp
+   */
+  time_end: prismic.TimestampField;
+
+  /**
    * Lieu de l'évenement field in *Evenement*
    *
    * - **Field Type**: Text
@@ -681,45 +720,6 @@ interface EventDocumentData {
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
   link: prismic.LinkField;
-
-  /**
-   * Date & Heure de début field in *Evenement*
-   *
-   * - **Field Type**: Timestamp
-   * - **Placeholder**: Date & Heure de début
-   * - **API ID Path**: event.time_start
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#timestamp
-   */
-  time_start: prismic.TimestampField;
-
-  /**
-   * Bannière image field in *Evenement*
-   *
-   * - **Field Type**: Image
-   * - **Placeholder**: *None*
-   * - **API ID Path**: event.image_banner
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#image
-   */
-  image_banner: prismic.ImageField<"banner" | "mobile">;
-
-  /**
-   * Type d'accès field in *Evenement*
-   *
-   * - **Field Type**: Select
-   * - **Placeholder**: Type d'accès à l'évenement
-   * - **Default Value**: Évenement public
-   * - **API ID Path**: event.access_type
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#select
-   */
-  access_type: prismic.SelectField<
-    | "Évenement public"
-    | "Évenement soumis à inscription"
-    | "Réservé aux membres",
-    "filled"
-  >;
 
   /**
    * Slice Zone field in *Evenement*
@@ -1283,6 +1283,17 @@ interface PageArticleDocumentData {
   carrousel: prismic.BooleanField;
 
   /**
+   * Position field in *Page article*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Position de la page dans l'arborescence
+   * - **API ID Path**: page_article.position
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  position: prismic.NumberField;
+
+  /**
    * Vignette (page d'accueil) field in *Page article*
    *
    * - **Field Type**: Image
@@ -1327,15 +1338,15 @@ interface PageArticleDocumentData {
   content: prismic.RichTextField;
 
   /**
-   * Position field in *Page article*
+   * Titre (court) de vignette field in *Page article*
    *
-   * - **Field Type**: Number
-   * - **Placeholder**: Position de la page dans l'arborescence
-   * - **API ID Path**: page_article.position
+   * - **Field Type**: Text
+   * - **Placeholder**: Titre pour vignette
+   * - **API ID Path**: page_article.title_vignette
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#number
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  position: prismic.NumberField;
+  title_vignette: prismic.KeyTextField;
 
   /**
    * Slice Zone field in *Page article*

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // https://tailwindflex.com/tag/call-to-action?page=6
 import type { ComputedRef } from "vue";
-import { useSeo } from "@/composables/useSeo";
 
 // Layout
 import type {

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useSeo } from "~/composables/useSeo";
 import type {
   EmptyImageFieldImage,
   FilledImageFieldImage,

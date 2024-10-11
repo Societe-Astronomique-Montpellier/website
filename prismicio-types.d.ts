@@ -1271,27 +1271,15 @@ interface PageArticleDocumentData {
   thematic: prismic.ContentRelationshipField<"page_thematique">;
 
   /**
-   * Images carrousel field in *Page article*
+   * Titre (court) de vignette field in *Page article*
    *
-   * - **Field Type**: Boolean
-   * - **Placeholder**: *None*
-   * - **Default Value**: false
-   * - **API ID Path**: page_article.carrousel
+   * - **Field Type**: Text
+   * - **Placeholder**: Titre pour vignette
+   * - **API ID Path**: page_article.title_vignette
    * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#boolean
+   * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  carrousel: prismic.BooleanField;
-
-  /**
-   * Position field in *Page article*
-   *
-   * - **Field Type**: Number
-   * - **Placeholder**: Position de la page dans l'arborescence
-   * - **API ID Path**: page_article.position
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#number
-   */
-  position: prismic.NumberField;
+  title_vignette: prismic.KeyTextField;
 
   /**
    * Vignette (page d'accueil) field in *Page article*
@@ -1316,17 +1304,6 @@ interface PageArticleDocumentData {
   image_banner: prismic.ImageField<"banner" | "mobile">;
 
   /**
-   * Auteur field in *Page article*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: page_article.author
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/field#key-text
-   */
-  author: prismic.KeyTextField;
-
-  /**
    * Contenu field in *Page article*
    *
    * - **Field Type**: Rich Text
@@ -1338,15 +1315,38 @@ interface PageArticleDocumentData {
   content: prismic.RichTextField;
 
   /**
-   * Titre (court) de vignette field in *Page article*
+   * Images carrousel field in *Page article*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: page_article.carrousel
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  carrousel: prismic.BooleanField;
+
+  /**
+   * Auteur field in *Page article*
    *
    * - **Field Type**: Text
-   * - **Placeholder**: Titre pour vignette
-   * - **API ID Path**: page_article.title_vignette
+   * - **Placeholder**: *None*
+   * - **API ID Path**: page_article.author
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#key-text
    */
-  title_vignette: prismic.KeyTextField;
+  author: prismic.KeyTextField;
+
+  /**
+   * Position field in *Page article*
+   *
+   * - **Field Type**: Number
+   * - **Placeholder**: Position de la page dans l'arborescence
+   * - **API ID Path**: page_article.position
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#number
+   */
+  position: prismic.NumberField;
 
   /**
    * Slice Zone field in *Page article*

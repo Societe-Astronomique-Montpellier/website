@@ -116,7 +116,10 @@
         "type": "Image",
         "config": {
           "label": "Meta image",
-          "constraint": {},
+          "constraint": {
+            "width": 1200,
+            "height": 630
+          },
           "thumbnails": []
         }
       }

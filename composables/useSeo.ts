@@ -43,6 +43,6 @@ export const useSeo = (item: IItem): void => {
     twitterSite: (): string => titleName,
     twitterTitle: (): string => unref(item.title),
     twitterDescription: (): string => unref(item.description),
-    twitterImage: (): any => unref(item.image) ?? defaultImgUrl,
+    twitterImage: (): string => unref(item.image) ?? defaultImgUrl,
   });
 };

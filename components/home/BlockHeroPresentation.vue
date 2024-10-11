@@ -2,6 +2,8 @@
 import type { ComputedRef } from "vue";
 import type { ImageField, LinkField } from "@prismicio/client";
 
+import bgdImg from "../public/images/sam_babote_rs.png";
+const mobileBgdImg = bgdImg;
 const { t } = useI18n();
 
 export interface Props {
@@ -43,10 +45,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div v-if="block" class="w-full h-screen overflow-hidden relative">
+  <div
+    v-if="block"
+    :class="
+      !isMobile ? `w-full h-screen overflow-hidden relative` : `overflow-hidden`
+    "
+  >
     <!-- Slider container -->
-    <div class="w-full h-full flex transition-transform duration-1000">
-      <div class="w-full h-full relative">
+    <div
+      :class="
+        !isMobile ? `w-full h-full flex transition-transform duration-1000` : ``
+      "
+    >
+      <div v-if="!isMobile" class="w-full h-full relative">
         <div
           v-for="(image, index) in listImages"
           :key="index"
@@ -69,12 +80,26 @@ onUnmounted(() => {
       </div>
 
       <div
-        v-if="!isMobile"
-        class="absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-30 p-4"
+        :class="
+          !isMobile
+            ? `absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-30 p-4`
+            : `text-gray-400 bg-gray-900 body-font mb-4 mt-0 text-base items-center text-center font-light leading-relaxed h-full w-full`
+        "
       >
-        <h1 class="mb-4 text-6xl font-semibold">{{ block.data.title }}</h1>
-        <h2 class="mb-6 text-4xl">{{ block.data.subtitle }}</h2>
-        <div class="inline-flex gap-10 mt-10">
+        <h1
+          v-if="!isMobile"
+          :class="!isMobile ? `mb-4 text-6xl font-semibold` : `mt-2 text-2xl`"
+        >
+          {{ block.data.title }}
+        </h1>
+        <div v-if="isMobile" class="object-fill m-0">
+          <NuxtImg src="images/sam_babote_rs.png" class="object-fill"></NuxtImg>
+        </div>
+        <h2 :class="!isMobile ? `mb-6 text-4xl` : `text-xl mt-2 italic`">
+          {{ block.data.subtitle }}
+        </h2>
+
+        <div class="inline-flex gap-10 my-5 md:flex-row">
           <prismic-link
             :field="block?.data.button_left as LinkField"
             type="button"
@@ -97,17 +122,6 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
-  </div>
-  <div
-    v-if="isMobile"
-    class="text-gray-400 bg-gray-900 body-font mb-4 mt-0 text-base items-center text-center font-light leading-relaxed h-full w-full p-2"
-  >
-    <h1 class="mt-2 text-2xl">
-      {{ block.data.title }}
-    </h1>
-    <h2 class="text-xl mt-2 italic">
-      {{ block.data.subtitle }}
-    </h2>
   </div>
 </template>
 

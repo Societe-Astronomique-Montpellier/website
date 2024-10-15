@@ -31,7 +31,7 @@ onMounted(() => {
 watch(
   () => isOpen.value,
   (isOpen) => {
-    if (process.client) {
+    if (import.meta.client) {
       if (isOpen) document.body.style.setProperty("overflow", "hidden");
       else document.body.style.removeProperty("overflow");
     }
@@ -134,6 +134,7 @@ const openSearchModal = () => {
               :field="item.link_header as LinkField"
               role="menuitem"
               :class="itemNavClass"
+              :title="item.label_header"
             >
               {{ item.label_header }}
               <span

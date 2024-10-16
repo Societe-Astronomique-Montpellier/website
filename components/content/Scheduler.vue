@@ -21,8 +21,12 @@ const props = defineProps<{
 const { listEvents, listTypeEvents } = toRefs(props);
 
 const { isMobile } = useDevice();
+const colorMode = useColorMode();
 
 const eventsServicePlugin = createEventsServicePlugin();
+const isDark: ComputedRef<boolean> = computed<boolean>(
+  () => "dark" === colorMode.value,
+);
 
 const listCalendars = reactive({
   members: {
@@ -83,6 +87,7 @@ const calendarApp = shallowRef(
     ],
     locale: "fr-FR",
     calendars: listCalendars,
+    isDark: isDark.value
   }),
 );
 

@@ -78,20 +78,20 @@ useSeo({
       <span class="sr-only">Erreur</span>
       <div>Une erreur est survenue lors de la récupération des données.</div>
     </div>
-    <div v-if="editorial" class="max-w-screen-lg w-full mx-auto relative">
+    <div v-if="editorial" class="max-w-screen-xl w-full mx-auto relative mb-2">
       <Breadcrumbs :list-ids="[editorial?.id]" :current-uid="editorialUid" />
-      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
+      <h1 class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center">
         {{ editorial?.data.title }}
       </h1>
       <HeaderPage :image="imageBanner" />
-      <div class="max-w-3xl mx-auto">
+      <div class="max-w-screen-md mx-auto">
         <div
-          class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white relative top-0 p-5 sm:p-10">
+          <div class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-10">
             <h2
               v-if="isFilled.keyText(editorial?.data.subtitle)"
-              class="text-gray-900 font-semibold text-2xl mb-2 leading-normal"
+              class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2 leading-normal"
             >
               {{ editorial?.data.subtitle }}
             </h2>

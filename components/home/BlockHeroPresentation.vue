@@ -88,14 +88,18 @@ onUnmounted(() => {
       >
         <h1
           v-if="!isMobile"
-          :class="!isMobile ? `mb-4 text-6xl font-semibold` : `mt-2 text-2xl`"
+          :class="
+            !isMobile
+              ? `mb-4 text-6xl font-semibold dark:text-slate-400`
+              : `mt-2 text-2xl`
+          "
         >
           {{ block.data.title }}
         </h1>
         <div v-if="isMobile" class="object-fill m-0">
           <NuxtImg src="images/sam_babote_rs.png" class="object-fill"></NuxtImg>
         </div>
-        <h2 :class="!isMobile ? `mb-6 text-4xl` : `text-xl mt-2 italic`">
+        <h2 :class="!isMobile ? `mb-6 text-4xl dark:text-slate-300` : `text-xl mt-2 italic`">
           {{ block.data.subtitle }}
         </h2>
 

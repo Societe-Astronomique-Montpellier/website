@@ -81,18 +81,18 @@ const navClasses: ComputedRef<string> = computed<string>(() =>
   >
     <div v-for="(item, index) in items" :key="index">
       <a
-        class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
+        class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white"
         :href="item.path"
         :title="item.label"
         :aria-label="item.label"
       >
         <Icon :name="item.icon" :size="displayIconSize" />
       </a>
-      <hr class="dark:border-gray-700/60" :class="isMobile ? `divide-x` : ``" />
+      <hr class="border-gray-700/60 dark:border-gray-700/60" :class="isMobile ? `divide-x` : ``" />
     </div>
 
     <button
-      :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
+      :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
       type="button"
       :aria-label="backToTopLabel"
       @click="scrollToTop"

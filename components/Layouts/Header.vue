@@ -3,6 +3,7 @@ import type { Ref } from "vue";
 import { ref } from "vue";
 import { PrismicLink } from "@prismicio/vue";
 import type { LinkField } from "@prismicio/client";
+import {useIconColorName} from "~/composables/useIconColorName";
 
 const { t } = useI18n();
 const { isMobile } = useDevice();
@@ -43,7 +44,7 @@ watch(
 
 const drawer = () => (isOpen.value = !isOpen.value);
 const mainNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "bg-slate-800/50" : "bg-white",
+  isHome.value ? "bg-slate-800/50" : "bg-white dark:bg-slate-950/70",
 );
 const subNavClass: ComputedRef<string> = computed<string>(() =>
   isHome.value
@@ -51,10 +52,10 @@ const subNavClass: ComputedRef<string> = computed<string>(() =>
     : "hidden md:flex md:items-center md:w-auto w-full",
 );
 const ulNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "text-gray-300" : "text-gray-700",
+  isHome.value ? "text-gray-300" : "text-gray-700 dark:text-grey-100",
 );
 const itemNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "text-2xl" : "",
+  isHome.value ? "text-2xl" : "dark:text-white",
 );
 
 const emit = defineEmits<{
@@ -161,7 +162,7 @@ const openSearchModal = () => {
             type="button"
             :class="
               !isHome
-                ? 'aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 hover:bg-gray-700 hover:text-white'
+                ? 'aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 dark:text-slate-400 hover:bg-gray-700 hover:text-white'
                 : 'px-3 py-2.5 inline-flex items-center justify-center rounded-md '
             "
             @click="openSearchModal"
@@ -179,6 +180,22 @@ const openSearchModal = () => {
               class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"
             ></span>
           </button>
+
+          <li
+            v-for="theme of ['light', 'dark']"
+            :key="theme"
+            :class="{
+              preferred: !$colorMode.unknown && theme === $colorMode.preference,
+              selected: !$colorMode.unknown && theme === $colorMode.value,
+            }"
+          >
+            <Icon
+              v-if="theme !== $colorMode.preference"
+              :name="useIconColorName(theme) as string"
+              class="size-6 dark:text-slate-300"
+              @click="$colorMode.preference = theme"
+            />
+          </li>
         </ul>
       </nav>
 

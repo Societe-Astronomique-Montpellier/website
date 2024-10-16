@@ -43,6 +43,7 @@ export default defineNuxtConfig({
     ],
     "@nuxt/scripts",
     "@nuxtjs/turnstile",
+    "@nuxtjs/color-mode",
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -81,6 +82,17 @@ export default defineNuxtConfig({
     siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY,
   },
   eslint: {},
+  colorMode: {
+    preference: "light",
+    fallback: "light",
+    hid: "nuxt-color-mode-script",
+    globalName: "__NUXT_COLOR_MODE__",
+    componentName: "ColorScheme",
+    classPrefix: "",
+    classSuffix: "-mode",
+    storage: "localStorage", // or 'sessionStorage' or 'cookie'
+    storageKey: "nuxt-color-mode",
+  },
   app: {
     head: {
       meta: [

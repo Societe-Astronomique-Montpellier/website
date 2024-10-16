@@ -106,18 +106,22 @@ useSeo({
         :list-ids="[parentThematic?.id, article.id]"
         :current-uid="articleUid"
       />
-      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
+      <h1
+        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+      >
         {{ article?.data.title }}
       </h1>
       <HeaderPage :image="imageBanner" />
-      <div class="max-w-3xl mx-auto">
+      <div class="max-w-screen-md mx-auto">
         <div
-          class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white relative top-0 p-5 sm:p-10 leading-normal">
+          <div
+            class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-10 leading-normal"
+          >
             <h2
               v-if="isFilled.keyText(article.data.subtitle)"
-              class="text-gray-900 font-semibold text-2xl mb-2"
+              class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2"
             >
               {{ article?.data.subtitle }}
             </h2>
@@ -130,7 +134,7 @@ useSeo({
                     :serializer="richTextSerializer"
                   ></prismic-rich-text>
                 </Fancybox>
-                <p class="text-gray-700 text-xs mt-5">
+                <p class="text-gray-700 dark:text-slate-400 text-xs mt-5">
                   <span
                     id="span_author"
                     class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"

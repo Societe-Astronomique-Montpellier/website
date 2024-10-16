@@ -9,14 +9,19 @@
   }
   html.dark {
     @apply text-neutral-50;
-    @apply bg-body-dark;
   }
 }
 
 body {
   @apply overflow-x-hidden antialiased;
+  @apply dark:bg-slate-900 dark:text-slate-300;
   font-family: "Raleway", serif;
 }
+
+/*.dark-mode body {*/
+/*  background-color: #091a28;*/
+/*  color: #ebf4f1;*/
+/*}*/
 
 p {
   @apply leading-[1.6];

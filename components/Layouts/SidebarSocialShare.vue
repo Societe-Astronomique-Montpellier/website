@@ -34,7 +34,7 @@ const handleScroll = () => (isVisible.value = window.scrollY > 200);
   <nav
     :class="`
       z-20 shrink-0 grow-0 justify-around gap-1 border-t border-indigo-700
-      bg-white/50 p-2 shadow-lg backdrop-blur-lg
+      bg-slate-800/50 p-2 shadow-lg backdrop-blur-lg
       dark:border-slate-600/60 dark:bg-slate-800/50
       fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"
   >
@@ -44,13 +44,13 @@ const handleScroll = () => (isVisible.value = window.scrollY > 200);
           v-for="network in shareSocialMedia"
           :key="network"
           :network="network.social_network"
-          class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white"
+          class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white"
         >
         </SocialShare>
       </lazy-client-only>
     </template>
     <button
-      :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
+      :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
       type="button"
       :aria-label="backToTopLabel"
       @click="scrollToTop"

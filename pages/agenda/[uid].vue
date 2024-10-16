@@ -95,15 +95,17 @@ useSeo({
         :list-ids="[data.parentAgenda.id, data.event.id]"
         :current-uid="data.event.uid"
       />
-      <h1 class="text-gray-900 font-bold text-4xl my-8 text-center">
+      <h1
+        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+      >
         {{ data.event.data.title }}
       </h1>
       <HeaderPage :image="imageBanner" />
-      <div class="max-w-3xl mx-auto">
+      <div class="max-w-screen-md mx-auto">
         <div
-          class="bg-white rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
+          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white relative top-0 p-5 sm:p-10">
+          <div class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-10">
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
                 <Fancybox :is-caroussel="data.event.data.carrousel">

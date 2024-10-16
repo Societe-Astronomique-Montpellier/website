@@ -25,8 +25,10 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
 </script>
 
 <template>
-  <div class="lg:px-2 lg:py-20 py-0 w-full flex justify-center">
-    <div class="bg-white lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg">
+  <div class="dark:bg-slate-800 lg:px-2 lg:py-20 py-0 w-full flex justify-center">
+    <div
+      class="bg-white dark:bg-slate-900 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg"
+    >
       <div v-if="isDesktop" class="lg:w-1/2">
         <div
           class="lg:scale-110 lg:h-full h-100 bg-cover rounded-b-none border lg:rounded-lg"
@@ -36,7 +38,7 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
       <div
         class="py-12 px-6 lg:px-12 max-w-xl lg:max-w-5xl lg:w-1/2 rounded-t-none border lg:rounded-lg"
       >
-        <h3 class="text-3xl text-gray-800 font-bold">
+        <h3 class="text-3xl text-gray-800 dark:text-slate-500 font-bold">
           {{ block.data.title }}
           <span class="text-indigo-600">
             {{ block.data.subtitle }}

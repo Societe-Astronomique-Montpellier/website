@@ -52,6 +52,7 @@
     "@nuxt/scripts": "^0.9.3",
     "@nuxt/types": "^2.18.1",
     "@nuxt/typescript-build": "^3.0.2",
+    "@nuxtjs/color-mode": "^3.5.1",
     "@nuxtjs/device": "^3.1.1",
     "@nuxtjs/prismic": "^3.3.2",
     "@nuxtjs/turnstile": "^0.9.10",

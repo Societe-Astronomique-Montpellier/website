@@ -6,14 +6,14 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
 
   return {
     paragraph: ({ children }) =>
-      `<p class="text-justify text-base leading-8 mt-2 my-5">${children}</p>`,
+      `<p class="text-justify text-base leading-8 mt-2 my-5 dark:text-slate-400">${children}</p>`,
     heading1: ({ children }) => `<h1>${children}</h1>`,
     heading2: ({ children }) =>
-      `<h2 class="text-gray-900 font-bold text-4xl mb-2">${children}</h2>`,
+      `<h2 class="text-gray-900 font-bold text-4xl mb-2 dark:text-slate-500">${children}</h2>`,
     heading3: ({ children }) =>
-      `<h3 class="text-gray-900 font-semibold text-2xl mb-2">${children}</h3>`,
+      `<h3 class="text-gray-900 font-semibold text-2xl mb-2 dark:text-slate-500">${children}</h3>`,
     heading4: ({ children }) =>
-      `<h4 class="text-gray-900 font-medium text-2xl mb-2">${children}</h4>`,
+      `<h4 class="text-gray-900 font-medium text-2xl mb-2 dark:text-slate-500">${children}</h4>`,
     heading5: ({ children }) => `<h5>${children}</h5>`,
     heading6: ({ children }) => `<h6>${children}</h6>`,
     strong: ({ children }) => `<strong>${children}</strong>`,
@@ -23,7 +23,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
         return "<p>Error: Missing image URL</p>";
       }
 
-      let copyright: string = node.copyright
+      const copyright: string = node.copyright
         ? `Photo © ${node.copyright}`
         : "";
 
@@ -47,7 +47,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
     list: ({ children }) =>
       `<ul class="mb-6 font-light text-neutral-900 lg:mb-8 ">${children}</ul>`,
     listItem: ({ children }) =>
-      `<li class="mb-6 font-light text-neutral-900"><span class="iconify i-material-symbols:arrow-right-alt text-indigo-400 dark:text-indigo-400" aria-hidden="true" style="width: 16px; height: 16px"></span> ${children}</li>`,
+      `<li class="mb-6 font-light text-neutral-900 dark:text-slate-300"><span class="iconify i-material-symbols:arrow-right-alt text-indigo-400 dark:text-indigo-400" aria-hidden="true" style="width: 16px; height: 16px"></span> ${children}</li>`,
 
     // embed
     preformatted: ({ children }) =>

@@ -40,7 +40,7 @@ const { data: items, error } = await useAsyncData(
       <li class="inline-flex items-center">
         <NuxtLink
           to="/"
-          class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-700"
+          class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-slate-300"
         >
           <Icon name="material-symbols-light:home" size="20" class="me-2.5" />
           {{ $t("layout.home") }}
@@ -50,25 +50,25 @@ const { data: items, error } = await useAsyncData(
         <div class="flex items-center">
           <Icon
             name="material-symbols:arrow-forward-ios-rounded"
-            class="text-gray-700"
+            class="text-gray-700 dark:text-white"
             size="16"
           />
           <prismic-link
             v-if="currentUid !== item.uid"
             :field="item"
-            class="ms-1 inline-flex items-center text-sm font-medium text-gray-700"
+            class="ms-1 inline-flex items-center text-sm font-medium text-gray-700 dark:text-white"
             :aria-label="item.data.title"
           >
             <span
               v-if="item"
-              class="ms-1 text-sm font-medium text-gray-700 md:ms-2"
+              class="ms-1 text-sm font-medium text-gray-700 dark:text-white md:ms-2"
             >
               {{ item.data.title }}
             </span>
           </prismic-link>
           <span
             v-else-if="currentUid === item.uid"
-            class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-700 dark:text-indigo-700"
+            class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-700 dark:text-indigo-400"
           >
             {{ item.data.title }}
           </span>

@@ -3,7 +3,6 @@ import type { Ref } from "vue";
 import { ref } from "vue";
 import { PrismicLink } from "@prismicio/vue";
 import type { LinkField } from "@prismicio/client";
-import {useIconColorName} from "~/composables/useIconColorName";
 
 const { t } = useI18n();
 const { isMobile } = useDevice();
@@ -41,6 +40,8 @@ watch(
     immediate: true,
   },
 );
+
+const SwitchLightDarkMode = defineAsyncComponent(() => import('@/components/Layouts/SwitchLightDarkMode.vue'))
 
 const drawer = () => (isOpen.value = !isOpen.value);
 const mainNavClass: ComputedRef<string> = computed<string>(() =>
@@ -119,6 +120,8 @@ const openSearchModal = () => {
         >
           <Icon name="material-symbols-light:search" size="32" />
         </button>
+
+        <SwitchLightDarkMode />
       </div>
 
       <!-- Navbar -->
@@ -181,21 +184,7 @@ const openSearchModal = () => {
             ></span>
           </button>
 
-          <li
-            v-for="theme of ['light', 'dark']"
-            :key="theme"
-            :class="{
-              preferred: !$colorMode.unknown && theme === $colorMode.preference,
-              selected: !$colorMode.unknown && theme === $colorMode.value,
-            }"
-          >
-            <Icon
-              v-if="theme !== $colorMode.preference"
-              :name="useIconColorName(theme) as string"
-              class="size-6 dark:text-slate-300"
-              @click="$colorMode.preference = theme"
-            />
-          </li>
+          <SwitchLightDarkMode />
         </ul>
       </nav>
 

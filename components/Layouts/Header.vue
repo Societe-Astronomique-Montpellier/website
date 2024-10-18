@@ -41,7 +41,9 @@ watch(
   },
 );
 
-const SwitchLightDarkMode = defineAsyncComponent(() => import('@/components/Layouts/SwitchLightDarkMode.vue'))
+const SwitchLightDarkMode = defineAsyncComponent(
+  () => import("@/components/Layouts/SwitchLightDarkMode.vue"),
+);
 
 const drawer = () => (isOpen.value = !isOpen.value);
 const mainNavClass: ComputedRef<string> = computed<string>(() =>
@@ -121,7 +123,7 @@ const openSearchModal = () => {
           <Icon name="material-symbols-light:search" size="32" />
         </button>
 
-        <SwitchLightDarkMode />
+        <SwitchLightDarkMode v-if="isMobile" />
       </div>
 
       <!-- Navbar -->
@@ -184,7 +186,7 @@ const openSearchModal = () => {
             ></span>
           </button>
 
-          <SwitchLightDarkMode />
+          <SwitchLightDarkMode v-if="!isMobile" />
         </ul>
       </nav>
 

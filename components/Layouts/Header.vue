@@ -117,7 +117,7 @@ const openSearchModal = () => {
         <button
           type="button"
           class="right-0"
-          aria-label="open search modal"
+          :aria-label="t('search.title')"
           @click="openSearchModal"
         >
           <Icon name="material-symbols-light:search" size="32" />
@@ -170,6 +170,8 @@ const openSearchModal = () => {
                 ? 'aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 dark:text-slate-400 hover:bg-gray-700 hover:text-white'
                 : 'px-3 py-2.5 inline-flex items-center justify-center rounded-md '
             "
+            :aria-label="t('search.title')"
+            role="button"
             @click="openSearchModal"
           >
             <Icon

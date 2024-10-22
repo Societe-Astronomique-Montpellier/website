@@ -11,13 +11,7 @@ const isDark = computed<boolean>({
 </script>
 
 <template>
-  <div
-    :class="
-      isMobile
-        ? ``
-        : `flex items-center justify-center h-20`
-    "
-  >
+  <div :class="isMobile ? `` : `flex items-center justify-center h-20`">
     <!-- Slider with Sun and Moon icons -->
     <input
       id="dark-mode-toggle"

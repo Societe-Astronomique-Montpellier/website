@@ -2,8 +2,8 @@
 import type { ComputedRef } from "vue";
 import type { ImageField, LinkField } from "@prismicio/client";
 
-import bgdImg from "../public/images/sam_babote_rs.png";
-const mobileBgdImg = bgdImg;
+// import bgdImg from "../public/images/sam_babote_rs.png";
+// const mobileBgdImg = bgdImg;
 const { t } = useI18n();
 
 export interface Props {
@@ -97,9 +97,19 @@ onUnmounted(() => {
           {{ block.data.title }}
         </h1>
         <div v-if="isMobile" class="object-fill m-0">
-          <NuxtImg src="images/sam_babote_rs.png" class="object-fill"></NuxtImg>
+          <NuxtImg
+            src="images/sam_babote_rs.png"
+            class="object-fill"
+            :alt="t('layout.title')"
+          ></NuxtImg>
         </div>
-        <h2 :class="!isMobile ? `mb-6 text-4xl dark:text-slate-300` : `text-xl mt-2 italic`">
+        <h2
+          :class="
+            !isMobile
+              ? `mb-6 text-4xl dark:text-slate-300`
+              : `text-xl mt-2 italic`
+          "
+        >
           {{ block.data.subtitle }}
         </h2>
 
@@ -108,6 +118,7 @@ onUnmounted(() => {
             :field="block?.data.button_left as LinkField"
             type="button"
             class="md:justify-center inline-flex text-xl items-center justify-center px-4 py-3 mr-3 font-medium text-white rounded-lg border border-gray-700 bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 text-center m-1"
+            :title="block.data.text_button_left"
           >
             {{ block.data.text_button_left }}
           </prismic-link>
@@ -115,6 +126,7 @@ onUnmounted(() => {
           <prismic-link
             :field="block?.data.button_right as LinkField"
             class="md:justify-center inline-flex items-center justify-center px-4 py-3 ml-3 text-xl font-medium text-center text-grey-700"
+            :title="block.data.text_button_right"
           >
             {{ block.data.text_button_right }}
             <Icon

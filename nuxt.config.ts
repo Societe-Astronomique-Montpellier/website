@@ -3,9 +3,6 @@ import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
 export default defineNuxtConfig({
   devtools: { enabled: true },
   ssr: true,
-  build: {
-    compress: true,
-  },
   typescript: {
     typeCheck: true,
   },

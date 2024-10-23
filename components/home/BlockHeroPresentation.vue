@@ -57,27 +57,29 @@ onUnmounted(() => {
         !isMobile ? `w-full h-full flex transition-transform duration-1000` : ``
       "
     >
-      <div v-if="!isMobile" class="w-full h-full relative">
-        <div
-          v-for="(image, index) in listImages"
-          :key="index"
-          :class="[
-            'absolute inset-0 transition-opacity duration-1000',
-            {
-              'opacity-0': currentIndex !== index,
-              'opacity-100': currentIndex === index,
-            },
-          ]"
-          class="w-full h-full"
-        >
-          <prismic-image
-            v-if="image"
-            :field="image"
-            :alt="image.alt"
-            class="w-full h-full object-cover"
-          />
+      <delay-hydration>
+        <div v-if="!isMobile" class="w-full h-full relative">
+          <div
+            v-for="(image, index) in listImages"
+            :key="index"
+            :class="[
+              'absolute inset-0 transition-opacity duration-1000',
+              {
+                'opacity-0': currentIndex !== index,
+                'opacity-100': currentIndex === index,
+              },
+            ]"
+            class="w-full h-full"
+          >
+            <prismic-image
+              v-if="image"
+              :field="image"
+              :alt="image.alt"
+              class="w-full h-full object-cover"
+            />
+          </div>
         </div>
-      </div>
+      </delay-hydration>
 
       <div
         :class="
@@ -96,13 +98,15 @@ onUnmounted(() => {
         >
           {{ block.data.title }}
         </h1>
-        <div v-if="isMobile" class="object-fill m-0">
-          <NuxtImg
-            src="images/sam_babote_rs.png"
-            class="object-fill"
-            :alt="t('layout.title')"
-          ></NuxtImg>
-        </div>
+        <delay-hydration>
+          <div v-if="isMobile" class="object-fill m-0">
+            <NuxtImg
+              src="images/sam_babote_rs.png"
+              class="object-fill"
+              :alt="t('layout.title')"
+            ></NuxtImg>
+          </div>
+        </delay-hydration>
         <h2
           :class="
             !isMobile

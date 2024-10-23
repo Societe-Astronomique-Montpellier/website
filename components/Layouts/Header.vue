@@ -123,7 +123,7 @@ const openSearchModal = () => {
           <Icon name="material-symbols-light:search" size="32" />
         </button>
 
-        <SwitchLightDarkMode v-if="isMobile" />
+<!--        <SwitchLightDarkMode v-if="isMobile" />-->
       </div>
 
       <!-- Navbar -->
@@ -187,7 +187,6 @@ const openSearchModal = () => {
               class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"
             ></span>
           </button>
-
           <SwitchLightDarkMode v-if="!isMobile" />
         </ul>
       </nav>

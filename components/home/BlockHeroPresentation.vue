@@ -101,7 +101,7 @@ onUnmounted(() => {
         <delay-hydration>
           <div v-if="isMobile" class="object-fill m-0">
             <NuxtImg
-              src="images/sam_babote_rs.png"
+              src="sam_babote_rs.png"
               class="object-fill"
               :alt="t('layout.title')"
             ></NuxtImg>

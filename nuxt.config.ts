@@ -59,6 +59,13 @@ export default defineNuxtConfig({
   imports: {
     dirs: ["composables", "composables/**", "types/*.d.ts"],
   },
+  image: {
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+    },
+  },
   delayHydration: {
     mode: "mount",
     debug: process.env.NODE_ENV === "development",

@@ -1,6 +1,5 @@
 <script setup lang="ts">
 // add header + footer
-
 const { t } = useI18n();
 const { isMobile } = useDevice();
 
@@ -15,6 +14,9 @@ const SidebarSocialShare = defineAsyncComponent(
 );
 const Modal = defineAsyncComponent(
   () => import("@/components/content/Modal.vue"),
+);
+const ListResults = defineAsyncComponent(
+  () => import("@/components/Layouts/ListResults.vue"),
 );
 
 const menuNavigation = useMenuNavigation();
@@ -58,11 +60,13 @@ useSeo({
     >
       <template #header>{{ t("search.title") }}</template>
       <template #content>
-        <div class="relative p-3 border border-gray-200 rounded-lg w-full">
+        <div
+          class="relative p-3 border border-gray-200 rounded-lg w-full dark:bg-slate-900 dark:border-slate-600/60"
+        >
           <input
             v-model="searchQuery"
             type="search"
-            class="rounded-md p-1 w-full focus:outline-none focus:focus-none"
+            class="rounded-md p-1 w-full focus:outline-none focus:focus-none dark:bg-slate-900 dark:border-slate-600/60"
             :placeholder="$t('search.placeholder')"
           />
         </div>
@@ -70,33 +74,14 @@ useSeo({
         <!-- Query Results -->
         <div
           v-if="searchQuery"
-          :class="`${contentModalClass} h-64 border-t border-gray-200 `"
+          :class="`${contentModalClass} h-64 border-t border-gray-200 dark:border-slate-600/60`"
         >
           <p v-if="loading">{{ t("layout.loading") }}</p>
           <p v-if="!loading && results !== null && 0 === results?.length">
             {{ t("search.no_result") }}
           </p>
           <div v-if="!loading && results !== null && 0 < results?.length">
-            <p class="text-justify text-base leading-8 mt-2 my-2">
-              {{ results?.length }} résultats trouvés:
-            </p>
-            <ul class="p-6 divide-y divide-slate-200">
-              <li
-                v-for="result in results"
-                :key="result.id"
-                class="flex py-4 first:pt-0 last:pb-0 hover:border-indigo-500"
-              >
-                <!-- Create search list card -->
-                <prismic-link :field="result" class="my-1">
-                  <!--                  <img class="h-10 w-10 rounded-full" :src="result?.data?.image_vignette.mobile" alt="" />-->
-                  <div class="ml-3 overflow-hidden">
-                    <p class="text-sm font-medium text-slate-900">
-                      {{ result?.data?.title }}
-                    </p>
-                  </div>
-                </prismic-link>
-              </li>
-            </ul>
+            <ListResults :items="results" :nb-items="results?.length" />
           </div>
         </div>
       </template>

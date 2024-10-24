@@ -50,18 +50,18 @@ const { data: items, error } = await useAsyncData(
         <div class="flex items-center">
           <Icon
             name="material-symbols:arrow-forward-ios-rounded"
-            class="text-gray-700 dark:text-white"
+            class="text-gray-700 dark:text-gray-500"
             size="16"
           />
           <prismic-link
             v-if="currentUid !== item.uid"
             :field="item"
-            class="ms-1 inline-flex items-center text-sm font-medium text-gray-700 dark:text-white"
+            class="ms-1 inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-500"
             :aria-label="item.data.title"
           >
             <span
               v-if="item"
-              class="ms-1 text-sm font-medium text-gray-700 dark:text-white md:ms-2"
+              class="ms-1 text-sm font-medium text-gray-700 dark:text-gray-500 md:ms-2"
             >
               {{ item.data.title }}
             </span>

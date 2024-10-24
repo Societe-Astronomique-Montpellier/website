@@ -9,13 +9,16 @@ const SideMenu = defineAsyncComponent(
   () => import("@/components/Layouts/HomeSideBarMenu.vue"),
 );
 const SidebarSocialShare = defineAsyncComponent(
-    () => import("@/components/Layouts/SidebarSocialShare.vue"),
+  () => import("@/components/Layouts/SidebarSocialShare.vue"),
 );
 const Footer = defineAsyncComponent(
   () => import("@/components/Layouts/Footer.vue"),
 );
 const Modal = defineAsyncComponent(
   () => import("@/components/content/Modal.vue"),
+);
+const ListResults = defineAsyncComponent(
+  () => import("@/components/Layouts/ListResults.vue"),
 );
 
 const menuNavigation = useMenuNavigation();
@@ -78,26 +81,7 @@ useSeo({
             {{ t("search.no_result") }}
           </p>
           <div v-if="!loading && results !== null && 0 < results?.length">
-            <p class="text-justify text-base leading-8 mt-2 my-2">
-              {{ results?.length }} résultats trouvés:
-            </p>
-            <ul class="p-6 divide-y divide-slate-200">
-              <li
-                v-for="result in results"
-                :key="result.id"
-                class="flex py-4 first:pt-0 last:pb-0 hover:border-indigo-500"
-              >
-                <!-- Create search list card -->
-                <prismic-link :field="result" class="my-1">
-                  <!--                  <img class="h-10 w-10 rounded-full" :src="result?.data?.image_vignette.mobile" alt="" />-->
-                  <div class="ml-3 overflow-hidden">
-                    <p class="text-sm font-medium text-slate-900">
-                      {{ result?.data?.title }}
-                    </p>
-                  </div>
-                </prismic-link>
-              </li>
-            </ul>
+            <ListResults :items="results" :nb-items="results?.length" />
           </div>
         </div>
       </template>

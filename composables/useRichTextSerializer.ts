@@ -6,14 +6,14 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
 
   return {
     paragraph: ({ children }) =>
-      `<p class="text-justify text-base leading-8 mt-2 my-5 dark:text-slate-400">${children}</p>`,
+      `<p class="text-justify text-base leading-8 mt-2 my-5 dark:text-gray-500">${children}</p>`,
     heading1: ({ children }) => `<h1>${children}</h1>`,
     heading2: ({ children }) =>
-      `<h2 class="text-gray-900 font-bold text-4xl mb-2 dark:text-slate-500">${children}</h2>`,
+      `<h2 class="text-gray-900 font-bold text-4xl mb-2 dark:text-gray-400">${children}</h2>`,
     heading3: ({ children }) =>
-      `<h3 class="text-gray-900 font-semibold text-2xl mb-2 dark:text-slate-500">${children}</h3>`,
+      `<h3 class="text-gray-900 font-semibold text-2xl mb-2 dark:text-gray-400">${children}</h3>`,
     heading4: ({ children }) =>
-      `<h4 class="text-gray-900 font-medium text-2xl mb-2 dark:text-slate-500">${children}</h4>`,
+      `<h4 class="text-gray-900 font-medium text-2xl mb-2 dark:text-gray-400">${children}</h4>`,
     heading5: ({ children }) => `<h5>${children}</h5>`,
     heading6: ({ children }) => `<h6>${children}</h6>`,
     strong: ({ children }) => `<strong>${children}</strong>`,
@@ -41,7 +41,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
       //     ? ''
       //     : `target="${node.data.target} " rel="noopener"`
       // const url = linkResolver(node.data)
-      return `<a href="${node.data.url}" class="text-indigo-700" target="_blank" rel="noopener" aria-label="${children}">${children}</a>`;
+      return `<a href="${node.data.url}" class="text-indigo-700 dark:text-gray-200" target="_blank" rel="noopener" aria-label="${children}">${children}</a>`;
     },
     // list
     list: ({ children }) =>

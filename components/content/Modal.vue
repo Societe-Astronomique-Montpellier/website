@@ -28,24 +28,26 @@ const containerClass: ComputedRef<string> = computed<string>(() =>
   <div
     v-if="isOpen"
     id="modal-overlay"
-    :class="`fixed inset-0 bg-gray-800 bg-opacity-75 z-500 ${modalClass}`"
+    :class="`fixed inset-0 bg-gray-800 bg-opacity-75 z-500 ${modalClass} `"
     @click="closeModalOnOutsideClick"
   >
     <!-- Modal Container -->
     <div
-      :class="`bg-white w-full shadow-lg relative ${containerClass}`"
+      :class="`bg-white dark:bg-slate-900 w-full shadow-lg relative ${containerClass}`"
       @click.stop
     >
       <!-- Modal Header -->
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-gray-900 font-semibold text-2xl mb-2">
+        <h3
+          class="text-gray-900 dark:text-gray-500 font-semibold text-2xl mb-2"
+        >
           <slot name="header"></slot>
         </h3>
         <button class="text-gray-600 hover:text-gray-800" @click="onclose">
           ✖
         </button>
       </div>
-      <hr v-if="!isMobile" />
+      <hr v-if="!isMobile" class="dark:border-slate-600/60" />
       <div class="mt-4">
         <slot name="content"></slot>
       </div>

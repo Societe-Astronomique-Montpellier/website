@@ -58,7 +58,7 @@ const ulNavClass: ComputedRef<string> = computed<string>(() =>
   isHome.value ? "text-gray-300" : "text-gray-700 dark:text-grey-100",
 );
 const itemNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "text-2xl" : "dark:text-white",
+  isHome.value ? "text-2xl" : "dark:text-gray-500",
 );
 
 const emit = defineEmits<{
@@ -81,7 +81,7 @@ const openSearchModal = () => {
           <prismic-image
             v-if="menu.data.logo.menu"
             :field="menu?.data.logo.menu"
-            class="mr-3 h-16 rounded-full border"
+            class="mr-3 h-16 rounded-full border dark:border-slate-600/60"
             :alt="t('layout.title')"
             loading="lazy"
             :title="t('layout.title')"
@@ -123,7 +123,7 @@ const openSearchModal = () => {
           <Icon name="material-symbols-light:search" size="32" />
         </button>
 
-<!--        <SwitchLightDarkMode v-if="isMobile" />-->
+        <SwitchLightDarkMode v-if="isMobile" />
       </div>
 
       <!-- Navbar -->

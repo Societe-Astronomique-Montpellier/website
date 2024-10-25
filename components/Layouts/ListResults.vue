@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { SearchDocumentType } from "~/types/search";
+const { t } = useI18n();
 
 export interface Props {
   nbItems?: number;
@@ -13,7 +14,7 @@ const { getResultComponent } = useDynamicResultComponent();
 
 <template>
   <p class="text-justify text-base leading-8 mt-2 my-2 dark:text-slate-400">
-    {{ nbItems }} résultats trouvés:
+    {{ $t("search.show_result", nbItems as number) }}
   </p>
   <div class="relative flex flex-col bg-white dark:bg-slate-900 shadow-sm">
     <nav class="flex min-w-[240px] flex-col gap-1 p-1.5">

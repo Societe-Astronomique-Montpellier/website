@@ -21,6 +21,12 @@ export const useSearch = () => {
       filters: [
         prismic.filter.fulltext("document", searchQuery.value.trim()),
         prismic.filter.not("document.tags", ["block"]),
+        prismic.filter.any("document.type", [
+          "page_article",
+          "page_thematique",
+          "event",
+          "page_editoriale",
+        ]),
       ],
       orderings: {
         field: "document.last_publication_date",

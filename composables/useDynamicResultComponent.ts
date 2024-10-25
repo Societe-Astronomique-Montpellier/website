@@ -27,9 +27,7 @@ export function useDynamicResultComponent(): {
         throw new Error(`Component not found for data type: ${dataType}`);
       }
       importedComponentPromise.value = defineAsyncComponent(async () => {
-        const component = await import(
-          `@/components/content/${componentName}.vue`
-        );
+        const component = await import(`@/components/content/${componentName}.vue`);
         return component.default || component;
       });
     }

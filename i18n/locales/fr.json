@@ -71,6 +71,7 @@
   "search": {
     "title": "Rechercher sur le site",
     "placeholder": "Babote, pises, agenda...",
-    "no_result": "Aucun résultat trouvé, veuillez saisir un autre terme."
+    "no_result": "Aucun résultat trouvé, veuillez saisir un autre terme.",
+    "show_result": "1 résultat | {n} résultats trouvés"
   }
 }

@@ -77,6 +77,13 @@ const [
   ),
 ]);
 
+if (eventsError.value) {
+  throw createError({
+    statusCode: eventsError.value?.statusCode,
+    statusMessage: eventsError.value?.statusMessage,
+  });
+}
+
 const richTextSerializer = useRichTextSerializer();
 const { getKeyFromValue } = useKeyFromValue<typeof listTypeEvents.value>();
 
@@ -154,18 +161,6 @@ useSeo({
           :list-type-events="listTypeEvents"
         />
       </ClientOnly>
-    </div>
-  </section>
-  <section v-else>
-    <div
-      class="flex items-center p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
-      role="alert"
-    >
-      <Icon name="eos-icons:loading" />
-      <span class="sr-only">Info</span>
-      <div>
-        {{ $t("layout.loading") }}
-      </div>
     </div>
   </section>
 </template>

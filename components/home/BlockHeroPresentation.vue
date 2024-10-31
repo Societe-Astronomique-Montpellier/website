@@ -18,7 +18,8 @@ const currentIndex: Ref<number> = ref(0);
 const slideInterval: Ref<number | undefined> = ref(undefined);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const title: ComputedRef<string> = computed<string>(() => t("layout.title"));
+const title: Ref<string> = ref<string>(t("layout.title"));
+
 const nbImages: ComputedRef<number> = computed<number>(
   () => block.value.data.carousel.length,
 );

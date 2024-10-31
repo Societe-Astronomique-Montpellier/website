@@ -124,12 +124,12 @@ export default defineNuxtConfig({
     },
   },
   socialShare: {
-    baseUrl: "https://societe-astronomique-montpellier.netlify.app/",
+    baseUrl: "https://www.societe-astronomique-montpellier.fr/",
     styled: false,
     label: false,
     icon: true,
   },
-  compatibilityDate: "2024-07-04",
+  compatibilityDate: "2024-10-31",
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,

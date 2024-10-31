@@ -6,6 +6,16 @@ export default defineNuxtConfig({
   sourcemap: { server: true, client: false },
   build: {
     analyze: true,
+    extractCSS: true,
+    optimization: {
+      splitChunks: {
+        chunks: "all", // Splits larger chunks
+        minSize: 10000, // Sets min size for chunks to reduce memory load
+      },
+    },
+  },
+  nitro: {
+    preset: "node-server",
   },
   typescript: {
     typeCheck: true,

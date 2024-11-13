@@ -2,8 +2,6 @@
 import type { ComputedRef } from "vue";
 import type { ImageField, LinkField } from "@prismicio/client";
 
-// import bgdImg from "../public/images/sam_babote_rs.png";
-// const mobileBgdImg = bgdImg;
 const { t } = useI18n();
 
 export interface Props {

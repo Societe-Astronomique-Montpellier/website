@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ImageField } from "@prismicio/client";
 import type { ComputedRef } from "vue";
-import defaultImg from "public/sam_babote_rs.png";
+import defaultImg from "public/sam_babote_rs.webp";
 import { isFilled } from "@prismicio/helpers";
 
 const { isMobile } = useDevice();

@@ -104,6 +104,8 @@ onUnmounted(() => {
               class="object-fill"
               :alt="t('layout.title')"
               loading="lazy"
+              width="780"
+              height="520"
             ></NuxtImg>
           </div>
         </delay-hydration>

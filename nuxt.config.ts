@@ -54,8 +54,9 @@ export default defineNuxtConfig({
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
-    preview: "/api/preview",
     linkResolver: "~/prismic/linkResolver",
+    preview: false,
+    toolbar: false,
   },
   i18n: {
     detectBrowserLanguage: false,

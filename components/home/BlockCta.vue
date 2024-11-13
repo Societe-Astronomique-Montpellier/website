@@ -25,7 +25,9 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
 </script>
 
 <template>
-  <div class="dark:bg-slate-800 lg:px-2 lg:py-20 py-0 w-full flex justify-center">
+  <div
+    class="dark:bg-slate-800 lg:px-2 lg:py-20 py-0 w-full flex justify-center"
+  >
     <div
       class="bg-white dark:bg-slate-900 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg"
     >

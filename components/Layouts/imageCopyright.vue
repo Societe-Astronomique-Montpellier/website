@@ -15,6 +15,7 @@ const { image } = toRefs(props);
       class="transition duration-300 ease-in-out rounded shadow-md dark:shadow-black/30 hover:scale-105"
       :width="image.dimensions?.width"
       :height="image.dimensions?.height"
+      loading="lazy"
     />
     <figcaption
       v-if="image.alt || image.copyright"

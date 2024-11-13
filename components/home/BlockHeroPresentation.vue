@@ -70,12 +70,14 @@ onUnmounted(() => {
             ]"
             class="w-full h-full"
           >
-            <prismic-image
+            <NuxtImg
               v-if="image"
-              :field="image"
-              :alt="image.alt"
+              :src="image?.url as string | undefined"
+              :alt="image?.alt as string | undefined"
+              sizes="100vw"
               class="w-full h-full object-cover"
-            />
+              loading="lazy"
+            ></NuxtImg>
           </div>
         </div>
       </delay-hydration>

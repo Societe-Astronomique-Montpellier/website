@@ -234,7 +234,7 @@ useSeo({
         <NuxtLink
           to="/agenda"
           class="text-indigo-400 inline-flex items-start mt-4 text-xl"
-          aria-label="agenda"
+          :aria-label="home.data.block_events_text"
         >
           {{ home.data.block_events_text }}&nbsp;<Icon
             name="material-symbols:arrow-right-alt"

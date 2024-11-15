@@ -132,6 +132,7 @@ useSeo({
       <Breadcrumbs :list-ids="[agenda.id]" :current-uid="agenda.uid" />
       <h1
         class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+        :aria-label="agenda.data.title as string"
       >
         {{ agenda.data.title }}
       </h1>

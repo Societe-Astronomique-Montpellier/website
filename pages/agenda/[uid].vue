@@ -57,6 +57,13 @@ const { data, error } = useAsyncData(uid, async () => {
   };
 });
 
+if (error.value) {
+  throw createError({
+    statusCode: error.value?.statusCode,
+    statusMessage: error.value?.statusMessage,
+  });
+}
+
 const richTextSerializer = useRichTextSerializer();
 const centerMap: [number, number] = useCoordinates("babotte");
 
@@ -97,6 +104,7 @@ useSeo({
       />
       <h1
         class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+        :aria-label="data.event.data.title as string"
       >
         {{ data.event.data.title }}
       </h1>

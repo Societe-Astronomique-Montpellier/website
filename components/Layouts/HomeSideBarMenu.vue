@@ -88,7 +88,10 @@ const navClasses: ComputedRef<string> = computed<string>(() =>
       >
         <Icon :name="item.icon" :size="displayIconSize" />
       </a>
-      <hr class="border-gray-700/60 dark:border-gray-700/60" :class="isMobile ? `divide-x` : ``" />
+      <hr
+        class="border-gray-700/60 dark:border-gray-700/60"
+        :class="isMobile ? `divide-x` : ``"
+      />
     </div>
 
     <button

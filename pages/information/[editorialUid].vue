@@ -80,7 +80,10 @@ useSeo({
     </div>
     <div v-if="editorial" class="max-w-screen-xl w-full mx-auto relative mb-2">
       <Breadcrumbs :list-ids="[editorial?.id]" :current-uid="editorialUid" />
-      <h1 class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center">
+      <h1
+        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+        :aria-label="editorial?.data.title as string"
+      >
         {{ editorial?.data.title }}
       </h1>
       <HeaderPage :image="imageBanner" />

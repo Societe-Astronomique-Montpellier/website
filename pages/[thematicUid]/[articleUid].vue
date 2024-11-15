@@ -53,6 +53,13 @@ const { data: parentThematic } = useAsyncData(
       { lang: locale.value },
     ),
 );
+if (error.value) {
+  throw createError({
+    statusCode: error.value?.statusCode,
+    statusMessage: error.value?.statusMessage,
+  });
+}
+
 
 const richTextSerializer = useRichTextSerializer();
 
@@ -108,6 +115,7 @@ useSeo({
       />
       <h1
         class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+        :aria-label="article?.data.title as string"
       >
         {{ article?.data.title }}
       </h1>

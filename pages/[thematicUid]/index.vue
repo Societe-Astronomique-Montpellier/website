@@ -38,6 +38,13 @@ const { data: dataThematic, error } = await useAsyncData(
   },
 );
 
+if (error.value) {
+  throw createError({
+    statusCode: error.value?.statusCode,
+    statusMessage: error.value?.statusMessage,
+  });
+}
+
 const Breadcrumbs = defineAsyncComponent(
   () => import("~/components/Layouts/Breadcrumbs.vue"),
 );
@@ -111,7 +118,7 @@ useSeo({
       />
       <h1
         class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
-        aria-label="title"
+        :aria-label="dataThematic?.page_thematic.data.title as string"
       >
         {{ dataThematic?.page_thematic.data.title }}
       </h1>
@@ -124,7 +131,7 @@ useSeo({
             <h2
               v-if="isFilled.keyText(dataThematic?.page_thematic.data.subtitle)"
               class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2 leading-normal"
-              aria-label="subtitle"
+              :aria-label="dataThematic?.page_thematic.data.subtitle"
             >
               {{ dataThematic?.page_thematic.data.subtitle }}
             </h2>

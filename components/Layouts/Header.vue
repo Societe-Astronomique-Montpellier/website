@@ -141,6 +141,7 @@ const openSearchModal = () => {
               role="menuitem"
               :class="itemNavClass"
               :title="item.label_header"
+              :aria-label="item.label_header"
             >
               {{ item.label_header }}
               <span
@@ -264,6 +265,7 @@ const openSearchModal = () => {
                 :field="item.link_header as LinkField"
                 class="my-4 inline-block"
                 role="menuitem"
+                :aria-label="item.label_header"
               >
                 {{ item.label_header }}
               </prismic-link>

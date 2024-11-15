@@ -19,11 +19,7 @@ const { item } = toRefs(props);
 const richTextSerializer = useRichTextSerializer();
 const imageVignette = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage
->(() =>
-  isMobile
-    ? item.value.data.image_vignette.mobile
-    : item.value.data.image_vignette.vignette,
-);
+>(() => item.value.data.image_vignette.vignette);
 </script>
 
 <template>
@@ -37,9 +33,10 @@ const imageVignette = computed<
         v-if="imageVignette"
         :field="imageVignette"
         class="object-cover object-center h-full w-full"
-        :width="imageVignette.dimensions?.width"
-        :height="imageVignette.dimensions?.height"
-        :aria-placeholder="[780, 520]"
+        width="300"
+        height="200"
+        :aria-placeholder="[300, 200]"
+        fit="cover"
         loading="lazy"
       />
     </prismic-link>

@@ -108,6 +108,7 @@ onUnmounted(() => {
               loading="lazy"
               width="780"
               height="520"
+              priority
             ></NuxtImg>
           </div>
         </delay-hydration>

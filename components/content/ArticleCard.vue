@@ -4,7 +4,6 @@ import type {
 } from "~/prismicio-types";
 import type { ImageField, KeyTextField } from "@prismicio/client";
 import { isFilled } from "@prismicio/helpers";
-const { isMobile } = useDevice();
 
 export interface Props {
   item: PageArticleDocument;
@@ -13,10 +12,8 @@ export interface Props {
 const props = defineProps<Props>();
 const { item } = toRefs(props);
 
-const imageVignette = computed<ImageField>(() =>
-  isMobile
-    ? item.value.data.image_vignette.mobile
-    : item.value.data.image_vignette.vignette,
+const imageVignette = computed<ImageField>(
+  () => item.value.data.image_vignette.vignette,
 );
 
 const title: ComputedRef<KeyTextField> = computed<KeyTextField>(() =>
@@ -37,12 +34,10 @@ const title: ComputedRef<KeyTextField> = computed<KeyTextField>(() =>
           v-if="imageVignette"
           :field="imageVignette"
           class="object-cover object-center h-full w-full"
-          :width="imageVignette.dimensions?.width"
-          :height="imageVignette.dimensions?.height"
-          :aria-placeholder="[
-            imageVignette.dimensions?.width,
-            imageVignette.dimensions?.height,
-          ]"
+          width="300"
+          height="200"
+          :aria-placeholder="[300, 200]"
+          fit="cover"
           loading="lazy"
         />
         <h3

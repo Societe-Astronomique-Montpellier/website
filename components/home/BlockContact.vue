@@ -23,7 +23,7 @@ const richTextSerializer = useRichTextSerializer();
 </script>
 
 <template>
-  <section v-if="block" class="bg-gray-100 dark:bg-slate-800">
+  <section v-show="block" class="bg-gray-100 dark:bg-slate-800">
     <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-20 lg:px-8">
       <div class="max-w-2xl lg:max-w-4xl mx-auto text-center">
         <h3 class="text-3xl font-extrabold text-gray-800 dark:text-slate-400">

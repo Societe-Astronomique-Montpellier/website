@@ -22,7 +22,7 @@ const imageVignette = computed<ImageField>(() =>
 
 <template>
   <div
-    v-if="item"
+    v-show="item"
     class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-md h-64 overflow-hidden"
   >
     <prismic-link :field="item">

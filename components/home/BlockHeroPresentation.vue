@@ -45,7 +45,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    v-if="block"
+    v-show="block"
     :class="
       !isMobile ? `w-full h-screen overflow-hidden relative` : `overflow-hidden`
     "

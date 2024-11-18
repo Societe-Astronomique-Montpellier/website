@@ -26,6 +26,7 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
 
 <template>
   <div
+    v-show="block"
     class="dark:bg-slate-800 lg:px-2 lg:py-20 py-0 w-full flex justify-center"
   >
     <div

@@ -34,7 +34,7 @@ const labelKnowMore: string = t("layout.knowMore");
 
 <template>
   <BlockListCards
-    v-if="articles?.length"
+    v-show="articles?.length"
     :title-block="
       'activites' === thematic.uid ? labelListArticles : labelKnowMore
     "
@@ -42,7 +42,7 @@ const labelKnowMore: string = t("layout.knowMore");
   />
 
   <BlockListCards
-    v-if="events?.length && 'activites' === thematic.uid"
+    v-show="events?.length && 'activites' === thematic.uid"
     :title-block="labelListEvents"
     :items="events"
   />

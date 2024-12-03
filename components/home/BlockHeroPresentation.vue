@@ -74,7 +74,8 @@ onUnmounted(() => {
               v-if="image"
               :src="image?.url as string | undefined"
               :alt="image?.alt as string | undefined"
-              sizes="100vw"
+              :width="image.dimensions?.width"
+              :height="image.dimensions?.height"
               class="w-full h-full object-cover"
               loading="lazy"
             ></NuxtImg>

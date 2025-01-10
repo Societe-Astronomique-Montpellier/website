@@ -132,7 +132,7 @@ export default defineNuxtConfig({
     },
   },
   socialShare: {
-    baseUrl: "https://sam.astro-otter.space/",
+    baseUrl: "https://www.societe-astronomique-montpellier.fr/",
     styled: false,
     label: false,
     icon: true,

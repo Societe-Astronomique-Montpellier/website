@@ -17,7 +17,7 @@ definePageMeta({
 
 const prismic = usePrismic();
 const { t, locale } = useI18n();
-const mail = useMail();
+const richTextSerializer = useRichTextSerializer();
 
 const HeaderPage = defineAsyncComponent(
   () => import("@/components/pages/HeaderPage.vue"),
@@ -27,18 +27,17 @@ const FormContact = defineAsyncComponent(
 );
 
 interface IFormData {
+  turnstileToken: string,
   name: string;
   email: string;
   subject: string;
   message: string;
 }
-const submittedFormData: Ref<IFormData | null> = ref(null);
 
-const listTopics = ref<string[]>([]);
 const submittedForm: Ref<boolean> = ref(false);
 const submitedFormMessage: Ref<string | null> = ref(null);
 
-const { data: contact, error } = useLazyAsyncData(
+const { data: contact } = useLazyAsyncData(
   "contact",
   async () =>
     await prismic.client.getSingle<ContactDocument>("contact", {
@@ -46,13 +45,12 @@ const { data: contact, error } = useLazyAsyncData(
     }),
 );
 
-const richTextSerializer = useRichTextSerializer();
+const listTopics: ComputedRef<string[] | undefined> = computed(() =>
+  contact.value?.data.subjects.map(
+    (s: ContactDocumentDataSubjectsItem) => s.subject as string,
+  ),
+);
 
-if (contact.value?.data.subjects) {
-  contact.value?.data.subjects.forEach((s: ContactDocumentDataSubjectsItem) =>
-    listTopics.value.push(s.subject as string),
-  );
-}
 computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(
   () => useBannerImage(undefined, false),
 );
@@ -70,17 +68,23 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
 );
 
 const handleContactFormSubmission = async (formData: IFormData) => {
-  submittedFormData.value = formData;
   setTimeout(async () => {
     try {
-      mail.send({
-        from: formData.email,
-        subject: `[${formData.name}]: ${formData.subject}`,
-        text: formData.message,
+      const response: any = await fetch("/api/contact", {
+        method: "POST",
+        body: JSON.stringify(formData),
       });
-      submittedForm.value = true;
-      submitedFormMessage.value = t("form.postSubmit.send");
-    } catch (err) {
+
+      if (true === response.succes) {
+        submittedForm.value = true;
+        submitedFormMessage.value = t("form.postSubmit.send");
+      } else {
+        submittedForm.value = false;
+        submitedFormMessage.value = t("form.postSubmit.err");
+      }
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err: unknown) {
       submittedForm.value = false;
       submitedFormMessage.value = t("form.postSubmit.err");
     }
@@ -97,7 +101,9 @@ useSeo({
 <template>
   <section v-if="contact">
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <h1 class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center">
+      <h1
+        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
+      >
         {{ contact?.data.title }}
       </h1>
       <HeaderPage />

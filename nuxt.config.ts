@@ -31,23 +31,6 @@ export default defineNuxtConfig({
         rules: [{ UserAgent: "*" }, { Allow: "*" }],
       },
     ],
-    [
-      "nuxt-mail",
-      {
-        message: {
-          to: "contact@societe-astronomique-montpellier.fr",
-        },
-        smtp: {
-          host: process.env.NUXT_SAM_SMTP_HOST || "smtp.test.fr",
-          port: Number(process.env.NUXT_SAM_SMTP_PORT) || 587,
-          auth: {
-            user: process.env.NUXT_SAM_SMTP_USER || "",
-            pass: process.env.NUXT_SAM_SMTP_PWD || "",
-          },
-          secure: false,
-        },
-      },
-    ],
     "@nuxt/scripts",
     "@nuxtjs/turnstile",
     "@nuxtjs/color-mode",
@@ -141,6 +124,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
+    smtpHost: process.env.NUXT_SMTP_HOST,
+    smtpPort: parseInt(process.env.NUXT_SMTP_PORT || "465", 10),
+    smtpUser: process.env.NUXT_SMTP_USER,
+    smtpPwd: process.env.NUXT_SMTP_PASSWORD,
     turnstile: {
       secretKey: process.env.NUXT_TURNSTILE_PRIVATE_KEY,
     },

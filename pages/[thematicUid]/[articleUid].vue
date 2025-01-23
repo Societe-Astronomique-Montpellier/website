@@ -60,7 +60,6 @@ if (error.value) {
   });
 }
 
-
 const richTextSerializer = useRichTextSerializer();
 
 const formatedDate = useState("formatedDate", () =>

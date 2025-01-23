@@ -9,25 +9,24 @@ const props = defineProps<Props>();
 const { topics } = toRefs(props);
 
 interface IFormData {
+  turnstileToken: string;
   name: string;
   email: string;
   subject: string;
   message: string;
   honeypot: string;
-  token: string;
 }
 
 const formData: IFormData = reactive({
+  turnstileToken: "",
   name: "",
   email: "",
   subject: "",
   message: "",
   honeypot: "",
-  token: "",
 });
 
 const isLoading: Ref<boolean> = ref(false);
-const tokenReponse: Ref<string> = ref('')
 type FormFeedbackType = "incomplete" | "consent" | "invalid" | null;
 const errMessage: Ref<FormFeedbackType> = ref(null);
 
@@ -59,13 +58,11 @@ const submitForm = async (): Promise<void> => {
     isLoading.value = false;
     return;
   }
-
-  tokenReponse.value = await $fetch("/api/validateTurnstile", {
-    method: "POST",
-    body: {
-      token: formData.token,
-    },
-  });
+  if (!formData.turnstileToken) {
+    errMessage.value = "invalid";
+    isLoading.value = false;
+    return;
+  }
 
   setTimeout(() => {
     isLoading.value = false;
@@ -148,7 +145,7 @@ const submitForm = async (): Promise<void> => {
     <div class="hidden">
       <input v-model="formData.honeypot" type="text" />
     </div>
-    <NuxtTurnstile v-model="formData.token" />
+    <NuxtTurnstile v-model="formData.turnstileToken" />
     <button
       type="submit"
       :aria-label="t('form.contact.submit.label')"

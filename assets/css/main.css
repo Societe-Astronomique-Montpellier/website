@@ -5,16 +5,16 @@
 @layer base {
   html {
     /*@apply text-surface;*/
-    @apply bg-zinc-200;
+    @apply bg-zinc-100;
   }
   html.dark {
-    @apply dark:bg-slate-900 dark:text-slate-300;
+    @apply text-neutral-50;
   }
 }
 
 body {
   @apply overflow-x-hidden antialiased;
-  @apply bg-gray-800;
+  @apply bg-zinc-100 dark:bg-slate-900 dark:text-slate-300;
   font-family: "Raleway", serif;
 }
 

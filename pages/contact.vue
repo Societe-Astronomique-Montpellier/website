@@ -26,12 +26,12 @@ const FormContact = defineAsyncComponent(
   () => import("@/components/forms/contact.vue"),
 );
 
-interface IFormData {
-  turnstileToken: string,
+interface IContactFormData {
   name: string;
   email: string;
   subject: string;
   message: string;
+  turnstileToken: string
 }
 
 const submittedForm: Ref<boolean> = ref(false);
@@ -67,11 +67,14 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     : ``,
 );
 
-const handleContactFormSubmission = async (formData: IFormData) => {
+const handleContactFormSubmission = async (formData: IContactFormData) => {
   setTimeout(async () => {
     try {
       const response: any = await fetch("/api/contact", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(formData),
       });
 

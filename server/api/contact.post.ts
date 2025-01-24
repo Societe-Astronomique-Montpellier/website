@@ -9,6 +9,7 @@ interface ResponseData {
 export default defineEventHandler(async (event): Promise<ResponseData> => {
   const config = useRuntimeConfig(event);
   const body = await readBody(event);
+  console.log(body);
   const { name, email, subject, message, turnstileToken } = body;
 
   if (!turnstileToken) {
@@ -47,7 +48,7 @@ export default defineEventHandler(async (event): Promise<ResponseData> => {
 
     const result = transporter.sendMail({
       from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-      to: "balistik.fonfon@gmail.com",
+      to: "contact@societe-astronomique-montpellier.fr",
       replyTo: email,
       subject: `Message de ${name} (${email}) - ${subject}`,
       text: message,
@@ -60,7 +61,7 @@ export default defineEventHandler(async (event): Promise<ResponseData> => {
         "Le message a bien été envoyé, nous vous répondrons au plus vite.",
       result,
     };
-  } catch (error) {
+  } catch (error: any) {
     return { success: false, message: error.message };
   }
 });

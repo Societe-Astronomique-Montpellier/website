@@ -77,7 +77,7 @@ export default defineNuxtConfig({
     },
   },
   turnstile: {
-    siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY,
+    siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY  ,
   },
   eslint: {},
   colorMode: {
@@ -127,7 +127,7 @@ export default defineNuxtConfig({
     smtpHost: process.env.NUXT_SMTP_HOST,
     smtpPort: parseInt(process.env.NUXT_SMTP_PORT || "465", 10),
     smtpUser: process.env.NUXT_SMTP_USER,
-    smtpPwd: process.env.NUXT_SMTP_PASSWORD,
+    smtpPwd: process.env.NUXT_SMTP_PWD,
     turnstile: {
       secretKey: process.env.NUXT_TURNSTILE_PRIVATE_KEY,
     },

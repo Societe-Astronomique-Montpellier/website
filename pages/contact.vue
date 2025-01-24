@@ -80,7 +80,7 @@ const handleContactFormSubmission = async (formData: IContactFormData) => {
 
       if (true === response.succes) {
         submittedForm.value = true;
-        submitedFormMessage.value = t("form.postSubmit.send");
+        submitedFormMessage.value = response.message;
       } else {
         submittedForm.value = false;
         submitedFormMessage.value = t("form.postSubmit.err");
@@ -91,7 +91,7 @@ const handleContactFormSubmission = async (formData: IContactFormData) => {
       submittedForm.value = false;
       submitedFormMessage.value = t("form.postSubmit.err");
     }
-  }, 1000);
+  }, 200);
 };
 
 useSeo({

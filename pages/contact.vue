@@ -31,7 +31,7 @@ interface IContactFormData {
   email: string;
   subject: string;
   message: string;
-  turnstileToken: string
+  turnstileToken: string;
 }
 
 const submittedForm: Ref<boolean> = ref(false);
@@ -139,9 +139,9 @@ useSeo({
 
               <DelayHydration>
                 <FormContact
-                  @submit="handleContactFormSubmission"
                   v-if="!submittedForm"
                   :topics="listTopics"
+                  @submit="handleContactFormSubmission"
                 />
               </DelayHydration>
             </div>

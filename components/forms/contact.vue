@@ -8,45 +8,44 @@ export interface Props {
 const props = defineProps<Props>();
 const { topics } = toRefs(props);
 
-interface IFormData {
+interface IContactForm {
   name: string;
   email: string;
   subject: string;
   message: string;
   honeypot: string;
-  token: string;
+  turnstileToken: string;
 }
 
-const formData: IFormData = reactive({
+const form: IContactForm = reactive({
   name: "",
   email: "",
   subject: "",
   message: "",
   honeypot: "",
-  token: "",
+  turnstileToken: ""
 });
 
 const isLoading: Ref<boolean> = ref(false);
-const tokenReponse: Ref<string> = ref('')
 type FormFeedbackType = "incomplete" | "consent" | "invalid" | null;
 const errMessage: Ref<FormFeedbackType> = ref(null);
 
 const emit = defineEmits<{
-  submit: [formData: IFormData];
+  submit: [form: IContactForm];
 }>();
 
 const submitForm = async (): Promise<void> => {
   isLoading.value = true;
 
-  if (formData.honeypot.trim()) {
+  if (form.honeypot.trim()) {
     isLoading.value = false;
     return;
   }
 
   if (
-    !formData.name.trim() ||
-    !formData.email.trim() ||
-    !formData.message.trim()
+    !form.name.trim() ||
+    !form.email.trim() ||
+    !form.message.trim()
   ) {
     errMessage.value = "incomplete";
     isLoading.value = false;
@@ -54,22 +53,20 @@ const submitForm = async (): Promise<void> => {
   }
 
   const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  if (formData.email && !regex.test(formData.email)) {
+  if (form.email && !regex.test(form.email)) {
+    errMessage.value = "invalid";
+    isLoading.value = false;
+    return;
+  }
+  if (!form.turnstileToken.trim()) {
     errMessage.value = "invalid";
     isLoading.value = false;
     return;
   }
 
-  tokenReponse.value = await $fetch("/api/validateTurnstile", {
-    method: "POST",
-    body: {
-      token: formData.token,
-    },
-  });
-
   setTimeout(() => {
     isLoading.value = false;
-    emit("submit", { ...formData });
+    emit("submit", { ...form });
   }, 1000);
 };
 </script>
@@ -93,7 +90,7 @@ const submitForm = async (): Promise<void> => {
       >
       <input
         id="name"
-        v-model="formData.name"
+        v-model="form.name"
         type="text"
         name="name"
         class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
@@ -108,7 +105,7 @@ const submitForm = async (): Promise<void> => {
       >
       <input
         id="email"
-        v-model="formData.email"
+        v-model="form.email"
         type="email"
         name="email"
         class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
@@ -123,7 +120,7 @@ const submitForm = async (): Promise<void> => {
       >
       <select
         id="subject"
-        v-model="formData.subject"
+        v-model="form.subject"
         name="subject"
         class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
         required
@@ -140,15 +137,15 @@ const submitForm = async (): Promise<void> => {
       >
       <textarea
         id="message"
-        v-model="formData.message"
+        v-model="form.message"
         rows="6"
         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500"
       ></textarea>
     </div>
     <div class="hidden">
-      <input v-model="formData.honeypot" type="text" />
+      <input v-model="form.honeypot" type="text" />
     </div>
-    <NuxtTurnstile v-model="formData.token" />
+    <NuxtTurnstile v-model="form.turnstileToken" />
     <button
       type="submit"
       :aria-label="t('form.contact.submit.label')"

@@ -139,9 +139,9 @@ useSeo({
 
               <DelayHydration>
                 <FormContact
+                  @submit="handleContactFormSubmission"
                   v-if="!submittedForm"
                   :topics="listTopics"
-                  @submit="handleContactFormSubmission"
                 />
               </DelayHydration>
             </div>

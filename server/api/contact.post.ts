@@ -9,7 +9,6 @@ interface ResponseData {
 export default defineEventHandler(async (event): Promise<ResponseData> => {
   const config = useRuntimeConfig(event);
   const body = await readBody(event);
-  console.log(body);
   const { name, email, subject, message, turnstileToken } = body;
 
   if (!turnstileToken) {

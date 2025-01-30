@@ -47,18 +47,17 @@ const SwitchLightDarkMode = defineAsyncComponent(
 
 const drawer = () => (isOpen.value = !isOpen.value);
 const mainNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "bg-slate-800/50" : "bg-white dark:bg-slate-950/70",
+  isHome.value
+    ? "fixed bg-slate-800/50"
+    : "sticky bg-white dark:bg-slate-950/70",
 );
 const subNavClass: ComputedRef<string> = computed<string>(() =>
   isHome.value
     ? "lg:px-auto absolute top-0 left-1/2 transform -translate-x-1/2 w-1/2 hidden md:flex md:items-center md:w-auto bg-slate-800/50 text-grey-700"
     : "hidden md:flex md:items-center md:w-auto w-full",
 );
-const ulNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "text-gray-300" : "text-gray-700 dark:text-grey-100",
-);
-const itemNavClass: ComputedRef<string> = computed<string>(() =>
-  isHome.value ? "text-2xl" : "dark:text-gray-500",
+const navItemsColors: ComputedRef<string> = computed<string>(() =>
+  isHome.value ? "text-gray-300" : "text-gray-700 dark:text-gray-500",
 );
 
 const emit = defineEmits<{
@@ -70,8 +69,101 @@ const openSearchModal = () => {
 </script>
 
 <template>
+  <header :class="`w-full top-0 z-50 backdrop-blur-sm ${mainNavClass}`">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- logo -->
+        <div class="flex-shrink-0">
+          <NuxtLink to="/" aria-label="home">
+            <prismic-image
+              v-if="menu.data.logo.menu"
+              :field="menu?.data.logo.menu"
+              class="h-14 w-auto"
+              :alt="t('layout.title')"
+              loading="lazy"
+              :title="t('layout.title')"
+              :aria-label="t('layout.title')"
+              :width="menu?.data.logo.menu.dimensions?.width"
+            />
+          </NuxtLink>
+        </div>
+
+        <!-- menu -->
+        <nav
+          class="hidden md:flex space-x-8"
+          aria-label="navigation"
+          role="navigation"
+        >
+          <prismic-link
+            v-for="(item, index) in menu?.data.header_navigation"
+            :key="index"
+            :field="item.link_header as LinkField"
+            role="menuitem"
+            :class="`${navItemsColors} hover:tbg-indigo-600 dark:hover:bg-indigo-600 px-3 py-2 rounded-md text-2xl  font-medium transition-colors duration-200`"
+            :title="item.label_header"
+            :aria-label="item.label_header"
+          >
+            {{ item.label_header }}
+          </prismic-link>
+
+          <NuxtLink
+            to="/contact"
+            type="button"
+            :aria-label="t('layout.header.btnContact')"
+            role="menuitem"
+            class="px-3 py-2 rounded-md text-2xl font-medium transition-colors duration-200 text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+          >
+            {{ $t("layout.header.btnContact") }}
+          </NuxtLink>
+        </nav>
+
+        <!-- Right items -->
+        <div class="flex items-center space-x-4">
+          <!-- Search -->
+          <button
+            type="button"
+            class="h-16 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400 p-2 rounded-full transition-colors duration-200"
+            :aria-label="t('search.title')"
+            role="button"
+            @click="openSearchModal"
+          >
+            <Icon name="material-symbols-light:search" size="32" />
+          </button>
+
+          <!-- Swith light/dark -->
+          <SwitchLightDarkMode />
+
+          <button
+            aria-label="Menu"
+            class="md:hidden p-2 rounded-full transition-colors"
+            @click="isOpen = !isOpen"
+          >
+            <Icon
+              v-if="isOpen"
+              name="material-symbols-light:menu-rounded"
+              size="24"
+              class="dark:text-gray-300 text-gray-700"
+            />
+            <Icon
+              v-if="!isOpen"
+              name="material-symbols-light:close-rounded"
+              size="24"
+              class="dark:text-gray-300 text-gray-300"
+            />
+          </button>
+        </div>
+      </div>
+
+      <div class="md:hidden py-4"></div>
+    </div>
+
+    <!-- Search -->
+
+    <!-- Mobile -->
+  </header>
+
   <nav
-    v-if="menu"
+    v-show="false"
     :class="`lg:px-8 px-2 w-full shadow-sm top-0 z-50 sticky ${mainNavClass}`"
   >
     <div class="flex items-center justify-between relative">
@@ -129,66 +221,21 @@ const openSearchModal = () => {
       <!-- Navbar -->
       <nav v-if="!isMobile" :class="subNavClass" aria-label="navigation">
         <ul
-          :class="`md:flex items-center gap-5 justify-between text-base text-gray-300 pt-4 md:pt-0 ${ulNavClass}`"
+          :class="`md:flex items-center gap-5 justify-between text-base text-gray-300 pt-4 md:pt-0`"
           role="menubar"
         >
           <HeaderNavItem
             v-for="(item, index) in menu?.data.header_navigation"
             :key="index"
           >
-            <prismic-link
-              :field="item.link_header as LinkField"
-              role="menuitem"
-              :class="itemNavClass"
-              :title="item.label_header"
-              :aria-label="item.label_header"
-            >
-              {{ item.label_header }}
-              <span
-                class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"
-              ></span>
-              <span
-                class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"
-              ></span>
-            </prismic-link>
-          </HeaderNavItem>
-
-          <NuxtLink
-            v-if="!isHome"
-            to="/contact"
-            type="button"
-            :aria-label="t('layout.header.btnContact')"
-            role="menuitem"
-            class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
-          >
-            {{ $t("layout.header.btnContact") }}
-          </NuxtLink>
-
-          <button
-            type="button"
-            :class="
-              !isHome
-                ? 'aspect-square px-3 py-2.5 inline-flex items-center justify-center rounded-md text-grey-700 dark:text-slate-400 hover:bg-gray-700 hover:text-white'
-                : 'px-3 py-2.5 inline-flex items-center justify-center rounded-md '
-            "
-            :aria-label="t('search.title')"
-            role="button"
-            @click="openSearchModal"
-          >
-            <Icon
-              name="material-symbols-light:search"
-              :size="isHome ? 32 : 24"
-            />
+            {{ item.label_header }}
             <span
-              v-if="isHome"
               class="absolute -bottom-1 left-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"
             ></span>
             <span
-              v-if="isHome"
               class="absolute -bottom-1 right-1/2 w-0 transition-all h-0.5 bg-indigo-600 group-hover:w-3/6"
             ></span>
-          </button>
-          <SwitchLightDarkMode v-if="!isMobile" />
+          </HeaderNavItem>
         </ul>
       </nav>
 

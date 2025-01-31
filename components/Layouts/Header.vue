@@ -6,20 +6,21 @@ import type { LinkField } from "@prismicio/client";
 
 const { t } = useI18n();
 const { isMobile } = useDevice();
+const { searchQuery, results, loading } = useSearch();
 
-const props = withDefaults(
-  defineProps<{ isHome: boolean; menu: any; openModal: boolean }>(),
-  {
-    isHome: false,
-    menu: null,
-    openModal: true,
-  },
-);
-const { isHome, menu, openModal } = toRefs(props);
+const props = withDefaults(defineProps<{ isHome: boolean; menu: any }>(), {
+  isHome: false,
+  menu: null,
+});
+const { isHome, menu } = toRefs(props);
 const isOpen: Ref<boolean> = ref(false);
+const openSearch: Ref<boolean> = ref(false);
 
 const HeaderNavItem = defineAsyncComponent(
   () => import("@/components/Layouts/HeaderNavItem.vue"),
+);
+const ListResults = defineAsyncComponent(
+  () => import("@/components/Layouts/ListResults.vue"),
 );
 
 onMounted(() => {
@@ -46,6 +47,12 @@ const SwitchLightDarkMode = defineAsyncComponent(
 );
 
 const drawer = () => (isOpen.value = !isOpen.value);
+const closeSearchBar = () => {
+  openSearch.value = !openSearch.value;
+  searchQuery.value = "";
+  results.value = [];
+};
+
 const mainNavClass: ComputedRef<string> = computed<string>(() =>
   isHome.value
     ? "fixed bg-slate-800/50"
@@ -59,17 +66,13 @@ const subNavClass: ComputedRef<string> = computed<string>(() =>
 const navItemsColors: ComputedRef<string> = computed<string>(() =>
   isHome.value ? "text-gray-300" : "text-gray-700 dark:text-gray-500",
 );
-
-const emit = defineEmits<{
-  (e: "openSearchModal", shouldOpenModal: boolean): void;
-}>();
-const openSearchModal = () => {
-  emit("openSearchModal", openModal.value);
-};
+const searchIconColors: ComputedRef<string> = computed<string>(() =>
+  isHome.value ? "text-gray-300" : "text-gray-700 dark:text-gray-500",
+);
 </script>
 
 <template>
-  <header :class="`w-full top-0 z-50 backdrop-blur-sm ${mainNavClass}`">
+  <header :class="`w-full py-2 top-0 z-50 backdrop-blur-sm ${mainNavClass}`">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- logo -->
@@ -99,11 +102,11 @@ const openSearchModal = () => {
             :key="index"
             :field="item.link_header as LinkField"
             role="menuitem"
-            :class="`${navItemsColors} hover:tbg-indigo-600 dark:hover:bg-indigo-600 px-3 py-2 rounded-md text-2xl  font-medium transition-colors duration-200`"
+            :class="`${navItemsColors} py-2 rounded-md text-2xl font-medium relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-indigo-700 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center`"
             :title="item.label_header"
             :aria-label="item.label_header"
           >
-            {{ item.label_header }}
+            <span class="px-4">{{ item.label_header }}</span>
           </prismic-link>
 
           <NuxtLink
@@ -122,12 +125,16 @@ const openSearchModal = () => {
           <!-- Search -->
           <button
             type="button"
-            class="h-16 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400 p-2 rounded-full transition-colors duration-200"
+            class="p-2 rounded-full h-16 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400 transition-colors duration-200"
             :aria-label="t('search.title')"
             role="button"
-            @click="openSearchModal"
+            @click="openSearch = !openSearch"
           >
-            <Icon name="material-symbols-light:search" size="32" />
+            <Icon
+              name="material-symbols-light:search"
+              :class="`${searchIconColors}`"
+              size="32"
+            />
           </button>
 
           <!-- Swith light/dark -->
@@ -139,13 +146,13 @@ const openSearchModal = () => {
             @click="isOpen = !isOpen"
           >
             <Icon
-              v-if="isOpen"
+              v-if="!isOpen"
               name="material-symbols-light:menu-rounded"
               size="24"
               class="dark:text-gray-300 text-gray-700"
             />
             <Icon
-              v-if="!isOpen"
+              v-if="isOpen"
               name="material-symbols-light:close-rounded"
               size="24"
               class="dark:text-gray-300 text-gray-300"
@@ -158,8 +165,64 @@ const openSearchModal = () => {
     </div>
 
     <!-- Search -->
+    <Transition
+      enter-active-class="transition-all duration-300 ease-out"
+      enter-from-class="max-h-0 opacity-0"
+      enter-to-class="max-h-40 opacity-100"
+      leave-active-class="transition-all duration-300 ease-in"
+      leave-from-class="max-h-40 opacity-100"
+      leave-to-class="max-h-0 opacity-0"
+      :class="`absolute top-full left-0 right-0 ${mainNavClass} shadow-lg`"
+    >
+      <div
+        v-if="openSearch"
+        :class="`w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 `"
+      >
+        <div class="relative">
+          <input
+            v-model="searchQuery"
+            type="search"
+            class="w-full px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            :placeholder="$t('search.placeholder')"
+          />
+          <button
+            class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+            @click="closeSearchBar"
+          >
+            <Icon name="material-symbols-light:close-rounded" class="h-5 w-5" />
+          </button>
+          <div v-if="searchQuery" class="mt-4 max-h-96 overflow-y-auto">
+            <p v-if="loading">{{ t("layout.loading") }}</p>
+            <p v-if="!loading && results !== null && 0 === results?.length">
+              {{ t("search.no_result") }}
+            </p>
+            <div v-if="!loading && results !== null && 0 < results?.length">
+              <ListResults :items="results" :nb-items="results?.length" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Transition>
 
     <!-- Mobile -->
+    <div
+      v-if="isOpen"
+      class="md:hidden absolute top-full left-0 right-0 bg-white dark:bg-gray-900 shadow-lg"
+    >
+      <div class="px-2 pt-2 pb-3 space-y-1">
+        <prismic-link
+          v-for="(item, index) in menu?.data.header_navigation"
+          :key="index"
+          :field="item.link_header as LinkField"
+          role="menuitem"
+          :class="`${navItemsColors} block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-200`"
+          :title="item.label_header"
+          :aria-label="item.label_header"
+        >
+          {{ item.label_header }}
+        </prismic-link>
+      </div>
+    </div>
   </header>
 
   <nav
@@ -206,12 +269,7 @@ const openSearchModal = () => {
           </svg>
         </button>
 
-        <button
-          type="button"
-          class="right-0"
-          :aria-label="t('search.title')"
-          @click="openSearchModal"
-        >
+        <button type="button" class="right-0" :aria-label="t('search.title')">
           <Icon name="material-symbols-light:search" size="32" />
         </button>
 

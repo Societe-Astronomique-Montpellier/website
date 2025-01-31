@@ -1,8 +1,6 @@
 <script setup lang="ts">
 const colorMode = useColorMode();
-const { isMobile } = useDevice();
 
-const bglabel: Ref<string> = ref("");
 const translateXClass: Ref<string> = ref("");
 const opacityClass: Ref<string> = ref("");
 
@@ -16,7 +14,6 @@ const isDark = computed({
 });
 
 const updateClasses = (isDark: boolean) => {
-  bglabel.value = isDark ? "bg-slate-600" : "bg-gray-300";
   translateXClass.value = isDark ? "translate-x-6" : "";
   opacityClass.value = isDark ? "opacity-0" : "";
 };
@@ -29,28 +26,22 @@ onMounted(() => {
 </script>
 
 <template>
-  <div :class="isMobile ? '' : 'flex items-center justify-center h-20'">
-    <input
-      id="dark-mode-toggle"
-      v-model="isDark"
-      type="checkbox"
-      class="hidden"
+  <button
+    id="dark-mode-toggle"
+    class="text-gray-700 dark:text-gray-200 p-2 rounded-full transition-colors duration-200"
+    @click="isDark = !isDark"
+  >
+    <Icon
+      v-if="!isDark"
+      size="32"
+      name="material-symbols-light:sunny"
+      :class="`transform text-yellow-500 transition-opacity ${opacityClass}`"
     />
-    <label
-      for="dark-mode-toggle"
-      :class="`relative w-14 h-8 rounded-full cursor-pointer transition ${bglabel}`"
-    >
-      <span
-        :class="`absolute top-1 left-1 h-6 w-6 bg-white rounded-full transition transform ${translateXClass}`"
-      ></span>
-      <Icon
-        name="material-symbols-light:sunny"
-        :class="`absolute left-2 top-1/2 transform -translate-y-1/2 text-yellow-500 transition-opacity ${opacityClass}`"
-      />
-      <Icon
-        name="material-symbols-light:dark-mode"
-        :class="`absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-800 transition-opacity ${opacityClass === '' ? 'opacity-0' : ''}`"
-      />
-    </label>
-  </div>
+    <Icon
+      v-if="isDark"
+      size="32"
+      name="material-symbols-light:dark-mode"
+      :class="`transform  text-gray-200 transition-opacity ${opacityClass === '' ? 'opacity-0' : ''}`"
+    />
+  </button>
 </template>

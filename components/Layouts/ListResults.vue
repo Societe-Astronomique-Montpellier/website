@@ -16,18 +16,13 @@ const { getResultComponent } = useDynamicResultComponent();
   <p class="text-justify text-base leading-8 mt-2 my-2 dark:text-slate-400">
     {{ $t("search.show_result", nbItems as number) }}
   </p>
-  <div class="relative flex flex-col bg-white dark:bg-slate-900 shadow-sm">
-    <nav class="flex min-w-[240px] flex-col gap-1 p-1.5">
-      <div v-for="(item, index) in items" :key="index">
-        <component
-          :is="getResultComponent(item.type)"
-          v-if="item"
-          :item="item"
-        />
-      </div>
-    </nav>
+  <div
+    class="p-4 rounded-md transition-colors duration-200"
+  >
+    <div v-for="(item, index) in items" :key="index">
+      <component :is="getResultComponent(item.type)" v-if="item" :item="item" />
+    </div>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

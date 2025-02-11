@@ -120,10 +120,11 @@ export default defineNuxtConfig({
     label: false,
     icon: true,
   },
-  compatibilityDate: "2025-01-10",
+  compatibilityDate: "2025-02-11",
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,
+    prismicEventSecret: process.env.NUXT_PRISMIC_EVENT_SECRET,
     smtpHost: process.env.NUXT_SMTP_HOST,
     smtpPort: parseInt(process.env.NUXT_SMTP_PORT || "465", 10),
     smtpUser: process.env.NUXT_SMTP_USER,
@@ -131,6 +132,9 @@ export default defineNuxtConfig({
     turnstile: {
       secretKey: process.env.NUXT_TURNSTILE_PRIVATE_KEY,
     },
+    nextcloudUrl: process.env.NUXT_NEXTCLOUD_URL,
+    nextcloudLogin: process.env.NUXT_NEXTCLOUD_LOGIN,
+    nextcloudPassword: process.env.NUXT_NEXTCLOUD_PASSWORD,
     public: {
       facebookAppId: 1602972866638341,
       facebookSam: "https://www.facebook.com/societeastronomiquemontpellier/",

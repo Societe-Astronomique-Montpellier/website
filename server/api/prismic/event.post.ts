@@ -1,4 +1,4 @@
-import { createClient } from "@prismicio/client";
+import { createClient, asText } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
 
@@ -9,9 +9,10 @@ export default defineEventHandler(
     const secret = config.prismicEventSecret;
 
     // Nextcloud
-    const nextcloudUrl = config.nextcloudUrl;
-    const nextcloudLogin = config.nextcloudLogin;
-    const nextcloudPassword = config.nextcloudPassword;
+    const nextcloudUrl: string = config.nextcloudUrl;
+    const nextcloudLogin: string = config.nextcloudLogin;
+    const nextcloudPassword: string = config.nextcloudPassword;
+    const nextcloudAgenda: string = "sam-agenda";
 
     const body = await readBody(event);
     const requestSecret = body.secret;
@@ -38,37 +39,45 @@ export default defineEventHandler(
         };
       }
 
+      /**
+       * Build ical event raw string
+       */
+      const createdDate = new Date()
+        .toISOString()
+        .replace(/-/g, "")
+        .replace(/:/g, "")
+        .replace(/\.\d{3}/, "");
+
+      const title = "[PRISMIC] " + document.data.title;
+      const description = asText(document.data?.resume);
+      const location = document.data.place_event_txt;
       const dateStart = formatDate(document.data?.time_start);
       const dateEnd = formatDate(document.data?.time_end);
+      const icalData: string = `BEGIN:VCALENDAR\nPRODID:-//My own caldav script\nVERSION:2.0\nBEGIN:VEVENT\nCREATED:${createdDate}\nUID:${document.id}\nSUMMARY:${title}\nLOCATION:${location}\nDTSTART:${dateStart}\nDTSTAMP:${dateStart}\nDTEND:${dateEnd}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
 
-      const icalData = `BEGIN:VCALENDAR
-        PRODID:-//My own caldav script
-        VERSION:2.0
-        BEGIN:VEVENT
-        CREATED:${new Date().toISOString().replace(/-/g, "").replace(/:/g, "")}
-        UID:${document.id}
-        SUMMARY:${document.data.title}
-        LOCATION:${document.data.place_event_txt}
-        DTSTART:${dateStart}
-        DTEND:${dateEnd}
-        DESCRIPTION:${document.data.resume}
-        END:VEVENT
-        END:VCALENDAR
-      `;
-
-      const ncResponse = await fetch(
-        `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/sam-agenda/${document.id}.ics`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "text/calendar; charset=utf-8",
-            Authorization: `Basic ${Buffer.from(`${nextcloudLogin}:${nextcloudPassword}`).toString("base64")}`,
-          },
-          body: icalData,
-        },
+      /**
+       * HTTP headers
+       */
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "text/calendar");
+      myHeaders.append(
+        "Authorization",
+        `Basic ${Buffer.from(`${nextcloudLogin}:${nextcloudPassword}`).toString("base64")}`,
       );
 
-      console.error(ncResponse);
+      /**
+       * Request to nextcloud
+       */
+      const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: icalData,
+      };
+
+      const ncResponse: Response = await fetch(
+        `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${document.id}.ics`,
+        requestOptions,
+      );
 
       if (!ncResponse.ok) {
         event.node.res.statusCode = 400;
@@ -77,10 +86,9 @@ export default defineEventHandler(
           message: `Error from nextcloud: ${ncResponse.statusText}`,
         };
       }
-      const data: string = await ncResponse.text();
 
       event.node.res.statusCode = 201;
-      return { status: 201, message: data };
+      return { status: 201, message: `Event "${title}" added.` };
     } catch (error: any) {
       event.node.res.statusCode = 500;
       return {

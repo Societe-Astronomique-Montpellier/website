@@ -17,7 +17,7 @@ export function formatDate(
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-    timeZone: "UTC",
+    timeZone: "Europe/Paris",
   });
   const formattedDateParts = formatter.formatToParts(date);
 

@@ -1,8 +1,9 @@
 import { createClient } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
+import { formatDate } from "~/utils/dateFormatter";
 
 export default defineEventHandler(
-  async (event): Promise<{ message: string }> => {
+  async (event): Promise<{ status: number; message: string }> => {
     const config = useRuntimeConfig();
     // Prismic
     const secret = config.prismicEventSecret;
@@ -17,8 +18,8 @@ export default defineEventHandler(
 
     // Check secret
     if (secret !== requestSecret) {
-      event.res.statusCode = 403;
-      return { message: "Forbidden: Invalid secret" };
+      event.node.res.statusCode = 403;
+      return { status: 403, message: "Forbidden: Invalid secret" };
     }
 
     // Get document data
@@ -30,51 +31,60 @@ export default defineEventHandler(
       );
 
       if (!document) {
-        event.res.statusCode = 400;
-        return { message: "Bad Request: Missing document ID" };
+        event.node.res.statusCode = 400;
+        return {
+          status: 400,
+          message: "Bad Request: Missing document ID",
+        };
       }
 
-      const randomUid = [...Array(30)]
-        .map(() => Math.random().toString(36)[2])
-        .join("");
+      const dateStart = formatDate(document.data?.time_start);
+      const dateEnd = formatDate(document.data?.time_end);
 
-      const calendarEvent = `
-        BEGIN:VCALENDAR
+      const icalData = `BEGIN:VCALENDAR
         PRODID:-//My own caldav script
         VERSION:2.0
         BEGIN:VEVENT
         CREATED:${new Date().toISOString().replace(/-/g, "").replace(/:/g, "")}
-        UID:${randomUid}
+        UID:${document.id}
         SUMMARY:${document.data.title}
         LOCATION:${document.data.place_event_txt}
-        DTSTART:${document.data?.time_start?.toString().replace(" ", "T")}
-        DTSTAMP:20250306T204500Z
-        DTEND:${document.data?.time_end?.toString().replace(" ", "T")}
+        DTSTART:${dateStart}
+        DTEND:${dateEnd}
         DESCRIPTION:${document.data.resume}
         END:VEVENT
         END:VCALENDAR
       `;
 
       const ncResponse = await fetch(
-        `${nextcloudUrl}/remote.php/dav/calendars/sam-technique/sam-agenda/${randomUid}.ics`,
+        `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/sam-agenda/${document.id}.ics`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "text/calendar; charset=utf-8",
             Authorization: `Basic ${Buffer.from(`${nextcloudLogin}:${nextcloudPassword}`).toString("base64")}`,
           },
-          body: calendarEvent,
+          body: icalData,
         },
       );
 
+      console.error(ncResponse);
+
       if (!ncResponse.ok) {
-        return { message: "Error from nextcloud" };
+        event.node.res.statusCode = 400;
+        return {
+          status: 400,
+          message: `Error from nextcloud: ${ncResponse.statusText}`,
+        };
       }
       const data: string = await ncResponse.text();
-      return { message: data };
+
+      event.node.res.statusCode = 201;
+      return { status: 201, message: data };
     } catch (error: any) {
-      event.res.statusCode = 500;
+      event.node.res.statusCode = 500;
       return {
+        status: 500,
         message: error?.message,
       };
     }

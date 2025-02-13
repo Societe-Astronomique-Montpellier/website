@@ -77,7 +77,7 @@ export default defineNuxtConfig({
     },
   },
   turnstile: {
-    siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY  ,
+    siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY,
   },
   eslint: {},
   colorMode: {

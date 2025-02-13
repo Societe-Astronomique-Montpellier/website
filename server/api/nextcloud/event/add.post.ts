@@ -48,12 +48,12 @@ export default defineEventHandler(
         .replace(/:/g, "")
         .replace(/\.\d{3}/, "");
 
-      const title = "[PRISMIC] " + document.data.title;
+      const title = document.data.title;
       const description = asText(document.data?.resume);
       const location = document.data.place_event_txt;
       const dateStart = formatDate(document.data?.time_start);
       const dateEnd = formatDate(document.data?.time_end);
-      const icalData: string = `BEGIN:VCALENDAR\nPRODID:-//My own caldav script\nVERSION:2.0\nBEGIN:VEVENT\nCREATED:${createdDate}\nUID:${document.id}\nSUMMARY:${title}\nLOCATION:${location}\nDTSTART:${dateStart}\nDTSTAMP:${dateStart}\nDTEND:${dateEnd}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
+      const icalData: string = `BEGIN:VCALENDAR\nPRODID:-//My own caldav script\nVERSION:2.0\nBEGIN:VEVENT\nCREATED:${createdDate}\nUID:${document.id}\nSUMMARY:${title}\nLOCATION:${location}\nDTSTART;TZID=Europe/Paris:${dateStart}\nDTSTAMP;TZID=Europe/Paris:${dateStart}\nDTEND;TZID=Europe/Paris:${dateEnd}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
 
       /**
        * HTTP headers

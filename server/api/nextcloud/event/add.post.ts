@@ -49,10 +49,13 @@ export default defineEventHandler(
         .replace(/\.\d{3}/, "");
 
       const title = document.data.title;
-      const description = asText(document.data?.resume);
+      const description = truncateAtWhitespace(
+        asText(document.data?.resume),
+        70,
+      );
       const location = document.data.place_event_txt;
       const dateStart = formatDate(document.data?.time_start);
-      const dateEnd = formatDate(document.data?.time_end);
+      const dateEnd = formatDate(document.data?.time_end) ?? dateStart;
       const icalData: string = `BEGIN:VCALENDAR\nPRODID:-//My own caldav script\nVERSION:2.0\nBEGIN:VEVENT\nCREATED:${createdDate}\nUID:${document.id}\nSUMMARY:${title}\nLOCATION:${location}\nDTSTART;TZID=Europe/Paris:${dateStart}\nDTSTAMP;TZID=Europe/Paris:${dateStart}\nDTEND;TZID=Europe/Paris:${dateEnd}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
 
       /**
@@ -64,6 +67,8 @@ export default defineEventHandler(
         "Authorization",
         `Basic ${Buffer.from(`${nextcloudLogin}:${nextcloudPassword}`).toString("base64")}`,
       );
+
+      console.error(icalData);
 
       /**
        * Request to nextcloud
@@ -98,3 +103,20 @@ export default defineEventHandler(
     }
   },
 );
+
+const truncateAtWhitespace = (str: string, maxLength: number = 75): string => {
+  if (str.length <= maxLength) {
+    return str;
+  }
+
+  // Find the last whitespace character within the maxLength
+  const lastWhitespaceIndex = str.lastIndexOf(" ", maxLength);
+
+  // If there is no whitespace within the maxLength, return the whole string
+  if (lastWhitespaceIndex === -1) {
+    return str;
+  }
+
+  // Cut the string at the last whitespace character
+  return str.substring(0, lastWhitespaceIndex);
+};

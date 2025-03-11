@@ -120,7 +120,7 @@ export default defineNuxtConfig({
     label: false,
     icon: true,
   },
-  compatibilityDate: "2025-02-11",
+  compatibilityDate: "2025-03-05",
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,

@@ -9,7 +9,7 @@ export function formatDate(
     return null;
   }
 
-  const formatter: Intl.DateTimeFormat = new Intl.DateTimeFormat("fr-FR", {
+  const formatter: Intl.DateTimeFormat = new Intl.DateTimeFormat("en-CA", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -29,5 +29,5 @@ export function formatDate(
     formattedDate += part.value;
   });
 
-  return `${formattedDate.slice(0, 8)}T${formattedDate.slice(8)}Z`;
+  return `${formattedDate.slice(0, 8)}T${formattedDate.slice(8)}`;
 }

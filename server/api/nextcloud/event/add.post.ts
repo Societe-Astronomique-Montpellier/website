@@ -56,7 +56,7 @@ export default defineEventHandler(
       const location = document.data.place_event_txt;
       const dateStart = formatDate(document.data?.time_start);
       const dateEnd = formatDate(document.data?.time_end) ?? dateStart;
-      const icalData: string = `BEGIN:VCALENDAR\nPRODID:-//My own caldav script\nVERSION:2.0\nBEGIN:VEVENT\nCREATED:${createdDate}\nUID:${document.id}\nSUMMARY:${title}\nLOCATION:${location}\nDTSTART;TZID=Europe/Paris:${dateStart}\nDTSTAMP;TZID=Europe/Paris:${dateStart}\nDTEND;TZID=Europe/Paris:${dateEnd}\nDESCRIPTION:${description}\nEND:VEVENT\nEND:VCALENDAR`;
+      const icalData: string = `BEGIN:VCALENDAR\nCALSCALE:GREGORIAN\nVERSION:2.0\nPRODID:-//SAM Agenda script//FR\nBEGIN:VEVENT\nCREATED:${createdDate}\nDTSTAMP:${dateStart}\nUID:${document.id}\nDTSTART;TZID=Europe/Paris:${dateStart}\nDTEND;TZID=Europe/Paris:${dateEnd}\nSTATUS:CONFIRMED\nSUMMARY:${title}\nLOCATION:${location}\nDESCRIPTION:${description}\nEND:VEVENT\nBEGIN:VTIMEZONE\nTZID:Europe/Paris\nBEGIN:DAYLIGHT\nTZOFFSETFROM:+0100\nTZOFFSETTO:+0200\nTZNAME:CEST\nDTSTART:19700329T020000\nRRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\nEND:DAYLIGHT\nBEGIN:STANDARD\nTZOFFSETFROM:+0200\nTZOFFSETTO:+0100\nTZNAME:CET\nDTSTART:19701025T030000\nRRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\nEND:STANDARD\nEND:VTIMEZONE\nEND:VCALENDAR`;
 
       /**
        * HTTP headers

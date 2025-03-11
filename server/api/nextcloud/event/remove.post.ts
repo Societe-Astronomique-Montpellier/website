@@ -49,7 +49,7 @@ export default defineEventHandler(
     event.node.res.statusCode = 204;
     return {
       status: event.node.res.statusCode,
-      message: `Evene ${documentId} deleted`,
+      message: `Event ${documentId} deleted`,
     };
   },
 );

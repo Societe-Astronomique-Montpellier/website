@@ -16,6 +16,7 @@ export const useFormatIntoFrenchDate = (
         day: "numeric",
         year: "numeric",
       };
+
       break;
     }
     case "long":

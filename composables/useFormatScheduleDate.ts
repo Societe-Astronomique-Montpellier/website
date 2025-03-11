@@ -1,9 +1,9 @@
 import * as prismic from "@prismicio/client";
 import type { DateField, TimestampField } from "@prismicio/types";
 
-export function formatDate(
+export const useFormatScheduleDate = (
   dateString: DateField | TimestampField | undefined,
-): string | null {
+): string | null => {
   const prismicDate: Date | null = prismic.asDate(dateString);
   if (prismicDate === null) {
     return null;
@@ -15,19 +15,15 @@ export function formatDate(
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     hour12: false,
-    timeZone: "Europe/Paris",
+    timeZoneName: "short",
   });
-  const formattedDateParts = formatter.formatToParts(prismicDate || new Date());
+  const formattedParts = formatter.formatToParts(prismicDate || new Date());
 
-  let formattedDate = "";
-  formattedDateParts.forEach((part) => {
-    if (part.type === "literal") {
-      return;
-    }
-    formattedDate += part.value;
+  const dateParts: { [key: string]: string } = {};
+  formattedParts.forEach((part) => {
+    dateParts[part.type] = part.value;
   });
 
-  return `${formattedDate.slice(0, 8)}T${formattedDate.slice(8)}Z`;
-}
+  return `${dateParts.year}-${dateParts.month}-${dateParts.day} ${dateParts.hour}:${dateParts.minute}`;
+};

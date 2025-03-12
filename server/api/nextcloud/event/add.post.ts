@@ -1,6 +1,7 @@
 import { createClient, asText } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
+import nodemailer from "nodemailer";
 
 export default defineEventHandler(
   async (event): Promise<{ status: number; message: string }> => {
@@ -68,8 +69,6 @@ export default defineEventHandler(
         `Basic ${Buffer.from(`${nextcloudLogin}:${nextcloudPassword}`).toString("base64")}`,
       );
 
-      console.error(icalData);
-
       /**
        * Request to nextcloud
        */
@@ -90,6 +89,31 @@ export default defineEventHandler(
           status: 400,
           message: `Error from nextcloud: ${ncResponse.statusText}`,
         };
+      } else {
+        const transporter = nodemailer.createTransport({
+          host: config.smtpHost,
+          port: config.smtpPort,
+          secure: true,
+          auth: {
+            user: config.smtpUser,
+            pass: config.smtpPwd,
+          },
+        });
+
+        transporter.verify((err): void => {
+          if (err) {
+            throw new Error(err.message);
+          }
+        });
+
+        const message = `Un nouvel évenement a été ajouté à l'agenda de la SAM : ${title}.\n${description}\nLieu: ${location}\nDate: ${dateStart}\n\nUn rappel sera envoyé sur la sam-liste le jour de l'évenement\nTous les évenements sont consultables sur l'agenda de la SAM\n\nBien cordialement.`;
+        await transporter.sendMail({
+          from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
+          to: "sam-liste@societe-astronomique-montpellier.fr",
+          subject: `[SAM] À vos agendas`,
+          text: message,
+          html: `<p>${message}</p>`,
+        });
       }
 
       event.node.res.statusCode = 201;

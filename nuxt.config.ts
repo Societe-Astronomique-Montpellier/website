@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     ],
     lazy: true,
     langDir: "locales",
+    strategy: "prefix_except_default",
     detectBrowserLanguage: false,
   },
   imports: {

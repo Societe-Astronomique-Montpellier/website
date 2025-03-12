@@ -1,4 +1,4 @@
-import { createClient, asText } from "@prismicio/client";
+import { createClient, asText, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
 import nodemailer from "nodemailer";
@@ -78,10 +78,8 @@ export default defineEventHandler(
         body: icalData,
       };
 
-      const ncResponse: Response = await fetch(
-        `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${document.id}.ics`,
-        requestOptions,
-      );
+      const urlIcs: string = `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${document.id}.ics`;
+      const ncResponse: Response = await fetch(urlIcs, requestOptions);
 
       if (!ncResponse.ok) {
         event.node.res.statusCode = 400;
@@ -89,7 +87,9 @@ export default defineEventHandler(
           status: 400,
           message: `Error from nextcloud: ${ncResponse.statusText}`,
         };
-      } else {
+      }
+
+      try {
         const transporter = nodemailer.createTransport({
           host: config.smtpHost,
           port: config.smtpPort,
@@ -106,14 +106,31 @@ export default defineEventHandler(
           }
         });
 
-        const message = `Un nouvel évenement a été ajouté à l'agenda de la SAM : ${title}.\n${description}\nLieu: ${location}\nDate: ${dateStart}\n\nUn rappel sera envoyé sur la sam-liste le jour de l'évenement\nTous les évenements sont consultables sur l'agenda de la SAM\n\nBien cordialement.`;
+        const message: string = `Un nouvel évenement a été ajouté à l'agenda de la SAM : "${title}".\n${description}\nLieu: ${location}\nDate: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}\n\nUn rappel sera envoyé sur la sam-liste le jour de l'évenement\nTous les évenements sont consultables sur l'agenda de la SAM\n\nBien cordialement.`;
+        const messageHtml: string = `<p>Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/${document.uid}" target="_blank">"${title}"</a>.</p>
+          <p>${description}</p>
+          <ul>
+            <li>Lieu: ${location}</li>
+            <li>Date & heure de début: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}</li>
+            <li>Date & heure de fin: ${asDate(document.data?.time_end)?.toLocaleDateString()} à ${asDate(document.data?.time_end)?.toLocaleTimeString()}</li>
+          </ul>
+          <p>Un rappel sera envoyé sur la sam-liste le jour de l'évenement</p>
+          <p>Tous les évenements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a></p>
+          <p>Bien cordialement.</p>
+        `;
+
         await transporter.sendMail({
           from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-          to: "sam-liste@societe-astronomique-montpellier.fr",
+          to: "stephane.meaudre@gmail.com", //"contact@societe-astronomique-montpellier.fr",
           subject: `[SAM] À vos agendas`,
           text: message,
-          html: `<p>${message}</p>`,
+          html: messageHtml,
         });
+      } catch (error: any) {
+        return {
+          status: 400,
+          message: `Error sending mail: ${error.message}`,
+        };
       }
 
       event.node.res.statusCode = 201;

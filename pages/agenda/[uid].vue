@@ -14,7 +14,8 @@ definePageMeta({
 
 const prismic = usePrismic();
 const route = useRoute();
-const { t, locale } = useI18n();
+const { t } = useI18n();
+const lang = useLang();
 const { isMobile } = useDevice();
 
 const Breadcrumbs = defineAsyncComponent(
@@ -34,10 +35,10 @@ const { uid } = route.params as { uid: string };
 const { data, error } = useAsyncData(uid, async () => {
   const [response, parentAgenda] = await Promise.all([
     (await prismic.client.getByUID<EventDocument>("event", uid, {
-      lang: locale.value,
+      lang: lang.value,
     })) as EventDocument,
     (await prismic.client.getSingle<EventsDocument>("events", {
-      lang: locale.value,
+      lang: lang.value,
     })) as EventsDocument,
   ]);
 

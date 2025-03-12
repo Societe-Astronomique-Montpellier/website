@@ -14,7 +14,7 @@ definePageMeta({
 
 const route = useRoute();
 const prismic = usePrismic();
-const { t } = useI18n();
+const lang = useLang();
 const { isMobile } = useDevice();
 
 const HeaderPage = defineAsyncComponent(
@@ -34,6 +34,9 @@ const { data: editorial, error } = useAsyncData(
     await prismic.client.getByUID<PageEditorialeDocument>(
       "page_editoriale",
       editorialUid,
+      {
+        lang: lang.value,
+      },
     ),
 );
 

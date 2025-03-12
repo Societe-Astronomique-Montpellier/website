@@ -42,10 +42,19 @@ export default defineNuxtConfig({
     toolbar: false,
   },
   i18n: {
+    defaultLocale: "fr",
+    locales: [
+      {
+        code: "fr",
+        iso: "fr-FR",
+        name: "Français",
+        file: "fr.json",
+        flag: "🇫🇷",
+      },
+    ],
+    lazy: true,
+    langDir: "locales",
     detectBrowserLanguage: false,
-    locales: ["fr-fr"],
-    defaultLocale: "fr-fr",
-    vueI18n: "./i18n/i18n.config.ts",
   },
   imports: {
     dirs: ["composables", "composables/**", "types/*.d.ts"],

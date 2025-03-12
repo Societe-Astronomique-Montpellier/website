@@ -7,7 +7,7 @@ import type { SearchDocumentType } from "~/types/search";
 export const useSearch = () => {
   const searchQuery: Ref<string> = ref("");
   const prismic: PrismicPlugin = usePrismic();
-  const { locale } = useI18n();
+  const lang = useLang();
 
   const {
     data: results,
@@ -17,7 +17,7 @@ export const useSearch = () => {
     if (searchQuery.value.trim() === "" || 3 > searchQuery.value.trim().length)
       return [];
     const response: Query<AllDocumentTypes> = await prismic.client.get({
-      lang: locale.value,
+      lang: lang.value,
       filters: [
         prismic.filter.fulltext("document", searchQuery.value.trim()),
         prismic.filter.not("document.tags", ["block"]),

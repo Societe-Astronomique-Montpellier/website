@@ -19,7 +19,8 @@ definePageMeta({
 });
 
 const prismic = usePrismic();
-const { locale, t } = useI18n();
+const lang = useLang();
+const { t } = useI18n();
 const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
@@ -49,13 +50,13 @@ monthsAgo.setMonth(currentDate.getMonth() - 1);
 
 const [
   { data: events, error: eventsError },
-  { data: agenda, error: agendaError },
+  { data: agenda },
 ] = await Promise.all([
   useAsyncData(
     "events",
     async () =>
       (await prismic.client.getAllByType<AllDocumentTypes>("event", {
-        lang: locale.value,
+        lang: lang.value,
         filters: [
           prismic.filter.dateAfter(
             "my.event.time_start",
@@ -72,7 +73,7 @@ const [
     "agenda",
     async () =>
       (await prismic.client.getSingle("events", {
-        lang: locale.value,
+        lang: lang.value,
       })) as EventsDocument,
   ),
 ]);

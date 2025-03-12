@@ -3,13 +3,13 @@ import type { HeaderDocument } from "~/prismicio-types";
 
 export const useMenuNavigation = () => {
   const prismic: PrismicPlugin = usePrismic();
-  const { locale } = useI18n();
+  const lang = useLang();
 
-  const { data: menuNavigation, error } = useAsyncData(
+  const { data: menuNavigation } = useAsyncData(
     "$menuNavigation",
     async () =>
       await prismic.client.getSingle<HeaderDocument>("header", {
-        lang: locale.value,
+        lang: lang.value,
       }),
   );
   return menuNavigation;

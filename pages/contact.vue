@@ -17,6 +17,7 @@ definePageMeta({
 
 const prismic = usePrismic();
 const { t, locale } = useI18n();
+const lang = useLang();
 const richTextSerializer = useRichTextSerializer();
 
 const HeaderPage = defineAsyncComponent(
@@ -41,7 +42,7 @@ const { data: contact } = useLazyAsyncData(
   "contact",
   async () =>
     await prismic.client.getSingle<ContactDocument>("contact", {
-      lang: locale.value,
+      lang: lang.value,
     }),
 );
 
@@ -83,13 +84,13 @@ const handleContactFormSubmission = async (formData: IContactFormData) => {
         submitedFormMessage.value = response.message;
       } else {
         submittedForm.value = false;
-        submitedFormMessage.value = t("form.postSubmit.err");
+        submitedFormMessage.value = t("form.postSubmit.send_err");
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err: unknown) {
       submittedForm.value = false;
-      submitedFormMessage.value = t("form.postSubmit.err");
+      submitedFormMessage.value = t("form.postSubmit.send_err");
     }
   }, 200);
 };

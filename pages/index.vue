@@ -16,7 +16,7 @@ import type {
 } from "~/prismicio-types";
 
 import { isFilled } from "@prismicio/helpers";
-const { locale } = useI18n();
+const { locale, locales } = useI18n();
 const prismic = usePrismic();
 
 definePageMeta({
@@ -42,10 +42,11 @@ const BlockContact = defineAsyncComponent(
 
 // Prismic
 const { data: home, error } = useAsyncData("home", async () => {
+  const currentLang = useLang();
   const response = await prismic.client.getSingle<HomepageDocument>(
     "homepage",
     {
-      lang: locale.value,
+      lang: currentLang.value,
       fetchLinks: [
         "block_hero.title",
         "block_hero.subtitle",
@@ -150,7 +151,7 @@ const { data: home, error } = useAsyncData("home", async () => {
       listThematicsId,
     )) as PageThematiqueDocument[],
     (await prismic.client.getSingle("events", {
-      lang: locale.value,
+      lang: currentLang.value,
     })) as EventsDocument,
     (await prismic.client.getAllByType<AllDocumentTypes>("event", {
       filters: [prismic.filter.dateAfter("my.event.time_start", dateNow)],
@@ -159,7 +160,7 @@ const { data: home, error } = useAsyncData("home", async () => {
         direction: "asc",
       },
       limit: 3,
-      lang: locale.value,
+      lang: currentLang.value,
     })) as EventDocument[],
   ]);
 

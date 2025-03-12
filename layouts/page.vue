@@ -23,23 +23,10 @@ useSeo({
 
 <template>
   <div>
-    <Header
-      :is-home="false"
-      :menu="menuNavigation"
-    />
+    <Header :is-home="false" :menu="menuNavigation" />
     <div class="flex-fill">
       <slot />
     </div>
-<!--    <Modal-->
-<!--      v-if="isModalOpened"-->
-<!--      :is-open="isModalOpened"-->
-<!--      @close-modal="handleCloseModal"-->
-<!--    >-->
-<!--      <template #header>{{ t("search.title") }}</template>-->
-<!--      <template #content>-->
-<!--      </template>-->
-<!--    </Modal>-->
-
     <Footer :menu="menuNavigation" />
     <SidebarSocialShare />
   </div>

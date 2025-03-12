@@ -8,7 +8,7 @@ const { t } = useI18n();
 const { isMobile } = useDevice();
 const { searchQuery, results, loading } = useSearch();
 
-const props = withDefaults(defineProps<{ isHome: boolean; menu: any }>(), {
+const props = withDefaults(defineProps<{ isHome?: boolean; menu?: any }>(), {
   isHome: false,
   menu: null,
 });

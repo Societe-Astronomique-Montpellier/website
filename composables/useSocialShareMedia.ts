@@ -7,14 +7,16 @@ import type {
 
 export const useSocialShareMedia = () => {
   const prismic: PrismicPlugin = usePrismic();
-  const { locale } = useI18n();
+  const lang = useLang();
 
-  const shareSocialMedia = ref<Simplify<HeaderDocumentDataShareSocialMediaItem>[] | undefined | null>(null);
+  const shareSocialMedia = ref<
+    Simplify<HeaderDocumentDataShareSocialMediaItem>[] | undefined | null
+  >(null);
   const { data: shareSocialMediaData } = useLazyAsyncData(
     "shareSocialMedia",
     async () =>
       await prismic.client.getSingle<HeaderDocument>("header", {
-        lang: locale.value,
+        lang: lang.value,
         fetch: "my.header.share_social_media",
       }),
   );

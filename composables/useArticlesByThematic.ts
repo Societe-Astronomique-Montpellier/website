@@ -7,7 +7,7 @@ import type { PrismicPlugin } from "@prismicio/vue";
 
 export const useArticlesByThematic = () => {
   const prismic: PrismicPlugin = usePrismic();
-  const { locale } = useI18n();
+  const lang = useLang();
 
   const fetchChildrenPages = async (thematicId: string) => {
     const dateNow = new Date().toISOString().split("T")[0];
@@ -18,10 +18,10 @@ export const useArticlesByThematic = () => {
           field: "my.page_article.position",
           direction: "asc",
         },
-        lang: locale.value,
+        lang: lang.value,
       })) as PageArticleDocument[],
       (await prismic.client.getAllByType<AllDocumentTypes>("event", {
-        lang: locale.value,
+        lang: lang.value,
         filters: [
           prismic.filter.dateAfter("my.event.time_end", dateNow),
           prismic.filter.at("my.event.activite_periodique", true),

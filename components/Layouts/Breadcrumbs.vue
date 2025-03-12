@@ -8,8 +8,7 @@ import type {
 } from "~/prismicio-types";
 
 const prismic = usePrismic();
-const { locale } = useI18n();
-const isCurrent: Ref<boolean> = ref(false);
+const lang = useLang();
 
 export interface IProps {
   currentUid: string;
@@ -19,7 +18,7 @@ export interface IProps {
 const props = defineProps<IProps>();
 const { currentUid, listIds } = toRefs(props);
 
-const { data: items, error } = await useAsyncData(
+const { data: items } = await useAsyncData(
   "items",
   async () =>
     await prismic.client.getAllByIDs<
@@ -28,7 +27,7 @@ const { data: items, error } = await useAsyncData(
       | PageArticleDocument
       | EventDocument
       | PageEditorialeDocument
-    >(listIds.value, { lang: locale.value }),
+    >(listIds.value, { lang: lang.value }),
 );
 </script>
 

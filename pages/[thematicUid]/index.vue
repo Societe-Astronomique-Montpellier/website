@@ -16,7 +16,7 @@ definePageMeta({
 // https://flowbite.com/blocks/publisher/blog-templates/
 const route = useRoute();
 const prismic = usePrismic();
-const { locale } = useI18n();
+const lang = useLang();
 const { isMobile } = useDevice();
 
 const { thematicUid } = route.params as { thematicUid: string };
@@ -26,7 +26,7 @@ const { data: dataThematic, error } = await useAsyncData(
     const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
       "page_thematique",
       thematicUid,
-      { lang: locale.value },
+      { lang: lang.value },
     )) as PageThematiqueDocument;
 
     return {

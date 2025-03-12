@@ -18,7 +18,7 @@ definePageMeta({
 const prismic = usePrismic();
 const { isMobile } = useDevice();
 const route = useRoute();
-const { locale } = useI18n();
+const lang = useLang();
 
 const HeaderPage = defineAsyncComponent(
   () => import("~/components/pages/HeaderPage.vue"),
@@ -40,7 +40,7 @@ const { data: article, error } = useAsyncData(
     await prismic.client.getByUID<PageArticleDocument>(
       "page_article",
       articleUid,
-      { lang: locale.value },
+      { lang: lang.value },
     ),
 );
 
@@ -50,7 +50,7 @@ const { data: parentThematic } = useAsyncData(
     await prismic.client.getByUID<PageThematiqueDocument>(
       "page_thematique",
       thematicUid,
-      { lang: locale.value },
+      { lang: lang.value },
     ),
 );
 if (error.value) {

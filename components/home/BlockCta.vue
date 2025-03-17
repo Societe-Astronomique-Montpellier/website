@@ -20,7 +20,7 @@ const richTextSerializer = useRichTextSerializer();
 
 const { isMobile, isDesktop } = useDevice();
 const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
-  isMobile ? block?.value.data.image?.mobile : block?.value.data.image,
+  isMobile ? block?.value.data.image?.mobile : block?.value.data.image.resize,
 );
 </script>
 

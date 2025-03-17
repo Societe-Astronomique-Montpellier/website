@@ -1,3 +1,6 @@
+import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
+import { createClient } from "@prismicio/client";
+
 export default defineEventHandler(
   async (event): Promise<{ status: number; message: string }> => {
     const config = useRuntimeConfig();
@@ -19,8 +22,18 @@ export default defineEventHandler(
       return { status: 403, message: "Forbidden: Invalid secret" };
     }
 
-    const { documents } = body;
-    const documentId = documents[0];
+    const { domain, documents } = body;
+    const client = createClient<AllDocumentTypes>(domain);
+    const document: EventDocument = await client.getByID<EventDocument>(
+      documents[0],
+    );
+
+    if ("event" !== document.type) {
+      return {
+        status: 204,
+        message: "",
+      };
+    }
 
     const myHeaders = new Headers();
     myHeaders.append(
@@ -34,7 +47,7 @@ export default defineEventHandler(
     };
 
     const ncResponse: Response = await fetch(
-      `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${documentId}.ics`,
+      `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${document.id}.ics`,
       requestOptions,
     );
 
@@ -49,7 +62,7 @@ export default defineEventHandler(
     event.node.res.statusCode = 204;
     return {
       status: event.node.res.statusCode,
-      message: `Event ${documentId} deleted`,
+      message: `Event ${document.id} deleted`,
     };
   },
 );

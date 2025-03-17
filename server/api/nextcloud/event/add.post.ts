@@ -40,6 +40,13 @@ export default defineEventHandler(
         };
       }
 
+      if ("event" !== document.type) {
+        return {
+          status: 204,
+          message: "",
+        };
+      }
+
       /**
        * Build ical event raw string
        */
@@ -110,7 +117,7 @@ export default defineEventHandler(
         const messageHtml: string = `<p>Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/${document.uid}" target="_blank">"${title}"</a>.</p>
           <p>${description}</p>
           <ul>
-            <li>Lieu: ${location}</li>
+            <li>Lieu: ${location ?? ""}</li>
             <li>Date & heure de début: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}</li>
             <li>Date & heure de fin: ${asDate(document.data?.time_end)?.toLocaleDateString()} à ${asDate(document.data?.time_end)?.toLocaleTimeString()}</li>
           </ul>
@@ -119,9 +126,10 @@ export default defineEventHandler(
           <p>Bien cordialement.</p>
         `;
 
-        await transporter.sendMail({
+        const resultMail = await transporter.sendMail({
           from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-          to: "stephane.meaudre@gmail.com", //"contact@societe-astronomique-montpellier.fr",
+          to: "sam-liste@societe-astronomique-montpellier.fr",
+          cc: config.smtpUser,
           subject: `[SAM] À vos agendas`,
           text: message,
           html: messageHtml,

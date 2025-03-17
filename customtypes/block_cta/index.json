@@ -33,9 +33,14 @@
           "constraint": {},
           "thumbnails": [
             {
+              "name": "resize",
+              "width": 560,
+              "height": 600
+            },
+            {
               "name": "mobile",
-              "width": 400,
-              "height": ""
+              "width": 460,
+              "height": 500
             }
           ]
         }

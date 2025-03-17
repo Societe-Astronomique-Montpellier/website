@@ -50,7 +50,7 @@ interface BlockContactDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 }
 
 /**
@@ -106,7 +106,7 @@ interface BlockCtaDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#image
    */
-  image: prismic.ImageField<"mobile">;
+  image: prismic.ImageField<"resize" | "mobile">;
 
   /**
    * Résumé field in *Bloc CallTo Action*
@@ -151,7 +151,7 @@ interface BlockCtaDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Slice Zone field in *Bloc CallTo Action*
@@ -244,7 +244,13 @@ interface BlockHeroDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  button_left: prismic.LinkField;
+  button_left: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Texte bouton gauche field in *Bloc de présentation*
@@ -266,7 +272,13 @@ interface BlockHeroDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  button_right: prismic.LinkField;
+  button_right: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 
   /**
    * Texte bouton droite field in *Bloc de présentation*
@@ -421,7 +433,7 @@ interface BlockTestimonialDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Slice Zone field in *Bloc testimonial*
@@ -593,6 +605,17 @@ interface EventDocumentData {
   title: prismic.KeyTextField;
 
   /**
+   * Sous-titre field in *Evenement*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: event.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#key-text
+   */
+  subtitle: prismic.KeyTextField;
+
+  /**
    * Vignette field in *Evenement*
    *
    * - **Field Type**: Image
@@ -619,15 +642,16 @@ interface EventDocumentData {
    *
    * - **Field Type**: Select
    * - **Placeholder**: Type d'accès à l'évenement
-   * - **Default Value**: Évenement public
+   * - **Default Value**: Évenement public (gratuit)
    * - **API ID Path**: event.access_type
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   access_type: prismic.SelectField<
-    | "Évenement public"
-    | "Évenement soumis à inscription"
-    | "Réservé aux membres",
+    | "Évenement public (gratuit)"
+    | "Évenement privé ou public avec inscription (payant)"
+    | "Réservé aux membres"
+    | "Évenement astronomique",
     "filled"
   >;
 
@@ -719,7 +743,7 @@ interface EventDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link: prismic.LinkField;
+  link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
    * Slice Zone field in *Evenement*
@@ -892,7 +916,13 @@ export interface HeaderDocumentDataHeaderNavigationItem {
    * - **API ID Path**: header.header_navigation[].link_header
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link_header: prismic.LinkField;
+  link_header: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 }
 
 /**
@@ -943,7 +973,13 @@ export interface HeaderDocumentDataFooterNavigationItem {
    * - **API ID Path**: header.footer_navigation[].link_footer
    * - **Documentation**: https://prismic.io/docs/field#link-content-relationship
    */
-  link_footer: prismic.LinkField;
+  link_footer: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
 }
 
 /**

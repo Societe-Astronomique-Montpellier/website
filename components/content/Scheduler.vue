@@ -68,6 +68,19 @@ const listCalendars = reactive({
       container: "#42a297",
     },
   },
+  astronomicals: {
+    colorName: "astronomicals",
+    lightColors: {
+      main: "#1c7df9",
+      container: "#d2e7ff",
+      onContainer: "#002859",
+    },
+    darkColors: {
+      main: "#c0dfff",
+      onContainer: "#dee6ff",
+      container: "#426aa2",
+    },
+  },
 });
 
 const calendarApp = shallowRef(
@@ -87,7 +100,7 @@ const calendarApp = shallowRef(
     ],
     locale: "fr-FR",
     calendars: listCalendars,
-    isDark: isDark.value
+    isDark: isDark.value,
   }),
 );
 

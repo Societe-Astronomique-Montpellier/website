@@ -70,11 +70,12 @@
           "label": "Type d'accès",
           "placeholder": "Type d'accès à l'évenement",
           "options": [
-            "Évenement public",
-            "Évenement soumis à inscription",
-            "Réservé aux membres"
+            "Évenement public (gratuit)",
+            "Évenement privé ou public avec inscription (payant)",
+            "Réservé aux membres",
+            "Évenement astronomique"
           ],
-          "default_value": "Évenement public"
+          "default_value": "Évenement public (gratuit)"
         }
       },
       "activite_periodique": {
@@ -93,15 +94,6 @@
           "placeholder": "Contenu",
           "allowTargetBlank": true,
           "multi": "paragraph,heading4,heading5,heading6,strong,em,hyperlink,list-item,o-list-item,rtl,image"
-        }
-      },
-      "content": {
-        "type": "StructuredText",
-        "config": {
-          "label": "Contenu",
-          "placeholder": "",
-          "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading1,heading2,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,embed,list-item,o-list-item,rtl"
         }
       },
       "carrousel": {

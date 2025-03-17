@@ -25,9 +25,10 @@ const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
 const listTypeEvents: Ref<Record<string, string | undefined>> = ref({
-  allpublic: "Évenement public",
-  subscribers: "Évenement soumis à inscription",
+  allpublic: "Évenement public (gratuit)",
+  subscribers: "Évenement privé ou public avec inscription (payant)",
   members: "Réservé aux membres",
+  astronomicals: "Évenement astronomique",
 });
 
 const HeaderPage = defineAsyncComponent(
@@ -48,35 +49,33 @@ const currentDate = new Date();
 const monthsAgo = new Date();
 monthsAgo.setMonth(currentDate.getMonth() - 1);
 
-const [
-  { data: events, error: eventsError },
-  { data: agenda },
-] = await Promise.all([
-  useAsyncData(
-    "events",
-    async () =>
-      (await prismic.client.getAllByType<AllDocumentTypes>("event", {
-        lang: lang.value,
-        filters: [
-          prismic.filter.dateAfter(
-            "my.event.time_start",
-            monthsAgo.toISOString().split("T")[0],
-          ),
-        ],
-        orderings: {
-          field: "my.event.time_start",
-          direction: "asc",
-        },
-      })) as EventDocument[],
-  ),
-  useAsyncData(
-    "agenda",
-    async () =>
-      (await prismic.client.getSingle("events", {
-        lang: lang.value,
-      })) as EventsDocument,
-  ),
-]);
+const [{ data: events, error: eventsError }, { data: agenda }] =
+  await Promise.all([
+    useAsyncData(
+      "events",
+      async () =>
+        (await prismic.client.getAllByType<AllDocumentTypes>("event", {
+          lang: lang.value,
+          filters: [
+            prismic.filter.dateAfter(
+              "my.event.time_start",
+              monthsAgo.toISOString().split("T")[0],
+            ),
+          ],
+          orderings: {
+            field: "my.event.time_start",
+            direction: "asc",
+          },
+        })) as EventDocument[],
+    ),
+    useAsyncData(
+      "agenda",
+      async () =>
+        (await prismic.client.getSingle("events", {
+          lang: lang.value,
+        })) as EventsDocument,
+    ),
+  ]);
 
 if (eventsError.value) {
   throw createError({
@@ -94,7 +93,9 @@ events?.value?.forEach((event: EventDocument) => {
     uid: event.uid,
     title: event.data.title as string,
     start: useFormatScheduleDate(event?.data.time_start),
-    end: (event?.data.time_end) ? useFormatScheduleDate(event?.data.time_end) : useFormatScheduleDate(event?.data.time_start),
+    end: event?.data.time_end
+      ? useFormatScheduleDate(event?.data.time_end)
+      : useFormatScheduleDate(event?.data.time_start),
     description: prismic.asText(event.data.resume) as string,
     location: event.data.place_event_txt as string,
     access_type_txt: (event.data.access_type as string) ?? "Évenement public",

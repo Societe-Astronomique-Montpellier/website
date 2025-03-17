@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<{ isHome?: boolean; menu?: any }>(), {
 const { isHome, menu } = toRefs(props);
 const isOpen: Ref<boolean> = ref(false);
 const openSearch: Ref<boolean> = ref(false);
+const inputSearchText: Ref<HTMLInputElement | null> = ref(null);
 
 const HeaderNavItem = defineAsyncComponent(
   () => import("@/components/Layouts/HeaderNavItem.vue"),
@@ -47,6 +48,13 @@ const SwitchLightDarkMode = defineAsyncComponent(
 );
 
 const drawer = () => (isOpen.value = !isOpen.value);
+
+const openSearchBar = async () => {
+  openSearch.value = !openSearch.value;
+  await nextTick();
+  inputSearchText.value?.focus();
+};
+
 const closeSearchBar = () => {
   openSearch.value = !openSearch.value;
   searchQuery.value = "";
@@ -128,7 +136,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
             class="p-2 rounded-full h-16 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400 transition-colors duration-200"
             :aria-label="t('search.title')"
             role="button"
-            @click="openSearch = !openSearch"
+            @click="openSearchBar"
           >
             <Icon
               name="material-symbols-light:search"
@@ -180,7 +188,9 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
       >
         <div class="relative">
           <input
+            ref="inputSearchText"
             v-model="searchQuery"
+            autofocus
             type="search"
             class="w-full px-4 py-2 rounded-md bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
             :placeholder="$t('search.placeholder')"

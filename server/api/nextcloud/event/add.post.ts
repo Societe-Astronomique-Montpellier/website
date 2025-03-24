@@ -86,60 +86,57 @@ export default defineEventHandler(
       };
 
       const urlIcs: string = `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${document.id}.ics`;
-      const ncResponse: Response = await fetch(urlIcs, requestOptions);
+      // const ncResponse: Response = await fetch(urlIcs, requestOptions);
+      //
+      // if (!ncResponse.ok) {
+      //   event.node.res.statusCode = 400;
+      //   return {
+      //     status: 400,
+      //     message: `Error from nextcloud: ${ncResponse.statusText}`,
+      //   };
+      // }
 
-      if (!ncResponse.ok) {
-        event.node.res.statusCode = 400;
-        return {
-          status: 400,
-          message: `Error from nextcloud: ${ncResponse.statusText}`,
-        };
-      }
+      const transporter = nodemailer.createTransport({
+        host: config.smtpHost,
+        port: config.smtpPort,
+        secure: true,
+        auth: {
+          user: config.smtpUser,
+          pass: config.smtpPwd,
+        },
+      });
 
-      try {
-        const transporter = nodemailer.createTransport({
-          host: config.smtpHost,
-          port: config.smtpPort,
-          secure: true,
-          auth: {
-            user: config.smtpUser,
-            pass: config.smtpPwd,
-          },
-        });
+      transporter.verify((err): void => {
+        if (err) {
+          throw new Error(err.message);
+        }
+      });
 
-        transporter.verify((err): void => {
-          if (err) {
-            throw new Error(err.message);
-          }
-        });
-
-        const message: string = `Un nouvel évenement a été ajouté à l'agenda de la SAM : "${title}".\n${description}\nLieu: ${location}\nDate: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}\n\nUn rappel sera envoyé sur la sam-liste le jour de l'évenement\nTous les évenements sont consultables sur l'agenda de la SAM\n\nBien cordialement.`;
-        const messageHtml: string = `<p>Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/${document.uid}" target="_blank">"${title}"</a>.</p>
-          <p>${description}</p>
+      const message: string = `Un nouvel évenement a été ajouté à l'agenda de la SAM : "${title}".\nLieu: ${location}\nDate: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}\n\nUn rappel sera envoyé sur la sam-liste le jour de l'évenement\nTous les évenements sont consultables sur l'agenda de la SAM\n\nBien cordialement.`;
+      const messageHtml: string = `<p>Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/${document.uid}" target="_blank">"${title}"</a>.</p>
           <ul>
             <li>Lieu: ${location ?? ""}</li>
             <li>Date & heure de début: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}</li>
             <li>Date & heure de fin: ${asDate(document.data?.time_end)?.toLocaleDateString()} à ${asDate(document.data?.time_end)?.toLocaleTimeString()}</li>
           </ul>
-          <p>Un rappel sera envoyé sur la sam-liste le jour de l'évenement</p>
-          <p>Tous les évenements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a></p>
+          <p>Un rappel sera envoyé sur la sam-liste le jour de l'évènement</p>
+          <p>Tous les évènements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a></p>
           <p>Bien cordialement.</p>
         `;
 
-        const resultMail = await transporter.sendMail({
-          from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-          to: "sam-liste@societe-astronomique-montpellier.fr",
-          cc: config.smtpUser,
-          subject: `[SAM] À vos agendas`,
-          text: message,
-          html: messageHtml,
-        });
-      } catch (error: any) {
-        return {
-          status: 400,
-          message: `Error sending mail: ${error.message}`,
-        };
-      }
+      const mail = {
+        from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
+        to: "test-jb9y0fra1@srv1.mail-tester.com", //config.smtpMailingList,
+        replyTo: config.smtpMailingList,
+        subject: `[SAM] [TEST EMAILS AUTOMATIQUES] Nouvel évènement: ${title}`,
+        text: message,
+        html: messageHtml,
+        headers: {
+          "List-ID": `"sam-liste" <${config.smtpMailingList}>`,
+          // "List-Unsubscribe": `<mailto:${config.smtpMailingList}?subject=unsubscribe>`,
+        },
+      };
+      transporter.sendMail(mail, (err, info) => console.log(err || info));
 
       event.node.res.statusCode = 201;
       return { status: 201, message: `Event "${title}" added.` };

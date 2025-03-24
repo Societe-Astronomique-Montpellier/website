@@ -34,6 +34,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxtjs/turnstile",
     "@nuxtjs/color-mode",
+    "nuxt-cron",
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -56,6 +57,11 @@ export default defineNuxtConfig({
     langDir: "locales",
     strategy: "prefix_except_default",
     detectBrowserLanguage: false,
+  },
+  cron: {
+    runOnInit: true,
+    timeZone: "Europe/Paris",
+    jobsDir: "cron",
   },
   imports: {
     dirs: ["composables", "composables/**", "types/*.d.ts"],
@@ -139,6 +145,7 @@ export default defineNuxtConfig({
     smtpPort: parseInt(process.env.NUXT_SMTP_PORT || "465", 10),
     smtpUser: process.env.NUXT_SMTP_USER,
     smtpPwd: process.env.NUXT_SMTP_PWD,
+    smtpMailingList: process.env.NUXT_SMTP_MAILLIST,
     turnstile: {
       secretKey: process.env.NUXT_TURNSTILE_PRIVATE_KEY,
     },

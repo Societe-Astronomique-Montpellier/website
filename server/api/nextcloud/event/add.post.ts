@@ -86,15 +86,15 @@ export default defineEventHandler(
       };
 
       const urlIcs: string = `${nextcloudUrl}/remote.php/dav/calendars/${nextcloudLogin}/${nextcloudAgenda}/${document.id}.ics`;
-      // const ncResponse: Response = await fetch(urlIcs, requestOptions);
-      //
-      // if (!ncResponse.ok) {
-      //   event.node.res.statusCode = 400;
-      //   return {
-      //     status: 400,
-      //     message: `Error from nextcloud: ${ncResponse.statusText}`,
-      //   };
-      // }
+      const ncResponse: Response = await fetch(urlIcs, requestOptions);
+
+      if (!ncResponse.ok) {
+        event.node.res.statusCode = 400;
+        return {
+          status: 400,
+          message: `Error from nextcloud: ${ncResponse.statusText}`,
+        };
+      }
 
       const transporter = nodemailer.createTransport({
         host: config.smtpHost,
@@ -126,14 +126,14 @@ export default defineEventHandler(
 
       const mail = {
         from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-        to: "test-jb9y0fra1@srv1.mail-tester.com", //config.smtpMailingList,
+        to: config.smtpMailingList,
         replyTo: config.smtpMailingList,
         subject: `[SAM] [TEST EMAILS AUTOMATIQUES] Nouvel évènement: ${title}`,
         text: message,
         html: messageHtml,
         headers: {
           "List-ID": `"sam-liste" <${config.smtpMailingList}>`,
-          // "List-Unsubscribe": `<mailto:${config.smtpMailingList}?subject=unsubscribe>`,
+          "List-Unsubscribe": `<mailto:${config.smtpMailingList}?subject=unsubscribe>`,
         },
       };
       transporter.sendMail(mail, (err, info) => console.log(err || info));

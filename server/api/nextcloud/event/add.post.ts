@@ -121,14 +121,14 @@ export default defineEventHandler(
           </ul>
           <p>Un rappel sera envoyé sur la sam-liste le jour de l'évènement</p>
           <p>Tous les évènements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a></p>
+          <p>Ceci est un mail automatique, merci de ne pas y répondre.</p>
           <p>Bien cordialement.</p>
         `;
 
       const mail = {
         from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
         to: config.smtpMailingList,
-        replyTo: config.smtpMailingList,
-        subject: `[SAM] [TEST EMAILS AUTOMATIQUES] Nouvel évènement: ${title}`,
+        subject: `[SAM] Nouvel évènement: ${title}`,
         text: message,
         html: messageHtml,
         headers: {

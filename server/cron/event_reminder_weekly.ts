@@ -3,9 +3,16 @@ import { createClient, filter, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import nodemailer from "nodemailer";
 
-export default defineCronHandler(() => "0 7 * * 1", async () => {
+export default defineCronHandler(
+  () => "0 7 * * 1",
+  async () => {
     const config = useRuntimeConfig();
 
+    const today = new Date().toISOString().split("T")[0];
+
+    const nextWeek = new Date();
+    nextWeek.setDate(nextWeek.getDate() + 7);
+    const nextWeekStr = nextWeek.toISOString().split("T")[0];
     /**
      * Prismic events
      */
@@ -13,12 +20,18 @@ export default defineCronHandler(() => "0 7 * * 1", async () => {
     const listEvents: EventDocument[] =
       (await client.getAllByType<AllDocumentTypes>("event", {
         lang: "fr-FR",
-        filters: [filter.dateDayOfWeek("my.event.time_start", "monday")],
+        filters: [
+          filter.dateBetween("my.event.time_start", today, nextWeekStr),
+        ],
         orderings: {
           field: "my.event.time_start",
           direction: "asc",
         },
       })) as EventDocument[];
+
+    if (0 === listEvents.length) {
+      return;
+    }
 
     /**
      * HTML Message
@@ -26,9 +39,10 @@ export default defineCronHandler(() => "0 7 * * 1", async () => {
     let messageHtml: string = `<p>Les événements de la semaine: </p><ul>`;
     listEvents.forEach((event: EventDocument) => {
       const location = event.data.place_event_txt;
-      messageHtml += `<li>- ${event?.data?.title} le ${asDate(event.data?.time_start)?.toLocaleDateString()} à à ${asDate(event.data?.time_start)?.toLocaleTimeString()}, ${location}</li>`;
+      messageHtml += `<li>${event?.data?.title} le ${asDate(event.data?.time_start)?.toLocaleDateString()} à à ${asDate(event.data?.time_start)?.toLocaleTimeString()}, ${location}</li>`;
     });
     messageHtml += `</ul>`;
+    messageHtml += `<p>Ceci est un mail automatique, vous pouvez y répondre directement, le message sera transmis sur la sam-liste.</p>`;
 
     /**
      * Send email
@@ -51,9 +65,9 @@ export default defineCronHandler(() => "0 7 * * 1", async () => {
 
     const mail = {
       from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-      to: "stephane.meaudre@gmail.com", //config.smtpMailingList,
+      to: config.smtpMailingList,
       replyTo: config.smtpMailingList,
-      subject: `[SAM] Les évènements de la semaine`,
+      subject: `[SAM] Au programme cette semaine`,
       html: messageHtml,
       headers: {
         "List-ID": `"sam-liste" <${config.smtpMailingList}>`,

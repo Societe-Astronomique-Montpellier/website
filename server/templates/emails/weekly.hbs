@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évènements de la SAM de la semaine</title>
+</head>
+<body>
+    <p>Cette semaine, la SAM vous propose les évènements suivants :</p>
+    <ul>
+        {{#each events}}
+            <li>{{title}} le {{dateStart}} à {{timeStart}}, {{location}}</li>
+        {{/each}}
+    </ul>
+    <p>Ceci est un mail automatique, vous pouvez y répondre directement, le message sera transmis sur la sam-liste.</p>
+    <p>Bien cordialement.</p>
+</body>
+</html>

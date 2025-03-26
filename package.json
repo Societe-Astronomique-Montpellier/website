@@ -40,6 +40,7 @@
     "@unhead/schema": "^1.11.20",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "nodemailer": "^6.10.0",
+    "nodemailer-express-handlebars": "^7.0.0",
     "sharp": "^0.33.4",
     "unenv": "^2.0.0-rc.14",
     "vue": "latest"

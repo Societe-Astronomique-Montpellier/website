@@ -1,7 +1,9 @@
 import { defineCronHandler } from "#nuxt/cron";
 import { createClient, filter, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
-import nodemailer from "nodemailer";
+import { createTransport } from "nodemailer";
+import hbs from "nodemailer-express-handlebars";
+import path from "path";
 
 export default defineCronHandler(
   () => "0 7 * * 1",
@@ -13,6 +15,7 @@ export default defineCronHandler(
     const nextWeek = new Date();
     nextWeek.setDate(nextWeek.getDate() + 7);
     const nextWeekStr = nextWeek.toISOString().split("T")[0];
+
     /**
      * Prismic events
      */
@@ -36,18 +39,18 @@ export default defineCronHandler(
     /**
      * HTML Message
      */
-    let messageHtml: string = `<p>Les événements de la semaine: </p><ul>`;
-    listEvents.forEach((event: EventDocument) => {
-      const location = event.data.place_event_txt;
-      messageHtml += `<li>${event?.data?.title} le ${asDate(event.data?.time_start)?.toLocaleDateString()} à à ${asDate(event.data?.time_start)?.toLocaleTimeString()}, ${location}</li>`;
-    });
-    messageHtml += `</ul>`;
-    messageHtml += `<p>Ceci est un mail automatique, vous pouvez y répondre directement, le message sera transmis sur la sam-liste.</p>`;
+    // let messageHtml: string = `<p>Les événements de la semaine: </p><ul>`;
+    // listEvents.forEach((event: EventDocument) => {
+    //   const location = event.data.place_event_txt;
+    //   messageHtml += `<li>${event?.data?.title} le ${asDate(event.data?.time_start)?.toLocaleDateString()} à ${asDate(event.data?.time_start)?.toLocaleTimeString()}, ${location}</li>`;
+    // });
+    // messageHtml += `</ul>`;
+    // messageHtml += `<p>Ceci est un mail automatique, vous pouvez y répondre directement, le message sera transmis sur la sam-liste.</p>`;
 
     /**
      * Send email
      */
-    const transporter = nodemailer.createTransport({
+    const transporter = createTransport({
       host: config.smtpHost,
       port: config.smtpPort,
       secure: true,
@@ -63,12 +66,32 @@ export default defineCronHandler(
       }
     });
 
+    const handlebarOptions = {
+      viewEngine: {
+        extname: ".hbs",
+        partialsDir: path.resolve("server/templates/emails/"),
+        defaultLayout: false,
+      },
+      viewPath: path.resolve("server/templates/emails/"),
+      extName: ".hbs",
+    };
+    transporter.use("compile", hbs(handlebarOptions));
     const mail = {
       from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
       to: config.smtpMailingList,
       replyTo: config.smtpMailingList,
       subject: `[SAM] Au programme cette semaine`,
-      html: messageHtml,
+      template: "weekly",
+      context: {
+        events: listEvents.map((event: EventDocument) => {
+          return {
+            title: event?.data?.title,
+            dateStart: asDate(event.data?.time_start)?.toLocaleDateString(),
+            timeStart: asDate(event.data?.time_start)?.toLocaleTimeString(),
+            location: event.data.place_event_txt,
+          };
+        }),
+      },
       headers: {
         "List-ID": `"sam-liste" <${config.smtpMailingList}>`,
         // "List-Unsubscribe": `<mailto:${config.smtpMailingList}?subject=unsubscribe>`,

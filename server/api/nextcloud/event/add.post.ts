@@ -1,7 +1,9 @@
 import { createClient, asText, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
-import nodemailer from "nodemailer";
+import { createTransport } from "nodemailer";
+import hbs from "nodemailer-express-handlebars";
+import path from "path";
 
 export default defineEventHandler(
   async (event): Promise<{ status: number; message: string }> => {
@@ -96,7 +98,7 @@ export default defineEventHandler(
         };
       }
 
-      const transporter = nodemailer.createTransport({
+      const transporter = createTransport({
         host: config.smtpHost,
         port: config.smtpPort,
         secure: true,
@@ -112,25 +114,31 @@ export default defineEventHandler(
         }
       });
 
-      const message: string = `Un nouvel évenement a été ajouté à l'agenda de la SAM : "${title}".\nLieu: ${location}\nDate: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}\n\nUn rappel sera envoyé sur la sam-liste le jour de l'évenement\nTous les évenements sont consultables sur l'agenda de la SAM\n\nBien cordialement.`;
-      const messageHtml: string = `<p>Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/${document.uid}" target="_blank">"${title}"</a>.</p>
-          <ul>
-            <li>Lieu: ${location ?? ""}</li>
-            <li>Date & heure de début: ${asDate(document.data?.time_start)?.toLocaleDateString()} à ${asDate(document.data?.time_start)?.toLocaleTimeString()}</li>
-            <li>Date & heure de fin: ${asDate(document.data?.time_end)?.toLocaleDateString()} à ${asDate(document.data?.time_end)?.toLocaleTimeString()}</li>
-          </ul>
-          <p>Un rappel sera envoyé sur la sam-liste le jour de l'évènement</p>
-          <p>Tous les évènements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a></p>
-          <p>Ceci est un mail automatique, merci de ne pas y répondre.</p>
-          <p>Bien cordialement.</p>
-        `;
+      const handlebarOptions = {
+        viewEngine: {
+          extname: ".hbs",
+          partialsDir: path.resolve("server/templates/emails/"),
+          defaultLayout: false,
+        },
+        viewPath: path.resolve("server/templates/emails/"),
+        extName: ".hbs",
+      };
+      transporter.use("compile", hbs(handlebarOptions));
 
       const mail = {
         from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
         to: config.smtpMailingList,
         subject: `[SAM] Nouvel évènement: ${title}`,
-        text: message,
-        html: messageHtml,
+        template: "new_event",
+        context: {
+          documentUid: document.uid,
+          title: title,
+          location: location,
+          dateStart: asDate(document.data?.time_start)?.toLocaleDateString(),
+          timeStart: asDate(document.data?.time_start)?.toLocaleTimeString(),
+          dateEnd: asDate(document.data?.time_end)?.toLocaleDateString(),
+          timeEnd: asDate(document.data?.time_end)?.toLocaleTimeString(),
+        },
         headers: {
           "List-ID": `"sam-liste" <${config.smtpMailingList}>`,
           "List-Unsubscribe": `<mailto:${config.smtpMailingList}?subject=unsubscribe>`,

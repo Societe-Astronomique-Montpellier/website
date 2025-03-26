@@ -2,7 +2,9 @@ import { createClient, asText, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
 import { createTransport } from "nodemailer";
+// tslint:disable-next-line: no-var-requires
 import hbs from "nodemailer-express-handlebars";
+import type { NodemailerExpressHandlebarsOptions } from "nodemailer-express-handlebars";
 import path from "path";
 
 export default defineEventHandler(
@@ -122,7 +124,7 @@ export default defineEventHandler(
         },
         viewPath: path.resolve("server/templates/emails/"),
         extName: ".hbs",
-      };
+      } as NodemailerExpressHandlebarsOptions;
       transporter.use("compile", hbs(handlebarOptions));
 
       const mail = {

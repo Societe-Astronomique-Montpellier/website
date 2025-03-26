@@ -3,6 +3,7 @@ import { createClient, filter, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { createTransport } from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
+import type { NodemailerExpressHandlebarsOptions } from "nodemailer-express-handlebars";
 import path from "path";
 
 export default defineCronHandler(
@@ -65,7 +66,7 @@ export default defineCronHandler(
       },
       viewPath: path.resolve("server/templates/emails/"),
       extName: ".hbs",
-    };
+    } as NodemailerExpressHandlebarsOptions;
     transporter.use("compile", hbs(handlebarOptions));
 
     const mail = {

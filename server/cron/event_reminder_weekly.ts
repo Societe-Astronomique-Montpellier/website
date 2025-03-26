@@ -5,6 +5,7 @@ import { createTransport } from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
 import type { NodemailerExpressHandlebarsOptions } from "nodemailer-express-handlebars";
 import path from "path";
+import { formatFrenchLongDate } from "~/utils/dateLongFrenchFormatter";
 
 export default defineCronHandler(
   () => "0 7 * * 1",
@@ -88,8 +89,7 @@ export default defineCronHandler(
         events: listEvents.map((event: EventDocument) => {
           return {
             title: event?.data?.title,
-            dateStart: asDate(event.data?.time_start)?.toLocaleDateString(),
-            timeStart: asDate(event.data?.time_start)?.toLocaleTimeString(),
+            dateStart: formatFrenchLongDate(event.data?.time_start),
             location: event.data.place_event_txt,
           };
         }),

@@ -1,6 +1,7 @@
 import { createClient, asText, asDate } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
+import { formatFrenchLongDate } from "~/utils/dateLongFrenchFormatter";
 import { createTransport } from "nodemailer";
 // tslint:disable-next-line: no-var-requires
 import hbs from "nodemailer-express-handlebars";
@@ -136,10 +137,8 @@ export default defineEventHandler(
           documentUid: document.uid,
           title: title,
           location: location,
-          dateStart: asDate(document.data?.time_start)?.toLocaleDateString(),
-          timeStart: asDate(document.data?.time_start)?.toLocaleTimeString(),
-          dateEnd: asDate(document.data?.time_end)?.toLocaleDateString(),
-          timeEnd: asDate(document.data?.time_end)?.toLocaleTimeString(),
+          dateStart: formatFrenchLongDate(document.data?.time_start),
+          dateEnd: formatFrenchLongDate(document.data?.time_end),
         },
         headers: {
           "List-ID": `"sam-liste" <${config.smtpMailingList}>`,

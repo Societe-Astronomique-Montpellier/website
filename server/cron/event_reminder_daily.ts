@@ -74,7 +74,7 @@ export default defineCronHandler(
       from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
       to: config.smtpMailingList,
       replyTo: config.smtpMailingList,
-      subject: `[SAM] Rappel évènement(s) aujourd'hui`,
+      subject: `Rappel évènement(s) aujourd'hui`,
       template: "daily",
       context: {
         events: listEvents.map((event: EventDocument) => {

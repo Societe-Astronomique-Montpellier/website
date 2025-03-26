@@ -131,7 +131,7 @@ export default defineEventHandler(
       const mail = {
         from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
         to: config.smtpMailingList,
-        subject: `[SAM] Nouvel évènement: ${title}`,
+        subject: `Nouvel évènement: ${title}`,
         template: "new_event",
         context: {
           documentUid: document.uid,

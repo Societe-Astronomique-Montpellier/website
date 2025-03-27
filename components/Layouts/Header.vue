@@ -81,7 +81,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
 
 <template>
   <header :class="`w-full py-2 top-0 z-50 backdrop-blur-sm ${mainNavClass}`">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <!-- logo -->
         <div class="flex-shrink-0">
@@ -110,7 +110,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
             :key="index"
             :field="item.link_header as LinkField"
             role="menuitem"
-            :class="`${navItemsColors} py-2 rounded-md text-2xl font-medium relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-indigo-700 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center`"
+            :class="`${navItemsColors} py-2 rounded-md text-xl font-medium relative w-fit block after:block after:content-[''] after:absolute after:h-[3px] after:bg-indigo-700 after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center`"
             :title="item.label_header"
             :aria-label="item.label_header"
           >
@@ -122,7 +122,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
             type="button"
             :aria-label="t('layout.header.btnContact')"
             role="menuitem"
-            class="px-3 py-2 rounded-md text-2xl font-medium transition-colors duration-200 text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            class="px-3 py-2 rounded-md text-xl font-medium transition-colors duration-200 text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
           >
             {{ $t("layout.header.btnContact") }}
           </NuxtLink>

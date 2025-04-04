@@ -1,5 +1,5 @@
 import { defineCronHandler } from "#nuxt/cron";
-import { createClient, filter, asDate } from "@prismicio/client";
+import { createClient, filter } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { createTransport } from "nodemailer";
 import hbs from "nodemailer-express-handlebars";
@@ -9,19 +9,19 @@ import { formatFrenchLongDate } from "~/utils/dateLongFrenchFormatter";
 
 export default defineCronHandler(
   () => "0 7 * * 1",
-  async () => {
+  async (): Promise<void> => {
     const config = useRuntimeConfig();
 
-    const today = new Date().toISOString().split("T")[0];
+    const today: string = new Date().toISOString().split("T")[0];
 
-    const nextWeek = new Date();
+    const nextWeek: Date = new Date();
     nextWeek.setDate(nextWeek.getDate() + 7);
-    const nextWeekStr = nextWeek.toISOString().split("T")[0];
+    const nextWeekStr: string = nextWeek.toISOString().split("T")[0];
 
     /**
      * Prismic events
      */
-    const client = createClient(config.apiPrismicRepository);
+    const client = createClient<AllDocumentTypes>(config.apiPrismicRepository);
     const listEvents: EventDocument[] =
       (await client.getAllByType<AllDocumentTypes>("event", {
         lang: "fr-FR",
@@ -37,17 +37,6 @@ export default defineCronHandler(
     if (0 === listEvents.length) {
       return;
     }
-
-    /**
-     * HTML Message
-     */
-    // let messageHtml: string = `<p>Les événements de la semaine: </p><ul>`;
-    // listEvents.forEach((event: EventDocument) => {
-    //   const location = event.data.place_event_txt;
-    //   messageHtml += `<li>${event?.data?.title} le ${asDate(event.data?.time_start)?.toLocaleDateString()} à ${asDate(event.data?.time_start)?.toLocaleTimeString()}, ${location}</li>`;
-    // });
-    // messageHtml += `</ul>`;
-    // messageHtml += `<p>Ceci est un mail automatique, vous pouvez y répondre directement, le message sera transmis sur la sam-liste.</p>`;
 
     /**
      * Send email

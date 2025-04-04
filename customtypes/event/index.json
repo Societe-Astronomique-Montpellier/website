@@ -26,6 +26,15 @@
           "placeholder": ""
         }
       },
+      "send_notification": {
+        "type": "Boolean",
+        "config": {
+          "label": "Notification à la sam-liste",
+          "placeholder_false": "false",
+          "placeholder_true": "true",
+          "default_value": false
+        }
+      },
       "image_vignette": {
         "type": "Image",
         "config": {

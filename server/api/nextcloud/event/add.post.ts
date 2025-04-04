@@ -1,4 +1,4 @@
-import { createClient, asText, asDate } from "@prismicio/client";
+import { createClient, asText } from "@prismicio/client";
 import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
 import { formatDate } from "~/utils/dateFormatter";
 import { formatFrenchLongDate } from "~/utils/dateLongFrenchFormatter";
@@ -48,6 +48,14 @@ export default defineEventHandler(
       if ("event" !== document.type) {
         return {
           status: 204,
+          message: "",
+        };
+      }
+
+      const sendNotification = document.data.send_notification;
+      if (!sendNotification) {
+        return {
+          status: 200,
           message: "",
         };
       }

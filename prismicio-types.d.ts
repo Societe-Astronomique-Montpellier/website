@@ -616,6 +616,18 @@ interface EventDocumentData {
   subtitle: prismic.KeyTextField;
 
   /**
+   * Notification à la sam-liste field in *Evenement*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event.send_notification
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/field#boolean
+   */
+  send_notification: prismic.BooleanField;
+
+  /**
    * Vignette field in *Evenement*
    *
    * - **Field Type**: Image

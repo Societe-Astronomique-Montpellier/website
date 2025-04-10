@@ -23,7 +23,7 @@ const form: IContactForm = reactive({
   subject: "",
   message: "",
   honeypot: "",
-  turnstileToken: ""
+  turnstileToken: "",
 });
 
 const isLoading: Ref<boolean> = ref(false);

@@ -1,13 +1,14 @@
 import type { Ref } from "vue";
 import { ref, watchEffect } from "vue";
 
-export const useLang = (): Ref<string> => {
+export const useLang = (): Ref<string | undefined> => {
   const { locale, locales } = useI18n();
-  const lang = ref("fr-FR"); // Default language
+  const lang: Ref<string | undefined> = ref("fr-FR"); // Default language
 
-  watchEffect(() => {
+  watchEffect((): void => {
     lang.value =
-      locales.value.find((l) => l.code === locale.value)?.iso ?? "fr-FR";
+      (locales.value.find((l): boolean => l.code === locale.value)
+        ?.iso as string) ?? "fr-FR";
   });
 
   return lang;

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
+import {asText} from "@prismicio/client";
 
 const { isMobile } = useDevice();
 const { t } = useI18n();
@@ -40,9 +41,9 @@ const handleScroll = () => (isVisible.value = window.scrollY > 200);
   >
     <client-only>
       <SocialShare
-        v-for="network in shareSocialMedia"
-        :key="network"
-        :network="network.social_network"
+        v-for="(network, i) in shareSocialMedia"
+        :key="i"
+        :network="network.social_network ?? ''"
         class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white"
       >
       </SocialShare>

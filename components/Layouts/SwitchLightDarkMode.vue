@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const colorMode = useColorMode();
-
+const { t } = useI18n();
 const translateXClass: Ref<string> = ref("");
 const opacityClass: Ref<string> = ref("");
 
@@ -27,8 +27,11 @@ onMounted(() => {
 
 <template>
   <button
+    type="button"
     id="dark-mode-toggle"
     class="text-gray-700 dark:text-gray-200 p-2 rounded-full transition-colors duration-200"
+    :aria-label="t('layout.toggleMode')"
+    role="button"
     @click="isDark = !isDark"
   >
     <Icon

@@ -19,7 +19,8 @@
       "mise-en-avant": "Mise en avant",
       "evenements": "Évenements",
       "contact": "Contact"
-    }
+    },
+    "toggleMode":  "Mode light / mode dark",
   },
   "contact": {
     "title": "Formulaire de contact",

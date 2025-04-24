@@ -33,25 +33,34 @@ const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
         <prismic-rich-text
           :field="block.data.content"
           :serializer="richTextSerializer"
-          class="max-w-2xl mb-6 font-light text-gray-500 dark:text-slate-400 lg:mb-8 md:text-lg lg:text-xl"
+          class="max-w-2xl mb-6 font-light text-gray-600 dark:text-slate-400 lg:mb-8 md:text-lg lg:text-xl"
         />
         <div
-          class="max-w-2xl mb-6 font-light text-gray-500 dark:text-slate-400 lg:mb-8 md:text-lg lg:text-xl"
+          class="max-w-2xl mb-6 font-light text-gray-600 dark:text-slate-400 lg:mb-8 md:text-lg lg:text-xl"
         >
           <!-- dark:text-gray-400 -->
-          <p class="mb-6 font-light text-gray-500 dark:text-slate-400">
+          <p class="mb-6 font-light text-gray-600 dark:text-slate-400">
             <!--  dark:text-neutral-300 -->
-            <Icon name="material-symbols:arrow-right-alt" />
+            <Icon
+              name="material-symbols:arrow-right-alt"
+              class="text-indigo-400"
+            />
             {{ block.data.testimonial_text_1 }}
           </p>
 
-          <p class="mb-6 font-light text-gray-500 dark:text-slate-400">
-            <Icon name="material-symbols:arrow-right-alt" />
+          <p class="mb-6 font-light text-gray-600 dark:text-slate-400">
+            <Icon
+              name="material-symbols:arrow-right-alt"
+              class="text-indigo-400"
+            />
             {{ block.data.testimonial_text_2 }}
           </p>
 
-          <p class="mb-6 font-light text-gray-500 dark:text-slate-400">
-            <Icon name="material-symbols:arrow-right-alt" />
+          <p class="mb-6 font-light text-gray-600 dark:text-slate-400">
+            <Icon
+              name="material-symbols:arrow-right-alt"
+              class="text-indigo-400"
+            />
             {{ block.data.testimonial_text_3 }}
           </p>
         </div>

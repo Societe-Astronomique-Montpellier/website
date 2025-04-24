@@ -48,6 +48,7 @@ const imageVignette = computed<
   <prismic-rich-text
     :field="item.data.resume"
     :serializer="richTextSerializer"
+    class="text-gray-400"
   />
 
   <div class="flex flex-wrap items-baseline">

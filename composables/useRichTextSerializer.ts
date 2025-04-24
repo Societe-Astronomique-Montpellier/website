@@ -2,11 +2,10 @@ import type { HTMLMapSerializer } from "@prismicio/helpers";
 import { Icon } from "#components";
 
 export const useRichTextSerializer = (): HTMLMapSerializer => {
-  const IconArrow = h(Icon, { name: "material-symbols:arrow-right-alt" });
-
+  h(Icon, { name: "material-symbols:arrow-right-alt" });
   return {
     paragraph: ({ children }) =>
-      `<p class="text-justify text-base leading-8 mt-2 my-5 dark:text-gray-500">${children}</p>`,
+      `<p class="text-justify text-base leading-8 mt-2 my-5 text-gray-600 dark:text-slate-400">${children}</p>`,
     heading1: ({ children }) => `<h1>${children}</h1>`,
     heading2: ({ children }) =>
       `<h2 class="text-gray-900 font-bold text-4xl mb-2 dark:text-gray-400">${children}</h2>`,
@@ -32,7 +31,7 @@ export const useRichTextSerializer = (): HTMLMapSerializer => {
                                 `;
 
       if (node.alt) {
-        img += `<figcaption class="mt-2 italic text-sm text-gray-500">${node.alt} ${copyright}</figcaption>`;
+        img += `<figcaption class="mt-2 italic text-sm text-gray-600">${node.alt} ${copyright}</figcaption>`;
       }
       return `${img}</figure>`;
     },

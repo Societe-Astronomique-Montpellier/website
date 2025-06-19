@@ -1,20 +1,18 @@
-export function useKeyFromValue<T extends Record<string, any>>() {
-  // Function to get the first matching key
-  const getKeyFromValue = (obj: T, value: T[keyof T]): keyof T | undefined => {
-    return (Object.keys(obj) as Array<keyof T>).find(
-      (key) => obj[key] === value,
-    );
-  };
-
-  // Function to get all matching keys
-  const getAllKeysFromValue = (obj: T, value: T[keyof T]): Array<keyof T> => {
-    return (Object.keys(obj) as Array<keyof T>).filter(
-      (key) => obj[key] === value,
-    );
+export function useFindKeyFromArray<T extends Record<string, any>>() {
+  /**
+   * Find item by value inside array
+   */
+  const getKeyByValue = <K extends keyof T>(
+    array: T[],
+    searchKey: K,
+    value: T[K],
+    returnKey: keyof T,
+  ): T[keyof T] | undefined => {
+    const found = array.find((item) => item[searchKey] === value);
+    return found ? found[returnKey] : undefined;
   };
 
   return {
-    getKeyFromValue,
-    getAllKeysFromValue,
+    getKeyByValue,
   };
 }

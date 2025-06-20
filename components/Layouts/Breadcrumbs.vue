@@ -32,9 +32,9 @@ const { data: items } = await useAsyncData(
 </script>
 
 <template>
-  <nav class="flex" aria-label="Breadcrumb">
+  <nav class="flex flex-wrap gap-2 p-2" aria-label="Breadcrumb">
     <ol
-      class="inline-flex items-center space-x-1 py-3 md:space-x-2 rtl:space-x-reverse"
+      class="inline-flex items-center space-x-1 py-2 md:space-x-2 rtl:space-x-reverse"
     >
       <li class="inline-flex items-center">
         <NuxtLink
@@ -67,7 +67,7 @@ const { data: items } = await useAsyncData(
           </prismic-link>
           <span
             v-else-if="currentUid === item.uid"
-            class="ms-1 inline-flex items-center text-sm font-medium md:ms-2 text-indigo-700 dark:text-indigo-400"
+            class="ms-1 inline-flex items-center text-sm font-bold md:ms-2 text-indigo-700 dark:text-indigo-400"
           >
             {{ item.data.title }}
           </span>

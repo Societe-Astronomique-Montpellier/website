@@ -17,8 +17,8 @@ const prismic = usePrismic();
 const lang = useLang();
 const { isMobile } = useDevice();
 
-const HeaderPage = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPage.vue"),
+const HeaderPageTitle = defineAsyncComponent(
+  () => import("~/components/pages/HeaderPageTitle.vue"),
 );
 const Breadcrumbs = defineAsyncComponent(
   () => import("~/components/Layouts/Breadcrumbs.vue"),
@@ -66,7 +66,7 @@ useSeo({
 </script>
 
 <template>
-  <section>
+  <section class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center">
     <div
       v-if="error"
       class="max-w-screen-xl w-full mx-auto relative mt-3 mb-2 flex items-center p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded-md"
@@ -82,25 +82,32 @@ useSeo({
       <div>Une erreur est survenue lors de la récupération des données.</div>
     </div>
     <div v-if="editorial" class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <Breadcrumbs :list-ids="[editorial?.id]" :current-uid="editorialUid" />
-      <h1
-        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
-        :aria-label="editorial?.data.title as string"
-      >
-        {{ editorial?.data.title }}
-      </h1>
-      <HeaderPage :image="imageBanner" />
-      <div class="max-w-screen-md mx-auto">
+      <HeaderPageTitle :title="editorial?.data.title" :image="imageBanner" />
+      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
         <div
           class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-10">
+          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
+            <Breadcrumbs
+              :list-ids="[editorial?.id]"
+              :current-uid="editorialUid"
+            />
             <h2
               v-if="isFilled.keyText(editorial?.data.subtitle)"
               class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2 leading-normal"
             >
               {{ editorial?.data.subtitle }}
             </h2>
+
+            <p
+                class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
+            >
+              <span v-if="editorial?.data.author"
+              >{{ $t("page.author") }}{{ editorial?.data.author }},
+              </span>
+              <span v-if="formatedDate">{{ formatedDate }}</span>
+            </p>
+
             <Icon v-show="false" name="material-symbols:arrow-right-alt" />
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
@@ -110,21 +117,6 @@ useSeo({
                     :serializer="richTextSerializer"
                   ></prismic-rich-text>
                 </Fancybox>
-                <p class="text-gray-700 text-xs mt-5">
-                  <span
-                    id="span_author"
-                    class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
-                  >
-                    {{ $t("page.author") }} {{ editorial?.data.author }}
-                  </span>
-                  le
-                  <span
-                    id="span_date"
-                    class="font-medium hover:text-gray-900 transition duration-500 ease-in-out"
-                  >
-                    {{ formatedDate }}
-                  </span>
-                </p>
               </div>
             </div>
           </div>

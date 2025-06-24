@@ -123,11 +123,8 @@ const calendars: ComputedRef<Record<string, CalendarType>> = computed(() => {
   );
 });
 
-const HeaderPage = defineAsyncComponent(
-  () => import("@/components/pages/HeaderPage.vue"),
-);
 const HeaderPageTitle = defineAsyncComponent(
-    () => import("@/components/pages/HeaderPageTitle.vue"),
+  () => import("@/components/pages/HeaderPageTitle.vue"),
 );
 const Breadcrumbs = defineAsyncComponent(
   () => import("@/components/Layouts/Breadcrumbs.vue"),
@@ -228,18 +225,20 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="agenda" class="px-40 flex flex-1 justify-center">
+  <section
+    v-if="agenda"
+    class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center"
+  >
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
       <HeaderPageTitle :title="agenda.data.title" :image="imageBanner" />
 
-      <div class="flex flex-wrap gap-4 px-4 mx-auto">
+      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
         <div
           class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-10">
+          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
             <Breadcrumbs :list-ids="[agenda.id]" :current-uid="agenda.uid" />
             <div class="my-4 grid gap-4 px-1">
-
               <div data-content>
                 <Fancybox>
                   <prismic-rich-text
@@ -250,7 +249,7 @@ useSeo({
               </div>
 
               <div
-                class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-4"
+                class="grid sm:grid-cols sm:gap-2 md:grid-cols-2 lg:grid-cols-2 md:gap-4"
               >
                 <div
                   v-for="typeCal in listCalendars"

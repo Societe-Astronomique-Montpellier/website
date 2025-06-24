@@ -12,7 +12,8 @@ import type {
 } from "@prismicio/types";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type { IListSamEvents } from "~/types/calendarEvent";
-import { useKeyFromValue } from "~/composables/useFindKeyByValue";
+import type { CalendarTypeEventList } from "~/types/calendarTypeEvent";
+import type { CalendarType } from "@schedule-x/calendar";
 
 definePageMeta({
   layout: "page",
@@ -24,15 +25,106 @@ const { t } = useI18n();
 const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
-const listTypeEvents: Ref<Record<string, string | undefined>> = ref({
-  allpublic: "Évenement public (gratuit)",
-  subscribers: "Évenement privé ou public avec inscription (payant)",
-  members: "Réservé aux membres",
-  astronomicals: "Évenement astronomique",
+const listCalendars: Ref<CalendarTypeEventList> = ref([
+  {
+    id: "members",
+    title: t("type_events.members.title"),
+    description: t("type_events.members.description"),
+    colorName: "members",
+    lightColors: {
+      main: "#f91c45",
+      container: "#ffd2dc",
+      onContainer: "#59000d",
+    },
+    darkColors: {
+      main: "#ffc0cc",
+      onContainer: "#ffdee6",
+      container: "#a24258",
+    },
+  },
+  {
+    id: "allpublic",
+    title: t("type_events.allpublic.title"),
+    description: t("type_events.allpublic.description"),
+    colorName: "allpublic",
+    lightColors: {
+      main: "#1cf9b0",
+      container: "#dafff0",
+      onContainer: "#004d3d",
+    },
+    darkColors: {
+      main: "#c0fff5",
+      onContainer: "#e6fff5",
+      container: "#42a297",
+    },
+  },
+  {
+    id: "private",
+    title: t("type_events.private.title"),
+    description: t("type_events.private.description"),
+    colorName: "private",
+    lightColors: {
+      main: "#f9d71c",
+      container: "#fff5aa",
+      onContainer: "#594800",
+    },
+    darkColors: {
+      main: "#fff5c0",
+      onContainer: "#fff5de",
+      container: "#a29742",
+    },
+  },
+  {
+    id: "astronomicals",
+    title: t("type_events.astronomicals.title"),
+    description: t("type_events.astronomicals.description"),
+    colorName: "astronomicals",
+    lightColors: {
+      main: "#1c7df9",
+      container: "#d2e7ff",
+      onContainer: "#002859",
+    },
+    darkColors: {
+      main: "#c0dfff",
+      onContainer: "#dee6ff",
+      container: "#426aa2",
+    },
+  },
+  {
+    id: "meetings",
+    title: t("type_events.meetings.title"),
+    description: t("type_events.meetings.description"),
+    colorName: "meetings",
+    lightColors: {
+      main: "#6750a4",
+      container: "#eaddff",
+      onContainer: "#625b71",
+    },
+    darkColors: {
+      main: "#6750a4",
+      container: "#eaddff",
+      onContainer: "#625b71",
+    },
+  },
+]);
+
+// transform CalendarTypeEventList into Record<string, CalendarType for @schedule-x/calendar
+const calendars: ComputedRef<Record<string, CalendarType>> = computed(() => {
+  return listCalendars.value.reduce<Record<string, CalendarType>>(
+    (acc, event) => {
+      acc[event.id] = {
+        colorName: event.id,
+        lightColors: event.lightColors,
+        darkColors: event.darkColors,
+      };
+      return acc;
+    },
+    {} as Record<string, CalendarType>,
+  );
 });
 
-const HeaderPage = defineAsyncComponent(
-  () => import("@/components/pages/HeaderPage.vue"),
+const HeaderPageTitle = defineAsyncComponent(
+  () => import("@/components/pages/HeaderPageTitle.vue"),
 );
 const Breadcrumbs = defineAsyncComponent(
   () => import("@/components/Layouts/Breadcrumbs.vue"),
@@ -85,7 +177,7 @@ if (eventsError.value) {
 }
 
 const richTextSerializer = useRichTextSerializer();
-const { getKeyFromValue } = useKeyFromValue<typeof listTypeEvents.value>();
+const { getKeyByValue } = useFindKeyFromArray();
 
 events?.value?.forEach((event: EventDocument) => {
   listEvents?.events?.push({
@@ -98,10 +190,14 @@ events?.value?.forEach((event: EventDocument) => {
       : useFormatScheduleDate(event?.data.time_start),
     description: prismic.asText(event.data.resume) as string,
     location: event.data.place_event_txt as string,
-    access_type_txt: (event.data.access_type as string) ?? "Évenement public",
+    access_type_txt: event.data.access_type,
     access_type:
-      getKeyFromValue(listTypeEvents.value, event.data.access_type) ??
-      "allpublic",
+      getKeyByValue(
+        listCalendars.value,
+        "title",
+        event.data.access_type,
+        "id",
+      ) ?? "allpublic",
   });
 });
 
@@ -129,21 +225,19 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="agenda">
+  <section
+    v-if="agenda"
+    class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center"
+  >
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <Breadcrumbs :list-ids="[agenda.id]" :current-uid="agenda.uid" />
-      <h1
-        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
-        :aria-label="agenda.data.title as string"
-      >
-        {{ agenda.data.title }}
-      </h1>
-      <HeaderPage :image="imageBanner" />
-      <div class="max-w-3xl mx-auto">
+      <HeaderPageTitle :title="agenda.data.title" :image="imageBanner" />
+
+      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
         <div
           class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-10">
+          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
+            <Breadcrumbs :list-ids="[agenda.id]" :current-uid="agenda.uid" />
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
                 <Fancybox>
@@ -153,17 +247,35 @@ useSeo({
                   />
                 </Fancybox>
               </div>
+
+              <div
+                class="grid sm:grid-cols-1 sm:gap-2 md:grid-cols-2 lg:grid-cols-2 md:gap-4"
+              >
+                <div
+                  v-for="typeCal in listCalendars"
+                  :key="typeCal.id"
+                  class="rounded-xl shadow-md p-4 transition hover:scale-105 bg-green-100 border-l-4 border-green-500 text-green-700"
+                  :style="{
+                    backgroundColor: typeCal.lightColors.container,
+                    color: typeCal.lightColors.onContainer,
+                    borderColor: typeCal.lightColors.main,
+                  }"
+                >
+                  <p class="text-lg mb-2 font-semibold">{{ typeCal.title }}</p>
+                  <p class="text-sm">{{ typeCal.description }}</p>
+                </div>
+              </div>
             </div>
+
+            <ClientOnly fallback-tag="span" :fallback="t('layout.loading')">
+              <ScheduleSam
+                :list-events="listEvents"
+                :list-type-calendars="calendars"
+              />
+            </ClientOnly>
           </div>
         </div>
       </div>
-
-      <ClientOnly fallback-tag="span" :fallback="t('layout.loading')">
-        <ScheduleSam
-          :list-events="listEvents"
-          :list-type-events="listTypeEvents"
-        />
-      </ClientOnly>
     </div>
   </section>
 </template>

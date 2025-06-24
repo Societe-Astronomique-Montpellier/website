@@ -16,16 +16,23 @@ definePageMeta({
 });
 
 const prismic = usePrismic();
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const lang = useLang();
-const richTextSerializer = useRichTextSerializer();
 
-const HeaderPage = defineAsyncComponent(
-  () => import("@/components/pages/HeaderPage.vue"),
+const HeaderPageTitle = defineAsyncComponent(
+  () => import("@/components/pages/HeaderPageTitle.vue"),
+);
+const Breadcrumbs = defineAsyncComponent(
+  () => import("@/components/Layouts/Breadcrumbs.vue"),
+);
+const Fancybox = defineAsyncComponent(
+  () => import("@/components//content/Fancybox.vue"),
 );
 const FormContact = defineAsyncComponent(
   () => import("@/components/forms/contact.vue"),
 );
+
+const richTextSerializer = useRichTextSerializer();
 
 interface IContactFormData {
   name: string;
@@ -103,27 +110,31 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="contact">
+  <section
+    v-if="contact"
+    class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center"
+  >
     <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <h1
-        class="text-gray-900 dark:text-slate-400 font-bold text-4xl my-8 text-center"
-      >
-        {{ contact?.data.title }}
-      </h1>
-      <HeaderPage />
-      <div class="max-w-screen-md mx-auto">
+      <HeaderPageTitle :title="contact?.data.title" />
+
+      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
         <div
           class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
         >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5 sm:p-1">
-            <div class="my-8 grid gap-6 px-2">
-              <div class="my-4 grid gap-4 px-1">
-                <div data-content>
+          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
+            <Breadcrumbs :list-ids="[contact.id]" :current-uid="''" />
+            <div class="my-4 grid gap-4 px-1">
+              <div data-content>
+                <Fancybox>
+                  <Icon
+                    v-show="false"
+                    name="material-symbols:arrow-right-alt"
+                  />
                   <prismic-rich-text
                     :field="contact?.data.content"
                     :serializer="richTextSerializer"
                   ></prismic-rich-text>
-                </div>
+                </Fancybox>
 
                 <div v-if="submittedForm">
                   <div
@@ -136,15 +147,15 @@ useSeo({
                     {{ submitedFormMessage }}
                   </div>
                 </div>
-              </div>
 
-              <DelayHydration>
-                <FormContact
-                  v-if="!submittedForm"
-                  :topics="listTopics"
-                  @submit="handleContactFormSubmission"
-                />
-              </DelayHydration>
+                <DelayHydration>
+                  <FormContact
+                    v-if="!submittedForm"
+                    :topics="listTopics"
+                    @submit="handleContactFormSubmission"
+                  />
+                </DelayHydration>
+              </div>
             </div>
           </div>
         </div>

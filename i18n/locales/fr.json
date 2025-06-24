@@ -20,7 +20,7 @@
       "evenements": "Évenements",
       "contact": "Contact"
     },
-    "toggleMode":  "Mode light / mode dark",
+    "toggleMode":  "Mode light / mode dark"
   },
   "contact": {
     "title": "Formulaire de contact",
@@ -67,6 +67,28 @@
       "invalid": "Veuillez renseigner une adresse email valide",
       "send": "Votre message a bien été envoyé, nous vous répondrons le plus rapidement possible.",
       "send_err": "Une erreur est survenue, veuillez réessayer ultérieurement ou nous adresser un message à l'adresse contact[at]societe-astronomique-montpellier.fr"
+    }
+  },
+  "type_events": {
+    "allpublic": {
+      "title": "Évenements public",
+      "description": "Évenements organisés par la SAM, gratuit ou payant"
+    },
+    "private": {
+      "title": "Évenements privé",
+      "description": "Évenements animés par la SAM (gratuit ou payant) à la demande d'un organisme"
+    },
+    "astronomicals": {
+      "title": "Évenements astronomique",
+      "description": "Évenements astronomiques particulièrement intéressant"
+    },
+    "meetings": {
+      "title": "Rencontres astronomes",
+      "description": "NCN (organisé par la SAM) et autres rencontres où les astronomes se retrouvent, certains rassemblements sont ouverts au public"
+    },
+    "members": {
+      "title": "Réservé aux membres",
+      "description": "Évenements réservés uniquement pour les membres de la SAM"
     }
   },
   "search": {

@@ -150,6 +150,10 @@ useSeo({
             <div class="my-4 grid gap-4 px-1">
               <div data-content>
                 <Fancybox>
+                  <Icon
+                    v-show="false"
+                    name="material-symbols:arrow-right-alt"
+                  />
                   <prismic-rich-text
                     :field="dataThematic.page_thematic.data.content"
                     :serializer="richTextSerializer"

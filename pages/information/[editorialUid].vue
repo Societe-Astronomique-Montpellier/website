@@ -100,10 +100,10 @@ useSeo({
             </h2>
 
             <p
-                class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
+              class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
             >
               <span v-if="editorial?.data.author"
-              >{{ $t("page.author") }}{{ editorial?.data.author }},
+                >{{ $t("page.author") }}{{ editorial?.data.author }},
               </span>
               <span v-if="formatedDate">{{ formatedDate }}</span>
             </p>

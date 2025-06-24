@@ -654,16 +654,17 @@ interface EventDocumentData {
    *
    * - **Field Type**: Select
    * - **Placeholder**: Type d'accès à l'évenement
-   * - **Default Value**: Évenement public (gratuit)
+   * - **Default Value**: Évenements public
    * - **API ID Path**: event.access_type
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/field#select
    */
   access_type: prismic.SelectField<
-    | "Évenement public (gratuit)"
-    | "Évenement privé ou public avec inscription (payant)"
-    | "Réservé aux membres"
-    | "Évenement astronomique",
+    | "Évenements public"
+    | "Évenements privé"
+    | "Évenements astronomique"
+    | "Rencontres astronomes"
+    | "Réservé aux membres",
     "filled"
   >;
 

@@ -79,12 +79,13 @@
           "label": "Type d'accès",
           "placeholder": "Type d'accès à l'évenement",
           "options": [
-            "Évenement public (gratuit)",
-            "Évenement privé ou public avec inscription (payant)",
-            "Réservé aux membres",
-            "Évenement astronomique"
+            "Évenements public",
+            "Évenements privé",
+            "Évenements astronomique",
+            "Rencontres astronomes",
+            "Réservé aux membres"
           ],
-          "default_value": "Évenement public (gratuit)"
+          "default_value": "Évenements public"
         }
       },
       "activite_periodique": {

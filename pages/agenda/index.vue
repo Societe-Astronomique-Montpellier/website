@@ -249,7 +249,7 @@ useSeo({
               </div>
 
               <div
-                class="grid sm:grid-cols sm:gap-2 md:grid-cols-2 lg:grid-cols-2 md:gap-4"
+                class="grid sm:grid-cols-1 sm:gap-2 md:grid-cols-2 lg:grid-cols-2 md:gap-4"
               >
                 <div
                   v-for="typeCal in listCalendars"

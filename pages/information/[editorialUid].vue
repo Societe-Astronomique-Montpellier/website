@@ -7,6 +7,7 @@ import type {
 } from "@prismicio/types";
 import type { ComputedRef } from "vue";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
+import defaultImg from "../public/logo.png";
 
 definePageMeta({
   layout: "page",
@@ -56,7 +57,11 @@ const metaTitle: ComputedRef<string> = computed<string>(() => {
 const metaDescription: ComputedRef<string> = computed<string>(
   () => `${editorial.value?.data.meta_description}`,
 );
-const metaImage = asImageSrc(editorial.value?.data.meta_image);
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(editorial.value?.data.meta_image)
+    ? `${asImageSrc(editorial.value?.data.meta_image)}`
+    : defaultImg,
+);
 
 useSeo({
   title: metaTitle,

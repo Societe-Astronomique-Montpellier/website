@@ -14,6 +14,7 @@ import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type { IListSamEvents } from "~/types/calendarEvent";
 import type { CalendarTypeEventList } from "~/types/calendarTypeEvent";
 import type { CalendarType } from "@schedule-x/calendar";
+import defaultImg from "../public/logo.png";
 
 definePageMeta({
   layout: "page",
@@ -132,7 +133,6 @@ const Breadcrumbs = defineAsyncComponent(
 const Fancybox = defineAsyncComponent(
   () => import("@/components//content/Fancybox.vue"),
 );
-
 const ScheduleSam = defineAsyncComponent(
   () => import("@/components/content/Scheduler.vue"),
 );
@@ -215,7 +215,12 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     ? `${agenda?.value?.data.meta_description}`
     : `${agenda?.value?.data.title}`,
 );
-const metaImage = asImageSrc(agenda?.value?.data.meta_image);
+
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(agenda.value?.data.meta_image)
+    ? `${asImageSrc(agenda.value?.data.meta_image)}`
+    : defaultImg,
+);
 
 useSeo({
   title: metaTitle,

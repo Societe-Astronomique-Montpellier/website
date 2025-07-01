@@ -7,6 +7,7 @@ import type {
   FilledImageFieldImage,
 } from "@prismicio/types";
 import type { PageThematiqueDocument } from "~/prismicio-types";
+import defaultImg from "../public/logo.png";
 
 definePageMeta({
   layout: "page",
@@ -80,8 +81,10 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     : `${dataThematic.value?.page_thematic?.data.title}`,
 );
 
-const metaImage = asImageSrc(
-  dataThematic?.value?.page_thematic.data.meta_image,
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(dataThematic.value?.page_thematic.data.meta_image)
+    ? `${asImageSrc(dataThematic.value?.page_thematic.data.meta_image)}`
+    : defaultImg,
 );
 
 useSeo({

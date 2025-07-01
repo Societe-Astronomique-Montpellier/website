@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import defaultImg from "../public/logo.png";
 // add header + footer
 const { t } = useI18n();
 
@@ -17,7 +18,7 @@ const menuNavigation = useMenuNavigation();
 useSeo({
   title: t("layout.title"),
   description: "À la découverte du ciel",
-  image: undefined,
+  image: defaultImg,
 });
 </script>
 

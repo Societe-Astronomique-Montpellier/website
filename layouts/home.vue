@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import defaultImg from "../public/logo.png";
+
 const Header = defineAsyncComponent(
   () => import("@/components/Layouts/Header.vue"),
 );
@@ -20,7 +22,7 @@ const menuNavigation = useMenuNavigation();
 useSeo({
   title: "Société Astronomique de Montpellier",
   description: "À la découverte du ciel",
-  image: undefined,
+  image: defaultImg,
 });
 </script>
 

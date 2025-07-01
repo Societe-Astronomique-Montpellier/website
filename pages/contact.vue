@@ -9,7 +9,8 @@ import type {
   ContactDocumentDataSubjectsItem,
 } from "~/prismicio-types";
 import type { ComputedRef } from "vue";
-import { isFilled } from "@prismicio/helpers";
+import { asImageSrc, isFilled } from "@prismicio/helpers";
+import defaultImg from "../public/logo.png";
 
 definePageMeta({
   layout: "page",
@@ -75,6 +76,12 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     : ``,
 );
 
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(contact.value?.data.meta_image)
+    ? `${asImageSrc(contact.value?.data.meta_image)}`
+    : defaultImg,
+);
+
 const handleContactFormSubmission = async (formData: IContactFormData) => {
   setTimeout(async () => {
     try {
@@ -105,7 +112,7 @@ const handleContactFormSubmission = async (formData: IContactFormData) => {
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: undefined,
+  image: metaImage,
 });
 </script>
 

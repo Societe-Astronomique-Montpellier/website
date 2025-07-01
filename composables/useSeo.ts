@@ -1,10 +1,9 @@
 import type { RuntimeConfig } from "@nuxt/schema";
-import defaultImg from "../public/logo.png";
 
 export interface IItem {
   title: string | Ref<string>;
   description: string | Ref<string>;
-  image?: string | Ref<string> | null | undefined;
+  image: string | Ref<string>;
 }
 export const useSeo = (item: IItem): void => {
   const { t, locale } = useI18n();
@@ -13,8 +12,6 @@ export const useSeo = (item: IItem): void => {
 
   const facebookAppId: number = config.public.facebookAppId;
   const titleName: string = t("layout.title");
-
-  const defaultImgUrl = defaultImg;
 
   useHead({
     htmlAttrs: {
@@ -34,7 +31,7 @@ export const useSeo = (item: IItem): void => {
     ogType: "website",
     ogTitle: (): string => unref(item.title),
     ogDescription: (): string => unref(item.description),
-    ogImage: (): string => unref(item.image) ?? defaultImgUrl,
+    ogImage: (): string => unref(item.image),
     ogImageWidth: (): number => 1200,
     ogImageHeight: (): number => 630,
     ogLocale: locale.value,
@@ -43,6 +40,6 @@ export const useSeo = (item: IItem): void => {
     twitterSite: (): string => titleName,
     twitterTitle: (): string => unref(item.title),
     twitterDescription: (): string => unref(item.description),
-    twitterImage: (): string => unref(item.image) ?? defaultImgUrl,
+    twitterImage: (): string => unref(item.image),
   });
 };

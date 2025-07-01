@@ -15,8 +15,9 @@ import type {
   EventsDocument,
 } from "~/prismicio-types";
 
-import { isFilled } from "@prismicio/helpers";
-const { locale, locales } = useI18n();
+import { asImageSrc, isFilled } from "@prismicio/helpers";
+import defaultImg from "../public/logo.png";
+
 const prismic = usePrismic();
 
 definePageMeta({
@@ -188,11 +189,16 @@ const metaDescription: ComputedRef<string> = computed<string>(() =>
     ? `${home.value?.data.meta_description}`
     : ``,
 );
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(home.value?.data.meta_image)
+    ? `${asImageSrc(home.value?.data.meta_image)}`
+    : defaultImg,
+);
 
 useSeo({
   title: metaTitle,
   description: metaDescription,
-  image: undefined,
+  image: metaImage,
 });
 </script>
 

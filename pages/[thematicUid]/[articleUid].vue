@@ -10,6 +10,7 @@ import type {
   PageArticleDocument,
   PageThematiqueDocument,
 } from "~/prismicio-types";
+import defaultImg from "../public/logo.png";
 
 definePageMeta({
   layout: "page",
@@ -84,7 +85,11 @@ const metaDescription: ComputedRef<string> = computed<string>(() => {
     : `${article.value?.data.title}`;
 });
 
-const metaImage = asImageSrc(article.value?.data.meta_image);
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(article.value?.data.meta_image)
+    ? `${asImageSrc(article.value?.data.meta_image)}`
+    : defaultImg,
+);
 
 useSeo({
   title: metaTitle,

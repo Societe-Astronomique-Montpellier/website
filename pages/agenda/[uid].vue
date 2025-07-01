@@ -5,8 +5,9 @@ import type {
   EmptyImageFieldImage,
   FilledImageFieldImage,
 } from "@prismicio/types";
-import {asLink, type ImageField} from "@prismicio/client";
+import { asLink, type ImageField } from "@prismicio/client";
 import type { EventDocument, EventsDocument } from "~/prismicio-types";
+import defaultImg from "../public/logo.png";
 
 definePageMeta({
   layout: "page",
@@ -77,6 +78,7 @@ const markerCoordinates = computed(() => {
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() => useBannerImage(data.value?.event.data.image_banner, isMobile));
+
 const metaTitle: ComputedRef<string> = computed<string>(() =>
   isFilled.keyText(data.value?.event.data.meta_title)
     ? `${data.value?.event.data.meta_title}`
@@ -85,7 +87,11 @@ const metaTitle: ComputedRef<string> = computed<string>(() =>
 const metaDescription: ComputedRef<string> = computed<string>(
   () => `${data.value?.event.data.meta_description}`,
 );
-const metaImage = asImageSrc(data.value?.event.data.meta_image);
+const metaImage: ComputedRef<string> = computed<string>(() =>
+  isFilled.image(data.value?.event.data.meta_image)
+    ? `${asImageSrc(data.value?.event.data.meta_image)}`
+    : defaultImg,
+);
 
 useSeo({
   title: metaTitle,
@@ -143,8 +149,8 @@ useSeo({
                   </button>
 
                   <prismic-link
-                    type="button"
                     v-if="asLink(data.event.data.link)"
+                    type="button"
                     :field="data.event.data.link"
                     class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
                     :aria-label="t('layout.moreInfo')"

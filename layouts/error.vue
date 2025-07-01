@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import defaultImg from "../public/logo.png";
+
 useSeo({
   title: "Société Astronomique de Montpellier - Page 404",
   description: "À la découverte du ciel",
-  image: undefined
+  image: defaultImg,
 });
 </script>
 

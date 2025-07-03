@@ -2,7 +2,7 @@
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker } from "@vue-leaflet/vue-leaflet";
 
-const zoom: Ref<number> = ref<number>(18);
+const zoom: Ref<number> = ref<number>(16);
 const zIndex: Ref<number> = ref<number>(20);
 
 // Props

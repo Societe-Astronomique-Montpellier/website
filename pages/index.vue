@@ -146,7 +146,7 @@ const { data: home, error } = useAsyncData("home", async () => {
   /**
    * Content-types data
    */
-  const dateNow = new Date().toISOString().split("T")[0];
+  const dateNow: string = new Date().toISOString().split("T")[0] ?? "";
   const [thematics, agenda, events] = await Promise.all([
     (await prismic.client.getAllByIDs<AllDocumentTypes>(
       listThematicsId,

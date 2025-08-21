@@ -10,7 +10,7 @@ export const useArticlesByThematic = () => {
   const lang = useLang();
 
   const fetchChildrenPages = async (thematicId: string) => {
-    const dateNow = new Date().toISOString().split("T")[0];
+    const dateNow = new Date().toISOString().split("T")[0] ?? "";
     const [dataArticles, dataEvents] = await Promise.all([
       (await prismic.client.getAllByType<AllDocumentTypes>("page_article", {
         filters: [prismic.filter.at("my.page_article.thematic", thematicId)],

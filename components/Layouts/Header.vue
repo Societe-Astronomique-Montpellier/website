@@ -206,7 +206,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
             <p v-if="!loading && results !== null && 0 === results?.length">
               {{ t("search.no_result") }}
             </p>
-            <div v-if="!loading && results !== null && 0 < results?.length">
+            <div v-if="!loading && results && 0 < results?.length">
               <ListResults :items="results" :nb-items="results?.length" />
             </div>
           </div>

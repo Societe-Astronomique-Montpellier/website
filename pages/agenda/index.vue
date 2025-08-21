@@ -151,7 +151,7 @@ const [{ data: events, error: eventsError }, { data: agenda }] =
           filters: [
             prismic.filter.dateAfter(
               "my.event.time_start",
-              monthsAgo.toISOString().split("T")[0],
+              monthsAgo?.toISOString()?.split("T")[0] ?? "",
             ),
           ],
           orderings: {

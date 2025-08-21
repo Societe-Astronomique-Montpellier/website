@@ -2,6 +2,9 @@ import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
 
 export default defineNuxtConfig({
   devtools: { enabled: true },
+  future: {
+    compatibilityVersion: 4,
+  },
   ssr: true,
   sourcemap: { server: true, client: false },
   build: {
@@ -130,7 +133,7 @@ export default defineNuxtConfig({
     label: false,
     icon: true,
   },
-  compatibilityDate: "2025-07-03",
+  compatibilityDate: "2025-08-21",
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,

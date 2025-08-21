@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ImageField, KeyTextField } from "@prismicio/client";
 import type { ComputedRef } from "vue";
-import defaultImg from "public/sam_babote_rs.webp";
+import defaultImg from "~/public/sam_babote_rs.webp";
 import { isFilled } from "@prismicio/helpers";
 
 const { isMobile } = useDevice();

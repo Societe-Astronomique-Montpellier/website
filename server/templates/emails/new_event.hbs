@@ -1,20 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="fr" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="x-preheader" content="Votre petit résumé accrocheur ici – personnalisez-le !">
+  <title>Évènements de la SAM de la semaine</title>
+  <style>
+    html, body { margin:0 !important; padding:0 !important; height:100% !important; width:100% !important; }
+    body { background:#f5f7fb; -webkit-text-size-adjust:100%; -ms-text-size-adjust:100%; }
+    a[x-apple-data-detectors] { color:inherit !important; text-decoration:none !important; }
+    u + #body a { color:inherit; text-decoration:none; font-size:inherit; }
+    .container { width:100%; max-width:600px; margin:0 auto; }
+    .spacer { line-height:1px; font-size:1px; }
+    .p-24 { padding:24px; }
+    .p-16 { padding:16px; }
+    .px-24 { padding-left:24px; padding-right:24px; }
+    .text-center { text-align:center; }
+    .h1 { font-family: Arial, Helvetica, sans-serif; font-size:28px; line-height:36px; font-weight:700; color:#1b1f3b; margin:0; }
+    .h2 { font-family: Arial, Helvetica, sans-serif; font-size:20px; line-height:28px; font-weight:700; color:#1b1f3b; margin:0; }
+    .body { font-family: Arial, Helvetica, sans-serif; font-size:16px; line-height:24px; color:#3a3f58; margin:0; }
+    .muted { color:#6b7094; font-size:14px; }
+    .card { background:#ffffff; border-radius:16px;}
+    img { border:0; outline:none; text-decoration:none; height:auto; display:block; max-width:100%; }
+    .btn { background:#4f46e5; color:#ffffff; text-decoration:none; display:inline-block; border-radius:10px; font-weight:bold; font-family: Arial, Helvetica, sans-serif; }
+    @media screen and (max-width: 600px) {
+      .mobile-px-16 { padding-left:16px !important; padding-right:16px !important; }
+      .stack { display:block !important; width:100% !important; }
+      .column { width:100% !important; display:block !important; }
+      .h1 { font-size:24px !important; line-height:32px !important; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background:#0f1220 !important; }
+      .card { background-color: rgb(17 24 39) !important; }
+      .h1, .h2 { color:#ffffff !important; }
+      .body, .muted { color:#BDBDBD !important; }
+    }
+  </style>
 </head>
-<body>
-    <p>Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/{{documentUid}}" target="_blank">"{{title}}"</a>.</p>
-    <ul>
-        <li>Lieu: {{location}}</li>
-        <li>Date & heure de début: {{dateStart}}</li>
-        <li>Date & heure de fin: {{dateEnd}}</li>
-    </ul>
-    <p>Un rappel sera envoyé sur la sam-liste le jour de l'évènement</p>
-    <p>Tous les évènements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a></p>
-    <p>Ceci est un mail automatique, merci de ne pas y répondre.</p>
-    <p>Bien cordialement.</p>
+<body id="body" style="margin:0; padding:0;">
+<div style="display:none; max-height:0; overflow:hidden; font-size:1px; line-height:1px; color:#fff; opacity:0;">Nouvel évènement ajouté à l'agenda</div>
+
+<div role="article" aria-roledescription="email" lang="fr" style="text-align: center;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background:#f5f7fb;">
+    <tr>
+      <td align="center" class="px-24 mobile-px-16" style="padding-top:32px; padding-bottom:32px;">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" class="container">
+
+          <!-- En-tête / Logo -->
+          <tr>
+            <td class="text-center">
+              <img src="https://images.prismic.io/societe-astronomique-montpellier/Zu1yHbVsGrYSvn9u_Logo_SAM.png?auto=format,compress" width="80" alt="Votre marque" style="margin:0 auto 12px;">
+              <div class="muted" style="font-family:Arial, Helvetica, sans-serif;">Un nouvel évenement a été ajouté à l'agenda de la SAM : <a href="https://www.societe-astronomique-montpellier.fr/agenda/{{documentUid}}" target="_blank">"{{title}}"</a></div>
+            </td>
+          </tr>
+
+          <tr><td height="16" class="spacer">&nbsp;</td></tr>
+
+          <!-- Blocs en cartes (stackées) -->
+          <tr>
+            <td>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                <!-- Carte 1 -->
+                  <tr>
+                    <td class="card p-24" style="margin-bottom:16px;">
+                      <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                        <tr>
+                          <td width="48" valign="top" style="padding-right:12px; display: none;">
+                            <img src="https://images.prismic.io/societe-astronomique-montpellier/Zo95MB5LeNNTxA6c_20211011_160139.jpg?auto=format%2Ccompress&rect=598%2C0%2C2700%2C1800&w=780&h=520" width="48" height="48" alt="Avatar" style="border-radius:50%;">
+                          </td>
+                          <td valign="top">
+                            <div class="body" style="margin-top:4px; font-size:14px; color:#6b7094;">Lieu: {{location}}</div>
+                            <div class="body" style="margin-top:4px; font-size:14px; color:#6b7094;">Date & heure de début: {{dateStart}}</div>
+                            <div class="body" style="margin-top:4px; font-size:14px; color:#6b7094;">Date & heure de fin: {{dateEnd}}</div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                  <tr><td height="16" class="spacer">&nbsp;</td></tr>
+                <!-- Carte 2 -->
+              </table>
+            </td>
+          </tr>
+
+          <tr><td height="16" class="spacer">&nbsp;</td></tr>
+
+          <!-- Pied de page -->
+          <tr>
+            <td class="text-center muted" style="padding:8px 24px; font-family:Arial, Helvetica, sans-serif;">
+              <div style="height:1px; background:#e6e8f0; margin:0 0 12px 0;"></div>
+              <div style="margin-bottom:8px;">Suivez-nous</div>
+              <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+                <tr>
+                  <td style="padding:0 8px;"><a href="https://www.facebook.com/profile.php?id=61577575791459" target="_blank"><img src="https://images.prismic.io/societe-astronomique-montpellier/aKg736Tt2nPbaod__pngegg.png?auto=format,compress" width="32" height="32" alt="Facebook"></a></td>
+                  <!-- td style="padding:0 8px;"><a href="https://www.linkedin.com/" target="_blank"><img src="https://via.placeholder.com/28?text=IN" width="28" height="28" alt="LinkedIn"></a></td -->
+                  <!-- td style="padding:0 8px;"><a href="https://www.instagram.com/" target="_blank"><img src="https://via.placeholder.com/28?text=IG" width="28" height="28" alt="Instagram"></a></td -->
+                </tr>
+              </table>
+
+              <div style="height:12px; line-height:12px;">&nbsp;</div>
+
+              <div style="font-size:12px; line-height:18px; color:#8a8fb0;">
+                Vous recevez cet email car vous vous êtes membre de la <span style="color:#4f46e5;"><a href="https://www.societe-astronomique-montpellier.fr" target="_blank">Société Astronomique de Montpellier</a></span>.
+                Un rappel sera envoyé sur la sam-liste le jour de l'évènement. Tous les évènements sont consultables sur <a href="https://www.societe-astronomique-montpellier.fr/agenda" target="_blank">l'agenda de la SAM</a>.
+                Ceci est un mail automatique, merci de ne pas y répondre.
+                <br><br>
+                <span>66 square de la Babote · 34000 Montpellier · <a href="mailto:contact@societe-astronomique-montpellier.fr">contact@societe-astronomique-montpellier.fr</a></span>
+              </div>
+            </td>
+          </tr>
+
+          <tr><td height="24" class="spacer">&nbsp;</td></tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>
 </body>
 </html>

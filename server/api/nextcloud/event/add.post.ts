@@ -67,13 +67,13 @@ const sendToNextCloud = async (
   };
 
   const urlIcs: string = `${url}/remote.php/dav/calendars/${login}/${agenda}/${documentId}.ics`;
-  // const ncResponse: Response = await fetch(urlIcs, requestOptions);
-  //
-  // if (!ncResponse.ok) {
-  //   throw new Error(
-  //     `Nextcloud error: ${ncResponse.status} ${ncResponse.statusText}`,
-  //   );
-  // }
+  const ncResponse: Response = await fetch(urlIcs, requestOptions);
+
+  if (!ncResponse.ok) {
+    throw new Error(
+      `Nextcloud error: ${ncResponse.status} ${ncResponse.statusText}`,
+    );
+  }
 };
 
 /**

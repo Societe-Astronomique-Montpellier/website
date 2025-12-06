@@ -6,10 +6,30 @@
   "status": true,
   "json": {
     "Main": {
+      "uid": {
+        "config": {
+          "label": "UID"
+        },
+        "type": "UID"
+      },
       "title": {
         "type": "Text",
         "config": {
           "label": "Titre",
+          "placeholder": ""
+        }
+      },
+      "title_part_1": {
+        "type": "Text",
+        "config": {
+          "label": "titre part 1",
+          "placeholder": ""
+        }
+      },
+      "title_part_2": {
+        "type": "Text",
+        "config": {
+          "label": "Title part 2",
           "placeholder": ""
         }
       },
@@ -44,6 +64,20 @@
                   }
                 ]
               }
+            },
+            "title": {
+              "type": "Text",
+              "config": {
+                "label": "title",
+                "placeholder": "Titre"
+              }
+            },
+            "label": {
+              "type": "Text",
+              "config": {
+                "label": "label",
+                "placeholder": "Texte explicatif"
+              }
             }
           }
         }
@@ -72,12 +106,6 @@
           "allowTargetBlank": false,
           "select": null
         }
-      },
-      "uid": {
-        "config": {
-          "label": "UID"
-        },
-        "type": "UID"
       },
       "text_button_right": {
         "type": "Text",

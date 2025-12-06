@@ -18,6 +18,9 @@ import type {
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import defaultImg from "../public/logo.png";
 
+const route = useRoute();
+const hasDemo: ComputedRef<boolean> = computed(() => "demo" in route.query);
+
 const prismic = usePrismic();
 
 definePageMeta({
@@ -51,6 +54,8 @@ const { data: home, error } = useAsyncData("home", async () => {
       fetchLinks: [
         "block_hero.title",
         "block_hero.subtitle",
+        "block_hero.title_part_1",
+        "block_hero.title_part_2",
         "block_hero.carousel",
         "block_hero.button_left",
         "block_hero.text_button_left",
@@ -204,7 +209,7 @@ useSeo({
 
 <template>
   <div v-if="home">
-    <BlockHeroPresentation :block="home.blocks.hero" />
+    <BlockHeroPresentation :block="home.blocks.hero" :has-demo="hasDemo" />
 
     <a id="status" />
     <BlockTestimonial :block="home.blocks.testimonial" />

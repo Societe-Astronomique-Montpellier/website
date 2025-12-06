@@ -44,6 +44,22 @@ const BlockContact = defineAsyncComponent(
   () => import("@/components/home/BlockContact.vue"),
 );
 
+interface BlockHeroData {
+  title?: string;
+  subtitle?: string;
+  title_part_1?: string;
+  title_part_2?: string;
+  carousel: BlockHeroDocument["data"]["carousel"];
+  button_left?: BlockHeroDocument["data"]["button_left"];
+  text_button_left?: string;
+  button_right?: BlockHeroDocument["data"]["button_right"];
+  text_button_right?: string;
+}
+
+interface RelatedBlockHero {
+  data: BlockHeroData;
+}
+
 // Prismic
 const { data: home, error } = useAsyncData("home", async () => {
   const currentLang = useLang();
@@ -91,19 +107,7 @@ const { data: home, error } = useAsyncData("home", async () => {
   /**
    * Blocks
    */
-  const relatedBlockHero = response.data
-    .block_hero as typeof response.data.block_hero & {
-    data: Pick<
-      BlockHeroDocument["data"],
-      | "title"
-      | "subtitle"
-      | "carousel"
-      | "button_left"
-      | "text_button_left"
-      | "button_right"
-      | "text_button_right"
-    >;
-  };
+  const relatedBlockHero = response.data.block_hero as RelatedBlockHero;
 
   const relatedBlockTestimonial = response.data
     .block_testimonial as typeof response.data.block_testimonial & {
@@ -264,3 +268,9 @@ useSeo({
     {{ error }}
   </div>
 </template>
+
+<style scoped>
+.transition-opacity {
+  transition: opacity 1s ease-in-out;
+}
+</style>

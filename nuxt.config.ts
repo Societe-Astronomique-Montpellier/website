@@ -55,7 +55,6 @@ export default defineNuxtConfig({
         flag: "🇫🇷",
       },
     ],
-    lazy: true,
     langDir: "locales",
     strategy: "prefix_except_default",
     detectBrowserLanguage: false,
@@ -133,7 +132,7 @@ export default defineNuxtConfig({
     label: false,
     icon: true,
   },
-  compatibilityDate: "2025-08-21",
+  compatibilityDate: "2025-12-06",
   runtimeConfig: {
     apiEndpoint: process.env.NUXT_PRISMIC_ENDPOINT,
     apiPrismicRepository: process.env.NUXT_PRISMIC_REPOSITORY,

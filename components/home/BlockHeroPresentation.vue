@@ -69,30 +69,24 @@ const stopAutoSlideLegacy = (): void => {
 /**
  * NEW SLIDE
  */
-
 const currentSlide = ref<number>(0);
-const slideTitle = ref<string>("");
-const slideDesc = ref<string>("");
-const autoSlideInterval = ref<NodeJS.Timeout | null>(null);
-
+const slideTitle = computed<string>(() => {
+  const slide = slides.value[currentSlide.value];
+  return slide?.title || "";
+});
+const slideDesc = computed<string>(() => {
+  const slide = slides.value[currentSlide.value];
+  return slide?.label || "";
+});
+const autoSlideInterval = ref<ReturnType<typeof setInterval> | null>(null);
 const SLIDE_DURATION = 5000;
-
-const showSlide = (index: number): void => {
-  currentSlide.value = index;
-  const slide = slides.value[index];
-  if (slide) {
-    slideTitle.value = slide.title || "";
-    slideDesc.value = slide.label || "";
-  }
-};
 
 const nextSlide = (): void => {
   currentSlide.value = (currentSlide.value + 1) % nbImages.value;
-  showSlide(currentSlide.value);
 };
 
 const startAutoSlide = (): void => {
-  if (nbImages.value > 1) {
+  if (hasMultipleSlides.value) {
     autoSlideInterval.value = setInterval(nextSlide, SLIDE_DURATION);
   }
 };
@@ -107,10 +101,7 @@ const stopAutoSlide = (): void => {
 // Lifecycle
 onMounted(() => {
   if (props.hasDemo) {
-    if (nbImages.value > 0) {
-      showSlide(0);
-      startAutoSlide();
-    }
+    startAutoSlide();
   } else {
     startAutoSlideLegacy();
   }

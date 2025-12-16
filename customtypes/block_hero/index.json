@@ -19,6 +19,21 @@
           "placeholder": ""
         }
       },
+      "subtitle": {
+        "type": "Text",
+        "config": {
+          "label": "Sous-titre",
+          "placeholder": ""
+        }
+      },
+      "background_image": {
+        "type": "Image",
+        "config": {
+          "label": "Image de fond",
+          "constraint": {},
+          "thumbnails": []
+        }
+      },
       "title_part_1": {
         "type": "Text",
         "config": {
@@ -30,13 +45,6 @@
         "type": "Text",
         "config": {
           "label": "Title part 2",
-          "placeholder": ""
-        }
-      },
-      "subtitle": {
-        "type": "Text",
-        "config": {
-          "label": "Sous-titre",
           "placeholder": ""
         }
       },

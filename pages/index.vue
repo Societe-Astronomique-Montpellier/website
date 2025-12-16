@@ -17,6 +17,7 @@ import type {
 
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import defaultImg from "../public/logo.png";
+import type {ImageField} from "@prismicio/client";
 
 const route = useRoute();
 const hasDemo: ComputedRef<boolean> = computed(() => "demo" in route.query);
@@ -47,6 +48,7 @@ const BlockContact = defineAsyncComponent(
 interface BlockHeroData {
   title?: string;
   subtitle?: string;
+  background_image?: ImageField;
   title_part_1?: string;
   title_part_2?: string;
   carousel: BlockHeroDocument["data"]["carousel"];
@@ -70,6 +72,7 @@ const { data: home, error } = useAsyncData("home", async () => {
       fetchLinks: [
         "block_hero.title",
         "block_hero.subtitle",
+        "block_hero.background_image",
         "block_hero.title_part_1",
         "block_hero.title_part_2",
         "block_hero.carousel",

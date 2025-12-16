@@ -299,6 +299,28 @@ interface BlockHeroDocumentData {
   title: prismic.KeyTextField;
 
   /**
+   * Sous-titre field in *Bloc de présentation*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_hero.subtitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  subtitle: prismic.KeyTextField;
+
+  /**
+   * Image de fond field in *Bloc de présentation*
+   *
+   * - **Field Type**: Image
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_hero.background_image
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/image
+   */
+  background_image: prismic.ImageField<never>;
+
+  /**
    * titre part 1 field in *Bloc de présentation*
    *
    * - **Field Type**: Text
@@ -319,17 +341,6 @@ interface BlockHeroDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/text
    */
   title_part_2: prismic.KeyTextField;
-
-  /**
-   * Sous-titre field in *Bloc de présentation*
-   *
-   * - **Field Type**: Text
-   * - **Placeholder**: *None*
-   * - **API ID Path**: block_hero.subtitle
-   * - **Tab**: Main
-   * - **Documentation**: https://prismic.io/docs/fields/text
-   */
-  subtitle: prismic.KeyTextField;
 
   /**
    * Carrousel field in *Bloc de présentation*

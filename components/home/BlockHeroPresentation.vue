@@ -13,6 +13,7 @@ interface CarouselItem {
 interface BlockHeroData {
   title?: string;
   subtitle?: string;
+  background_image?: ImageField;
   title_part_1?: string;
   title_part_2?: string;
   carousel: CarouselItem[];
@@ -229,14 +230,27 @@ onUnmounted(() => {
       class="bg-gray-900 relative pt-32 pb-12 lg:pt-44 lg:pb-24 overflow-hidden min-h-[85vh] flex items-center"
     >
       <div
-        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent-500/10 blur-[100px] rounded-full -z-10 pointer-events-none"
+        class="absolute inset-0 z-0 bg-cover bg-center"
+        :style="{
+          'background-image': block.data.background_image?.url
+            ? `url(${block.data.background_image.url})`
+            : 'none',
+        }"
+        role="img"
+        :aria-label="
+          block.data.background_image?.alt || 'Image de fond du bloc Hero'
+        "
       ></div>
 
       <div
-        class="container mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center"
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-accent-500/10 blur-[100px] rounded-full z-10 pointer-events-none"
+      ></div>
+
+      <div
+        class="container mx-auto px-6 grid lg:grid-cols-12 gap-12 items-center z-20"
       >
         <div
-          class="lg:col-span-5 text-center lg:text-left z-20 relative animate-fade-in-up"
+          class="lg:col-span-5 text-center lg:text-left relative animate-fade-in-up"
         >
           <h1
             class="text-5xl lg:text-7xl font-heading font-extrabold leading-tight mb-6 text-white tracking-tight"
@@ -265,10 +279,6 @@ onUnmounted(() => {
               <span>🔭</span> {{ block.data.text_button_left }}
             </prismic-link>
           </div>
-
-          <p class="mt-6 text-xs text-slate-500 font-sans hidden">
-            ★ Aucune installation requise • Résultat immédiat • 100% en ligne
-          </p>
         </div>
 
         <div

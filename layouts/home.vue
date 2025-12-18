@@ -39,7 +39,7 @@ useSeo({
       <template #content>
       </template>
     </Modal -->
-    <SideMenu />
+<!--    <SideMenu />-->
     <Footer :menu="menuNavigation" />
     <SidebarSocialShare />
   </div>

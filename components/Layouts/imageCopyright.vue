@@ -19,7 +19,7 @@ const { image } = toRefs(props);
     />
     <figcaption
       v-if="image.alt || image.copyright"
-      class="mt-2 italic text-sm text-gray-600 dark:text-slate-400"
+      class="mt-2 px-4 italic text-sm text-gray-600 dark:text-slate-400"
     >
       <span v-if="image.alt">{{ image.alt }}&nbsp;</span>
       <span v-if="image.copyright"

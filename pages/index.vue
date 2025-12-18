@@ -17,7 +17,7 @@ import type {
 
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import defaultImg from "../public/logo.png";
-import type {ImageField} from "@prismicio/client";
+import type { ImageField } from "@prismicio/client";
 
 const route = useRoute();
 const hasDemo: ComputedRef<boolean> = computed(() => "demo" in route.query);
@@ -219,7 +219,7 @@ useSeo({
     <BlockHeroPresentation :block="home.blocks.hero" :has-demo="hasDemo" />
 
     <a id="status" />
-    <BlockTestimonial :block="home.blocks.testimonial" />
+    <BlockTestimonial :block="home.blocks.testimonial" :has-demo="hasDemo" />
 
     <!-- thematics block -->
     <a id="thematiques" />

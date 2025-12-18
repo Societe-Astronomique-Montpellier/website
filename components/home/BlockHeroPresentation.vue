@@ -228,6 +228,11 @@ onUnmounted(() => {
     <section
       id="hero"
       class="bg-gray-900 relative pt-32 pb-12 lg:pt-44 lg:pb-24 overflow-hidden min-h-[85vh] flex items-center"
+      :class="
+        !isMobile
+          ? `w-full h-screen overflow-hidden relative`
+          : `overflow-hidden`
+      "
     >
       <div
         class="absolute inset-0 z-0 bg-cover bg-center"

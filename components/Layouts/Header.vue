@@ -82,7 +82,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
 <template>
   <header :class="`w-full py-2 top-0 z-50 backdrop-blur-sm ${mainNavClass}`">
     <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+      <div class="flex items-center justify-between h-12">
         <!-- logo -->
         <div class="flex-shrink-0">
           <NuxtLink to="/" aria-label="home">
@@ -133,7 +133,7 @@ const searchIconColors: ComputedRef<string> = computed<string>(() =>
           <!-- Search -->
           <button
             type="button"
-            class="p-2 rounded-full h-16 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400 transition-colors duration-200"
+            class="p-2 rounded-full h-12 text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-blue-400 transition-colors duration-200"
             :aria-label="t('search.title')"
             role="button"
             @click="openSearchBar"

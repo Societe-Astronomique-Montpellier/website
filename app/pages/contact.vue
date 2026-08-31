@@ -64,24 +64,18 @@ computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(
   () => useBannerImage(undefined, false),
 );
 
-const metaTitle: ComputedRef<string> = computed<string>(() =>
-  !isFilled.keyText(contact.value?.data.meta_title)
-    ? `${contact.value?.data.meta_title}`
-    : `Société Astronomique de Montpellier`,
-);
-
-const metaDescription: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(contact.value?.data.meta_description)
-    ? `${contact.value?.data.meta_description}`
-    : ``,
-);
-
-const metaImage: ComputedRef<string> = computed<string>(() =>
-  isFilled.image(contact.value?.data.meta_image)
-    ? `${asImageSrc(contact.value?.data.meta_image)}`
-    : defaultImg,
-);
-
+const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
+  title: () => [
+    `${contact.value?.data.meta_title}`,
+    `Société Astronomique de Montpellier`,
+  ],
+  description: () => [
+    `${contact.value?.data.meta_description}`,
+    `Société Astronomique de Montpellier`,
+  ],
+  image: () => [contact.value?.data.meta_image],
+  defaultImage: defaultImg as string,
+});
 const handleContactFormSubmission = async (formData: IContactFormData) => {
   setTimeout(async () => {
     try {
@@ -119,54 +113,53 @@ useSeo({
 <template>
   <section
     v-if="contact"
-    class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center"
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
   >
-    <div class="max-w-screen-xl w-full mx-auto relative mb-2">
+    <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="contact?.data.title" />
+    </header>
 
-      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
-        <div
-          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
-        >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
-            <Breadcrumbs :list-ids="[contact.id]" :current-uid="''" />
-            <div class="my-4 grid gap-4 px-1">
-              <div data-content>
-                <Fancybox>
-                  <Icon
-                    v-show="false"
-                    name="material-symbols:arrow-right-alt"
-                  />
-                  <prismic-rich-text
-                    :field="contact?.data.content"
-                    :serializer="richTextSerializer"
-                  ></prismic-rich-text>
-                </Fancybox>
+    <nav aria-label="Breadcrumb" class="mb-6">
+      <Breadcrumbs
+        :list-ids="[contact.id]" :current-uid="''"
+      />
+    </nav>
 
-                <div v-if="submittedForm">
-                  <div
-                    class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
-                    role="alert"
-                    tabindex="-1"
-                    aria-labelledby="hs-soft-color-success-label"
-                  >
-                    <Icon name="clarity:success-standard-line" size="12" />
-                    {{ submitedFormMessage }}
-                  </div>
-                </div>
+    <div class="grid grid-cols-1 gap-8 items-start">
+      <main class="space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+        <article class="prose dark:prose-invert max-w-none">
+          <Fancybox>
+            <Icon
+                v-show="false"
+                name="material-symbols:arrow-right-alt"
+            />
+            <prismic-rich-text
+                :field="contact?.data.content"
+                :serializer="richTextSerializer"
+            ></prismic-rich-text>
+          </Fancybox>
 
-                <DelayHydration>
-                  <FormContact
-                    v-if="!submittedForm"
-                    :topics="listTopics"
-                    @submit="handleContactFormSubmission"
-                  />
-                </DelayHydration>
-              </div>
+          <div v-if="submittedForm">
+            <div
+                class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
+                role="alert"
+                tabindex="-1"
+                aria-labelledby="hs-soft-color-success-label"
+            >
+              <Icon name="clarity:success-standard-line" size="12" />
+              {{ submitedFormMessage }}
             </div>
           </div>
-        </div>
-      </div>
+
+          <DelayHydration>
+            <FormContact
+                v-if="!submittedForm"
+                :topics="listTopics"
+                @submit="handleContactFormSubmission"
+            />
+          </DelayHydration>
+        </article>
+      </main>
     </div>
   </section>
 </template>

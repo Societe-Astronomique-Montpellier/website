@@ -191,21 +191,19 @@ const { data: home, error } = useAsyncData("home", async () => {
   };
 });
 
-const metaTitle: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(home.value?.data.meta_title)
-    ? `${home.value?.data.meta_title}`
-    : `Société Astronomique de Montpellier`,
-);
-const metaDescription: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(home.value?.data.meta_description)
-    ? `${home.value?.data.meta_description}`
-    : ``,
-);
-const metaImage: ComputedRef<string> = computed<string>(() =>
-  isFilled.image(home.value?.data.meta_image)
-    ? `${asImageSrc(home.value?.data.meta_image)}`
-    : defaultImg,
-);
+
+const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
+  title: () => [
+    `${home.value?.data.meta_title}`,
+    `Société Astronomique de Montpellier`,
+  ],
+  description: () => [
+    `${home.value?.data.meta_description}`,
+    `Société Astronomique de Montpellier`,
+  ],
+  image: () => [home.value?.data.meta_image],
+  defaultImage: defaultImg as string,
+});
 
 useSeo({
   title: metaTitle,

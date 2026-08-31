@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// https://tailwindcomponents.com/component/content-2
 import type {
   EventDocument,
   PageArticleDocument,
@@ -21,30 +20,31 @@ const { getComponent } = useDynamicCardComponent();
 </script>
 
 <template>
-
-  <section class="mt-12 pt-10 border-t border-slate-200 dark:border-slate-800">
-    <!-- En-tête de section -->
-    <div class="flex items-center justify-between mb-8">
-      <div>
-        <h3 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
-          {{ titleBlock }}
-        </h3>
+  <section class="text-gray-400 bg-gray-900 body-font">
+    <div class="container px-5 py-16 mx-auto">
+      <div class="flex flex-col">
+        <div class="h-1 bg-gray-800 rounded overflow-hidden">
+          <div class="w-24 h-full bg-indigo-500"></div>
+        </div>
+        <div class="flex flex-wrap sm:flex-row flex-col py-6 mb-12">
+          <h3
+              v-if="titleBlock"
+              class="sm:w-2/5 text-white font-medium title-font text-2xl mb-2 sm:mb-0"
+          >
+            {{ titleBlock }}
+          </h3>
+          <slot name="content-block-top"></slot>
+        </div>
       </div>
-      <span class="hidden sm:inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">
-      {{ items?.length }} thèmes
-    </span>
-    </div>
-
-    <!-- Grille de sous-pages (Cartes) -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Exemple de carte d'un sous-thème (à boucler avec v-for="child in children") -->
-      <article
-        v-for="(item, index) in items"
-        :key="index"
-        class="group relative flex flex-col justify-between overflow-hidden rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-900/50 transition-all duration-200"
-      >
-        <component :is="getComponent(item.type)" v-if="item" :item="item" />
-      </article>
+      <div class="flex flex-wrap md:flex-row sm:-m-4 -mx-4 -mb-10 -mt-4">
+        <div
+            v-for="(item, index) in items"
+            :key="index"
+            class="p-4 md:w-1/3 w-full sm:mb-0 mb-6"
+        >
+          <component :is="getComponent(item.type)" v-if="item" :item="item" />
+        </div>
+      </div>
       <slot name="content-block-bottom"></slot>
     </div>
   </section>

@@ -189,7 +189,6 @@ useSeo({
               <Icon name="material-symbols:arrow-right-alt" />
             </prismic-link>
 
-
             <a :href="icsUrl"
                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
@@ -197,6 +196,7 @@ useSeo({
             </a>
 
             <Qrcode
+              v-if="event.data.display_qr_code == true"
               :value="icsUrl"
             />
           </div>

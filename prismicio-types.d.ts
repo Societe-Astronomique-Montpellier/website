@@ -21,32 +21,30 @@ type PickContentRelationshipFieldData<
 > =
   // Content relationship fields
   {
-    [TSubRelationship in Extract<
-      TRelationship["fields"][number],
-      prismic.CustomTypeModelFetchContentRelationshipLevel1
-    > as TSubRelationship["id"]]: ContentRelationshipFieldWithData<
-      TSubRelationship["customtypes"],
-      TLang
-    >;
+    [
+      TSubRelationship in Extract<
+        TRelationship["fields"][number],
+        prismic.CustomTypeModelFetchContentRelationshipLevel1
+      > as TSubRelationship["id"]
+    ]: ContentRelationshipFieldWithData<TSubRelationship["customtypes"], TLang>;
   } & // Group
   {
-    [TGroup in Extract<
-      TRelationship["fields"][number],
-      | prismic.CustomTypeModelFetchGroupLevel1
-      | prismic.CustomTypeModelFetchGroupLevel2
-    > as TGroup["id"]]: TData[TGroup["id"]] extends prismic.GroupField<
-      infer TGroupData
-    >
+    [
+      TGroup in Extract<
+        TRelationship["fields"][number],
+        | prismic.CustomTypeModelFetchGroupLevel1
+        | prismic.CustomTypeModelFetchGroupLevel2
+      > as TGroup["id"]
+    ]: TData[TGroup["id"]] extends prismic.GroupField<infer TGroupData>
       ? prismic.GroupField<
           PickContentRelationshipFieldData<TGroup, TGroupData, TLang>
         >
       : never;
   } & // Other fields
   {
-    [TFieldKey in Extract<
-      TRelationship["fields"][number],
-      string
-    >]: TFieldKey extends keyof TData ? TData[TFieldKey] : never;
+    [
+      TFieldKey in Extract<TRelationship["fields"][number], string>
+    ]: TFieldKey extends keyof TData ? TData[TFieldKey] : never;
   };
 
 type ContentRelationshipFieldWithData<
@@ -55,10 +53,9 @@ type ContentRelationshipFieldWithData<
     | readonly (prismic.CustomTypeModelFetchCustomTypeLevel2 | string)[],
   TLang extends string = string,
 > = {
-  [ID in Exclude<
-    TCustomType[number],
-    string
-  >["id"]]: prismic.ContentRelationshipField<
+  [
+    ID in Exclude<TCustomType[number], string>["id"]
+  ]: prismic.ContentRelationshipField<
     ID,
     TLang,
     PickContentRelationshipFieldData<
@@ -655,7 +652,7 @@ interface ContactDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<ContactDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<ContactDocumentDataSlicesSlice>; /**
    * Meta Title field in *Page de contact*
    *
    * - **Field Type**: Text
@@ -663,7 +660,7 @@ interface ContactDocumentData {
    * - **API ID Path**: contact.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -877,6 +874,18 @@ interface EventDocumentData {
   link: prismic.LinkField<string, string, unknown, prismic.FieldState, never>;
 
   /**
+   * Afficher QR Code field in *Evenement*
+   *
+   * - **Field Type**: Boolean
+   * - **Placeholder**: *None*
+   * - **Default Value**: false
+   * - **API ID Path**: event.display_qr_code
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/boolean
+   */
+  display_qr_code: prismic.BooleanField;
+
+  /**
    * Slice Zone field in *Evenement*
    *
    * - **Field Type**: Slice Zone
@@ -885,7 +894,7 @@ interface EventDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<EventDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<EventDocumentDataSlicesSlice>; /**
    * Meta Title field in *Evenement*
    *
    * - **Field Type**: Text
@@ -893,7 +902,7 @@ interface EventDocumentData {
    * - **API ID Path**: event.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -979,7 +988,7 @@ interface EventsDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<EventsDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<EventsDocumentDataSlicesSlice>; /**
    * Meta Title field in *Events*
    *
    * - **Field Type**: Text
@@ -987,7 +996,7 @@ interface EventsDocumentData {
    * - **API ID Path**: events.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -1348,7 +1357,7 @@ interface HomepageDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<HomepageDocumentDataSlicesSlice>; /**
    * Meta Title field in *Page d'accueil*
    *
    * - **Field Type**: Text
@@ -1356,7 +1365,7 @@ interface HomepageDocumentData {
    * - **API ID Path**: homepage.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -1524,7 +1533,7 @@ interface PageArticleDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<PageArticleDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<PageArticleDocumentDataSlicesSlice>; /**
    * Meta Title field in *Page article*
    *
    * - **Field Type**: Text
@@ -1532,7 +1541,7 @@ interface PageArticleDocumentData {
    * - **API ID Path**: page_article.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -1644,7 +1653,7 @@ interface PageEditorialeDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<PageEditorialeDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<PageEditorialeDocumentDataSlicesSlice>; /**
    * Meta Title field in *Page éditoriale*
    *
    * - **Field Type**: Text
@@ -1652,7 +1661,7 @@ interface PageEditorialeDocumentData {
    * - **API ID Path**: page_editoriale.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**
@@ -1786,7 +1795,7 @@ interface PageThematiqueDocumentData {
    * - **Tab**: Main
    * - **Documentation**: https://prismic.io/docs/slices
    */
-  slices: prismic.SliceZone<PageThematiqueDocumentDataSlicesSlice> /**
+  slices: prismic.SliceZone<PageThematiqueDocumentDataSlicesSlice>; /**
    * Meta Title field in *Page thématique*
    *
    * - **Field Type**: Text
@@ -1794,7 +1803,7 @@ interface PageThematiqueDocumentData {
    * - **API ID Path**: page_thematique.meta_title
    * - **Tab**: SEO & Metadata
    * - **Documentation**: https://prismic.io/docs/fields/text
-   */;
+   */
   meta_title: prismic.KeyTextField;
 
   /**

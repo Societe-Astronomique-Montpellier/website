@@ -24,7 +24,7 @@ articles.value = dataArticles || [];
 events.value = dataEvents || [];
 
 const BlockListCards = defineAsyncComponent(
-  () => import("~/components/home/BlockListCards.vue"),
+  () => import("~/components/content/BlockListCards.vue"),
 );
 
 const labelListArticles: string = t("activity.type.permanent");

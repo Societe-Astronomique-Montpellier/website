@@ -1,11 +1,11 @@
 import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
 
 export default defineNuxtConfig({
+  ssr: true,
   devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,
   },
-  ssr: true,
   sourcemap: { server: true, client: false },
   build: {
     analyze: true,
@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   },
   typescript: {
     typeCheck: true,
+    strict: true
   },
   modules: [
     "@nuxtjs/tailwindcss",
@@ -37,6 +38,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxtjs/turnstile",
     "@nuxtjs/color-mode",
+    "nuxt-qrcode"
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,

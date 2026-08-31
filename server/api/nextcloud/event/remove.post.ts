@@ -1,4 +1,4 @@
-import type { AllDocumentTypes, EventDocument } from "~/prismicio-types";
+import type { AllDocumentTypes, EventDocument } from "~~/prismicio-types";
 import { createClient } from "@prismicio/client";
 
 export default defineEventHandler(

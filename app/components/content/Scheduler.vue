@@ -69,11 +69,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <ClientOnly>
-      <ScheduleXCalendar :calendar-app="calendarApp" />
-    </ClientOnly>
-  </div>
+  <ScheduleXCalendar :calendar-app="calendarApp" />
 </template>
 
 <style scoped>

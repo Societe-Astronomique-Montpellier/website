@@ -16,6 +16,7 @@ definePageMeta({
 const route = useRoute();
 const prismic = usePrismic();
 const lang = useLang();
+const { t } = useI18n()
 const { isMobile } = useDevice();
 
 const HeaderPageTitle = defineAsyncComponent(
@@ -71,62 +72,46 @@ useSeo({
 </script>
 
 <template>
-  <section class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center">
-    <div
-      v-if="error"
-      class="max-w-screen-xl w-full mx-auto relative mt-3 mb-2 flex items-center p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded-md"
-      role="alert"
-    >
-      <Icon
-        name="material-symbols:error-outline-rounded"
-        class="flex-shrink-0 inline w-4 h-4 me-3"
-        aria-hidden="true"
-        size="18"
-      />
-      <span class="sr-only">Erreur</span>
-      <div>Une erreur est survenue lors de la récupération des données.</div>
-    </div>
-    <div v-if="editorial" class="max-w-screen-xl w-full mx-auto relative mb-2">
+  <section v-if="editorial" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="editorial?.data.title" :image="imageBanner" />
-      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
-        <div
-          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
-        >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
-            <Breadcrumbs
-              :list-ids="[editorial?.id]"
-              :current-uid="editorialUid"
-            />
-            <h2
-              v-if="isFilled.keyText(editorial?.data.subtitle)"
-              class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2 leading-normal"
-            >
-              {{ editorial?.data.subtitle }}
-            </h2>
+    </header>
 
-            <p
-              class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
-            >
-              <span v-if="editorial?.data.author"
-                >{{ $t("page.author") }}{{ editorial?.data.author }},
-              </span>
-              <span v-if="formatedDate">{{ formatedDate }}</span>
-            </p>
+    <nav aria-label="Breadcrumb" class="mb-6">
+      <Breadcrumbs
+        :list-ids="[editorial?.id]"
+        :current-uid="editorialUid"
+      />
+    </nav>
 
-            <Icon v-show="false" name="material-symbols:arrow-right-alt" />
-            <div class="my-4 grid gap-4 px-1">
-              <div data-content>
-                <Fancybox>
-                  <prismic-rich-text
-                    :field="editorial.data.content"
-                    :serializer="richTextSerializer"
-                  ></prismic-rich-text>
-                </Fancybox>
-              </div>
-            </div>
+    <div class="grid grid-cols-1 gap-8 items-start">
+      <main class="space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+        <article class="prose dark:prose-invert max-w-none">
+          <h2
+            v-if="isFilled.keyText(editorial?.data.subtitle)"
+            class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2 leading-normal"
+          >
+            {{ editorial?.data.subtitle }}
+          </h2>
+
+          <p
+            class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
+          >
+            <span v-if="editorial?.data.author">{{ t("page.author") }}{{ editorial?.data.author }},</span>
+            <span v-if="formatedDate">{{ formatedDate }}</span>
+          </p>
+
+          <div data-content>
+            <Fancybox>
+              <Icon v-show="false" name="material-symbols:arrow-right-alt" />
+              <prismic-rich-text
+                :field="editorial.data.content"
+                :serializer="richTextSerializer"
+              ></prismic-rich-text>
+            </Fancybox>
           </div>
-        </div>
-      </div>
+        </article>
+      </main>
     </div>
   </section>
 </template>

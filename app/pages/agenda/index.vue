@@ -205,22 +205,18 @@ const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() => useBannerImage(agenda?.value?.data?.image_banner, isMobile));
 
-const metaTitle: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(agenda?.value?.data.meta_title)
-    ? `${agenda?.value?.data.meta_title}`
-    : `${agenda?.value?.data.title}`,
-);
-const metaDescription: ComputedRef<string> = computed<string>(() =>
-  !isFilled.keyText(agenda?.value?.data.meta_description)
-    ? `${agenda?.value?.data.meta_description}`
-    : `${agenda?.value?.data.title}`,
-);
-
-const metaImage: ComputedRef<string> = computed<string>(() =>
-  isFilled.image(agenda.value?.data.meta_image)
-    ? `${asImageSrc(agenda.value?.data.meta_image)}`
-    : defaultImg,
-);
+const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
+  title: () => [
+    agenda.value?.data.meta_title,
+    agenda.value?.data.title,
+  ],
+  description: () => [
+    agenda.value?.data.meta_description,
+    agenda.value?.data.title,
+  ],
+  image: () => [agenda.value?.data.meta_image],
+  defaultImage: defaultImg as string,
+});
 
 useSeo({
   title: metaTitle,
@@ -232,55 +228,58 @@ useSeo({
 <template>
   <section
     v-if="agenda"
-    class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center"
+    class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
   >
-    <div class="max-w-screen-xl w-full mx-auto relative mb-2">
+
+    <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="agenda.data.title" :image="imageBanner" />
+    </header>
 
-      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
-        <div
-          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
-        >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
-            <Breadcrumbs :list-ids="[agenda.id]" :current-uid="agenda.uid" />
-            <div class="my-4 grid gap-4 px-1">
-              <div data-content>
-                <Fancybox>
-                  <prismic-rich-text
-                    :field="agenda.data.content"
-                    :serializer="richTextSerializer"
-                  />
-                </Fancybox>
-              </div>
+    <nav aria-label="Breadcrumb" class="mb-6">
+      <Breadcrumbs
+          v-if="agenda"
+          :list-ids="[agenda.id]" :current-uid="agenda.uid"
+      />
+    </nav>
 
-              <div
-                class="grid sm:grid-cols-1 sm:gap-2 md:grid-cols-2 lg:grid-cols-2 md:gap-4"
-              >
-                <div
-                  v-for="typeCal in listCalendars"
-                  :key="typeCal.id"
-                  class="rounded-xl shadow-md p-4 transition hover:scale-105 bg-green-100 border-l-4 border-green-500 text-green-700"
-                  :style="{
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+        <article class="prose dark:prose-invert max-w-none">
+          <div data-content>
+            <Fancybox>
+              <prismic-rich-text
+                  :field="agenda.data.content"
+                  :serializer="richTextSerializer"
+              />
+            </Fancybox>
+          </div>
+        </article>
+
+        <ClientOnly fallback-tag="span" :fallback="t('layout.loading')">
+          <ScheduleSam
+            :list-events="listEvents"
+            :list-type-calendars="calendars"
+          />
+        </ClientOnly>
+      </main>
+
+      <aside class="space-y-6 lg:sticky lg:top-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
+          <div
+              v-for="typeCal in listCalendars"
+              :key="typeCal.id"
+              class="rounded-xl shadow-md p-4 transition hover:scale-105 bg-green-100 border-l-4 border-green-500 text-green-700"
+              :style="{
                     backgroundColor: typeCal.lightColors.container,
                     color: typeCal.lightColors.onContainer,
                     borderColor: typeCal.lightColors.main,
                   }"
-                >
-                  <p class="text-lg mb-2 font-semibold">{{ typeCal.title }}</p>
-                  <p class="text-sm">{{ typeCal.description }}</p>
-                </div>
-              </div>
-            </div>
-
-            <ClientOnly fallback-tag="span" :fallback="t('layout.loading')">
-              <ScheduleSam
-                :list-events="listEvents"
-                :list-type-calendars="calendars"
-              />
-            </ClientOnly>
+          >
+            <p class="text-lg mb-2 font-semibold">{{ typeCal.title }}</p>
+            <p class="text-sm">{{ typeCal.description }}</p>
           </div>
         </div>
-      </div>
+      </aside>
     </div>
   </section>
 </template>

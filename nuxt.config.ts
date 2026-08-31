@@ -105,6 +105,11 @@ export default defineNuxtConfig({
     storage: "localStorage", // or 'sessionStorage' or 'cookie'
     storageKey: "nuxt-color-mode",
   },
+  qrcode: {
+    options: {
+      radius: 1,
+    }
+  },
   app: {
     head: {
       meta: [

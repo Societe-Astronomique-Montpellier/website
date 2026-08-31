@@ -68,22 +68,18 @@ const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() => useBannerImage(article.value?.data.image_banner, isMobile));
 
-const metaTitle: ComputedRef<string> = computed<string>(() => {
-  return isFilled.keyText(article.value?.data.meta_title)
-    ? `${article.value?.data.meta_title}`
-    : `${article.value?.data.title}`;
+const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
+  title: () => [
+    article.value?.data.meta_title,
+    article.value?.data.title,
+  ],
+  description: () => [
+    article.value?.data.meta_description,
+    article.value?.data.title,
+  ],
+  image: () => [article.value?.data.meta_image],
+  defaultImage: defaultImg as string,
 });
-const metaDescription: ComputedRef<string> = computed<string>(() => {
-  return isFilled.keyText(article.value?.data.meta_description)
-    ? `${article.value?.data.meta_description}`
-    : `${article.value?.data.title}`;
-});
-
-const metaImage: ComputedRef<string> = computed<string>(() =>
-  isFilled.image(article.value?.data.meta_image)
-    ? `${asImageSrc(article.value?.data.meta_image)}`
-    : defaultImg,
-);
 
 useSeo({
   title: metaTitle,

@@ -62,16 +62,10 @@ if (eventError.value) {
 }
 
 const richTextSerializer = useRichTextSerializer();
-const centerMap: [number, number] = useCoordinates("babotte");
-
 const markerCoordinates = computed<[number, number]>(() => {
-  return event.value?.data.place_event.latitude &&
-    event.value?.data.place_event.longitude
-    ? [
-        unref(event.value?.data.place_event.latitude),
-        unref(event.value?.data.place_event.longitude),
-      ]
-    : centerMap;
+  const lat = event.value?.data.place_event.latitude;
+  const lng = event.value?.data.place_event.longitude;
+  return lat != null && lng != null ? [lat, lng] : useCoordinates("babote");
 });
 
 const startDate: ComputedRef<string> = computed<string>(() =>
@@ -85,21 +79,20 @@ const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() => useBannerImage(event.value?.data.image_banner, isMobile));
 
-const icsUrl: ComputedRef<string> = computed(() => new URL(`/agenda/add/${event.value?.uid}`, requestUrl.origin).href);
+const icsUrl: ComputedRef<string> = computed(() => new URL(`https://www.societe-astronomique-montpellier.fr/agenda/add/${event.value?.uid}`, requestUrl.origin).href);
 
-const metaTitle: ComputedRef<string> = computed<string>(() =>
-  isFilled.keyText(event.value?.data.meta_title)
-    ? `${event.value?.data.meta_title}`
-    : `${event.value?.data.title}`,
-);
-const metaDescription: ComputedRef<string> = computed<string>(
-  () => `${event.value?.data.meta_description}`,
-);
-const metaImage: ComputedRef<string> = computed<string>(() =>
-  isFilled.image(event.value?.data.meta_image)
-    ? `${asImageSrc(event.value?.data.meta_image)}`
-    : defaultImg,
-);
+const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
+  title: () => [
+    event.value?.data.meta_title,
+    event.value?.data.title,
+  ],
+  description: () => [
+    event.value?.data.meta_description,
+    event.value?.data.title,
+  ],
+  image: () => [event.value?.data.meta_image],
+  defaultImage: defaultImg as string,
+});
 
 useSeo({
   title: metaTitle,
@@ -141,7 +134,7 @@ useSeo({
           <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <span>Localisation</span>
           </h2>
-          <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 h-72">
+          <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 h-240">
             <Map v-if="event" :item-marker="markerCoordinates" />
           </div>
         </section>
@@ -197,7 +190,7 @@ useSeo({
             </prismic-link>
 
 
-            <a :href="`/agenda/add/${event.uid}`"
+            <a :href="icsUrl"
                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
               <span>Ajouter à mon agenda</span>
@@ -209,75 +202,6 @@ useSeo({
           </div>
         </div>
       </aside>
-
-    </div>
-  </section>
-
-
-  <section
-    v-show="false"
-    v-if="event"
-    class="sm:px-5 md:px-40 lg:px-40 flex flex-1 justify-center"
-  >
-    <div class="max-w-screen-xl w-full mx-auto relative mb-2">
-      <HeaderPageTitle :title="event.data.title" :image="imageBanner" />
-      <div class="flex flex-wrap gap-4 sm:px-2 md:px-4 lg:px-4 mx-auto">
-        <div
-          class="rounded-b lg:rounded-b-none lg:rounded-r flex flex-col justify-between leading-normal"
-        >
-          <div class="bg-white dark:bg-slate-800 relative top-0 p-5">
-            <Breadcrumbs
-              v-if="agenda && event"
-              :list-ids="[agenda.id, event.id]"
-              :current-uid="event.uid"
-            />
-
-            <div class="my-4 grid gap-4 px-1">
-              <div data-content>
-                <Fancybox :is-caroussel="event.data.carrousel">
-                  <prismic-rich-text
-                    :field="event.data.resume"
-                    :serializer="richTextSerializer"
-                  />
-                </Fancybox>
-
-                <div class="md:flex-row">
-                  <button
-                    type="button"
-                    class="justify-center px-3 py-2.5 text-md font-medium text-white inline-flex items-center bg-gray-700 focus:ring-4 disabled cursor-not-allowed focus:outline-none rounded-lg text-center m-1 w-full md:w-auto"
-                  >
-                    <Icon size="18" name="material-symbols:calendar-clock" />
-                    <span v-if="startDate">&nbsp;{{ startDate }}</span>
-                    <span v-if="endDate">&nbsp;au {{ endDate }}</span>
-                  </button>
-
-                  <button
-                    type="button"
-                    class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 focus:ring-4 cursor-not-allowed focus:outline-none rounded-lg text-center m-1 w-full md:w-auto"
-                  >
-                    <Icon size="18" name="hugeicons:image-composition" />
-                    &nbsp;{{ event.data.place_event_txt }}
-                  </button>
-
-                  <prismic-link
-                    v-if="asLink(event.data.link)"
-                    type="button"
-                    :field="event.data.link"
-                    class="justify-center px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1 w-full md:w-auto"
-                    :aria-label="t('layout.moreInfo')"
-                  >
-                    --> {{ t("layout.moreInfo") }}
-                    <Icon name="material-symbols:arrow-right-alt" />
-                  </prismic-link>
-
-                </div>
-
-                <Map v-if="event" :item-marker="markerCoordinates" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </section>
 </template>

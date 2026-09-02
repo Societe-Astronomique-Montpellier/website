@@ -156,6 +156,7 @@ export default defineNuxtConfig({
     nextcloudLogin: process.env.NUXT_NEXTCLOUD_LOGIN,
     nextcloudPassword: process.env.NUXT_NEXTCLOUD_PASSWORD,
     public: {
+      baseUrl: 'https://www.societe-astronomique-montpellier.fr',
       facebookAppId: 726636013855878,
       facebookSam: "https://www.facebook.com/profile.php?id=61577575791459",
       twitterSam: "https://x.com/astro_mtp",

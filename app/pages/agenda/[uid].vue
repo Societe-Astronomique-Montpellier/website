@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import type { ComputedRef } from "vue";
-import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type {
   EmptyImageFieldImage,
   FilledImageFieldImage,
 } from "@prismicio/client";
-import { asLink, type ImageField } from "@prismicio/client";
+import {asLink, type ImageField} from "@prismicio/client";
 import type {
-  EventDocument,
+  EventDocument, EventDocumentData,
   EventsDocument,
 } from "~~/prismicio-types";
 import defaultImg from "~~/public/logo.png";
@@ -17,28 +16,28 @@ definePageMeta({
   layout: "page",
 });
 
+// -- Composables
 const prismic = usePrismic();
 const route = useRoute();
 const { t } = useI18n();
 const lang = useLang();
-const { isMobile } = useDevice();
+const { isMobile, isAndroid } = useDevice();
 const requestUrl = useRequestURL();
+const runtimeConfig = useRuntimeConfig()
 
-const Breadcrumbs = defineAsyncComponent(
-  () => import("~/components/Layouts/Breadcrumbs.vue"),
-);
-const HeaderPageTitle = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPageTitle.vue"),
-);
-const Fancybox = defineAsyncComponent(
-  () => import("~/components/content/Fancybox.vue"),
-);
-
+// -- Components
+const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
+const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
+const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"));
+const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
 const Map = defineAsyncComponent(() => import("~/components/content/Map.vue"));
 
+// -- Params
 const { uid } = route.params as { uid: string };
+const currentUrl = requestUrl.href
 
-const [{ data: event, error: eventError }, { data: agenda }] =
+// -- Query data
+const [{ data: event, error: eventError, pending }, { data: agenda }] =
   await Promise.all([
     useAsyncData(uid, async () =>
       prismic.client.getByUID<EventDocument>("event", uid, {
@@ -61,6 +60,7 @@ if (eventError.value) {
   });
 }
 
+// -- Parameters
 const richTextSerializer = useRichTextSerializer();
 const markerCoordinates = computed<[number, number]>(() => {
   const lat = event.value?.data.place_event.latitude;
@@ -68,19 +68,49 @@ const markerCoordinates = computed<[number, number]>(() => {
   return lat != null && lng != null ? [lat, lng] : useCoordinates("babote");
 });
 
-const startDate: ComputedRef<string> = computed<string>(() =>
-  useFormatIntoFrenchDate(event.value?.data.time_start, "long"),
-);
-const endDate: ComputedRef<string | null> = computed<string>(
-    () => useFormatIntoFrenchDate(event.value?.data.time_end, "long") ?? null,
-);
+const startDate: ComputedRef<string> = computed<string>(() =>useFormatIntoFrenchDate(event.value?.data.time_start, "long"));
+const endDate: ComputedRef<string | null> = computed<string>(() => useFormatIntoFrenchDate(event.value?.data.time_end, "long") ?? null);
 
 const imageBanner = computed<
   ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
 >(() => useBannerImage(event.value?.data.image_banner, isMobile));
 
-const icsUrl: ComputedRef<string> = computed(() => new URL(`https://www.societe-astronomique-montpellier.fr/agenda/add/${event.value?.uid}`, requestUrl.origin).href);
 
+// -- Add to personnal agenda
+const formatDateForGoogle = (date: string | Date | null | undefined): string => {
+  if (!date) return ''
+  const d = typeof date === 'string' ? new Date(date) : date
+  return d.toISOString().replace(/-|:|\.\d+/g, '')
+}
+
+const generateGoogleCalendarUrl = (eventData: EventDocumentData): string => {
+  const baseUrl = 'https://calendar.google.com/calendar/render'
+
+  const start = formatDateForGoogle(eventData.time_start)
+  // Fallback : si pas de date de fin, on réutilise le début (event ponctuel)
+  const end = formatDateForGoogle(eventData.time_end) || start
+
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: eventData.title ?? '',
+    dates: `${start}/${end}`,
+    details: eventData.meta_description ?? '',
+    location: eventData.place_event_txt ?? '',
+  })
+
+  return `${baseUrl}?${params.toString()}`
+}
+
+const addToAgendaUrl: ComputedRef<string> = computed(() => {
+  if (!event.value) return ''
+
+  if (!isAndroid) {
+    return new URL(`${runtimeConfig.public.baseUrl}/agenda/add/${event.value.uid}`, requestUrl.origin).href
+  }
+  return generateGoogleCalendarUrl(event.value.data)
+})
+
+// -- SEO
 const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
   title: () => [
     event.value?.data.meta_title,
@@ -102,6 +132,9 @@ useSeo({
 </script>
 
 <template>
+  <section v-if="pending" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    Chargement des données...
+  </section>
   <section v-if="event" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="event.data.title" :image="imageBanner" />
@@ -131,9 +164,9 @@ useSeo({
 
         <!-- Section Carte -->
         <section class="pt-6 border-t border-slate-100 dark:border-slate-800">
-          <h2 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
+          <h3 class="text-lg font-semibold text-slate-900 dark:text-white mb-4 flex items-center gap-2">
             <span>Localisation</span>
-          </h2>
+          </h3>
           <div class="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-700 h-240">
             <Map v-if="event" :item-marker="markerCoordinates" />
           </div>
@@ -143,7 +176,10 @@ useSeo({
       <!-- Barre Latérale : Métadonnées & Actions -->
       <aside class="space-y-6 lg:sticky lg:top-6">
         <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
-          <h2 class="text-xl font-bold text-slate-900 dark:text-white">Détails de l'événement</h2>
+
+          <AsideSocialShare :currentUrlPage="currentUrl" />
+
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('agenda.details') }}</h3>
 
           <dl class="space-y-4 text-sm">
             <!-- Dates -->
@@ -153,7 +189,7 @@ useSeo({
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               </div>
               <div>
-                <dt class="font-medium text-slate-500 dark:text-slate-400">Date et heure</dt>
+                <dt class="font-medium text-slate-500 dark:text-slate-400">{{ t('agenda.time') }}</dt>
                 <dd class="font-semibold text-slate-900 dark:text-white mt-0.5">
                   <time >{{ startDate }}</time>
                   <time v-if="endDate"> au {{ endDate }}</time>
@@ -189,15 +225,15 @@ useSeo({
               <Icon name="material-symbols:arrow-right-alt" />
             </prismic-link>
 
-            <a :href="icsUrl"
+            <a :href="addToAgendaUrl"
                class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
               <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              <span>Ajouter à mon agenda</span>
+              <span>{{ t('agenda.add')}}</span>
             </a>
 
             <Qrcode
-              v-if="event.data.display_qr_code == true"
-              :value="icsUrl"
+              v-if="event.data.display_qr_code === true && isMobile == false"
+              :value="addToAgendaUrl"
             />
           </div>
         </div>

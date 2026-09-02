@@ -20,7 +20,11 @@
       "evenements": "Évenements",
       "contact": "Contact"
     },
-    "toggleMode":  "Mode light / mode dark"
+    "toggleMode":  "Mode light / mode dark",
+    "copy": {
+      "copied": "Copié !",
+      "copy": "Copier"
+    }
   },
   "contact": {
     "title": "Formulaire de contact",
@@ -31,7 +35,10 @@
   },
   "agenda": {
     "titleBlockNext": "Événements à venir",
-    "titleBlockPast": "Événements passés"
+    "titleBlockPast": "Événements passés",
+    "details": "Détails de l'événement",
+    "time": "Date & heure",
+    "add": "Ajouter à mon agenda"
   },
   "activity": {
     "type": {

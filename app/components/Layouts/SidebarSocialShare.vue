@@ -1,11 +1,8 @@
 <script setup lang="ts">
 import type { Ref } from "vue";
-import {asText} from "@prismicio/client";
 
 const { isMobile } = useDevice();
 const { t } = useI18n();
-
-const { shareSocialMedia } = useSocialShareMedia();
 
 const iconSize: Ref<number> = ref(20);
 const iconSizeMobile: Ref<number> = ref(16);
@@ -39,16 +36,6 @@ const handleScroll = () => (isVisible.value = window.scrollY > 200);
       dark:border-slate-600/60 dark:bg-slate-800/50
       fixed min-h-[auto] min-w-[64px] flex ${navClasses}`"
   >
-    <client-only>
-      <SocialShare
-        v-for="(network, i) in shareSocialMedia"
-        :key="i"
-        :network="network.social_network ?? ''"
-        class="flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white"
-      >
-      </SocialShare>
-    </client-only>
-
     <button
       :class="`flex aspect-square min-h-[32px] w-12 flex-col items-center justify-center gap-1 rounded-md p-1 text-grey-700 dark:text-slate-400 hover:bg-indigo-700 hover:text-white ${displayBtn}`"
       type="button"

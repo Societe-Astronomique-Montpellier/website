@@ -27,5 +27,9 @@ export const useSocialShareMedia = () => {
         true === i.display_social_network,
     ) || null;
 
-  return { shareSocialMedia };
+    const shareSocialMediaLength: ComputedRef<number> = computed<number>(
+        () => shareSocialMedia.value?.length ?? 0,
+    );
+
+  return { shareSocialMedia, shareSocialMediaLength };
 };

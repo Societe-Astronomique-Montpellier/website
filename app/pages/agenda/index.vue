@@ -124,24 +124,17 @@ const calendars: ComputedRef<Record<string, CalendarType>> = computed(() => {
   );
 });
 
-const HeaderPageTitle = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPageTitle.vue"),
-);
-const Breadcrumbs = defineAsyncComponent(
-  () => import("~/components/Layouts/Breadcrumbs.vue"),
-);
-const Fancybox = defineAsyncComponent(
-  () => import("~/components//content/Fancybox.vue"),
-);
-const ScheduleSam = defineAsyncComponent(
-  () => import("~/components/content/Scheduler.vue"),
-);
+const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"));
+const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
+const Fancybox = defineAsyncComponent(() => import("~/components//content/Fancybox.vue"));
+const ScheduleSam = defineAsyncComponent(() => import("~/components/content/Scheduler.vue"));
+const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
 
 const currentDate = new Date();
 const monthsAgo = new Date();
 monthsAgo.setMonth(currentDate.getMonth() - 1);
 
-const [{ data: events, error: eventsError }, { data: agenda }] =
+const [{ data: events, error: eventsError }, { data: agenda, pending }] =
   await Promise.all([
     useAsyncData(
       "events",
@@ -226,6 +219,9 @@ useSeo({
 </script>
 
 <template>
+  <section v-if="pending">
+    Veuillez pentienter pendant le chargement des données
+  </section>
   <section
     v-if="agenda"
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
@@ -265,15 +261,17 @@ useSeo({
 
       <aside class="space-y-6 lg:sticky lg:top-6">
         <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
+          <AsideSocialShare :currentUrlPage="useRequestURL().href" />
+
           <div
               v-for="typeCal in listCalendars"
               :key="typeCal.id"
               class="rounded-xl shadow-md p-4 transition hover:scale-105 bg-green-100 border-l-4 border-green-500 text-green-700"
               :style="{
-                    backgroundColor: typeCal.lightColors.container,
-                    color: typeCal.lightColors.onContainer,
-                    borderColor: typeCal.lightColors.main,
-                  }"
+                backgroundColor: typeCal.lightColors.container,
+                color: typeCal.lightColors.onContainer,
+                borderColor: typeCal.lightColors.main,
+              }"
           >
             <p class="text-lg mb-2 font-semibold">{{ typeCal.title }}</p>
             <p class="text-sm">{{ typeCal.description }}</p>

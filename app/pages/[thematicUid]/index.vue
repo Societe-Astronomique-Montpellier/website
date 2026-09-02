@@ -19,7 +19,7 @@ const lang = useLang();
 const { isMobile } = useDevice();
 
 const { thematicUid } = route.params as { thematicUid: string };
-const { data: dataThematic, error } = await useAsyncData(
+const { data: dataThematic, error, pending } = await useAsyncData(
   thematicUid,
   async () => {
     const thematic = (await prismic.client.getByUID<PageThematiqueDocument>(
@@ -56,6 +56,7 @@ const Fancybox = defineAsyncComponent(
 const ListChildren = defineAsyncComponent(
   () => import("~/components/thematic/list_children.vue"),
 );
+const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
 
 const richTextSerializer = useRichTextSerializer();
 
@@ -106,23 +107,9 @@ useSeo({
       />
     </nav>
 
-<!--    <div-->
-<!--      v-if="error"-->
-<!--      class="max-w-screen-xl w-full mx-auto relative mt-3 mb-2 flex items-center p-3 text-sm bg-red-100 border border-red-400 text-red-700 rounded-md"-->
-<!--      role="alert"-->
-<!--    >-->
-<!--      <Icon-->
-<!--        name="material-symbols:error-outline-rounded"-->
-<!--        class="flex-shrink-0 inline w-4 h-4 me-3"-->
-<!--        aria-hidden="true"-->
-<!--        size="18"-->
-<!--      />-->
-<!--      <span class="sr-only">Erreur</span>-->
-<!--      <div>Une erreur est survenue lors de la récupération des données.</div>-->
-<!--    </div>-->
 
-    <div class="grid grid-cols-1 gap-8 items-start">
-      <main class="space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
         <article class="prose dark:prose-invert max-w-none">
 
           <h2
@@ -132,15 +119,6 @@ useSeo({
           >
             {{ dataThematic?.page_thematic.data.subtitle }}
           </h2>
-
-          <p
-            class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
-          >
-              <span v-if="dataThematic.page_thematic.data.author">
-                {{ $t("page.author") }}{{ dataThematic.page_thematic.data.author }},
-              </span>
-            <span v-if="dataThematic.publication_date">{{ dataThematic.publication_date }}</span>
-          </p>
 
           <Fancybox>
             <Icon
@@ -154,6 +132,17 @@ useSeo({
           </Fancybox>
         </article>
       </main>
+
+      <aside class="space-y-6 lg:sticky lg:top-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
+          <AsideSocialShare :currentUrlPage="useRequestURL().href" />
+
+          <p class="text-sm italic text-slate-400 dark:text-slate-500 pt-2" v-if="dataThematic.page_thematic.data.author">
+            Rédigé par {{ dataThematic.page_thematic.data.author }} le {{ dataThematic.publication_date }}
+          </p>
+        </div>
+      </aside>
+
     </div>
     <ListChildren :thematic="dataThematic.page_thematic" />
   </section>

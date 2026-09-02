@@ -20,12 +20,12 @@ const copyText = ref(t('layout.copy.copy'))
 const { data: shareSocialMedia, pending } = useAsyncData(
     `listSocialMedia`,
     async () => {
-      const items = await prismic.client.getSingle<HeaderDocument>("header", {
+      const items = await prismic.client.getSingle("header", {
         lang: lang.value,
         fetch: "my.header.share_social_media",
       })
 
-      return items?.data.share_social_media.filter(item => true === item?.display_social_network) || null;
+      return items?.data?.share_social_media.filter(item => true === item?.display_social_network) || null;
     }
 )
 
@@ -94,6 +94,8 @@ const gridColsMap: Record<number, string> = {
       class="flex items-center justify-center p-2.5 rounded-xl bg-slate-100 hover:bg-emerald-50 hover:text-emerald-600 dark:bg-slate-800 dark:hover:bg-emerald-950/40 dark:hover:text-emerald-400 text-slate-700 dark:text-slate-300 transition-colors"
     />
   </div>
+
+  <hr />
 </template>
 
 <style scoped>

@@ -57,7 +57,7 @@ const ListChildren = defineAsyncComponent(
   () => import("~/components/thematic/list_children.vue"),
 );
 const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
-
+const Loading = defineAsyncComponent(() => import('@/components/Layouts/Loading.vue'))
 const richTextSerializer = useRichTextSerializer();
 
 const imageBanner = computed<
@@ -90,6 +90,10 @@ useSeo({
 </script>
 
 <template>
+  <section v-if="pending">
+    <Loading />
+  </section>
+
   <section
     v-if="dataThematic"
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"

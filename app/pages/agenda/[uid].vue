@@ -27,6 +27,7 @@ const runtimeConfig = useRuntimeConfig()
 
 // -- Components
 const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
+const Loading = defineAsyncComponent(() => import("@/components/Layouts/Loading.vue"))
 const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
 const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"));
 const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
@@ -132,9 +133,10 @@ useSeo({
 </script>
 
 <template>
-  <section v-if="pending" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    Chargement des données...
+  <section v-if="pending" >
+    <Loading />
   </section>
+
   <section v-if="event" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="event.data.title" :image="imageBanner" />

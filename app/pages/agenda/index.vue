@@ -125,6 +125,7 @@ const calendars: ComputedRef<Record<string, CalendarType>> = computed(() => {
 });
 
 const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"));
+const Loading = defineAsyncComponent(() => import("@/components/Layouts/Loading.vue"))
 const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
 const Fancybox = defineAsyncComponent(() => import("~/components//content/Fancybox.vue"));
 const ScheduleSam = defineAsyncComponent(() => import("~/components/content/Scheduler.vue"));
@@ -134,7 +135,7 @@ const currentDate = new Date();
 const monthsAgo = new Date();
 monthsAgo.setMonth(currentDate.getMonth() - 1);
 
-const [{ data: events, error: eventsError }, { data: agenda, pending }] =
+const [{ data: events, error: eventsError, pending }, { data: agenda }] =
   await Promise.all([
     useAsyncData(
       "events",
@@ -220,7 +221,7 @@ useSeo({
 
 <template>
   <section v-if="pending">
-    Veuillez pentienter pendant le chargement des données
+    <Loading />
   </section>
   <section
     v-if="agenda"

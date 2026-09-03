@@ -18,8 +18,8 @@ export interface IProps {
 const props = defineProps<IProps>();
 const { currentUid, listIds } = toRefs(props);
 
-const { data: items } = await useAsyncData(
-  "items",
+const { data: items, pending } = await useAsyncData(
+  () => `items-${currentUid}`,
   async () =>
     await prismic.client.getAllByIDs<
       | EventsDocument
@@ -32,7 +32,7 @@ const { data: items } = await useAsyncData(
 </script>
 
 <template>
-  <nav class="flex flex-wrap gap-2 p-2" aria-label="Breadcrumb">
+  <nav v-if="items" class="flex flex-wrap gap-2 p-2" aria-label="Breadcrumb">
     <ol
       class="inline-flex items-center space-x-1 py-2 md:space-x-2 rtl:space-x-reverse"
     >

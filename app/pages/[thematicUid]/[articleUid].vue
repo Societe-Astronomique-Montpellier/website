@@ -22,15 +22,17 @@ const route = useRoute();
 const lang = useLang();
 
 const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"),);
+const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
 const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
 const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"));
+const Loading = defineAsyncComponent(() => import("@/components/Layouts/Loading.vue"))
 
 const { thematicUid, articleUid } = route.params as {
   thematicUid: string;
   articleUid: string;
 };
 
-const [{ data: article, error: errorArticle }, { data: parentThematic }] =
+const [{ data: article, error: errorArticle, pending }, { data: parentThematic }] =
   await Promise.all([
     useAsyncData(
       articleUid,
@@ -89,6 +91,9 @@ useSeo({
 </script>
 
 <template>
+  <section v-if="pending">
+    <Loading />
+  </section>
   <section v-if="article" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="article?.data.title" :image="imageBanner" />
@@ -102,8 +107,8 @@ useSeo({
       />
     </nav>
 
-    <div class="grid grid-cols-1 gap-8 items-start">
-      <main class="space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
         <article class="prose dark:prose-invert max-w-none">
           <h2
             v-if="isFilled.keyText(article.data.subtitle)"
@@ -130,6 +135,16 @@ useSeo({
 
         </article>
       </main>
+
+      <aside class="space-y-6 lg:sticky lg:top-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
+          <AsideSocialShare :currentUrlPage="useRequestURL().href" />
+
+          <p class="text-sm italic text-slate-400 dark:text-slate-500 pt-2" v-if="article.data.author">
+            Rédigé par {{ article.data.author }} le {{ formatedDate }}
+          </p>
+        </div>
+      </aside>
     </div>
   </section>
 </template>

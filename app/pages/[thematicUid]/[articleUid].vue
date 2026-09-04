@@ -94,18 +94,16 @@ useSeo({
   <section v-if="pending">
     <Loading />
   </section>
-  <section v-if="article" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+  <section v-if="article && parentThematic" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     <header class="mb-8 overflow-hidden rounded-2xl bg-slate-900 text-white shadow-xl">
       <HeaderPageTitle :title="article?.data.title" :image="imageBanner" />
     </header>
 
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <Breadcrumbs
-        v-if="parentThematic && article"
-        :list-ids="[parentThematic?.id, article.id]"
-        :current-uid="articleUid"
-      />
-    </nav>
+    <Breadcrumbs
+      :list-ids="[parentThematic?.id, article?.id]"
+      :current-uid="articleUid"
+    />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
@@ -116,15 +114,6 @@ useSeo({
           >
             {{ article?.data.subtitle }}
           </h2>
-
-          <p
-            class="text-[#9e9eb7] text-sm italic font-normal leading-normal pb-3 pt-1"
-          >
-              <span v-if="article.data.author" >
-                {{ $t("page.author") }}{{ article.data.author }},
-              </span>
-            <span v-if="formatedDate">{{ formatedDate }}</span>
-          </p>
 
           <Fancybox :is-caroussel="article?.data.carrousel">
             <prismic-rich-text

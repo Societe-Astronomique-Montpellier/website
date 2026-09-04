@@ -142,13 +142,10 @@ useSeo({
       <HeaderPageTitle :title="event.data.title" :image="imageBanner" />
     </header>
 
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <Breadcrumbs
-        v-if="agenda && event"
-        :list-ids="[agenda.id, event.id]"
-        :current-uid="event.uid"
-      />
-    </nav>
+    <Breadcrumbs
+      :list-ids="[agenda?.id ?? uid, event.id]"
+      :current-uid="event.uid"
+    />
 
     <!-- Grille Principale (Content + Sidebar) -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">

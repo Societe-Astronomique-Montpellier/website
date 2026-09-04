@@ -44,25 +44,15 @@ if (error.value) {
   });
 }
 
-const Breadcrumbs = defineAsyncComponent(
-  () => import("~/components/Layouts/Breadcrumbs.vue"),
-);
-const HeaderPageTitle = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPageTitle.vue"),
-);
-const Fancybox = defineAsyncComponent(
-  () => import("~/components/content/Fancybox.vue"),
-);
-const ListChildren = defineAsyncComponent(
-  () => import("~/components/thematic/list_children.vue"),
-);
+const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"),);
+const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"),);
+const Fancybox = defineAsyncComponent(() => import("~/components/content/Fancybox.vue"),);
+const ListChildren = defineAsyncComponent( () => import("~/components/thematic/list_children.vue"),);
 const AsideSocialShare = defineAsyncComponent(() => import('@/components/Layouts/AsideSocialShare.vue'))
 const Loading = defineAsyncComponent(() => import('@/components/Layouts/Loading.vue'))
 const richTextSerializer = useRichTextSerializer();
 
-const imageBanner = computed<
-  ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined
->(() =>
+const imageBanner = computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(() =>
   useBannerImage(
     dataThematic.value?.page_thematic?.data.image_banner,
     isMobile,
@@ -104,18 +94,14 @@ useSeo({
         :image="imageBanner"
       />
     </header>
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <Breadcrumbs
-        :list-ids="[dataThematic?.page_thematic.id]"
-        :current-uid="dataThematic?.page_thematic.uid"
-      />
-    </nav>
-
+    <Breadcrumbs
+      :list-ids="[dataThematic?.page_thematic?.id]"
+      :current-uid="dataThematic?.page_thematic?.uid"
+    />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
         <article class="prose dark:prose-invert max-w-none">
-
           <h2
             v-if="isFilled.keyText(dataThematic?.page_thematic.data.subtitle)"
             class="text-gray-900 dark:text-slate-400 font-semibold text-2xl mb-2 leading-normal"

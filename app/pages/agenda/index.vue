@@ -232,12 +232,10 @@ useSeo({
       <HeaderPageTitle :title="agenda.data.title" :image="imageBanner" />
     </header>
 
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <Breadcrumbs
-          v-if="agenda"
-          :list-ids="[agenda.id]" :current-uid="agenda.uid"
-      />
-    </nav>
+    <Breadcrumbs
+      :list-ids="[agenda.id]"
+      :current-uid="agenda.uid"
+    />
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
       <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">

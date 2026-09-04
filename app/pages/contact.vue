@@ -9,7 +9,6 @@ import type {
   ContactDocumentDataSubjectsItem,
 } from "~~/prismicio-types";
 import type { ComputedRef } from "vue";
-import { asImageSrc, isFilled } from "@prismicio/helpers";
 import defaultImg from "../../public/logo.png";
 
 definePageMeta({
@@ -20,18 +19,11 @@ const prismic = usePrismic();
 const { t } = useI18n();
 const lang = useLang();
 
-const HeaderPageTitle = defineAsyncComponent(
-  () => import("~/components/pages/HeaderPageTitle.vue"),
-);
-const Breadcrumbs = defineAsyncComponent(
-  () => import("~/components/Layouts/Breadcrumbs.vue"),
-);
-const Fancybox = defineAsyncComponent(
-  () => import("~/components//content/Fancybox.vue"),
-);
-const FormContact = defineAsyncComponent(
-  () => import("~/components/forms/contact.vue"),
-);
+const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"));
+const Loading = defineAsyncComponent(() => import("@/components/Layouts/Loading.vue"))
+const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
+const Fancybox = defineAsyncComponent(() => import("~/components//content/Fancybox.vue"));
+const FormContact = defineAsyncComponent(() => import("~/components/forms/contact.vue"));
 
 const richTextSerializer = useRichTextSerializer();
 
@@ -46,7 +38,7 @@ interface IContactFormData {
 const submittedForm: Ref<boolean> = ref(false);
 const submitedFormMessage: Ref<string | null> = ref(null);
 
-const { data: contact } = useLazyAsyncData(
+const { data: contact, pending } = useLazyAsyncData(
   "contact",
   async () =>
     await prismic.client.getSingle<ContactDocument>("contact", {
@@ -111,6 +103,9 @@ useSeo({
 </script>
 
 <template>
+  <section v-if="pending">
+    <Loading />
+  </section>
   <section
     v-if="contact"
     class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
@@ -119,11 +114,9 @@ useSeo({
       <HeaderPageTitle :title="contact?.data.title" />
     </header>
 
-    <nav aria-label="Breadcrumb" class="mb-6">
-      <Breadcrumbs
-        :list-ids="[contact.id]" :current-uid="''"
-      />
-    </nav>
+    <Breadcrumbs
+      :list-ids="[contact.id]" :current-uid="''"
+    />
 
     <div class="grid grid-cols-1 gap-8 items-start">
       <main class="space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">

@@ -176,6 +176,22 @@ useSeo({
       <aside class="space-y-6 lg:sticky lg:top-6">
         <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
 
+          <!-- Actions -->
+          <div class="pt-4 border-b border-slate-100 dark:border-slate-800 space-y-3">
+
+            <a :href="addToAgendaUrl"
+               class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              <span>{{ t('agenda.add')}}</span>
+            </a>
+
+            <Qrcode
+                v-if="event.data.display_qr_code === true && isMobile == false && event.data.link_qr_code"
+                :value="asLink(event.data.link_qr_code) as string"
+            />
+
+          </div>
+
           <AsideSocialShare :currentUrlPage="currentUrl" />
 
           <h3 class="text-xl font-bold text-slate-900 dark:text-white">{{ t('agenda.details') }}</h3>
@@ -209,10 +225,7 @@ useSeo({
                 </dd>
               </div>
             </div>
-          </dl>
 
-          <!-- Actions -->
-          <div class="pt-4 border-t border-slate-100 dark:border-slate-800 space-y-3">
             <prismic-link
               v-if="asLink(event.data.link)"
               type="button"
@@ -223,18 +236,9 @@ useSeo({
               {{ t("layout.moreInfo") }}
               <Icon name="material-symbols:arrow-right-alt" />
             </prismic-link>
+          </dl>
 
-            <a :href="addToAgendaUrl"
-               class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
-              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-              <span>{{ t('agenda.add')}}</span>
-            </a>
 
-            <Qrcode
-              v-if="event.data.display_qr_code === true && isMobile == false"
-              :value="addToAgendaUrl"
-            />
-          </div>
         </div>
       </aside>
     </div>

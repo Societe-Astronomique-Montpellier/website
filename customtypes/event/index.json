@@ -160,6 +160,17 @@
           "default_value": false
         }
       },
+      "link_qr_code": {
+        "type": "Link",
+        "config": {
+          "label": "Lien QR Code",
+          "placeholder": "Lien au Scan du QR Code",
+          "select": null,
+          "allowTargetBlank": false,
+          "allowText": false,
+          "repeat": false
+        }
+      },
       "slices": {
         "type": "Slices",
         "fieldset": "Slice Zone",

@@ -886,6 +886,23 @@ interface EventDocumentData {
   display_qr_code: prismic.BooleanField;
 
   /**
+   * Lien QR Code field in *Evenement*
+   *
+   * - **Field Type**: Link
+   * - **Placeholder**: Lien au Scan du QR Code
+   * - **API ID Path**: event.link_qr_code
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/link
+   */
+  link_qr_code: prismic.LinkField<
+    string,
+    string,
+    unknown,
+    prismic.FieldState,
+    never
+  >;
+
+  /**
    * Slice Zone field in *Evenement*
    *
    * - **Field Type**: Slice Zone

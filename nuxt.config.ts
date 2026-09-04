@@ -1,11 +1,11 @@
 import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
 
 export default defineNuxtConfig({
+  ssr: true,
   devtools: { enabled: true },
   future: {
     compatibilityVersion: 4,
   },
-  ssr: true,
   sourcemap: { server: true, client: false },
   build: {
     analyze: true,
@@ -15,6 +15,7 @@ export default defineNuxtConfig({
   },
   typescript: {
     typeCheck: true,
+    strict: true
   },
   modules: [
     "@nuxtjs/tailwindcss",
@@ -37,6 +38,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxtjs/turnstile",
     "@nuxtjs/color-mode",
+    "nuxt-qrcode"
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,
@@ -103,6 +105,11 @@ export default defineNuxtConfig({
     storage: "localStorage", // or 'sessionStorage' or 'cookie'
     storageKey: "nuxt-color-mode",
   },
+  qrcode: {
+    options: {
+      radius: 1,
+    }
+  },
   app: {
     head: {
       meta: [
@@ -149,6 +156,7 @@ export default defineNuxtConfig({
     nextcloudLogin: process.env.NUXT_NEXTCLOUD_LOGIN,
     nextcloudPassword: process.env.NUXT_NEXTCLOUD_PASSWORD,
     public: {
+      baseUrl: 'https://www.societe-astronomique-montpellier.fr',
       facebookAppId: 726636013855878,
       facebookSam: "https://www.facebook.com/profile.php?id=61577575791459",
       twitterSam: "https://x.com/astro_mtp",

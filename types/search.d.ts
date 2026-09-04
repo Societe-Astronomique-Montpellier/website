@@ -5,7 +5,7 @@ import type {
   PageArticleDocumentData,
   EventDocumentData,
   PageEditorialeDocumentData,
-} from "~/prismicio-types";
+} from "~~/prismicio-types";
 
 export type SearchDocumentType =
   | PrismicDocument<PageThematiqueDocumentData>

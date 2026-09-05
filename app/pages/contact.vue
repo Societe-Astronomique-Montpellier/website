@@ -24,6 +24,7 @@ const Loading = defineAsyncComponent(() => import("@/components/Layouts/Loading.
 const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
 const Fancybox = defineAsyncComponent(() => import("~/components//content/Fancybox.vue"));
 const FormContact = defineAsyncComponent(() => import("~/components/forms/contact.vue"));
+const AsideSocialShare = defineAsyncComponent(() => import("@/components/Layouts/AsideSocialShare.vue"))
 
 const richTextSerializer = useRichTextSerializer();
 
@@ -118,8 +119,8 @@ useSeo({
       :list-ids="[contact.id]" :current-uid="''"
     />
 
-    <div class="grid grid-cols-1 gap-8 items-start">
-      <main class="space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+      <main class="lg:col-span-2 space-y-8 bg-white dark:bg-slate-900 p-6 sm:p-8 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm">
         <article class="prose dark:prose-invert max-w-none">
           <Fancybox>
             <Icon
@@ -127,8 +128,8 @@ useSeo({
                 name="material-symbols:arrow-right-alt"
             />
             <prismic-rich-text
-                :field="contact?.data.content"
-                :serializer="richTextSerializer"
+              :field="contact?.data.content"
+              :serializer="richTextSerializer"
             ></prismic-rich-text>
           </Fancybox>
 
@@ -153,6 +154,16 @@ useSeo({
           </DelayHydration>
         </article>
       </main>
+      <aside class="space-y-6 lg:sticky lg:top-6">
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm space-y-6">
+          <AsideSocialShare :currentUrlPage="useRequestURL().href" />
+
+          <prismic-rich-text
+            :field="contact?.data.content_aside"
+            :serializer="richTextSerializer"
+          ></prismic-rich-text>
+        </div>
+      </aside>
     </div>
   </section>
 </template>

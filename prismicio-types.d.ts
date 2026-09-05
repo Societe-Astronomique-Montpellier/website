@@ -633,6 +633,17 @@ interface ContactDocumentData {
   content: prismic.RichTextField;
 
   /**
+   * Contenu (côté) field in *Page de contact*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: contact.content_aside
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  content_aside: prismic.RichTextField;
+
+  /**
    * Liste des sujets field in *Page de contact*
    *
    * - **Field Type**: Group

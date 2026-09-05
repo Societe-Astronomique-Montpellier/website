@@ -1,4 +1,5 @@
 import { apiEndpoint, repositoryName } from "./slicemachine.config.json";
+const isDev = process.env.NODE_ENV !== 'production';
 
 export default defineNuxtConfig({
   ssr: true,
@@ -91,7 +92,7 @@ export default defineNuxtConfig({
     },
   },
   turnstile: {
-    siteKey: process.env.NUXT_TURNSTILE_PUBLIC_KEY,
+    siteKey: isDev ? '1x00000000000000000000AA' : process.env.NUXT_TURNSTILE_PUBLIC_KEY,
   },
   eslint: {},
   colorMode: {
@@ -149,8 +150,9 @@ export default defineNuxtConfig({
     smtpUser: process.env.NUXT_SMTP_USER,
     smtpPwd: process.env.NUXT_SMTP_PWD,
     smtpMailingList: process.env.NUXT_SMTP_MAILLIST,
+    smtpTo: process.env.NUXT_SMTP_TO,
     turnstile: {
-      secretKey: process.env.NUXT_TURNSTILE_PRIVATE_KEY,
+      secretKey: isDev ? '1x0000000000000000000000000000000AA': process.env.NUXT_TURNSTILE_PRIVATE_KEY,
     },
     nextcloudUrl: process.env.NUXT_NEXTCLOUD_URL,
     nextcloudLogin: process.env.NUXT_NEXTCLOUD_LOGIN,

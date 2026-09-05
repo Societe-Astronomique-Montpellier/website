@@ -1,88 +1,44 @@
 <script setup lang="ts">
-import { reactive } from "vue";
+import type {ContactFormData} from "~~/types/Form/ContactFormData.ts";
+import {ContactSchema} from "~~/types/Form/ContactFormData.ts";
+import {useForm} from "vee-validate";
+import {toTypedSchema} from "@vee-validate/zod";
+
+// Nuxt components
 const { t } = useI18n();
 
+// -- Props
 export interface Props {
   topics?: string[] | undefined;
+  isLoading: boolean
 }
-const props = defineProps<Props>();
-const { topics } = toRefs(props);
+const { topics, isLoading } = defineProps<Props>();
 
-interface IContactForm {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  honeypot: string;
-  turnstileToken: string;
-}
-
-const form: IContactForm = reactive({
-  name: "",
-  email: "",
-  subject: "",
-  message: "",
-  honeypot: "",
-  turnstileToken: "",
+// Definition form
+const { handleSubmit, errors, defineField } = useForm<ContactFormData>({
+  validationSchema: toTypedSchema(ContactSchema),
 });
 
-const isLoading: Ref<boolean> = ref(false);
-type FormFeedbackType = "incomplete" | "consent" | "invalid" | null;
-const errMessage: Ref<FormFeedbackType> = ref(null);
+const [name, nameAttrs] = defineField('name')
+const [email, emailAttrs] = defineField('email')
+const [subject, subjectAttrs] = defineField('subject')
+const [message, messageAttrs] = defineField('message')
+const [turnstileToken, turnstileTokenAttrs] = defineField('turnstileToken');
 
+
+// -- Emits
 const emit = defineEmits<{
-  submit: [form: IContactForm];
+  submitForm: [form: ContactFormData];
 }>();
 
-const submitForm = async (): Promise<void> => {
-  isLoading.value = true;
+const onInternalSubmit = handleSubmit((values) => {
+  emit("submitForm", values);
+})
 
-  if (form.honeypot.trim()) {
-    isLoading.value = false;
-    return;
-  }
-
-  if (
-    !form.name.trim() ||
-    !form.email.trim() ||
-    !form.message.trim()
-  ) {
-    errMessage.value = "incomplete";
-    isLoading.value = false;
-    return;
-  }
-
-  const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
-  if (form.email && !regex.test(form.email)) {
-    errMessage.value = "invalid";
-    isLoading.value = false;
-    return;
-  }
-  if (!form.turnstileToken.trim()) {
-    errMessage.value = "invalid";
-    isLoading.value = false;
-    return;
-  }
-
-  setTimeout(() => {
-    isLoading.value = false;
-    emit("submit", { ...form });
-  }, 1000);
-};
 </script>
 
 <template>
-  <div
-    v-if="errMessage"
-    class="mt-2 bg-red-100 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500"
-    role="alert"
-    tabindex="-1"
-    aria-labelledby="hs-soft-color-danger-label"
-  >
-    <span id="hs-soft-color-danger-label" class="font-bold">Danger</span>
-    {{ $t(`form.postSubmit.${errMessage}`) }}
-  </div>
-  <form action="#" class="space-y-8" @submit.prevent="submitForm">
+  <form class="space-y-8" @submit.prevent="onInternalSubmit" novalidate>
     <div>
       <label for="name" class="block mb-2 text-sm font-medium text-gray-900"
         >{{ $t("form.contact.name.label") }}
@@ -90,13 +46,21 @@ const submitForm = async (): Promise<void> => {
       >
       <input
         id="name"
-        v-model="form.name"
+        v-model="name"
+        v-bind="nameAttrs"
         type="text"
         name="name"
-        class="shadow-sm border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+        class="shadow-sm border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-gray-500 dark:shadow-sm-light"
+        :class="errors.name
+          ? 'border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-500'
+          : 'border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:focus:ring-primary-500 dark:focus:border-primary-500'"
         :placeholder="t('form.contact.name.placeholder')"
-        required
+        :aria-invalid="!!errors.name"
+        :aria-describedby="errors.name ? 'name-error' : undefined"
       />
+      <p v-if="errors.name" id="name-error" class="mt-1 text-sm text-red-600">
+        {{ errors.name }}
+      </p>
     </div>
     <div>
       <label for="email" class="block mb-2 text-sm font-medium text-gray-900"
@@ -105,13 +69,21 @@ const submitForm = async (): Promise<void> => {
       >
       <input
         id="email"
-        v-model="form.email"
+        v-model="email"
+        v-bind="emailAttrs"
         type="email"
         name="email"
-        class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
+        class="shadow-sm bg-gray-50 border text-gray-900 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:placeholder-gray-400 dark:text-gray-500 dark:shadow-sm-light"
+        :class="errors.email
+          ? 'border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-500'
+          : 'border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:focus:ring-primary-500 dark:focus:border-primary-500'"
         :placeholder="t('form.contact.email.placeholder')"
-        required
+        :aria-invalid="!!errors.email"
+        :aria-describedby="errors.email ? 'email-error' : undefined"
       />
+      <p v-if="errors.email" id="email-error" class="mt-1 text-sm text-red-600">
+        {{ errors.email }}
+      </p>
     </div>
     <div>
       <label for="subject" class="block mb-2 text-sm font-medium text-gray-900"
@@ -120,15 +92,24 @@ const submitForm = async (): Promise<void> => {
       >
       <select
         id="subject"
-        v-model="form.subject"
+        v-model="subject"
+        v-bind="subjectAttrs"
         name="subject"
-        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 shadow-sm focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500 dark:shadow-sm-light"
-        required
+        class="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border shadow-sm dark:bg-gray-700 dark:placeholder-gray-400 dark:text-gray-500 dark:shadow-sm-light"
+        :class="errors.subject
+          ? 'border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-500'
+          : 'border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:focus:ring-primary-500 dark:focus:border-primary-500'"
+        :aria-invalid="!!errors.subject"
+        :aria-describedby="errors.subject ? 'subject-error' : undefined"
       >
+        <option value="" disabled>{{ t('form.contact.subject.placeholder') }}</option>
         <option v-for="topic in topics" :key="topic" :value="topic">
           {{ topic }}
         </option>
       </select>
+      <p v-if="errors.subject" id="subject-error" class="mt-1 text-sm text-red-600">
+        {{ errors.subject }}
+      </p>
     </div>
     <div class="sm:col-span-2">
       <label for="message" class="block mb-2 text-sm font-medium text-gray-900"
@@ -137,20 +118,35 @@ const submitForm = async (): Promise<void> => {
       >
       <textarea
         id="message"
-        v-model="form.message"
+        v-model="message"
+        v-bind="messageAttrs"
         rows="6"
-        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-500 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg shadow-sm border dark:bg-gray-700 dark:placeholder-gray-400 dark:text-gray-500"
+        :class="errors.message
+          ? 'border-red-500 focus:ring-red-500 focus:border-red-500 dark:border-red-500'
+          : 'border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:border-gray-600 dark:focus:ring-primary-500 dark:focus:border-primary-500'"
+        :aria-invalid="!!errors.message"
+        :aria-describedby="errors.message ? 'message-error' : undefined"
       ></textarea>
+      <p v-if="errors.message" id="message-error" class="mt-1 text-sm text-red-600">
+        {{ errors.message }}
+      </p>
     </div>
-    <div class="hidden">
-      <input v-model="form.honeypot" type="text" />
+
+    <div>
+      <NuxtTurnstile v-model="turnstileToken" v-bind="turnstileTokenAttrs" />
+      <p v-if="errors.turnstileToken" class="mt-1 text-sm text-red-600">
+        {{ errors.turnstileToken }}
+      </p>
     </div>
-    <NuxtTurnstile v-model="form.turnstileToken" />
+
     <button
       type="submit"
+      :disabled="isLoading"
       :aria-label="t('form.contact.submit.label')"
-      class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong"
+      class="md:justify-center inline-block rounded bg-gray-700 px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-primary-3 transition duration-150 ease-in-out hover:bg-primary-accent-300 hover:shadow-primary-2 focus:bg-primary-accent-300 focus:shadow-primary-2 focus:outline-none focus:ring-0 active:bg-primary-600 active:shadow-primary-2 motion-reduce:transition-none dark:shadow-black/30 dark:hover:shadow-dark-strong dark:focus:shadow-dark-strong dark:active:shadow-dark-strong disabled:opacity-50 disabled:cursor-not-allowed"
     >
+      <Icon name="ph:check-circle-bold" size="12" />
       {{
         isLoading
           ? $t("form.postSubmit.loading")

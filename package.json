@@ -1,7 +1,7 @@
 {
   "name": "sam-nuxt",
   "type": "module",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -38,12 +38,15 @@
     "@types/geojson": "^7946.0.14",
     "@types/vue": "^2.0.0",
     "@unhead/schema": "^1.11.20",
+    "@vee-validate/zod": "^4.15.1",
     "@vue-leaflet/vue-leaflet": "^0.10.1",
     "nodemailer": "^9.0.6",
     "nodemailer-express-handlebars": "^7.0.0",
     "sharp": "^0.35.4",
     "unenv": "^2.0.0-rc.14",
-    "vue": "latest"
+    "vee-validate": "^4.15.1",
+    "vue": "latest",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@iconify-json/hugeicons": "^1.1.0",
@@ -64,7 +67,7 @@
     "@types/nodemailer": "^6.4.17",
     "@types/nodemailer-express-handlebars": "^4.0.5",
     "autoprefixer": "^10.4.19",
-    "eslint": "^9.10.0",
+    "eslint": "^10.10.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "nuxt": "^4.5.2",
@@ -77,5 +80,11 @@
     "tailwindcss": "^3.4.4",
     "typescript": "^5.5.3",
     "vue-tsc": "^2.0.24"
+  },
+  "allowScripts": {
+    "esbuild": true,
+    "@parcel/watcher": true,
+    "@scarf/scarf": true,
+    "unrs-resolver": true
   }
 }

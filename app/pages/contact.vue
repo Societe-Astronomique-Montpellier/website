@@ -1,62 +1,80 @@
 <script setup lang="ts">
-import type {
-  EmptyImageFieldImage,
-  FilledImageFieldImage,
-} from "@prismicio/types";
+import type { EmptyImageFieldImage, FilledImageFieldImage } from "@prismicio/types";
 import type { ImageField } from "@prismicio/client";
-import type {
-  ContactDocument,
-  ContactDocumentDataSubjectsItem,
-} from "~~/prismicio-types";
+import type { ContactDocument, ContactDocumentDataSubjectsItem } from "~~/prismicio-types";
 import type { ComputedRef } from "vue";
 import defaultImg from "../../public/logo.png";
+import type { ContactFormData } from "~~/types/Form/ContactFormData.ts";
+import type {ContactResponse} from "~~/types/ContactResponse";
+import { FetchError } from 'ofetch';
 
 definePageMeta({
   layout: "page",
 });
 
+// - Nuxt
 const prismic = usePrismic();
 const { t } = useI18n();
 const lang = useLang();
+const richTextSerializer = useRichTextSerializer();
 
+// -- Components
 const HeaderPageTitle = defineAsyncComponent(() => import("~/components/pages/HeaderPageTitle.vue"));
 const Loading = defineAsyncComponent(() => import("@/components/Layouts/Loading.vue"))
 const Breadcrumbs = defineAsyncComponent(() => import("~/components/Layouts/Breadcrumbs.vue"));
 const Fancybox = defineAsyncComponent(() => import("~/components//content/Fancybox.vue"));
-const FormContact = defineAsyncComponent(() => import("~/components/forms/contact.vue"));
 const AsideSocialShare = defineAsyncComponent(() => import("@/components/Layouts/AsideSocialShare.vue"))
 
-const richTextSerializer = useRichTextSerializer();
-
-interface IContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  turnstileToken: string;
-}
-
-const submittedForm: Ref<boolean> = ref(false);
-const submitedFormMessage: Ref<string | null> = ref(null);
-
-const { data: contact, pending } = useLazyAsyncData(
-  "contact",
-  async () =>
-    await prismic.client.getSingle<ContactDocument>("contact", {
+// -- Get prismic data
+const { data: contact, pending } = useAsyncData(
+    "contact",
+    async () => await prismic.client.getSingle<ContactDocument>("contact", {
       lang: lang.value,
     }),
 );
 
+// -- List of topics
 const listTopics: ComputedRef<string[] | undefined> = computed(() =>
-  contact.value?.data.subjects.map(
-    (s: ContactDocumentDataSubjectsItem) => s.subject as string,
-  ),
+    contact.value?.data.subjects.map(
+        (s: ContactDocumentDataSubjectsItem) => s.subject as string,
+    ),
 );
 
 computed<ImageField | FilledImageFieldImage | EmptyImageFieldImage | undefined>(
-  () => useBannerImage(undefined, false),
+    () => useBannerImage(undefined, false),
 );
 
+// -- Form
+const FormContact = defineAsyncComponent(() => import("@/components/forms/contact.vue"))
+
+const isLoading: Ref<boolean> = ref(false)
+const isFormSubmit: Ref<boolean> = ref(false);
+const submitFormMessage: Ref<string | null> = ref(null);
+
+const handleContactFormSubmission = async (formData: ContactFormData) => {
+  isLoading.value = true;
+  try {
+    const response = await $fetch<ContactResponse>("/api/contact", {
+      method: "POST",
+      body: formData,
+    });
+
+    isFormSubmit.value = true;
+    submitFormMessage.value = response.message;
+  } catch (err: unknown) {
+    isFormSubmit.value = false;
+
+    if (err instanceof FetchError && err?.data?.message) {
+      submitFormMessage.value = err.data.message;
+    } else {
+      submitFormMessage.value = t('form.postSubmit.send_err');
+    };
+  } finally {
+    isLoading.value = false
+  }
+};
+
+// -- SEO
 const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
   title: () => [
     `${contact.value?.data.meta_title}`,
@@ -69,32 +87,6 @@ const { title: metaTitle, description: metaDescription, image: metaImage } = use
   image: () => [contact.value?.data.meta_image],
   defaultImage: defaultImg as string,
 });
-const handleContactFormSubmission = async (formData: IContactFormData) => {
-  setTimeout(async () => {
-    try {
-      const response: any = await fetch("/api/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      if (true === response.succes) {
-        submittedForm.value = true;
-        submitedFormMessage.value = response.message;
-      } else {
-        submittedForm.value = false;
-        submitedFormMessage.value = t("form.postSubmit.send_err");
-      }
-
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (err: unknown) {
-      submittedForm.value = false;
-      submitedFormMessage.value = t("form.postSubmit.send_err");
-    }
-  }, 200);
-};
 
 useSeo({
   title: metaTitle,
@@ -133,23 +125,24 @@ useSeo({
             ></prismic-rich-text>
           </Fancybox>
 
-          <div v-if="submittedForm">
+          <div v-if="isFormSubmit">
             <div
-                class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
-                role="alert"
-                tabindex="-1"
-                aria-labelledby="hs-soft-color-success-label"
+              class="mt-2 bg-teal-100 border border-teal-200 text-sm text-teal-800 rounded-lg p-4 dark:bg-teal-800/10 dark:border-teal-900 dark:text-teal-500"
+              role="alert"
+              tabindex="-1"
+              aria-labelledby="hs-soft-color-success-label"
             >
               <Icon name="clarity:success-standard-line" size="12" />
-              {{ submitedFormMessage }}
+              {{ submitFormMessage }}
             </div>
           </div>
 
           <DelayHydration>
             <FormContact
-                v-if="!submittedForm"
-                :topics="listTopics"
-                @submit="handleContactFormSubmission"
+              v-if="!isFormSubmit"
+              :topics="listTopics"
+              :isLoading="isLoading"
+              @submit-form="handleContactFormSubmission"
             />
           </DelayHydration>
         </article>

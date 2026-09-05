@@ -1,26 +1,26 @@
-import nodemailer from "nodemailer";
+import {createTransport} from "nodemailer";
+import type { ContactResponse } from "~~/types/ContactResponse";
+import type { SmtpConfig } from "~~/types/SmtpConfig";
+import { ContactSchema } from "~~/types/Form/ContactFormData.ts";
 
-interface ResponseData {
-  success: boolean;
-  message?: string;
-  result?: object;
-}
+export default defineEventHandler(async (event): Promise<ContactResponse> => {
+  const config = useRuntimeConfig(event)
 
-export default defineEventHandler(async (event): Promise<ResponseData> => {
-  const config = useRuntimeConfig(event);
+  // -- Retrieve data
   const body = await readBody(event);
-  const { name, email, subject, message, turnstileToken } = body;
-
-  if (!turnstileToken) {
+  const parsed = ContactSchema.safeParse(body);
+  if (!parsed.success) {
     throw createError({
       statusCode: 422,
-      statusMessage: "Token not provided.",
+      statusMessage: 'Invalid form data.',
+      data: parsed.error.flatten(),
     });
   }
 
-  const verifyResponse = await verifyTurnstileToken(
-    turnstileToken || body["cf-turnstile-response"],
-  );
+  const { name, email, subject, message, turnstileToken } = parsed.data;
+
+  // -- Turnstile verification
+  const verifyResponse = await verifyTurnstileToken(turnstileToken || body["cf-turnstile-response"]);
   if (!verifyResponse.success) {
     throw createError({
       statusCode: 400,
@@ -28,37 +28,41 @@ export default defineEventHandler(async (event): Promise<ResponseData> => {
     });
   }
 
+  // -- SMTP
+  const smtpConfig: SmtpConfig = {
+    host: config.smtpHost as string,
+    port: parseInt(config.smtpPort as unknown as string || "465"),
+    secure: true,
+    auth: {
+      user: config.smtpUser as string,
+      pass: config.smtpPwd as string
+    },
+  }
+
+  const transporter = createTransport(smtpConfig);
   try {
-    const transporter = nodemailer.createTransport({
-      host: config.smtpHost,
-      port: config.smtpPort,
-      secure: true,
-      auth: {
-        user: config.smtpUser,
-        pass: config.smtpPwd,
-      },
-    });
+    await transporter.verify();
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : 'SMTP configuration error.';
+    throw createError({ statusCode: 500, statusMessage: message });
+  }
 
-    transporter.verify((err): void => {
-      if (err) {
-        throw new Error(err.message);
-      }
-    });
 
-    const result = transporter.sendMail({
+  // -- Send email
+  try {
+    const mail = {
       from: `"Societe-Astronomique-Montpellier" <${config.smtpUser}>`,
-      to: "contact@societe-astronomique-montpellier.fr",
+      to: config.smtpTo,
       replyTo: email,
       subject: `Message de ${name} (${email}) - ${subject}`,
       text: message,
       html: `<p>${message}</p>`,
-    });
+    }
 
+    await transporter.sendMail(mail, (err, info) => console.log(err || info));
     return {
       success: true,
-      message:
-        "Le message a bien été envoyé, nous vous répondrons au plus vite.",
-      result,
+      message: "Votre message a bien été envoyé, nous vous répondrons dans les plus brefs délais.",
     };
   } catch (error: any) {
     return { success: false, message: error.message };

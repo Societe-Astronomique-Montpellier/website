@@ -38,7 +38,7 @@ export default defineNuxtConfig({
     "@nuxt/scripts",
     "@nuxtjs/turnstile",
     "@nuxtjs/color-mode",
-    "nuxt-qrcode"
+    "nuxt-qrcode",
   ],
   prismic: {
     endpoint: apiEndpoint || repositoryName, // process.env.NUXT_PRISMIC_ENDPOINT, // apiEndpoint || repositoryName,

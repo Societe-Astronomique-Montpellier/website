@@ -186,10 +186,9 @@ useSeo({
             </a>
 
             <Qrcode
-                v-if="event.data.display_qr_code === true && isMobile == false && event.data.link_qr_code"
-                :value="asLink(event.data.link_qr_code) as string"
+              v-if="event.data.display_qr_code === true && event.data.link_qr_code"
+              :value="asLink(event.data.link_qr_code) as string"
             />
-
           </div>
 
           <AsideSocialShare :currentUrlPage="currentUrl" />

@@ -21,3 +21,10 @@ body {
 p {
   @apply leading-[1.6];
 }
+
+@layer utilities {
+  .animate-scroll {
+    animation-timeline: view();
+    animation-range: entry 10% cover 30%;
+  }
+}

@@ -20,6 +20,23 @@ module.exports = {
       lg: "976px",
       xl: "1440px",
     },
+    extend: {
+      keyframes: {
+        'fade-in-up': {
+          'from': {
+            opacity: '0',
+            transform: 'translateY(40px)',
+          },
+          'to': {
+            opacity: '1',
+            transform: 'translateY(0)',
+          },
+        },
+      },
+      animation: {
+        'scroll-reveal': 'fade-in-up linear both',
+      },
+    }
   },
   darkMode: "class",
   plugins: [require("tw-elements/plugin.cjs")],

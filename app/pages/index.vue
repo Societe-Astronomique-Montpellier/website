@@ -29,21 +29,14 @@ definePageMeta({
 });
 
 // Components
-const BlockHeroPresentation = defineAsyncComponent(
-  () => import("~/components/home/BlockHeroPresentation.vue"),
-);
-const BlockTestimonial = defineAsyncComponent(
-  () => import("~/components/home/BlockTestimonial.vue"),
-);
-const BlockListCards = defineAsyncComponent(
-  () => import("~/components/home/BlockListCards.vue"),
-);
-const BlockCta = defineAsyncComponent(
-  () => import("~/components/home/BlockCta.vue"),
-);
-const BlockContact = defineAsyncComponent(
-  () => import("~/components/home/BlockContact.vue"),
-);
+const Loading = defineAsyncComponent(() => import('@/components/Layouts/Loading.vue'))
+
+const BlockHeroPresentation = defineAsyncComponent(() => import("~/components/home/BlockHeroPresentation.vue"));
+const BlockTestimonial = defineAsyncComponent(() => import("~/components/home/BlockTestimonial.vue"));
+const BlockListCards = defineAsyncComponent(() => import("~/components/home/BlockListCards.vue"));
+const BlockCta = defineAsyncComponent(() => import("~/components/home/BlockCta.vue"));
+const BlockAgenda = defineAsyncComponent(() => import('@/components/home/BlockAgenda.vue'))
+const BlockContact = defineAsyncComponent(() => import("~/components/home/BlockContact.vue"));
 
 interface BlockHeroData {
   title?: string;
@@ -63,7 +56,7 @@ interface RelatedBlockHero {
 }
 
 // Prismic
-const { data: home, error } = useAsyncData("home", async () => {
+const { data: home, error, pending } = useAsyncData("home", async () => {
   const currentLang = useLang();
   const response = await prismic.client.getSingle<HomepageDocument>(
     "homepage",
@@ -191,7 +184,7 @@ const { data: home, error } = useAsyncData("home", async () => {
   };
 });
 
-
+// SEO
 const { title: metaTitle, description: metaDescription, image: metaImage } = usePrismicSeo({
   title: () => [
     `${home.value?.data.meta_title}`,
@@ -213,7 +206,10 @@ useSeo({
 </script>
 
 <template>
-  <div v-if="home">
+  <div v-if="pending">
+    <Loading />
+  </div>
+  <div v-else-if="home">
     <BlockHeroPresentation :block="home.blocks.hero" :has-demo="hasDemo" />
 
     <a id="status" />
@@ -244,6 +240,7 @@ useSeo({
     <a id="evenements" />
     <BlockListCards
       :title-block="home.data.block_events_title"
+      :sub-titnle-block="home.data.block_events_text"
       :items="home.blocks.events"
       :parent-item="home.agendaHome"
     >

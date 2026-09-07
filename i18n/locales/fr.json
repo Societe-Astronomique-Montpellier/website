@@ -38,7 +38,8 @@
     "titleBlockPast": "Événements passés",
     "details": "Détails de l'événement",
     "time": "Date & heure",
-    "add": "Ajouter à mon agenda"
+    "add": "Ajouter à mon agenda",
+    "link": "Voir tout l'agenda"
   },
   "activity": {
     "type": {

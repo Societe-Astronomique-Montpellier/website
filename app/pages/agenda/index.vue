@@ -12,7 +12,6 @@ import type {
 } from "@prismicio/types";
 import { asImageSrc, isFilled } from "@prismicio/helpers";
 import type { IListSamEvents } from "~~/types/calendarEvent";
-import type { CalendarTypeEventList } from "~~/types/calendarTypeEvent";
 import type { CalendarType } from "@schedule-x/calendar";
 import defaultImg from "~~/public/logo.png";
 
@@ -26,88 +25,7 @@ const { t } = useI18n();
 const { isMobile } = useDevice();
 
 const listEvents: IListSamEvents = reactive({ events: [] });
-const listCalendars: Ref<CalendarTypeEventList> = ref([
-  {
-    id: "members",
-    title: t("type_events.members.title"),
-    description: t("type_events.members.description"),
-    colorName: "members",
-    lightColors: {
-      main: "#f91c45",
-      container: "#ffd2dc",
-      onContainer: "#59000d",
-    },
-    darkColors: {
-      main: "#ffc0cc",
-      onContainer: "#ffdee6",
-      container: "#a24258",
-    },
-  },
-  {
-    id: "allpublic",
-    title: t("type_events.allpublic.title"),
-    description: t("type_events.allpublic.description"),
-    colorName: "allpublic",
-    lightColors: {
-      main: "#1cf9b0",
-      container: "#dafff0",
-      onContainer: "#004d3d",
-    },
-    darkColors: {
-      main: "#c0fff5",
-      onContainer: "#e6fff5",
-      container: "#42a297",
-    },
-  },
-  {
-    id: "private",
-    title: t("type_events.private.title"),
-    description: t("type_events.private.description"),
-    colorName: "private",
-    lightColors: {
-      main: "#f9d71c",
-      container: "#fff5aa",
-      onContainer: "#594800",
-    },
-    darkColors: {
-      main: "#fff5c0",
-      onContainer: "#fff5de",
-      container: "#a29742",
-    },
-  },
-  {
-    id: "astronomicals",
-    title: t("type_events.astronomicals.title"),
-    description: t("type_events.astronomicals.description"),
-    colorName: "astronomicals",
-    lightColors: {
-      main: "#1c7df9",
-      container: "#d2e7ff",
-      onContainer: "#002859",
-    },
-    darkColors: {
-      main: "#c0dfff",
-      onContainer: "#dee6ff",
-      container: "#426aa2",
-    },
-  },
-  {
-    id: "meetings",
-    title: t("type_events.meetings.title"),
-    description: t("type_events.meetings.description"),
-    colorName: "meetings",
-    lightColors: {
-      main: "#6750a4",
-      container: "#eaddff",
-      onContainer: "#625b71",
-    },
-    darkColors: {
-      main: "#6750a4",
-      container: "#eaddff",
-      onContainer: "#625b71",
-    },
-  },
-]);
+const { listCalendars } = useCalendarTypes()
 
 // transform CalendarTypeEventList into Record<string, CalendarType for @schedule-x/calendar
 const calendars: ComputedRef<Record<string, CalendarType>> = computed(() => {
@@ -185,8 +103,7 @@ events?.value?.forEach((event: EventDocument) => {
     description: prismic.asText(event.data.resume) as string,
     location: event.data.place_event_txt as string,
     access_type_txt: event.data.access_type,
-    access_type:
-      getKeyByValue(
+    access_type: getKeyByValue(
         listCalendars.value,
         "title",
         event.data.access_type,

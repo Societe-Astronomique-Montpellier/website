@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type {KeyTextField} from "@prismicio/client";
-import type {EventDocument} from "~~/prismicio-types";
+import type {EventDocument, EventsDocument} from "~~/prismicio-types";
 import EventHomeCard from "~/components/content/EventHomeCard.vue";
 
 const { t } = useI18n()
@@ -8,7 +8,8 @@ const { t } = useI18n()
 interface Props {
   titleBlock: KeyTextField,
   subTitleBlock: KeyTextField,
-  items: EventDocument[]
+  items: EventDocument[],
+  agenda: EventsDocument
 }
 
 const { titleBlock, subTitleBlock, items } = defineProps<Props>()
@@ -29,15 +30,15 @@ const { titleBlock, subTitleBlock, items } = defineProps<Props>()
         </p>
       </div>
 
-      <NuxtLink
-        to="agenda"
+      <PrismicLink
+        :field="agenda"
         class="inline-flex items-center gap-2 text-sm font-bold text-indigo-400 hover:text-indigo-300 transition-colors duration-300 shrink-0 group"
       >
         <span>{{ t('agenda.link') }}</span>
         <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7m0 0l-7 7m7-7H3"/>
         </svg>
-      </NuxtLink>
+      </PrismicLink>
     </div>
 
     <div class="divide-y divide-slate-800/80">

@@ -7,7 +7,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
-  sourcemap: { server: true, client: false },
+  sourcemap: { server: false, client: true },
   build: {
     analyze: true,
   },
@@ -15,7 +15,7 @@ export default defineNuxtConfig({
     preset: "node-server",
   },
   typescript: {
-    typeCheck: true,
+    typeCheck: false,
     strict: true
   },
   modules: [

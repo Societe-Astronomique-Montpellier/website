@@ -29,11 +29,10 @@ interface BlockHero {
 
 interface Props {
   block: BlockHero;
-  hasDemo: boolean;
 }
 
 const props = defineProps<Props>();
-const { block, hasDemo } = toRefs(props);
+const { block } = toRefs(props);
 const { isMobile } = useDevice();
 
 const slides: ComputedRef<CarouselItem[]> = computed(
@@ -101,11 +100,7 @@ const stopAutoSlide = (): void => {
 
 // Lifecycle
 onMounted(() => {
-  if (props.hasDemo) {
-    startAutoSlide();
-  } else {
-    startAutoSlideLegacy();
-  }
+  startAutoSlide();
 });
 
 onUnmounted(() => {

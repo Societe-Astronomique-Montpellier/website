@@ -20,7 +20,6 @@ import defaultImg from "../../public/logo.png";
 import type { ImageField } from "@prismicio/client";
 
 const route = useRoute();
-const hasDemo: ComputedRef<boolean> = computed(() => "demo" in route.query);
 
 const prismic = usePrismic();
 
@@ -95,6 +94,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
         "block_contact.title",
         "block_contact.subtitle",
         "block_contact.content",
+        "block_contact.content_bottom",
         "block_contact.link",
       ],
     },
@@ -140,7 +140,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
     .block_contact as typeof response.data.block_contact & {
     data: Pick<
       BlockContactDocument["data"],
-      "title" | "subtitle" | "content" | "link"
+      "title" | "subtitle" | "content" | "content_bottom" | "link"
     >;
   };
 
@@ -210,57 +210,37 @@ useSeo({
     <Loading />
   </div>
   <div v-else-if="home">
-    <BlockHeroPresentation :block="home.blocks.hero" :has-demo="hasDemo" />
+    <BlockHeroPresentation :block="home.blocks.hero" />
 
-    <a id="status" />
-    <BlockTestimonial :block="home.blocks.testimonial" :has-demo="hasDemo" />
+    <main class="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 py-24 space-y-36 text-slate-200 font-sans overflow-hidden">
+      <BlockTestimonial :block="home.blocks.testimonial" />
 
-    <!-- thematics block -->
-    <a id="thematiques" />
-    <BlockListCards
-      :title-block="home.data.block_thematics_title"
-      :items="home.blocks.thematics"
-      :parent-item="null"
-    >
-      <template #content-block-top>
-        <p
-          v-if="home.data.bloc_thematic_text"
-          class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0"
-        >
-          {{ home.data.bloc_thematic_text }}
-        </p>
-      </template>
-    </BlockListCards>
+      <BlockListCards
+          :title-block="home.data.block_thematics_title"
+          :items="home.blocks.thematics"
+          :parent-item="null"
+      >
+        <template #content-block-top>
+          <p
+            v-if="home.data.bloc_thematic_text"
+            class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0"
+          >
+            {{ home.data.bloc_thematic_text }}
+          </p>
+        </template>
+      </BlockListCards>
 
-    <!-- Call to action -->
-    <a id="mise-en-avant" />
-    <BlockCta :block="home.blocks.cta" />
+      <BlockCta :block="home.blocks.cta" />
 
-    <!-- Evenements -->
-    <a id="evenements" />
-    <BlockListCards
-      :title-block="home.data.block_events_title"
-      :sub-titnle-block="home.data.block_events_text"
-      :items="home.blocks.events"
-      :parent-item="home.agendaHome"
-    >
-      <template #content-block-bottom>
-        <NuxtLink
-          to="/agenda"
-          class="text-indigo-400 inline-flex items-start mt-4 text-xl"
-          :aria-label="home.data.block_events_text as string"
-        >
-          {{ home.data.block_events_text }}&nbsp;<Icon
-            name="material-symbols:arrow-right-alt"
-            size="20"
-          />
-        </NuxtLink>
-      </template>
-    </BlockListCards>
+      <BlockAgenda
+        :title-block="home.data.block_events_title"
+        :sub-title-block="home.data.block_events_text"
+        :items="home.blocks.events"
+        :agenda="home.agendaHome"
+      />
 
-    <!-- contact -->
-    <a id="contact" />
-    <BlockContact :block="home.blocks.contact" />
+      <BlockContact :block="home.blocks.contact" />
+    </main>
   </div>
   <div v-else-if="error">
     {{ error }}

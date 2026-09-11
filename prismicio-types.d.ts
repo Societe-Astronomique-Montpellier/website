@@ -104,6 +104,17 @@ interface BlockContactDocumentData {
   content: prismic.RichTextField;
 
   /**
+   * Texte en bas field in *Bloc de contact*
+   *
+   * - **Field Type**: Rich Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_contact.content_bottom
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/rich-text
+   */
+  content_bottom: prismic.RichTextField;
+
+  /**
    * Lien field in *Bloc de contact*
    *
    * - **Field Type**: Link

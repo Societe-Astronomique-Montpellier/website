@@ -38,6 +38,15 @@
           "multi": "paragraph,preformatted,heading3,heading4,heading5,heading6,strong,em,image,list-item,o-list-item,rtl,hyperlink"
         }
       },
+      "content_bottom": {
+        "type": "StructuredText",
+        "config": {
+          "label": "Texte en bas",
+          "placeholder": "",
+          "allowTargetBlank": true,
+          "multi": "paragraph,strong,em,hyperlink,embed"
+        }
+      },
       "link": {
         "type": "Link",
         "config": {

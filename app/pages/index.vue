@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// https://tailwindflex.com/tag/call-to-action?page=6
-import type { ComputedRef } from "vue";
-
 // Layout
 import type {
   AllDocumentTypes,
@@ -15,12 +12,10 @@ import type {
   EventsDocument,
 } from "~~/prismicio-types";
 
-import { asImageSrc, isFilled } from "@prismicio/helpers";
 import defaultImg from "../../public/logo.png";
 import type { ImageField } from "@prismicio/client";
 
 const route = useRoute();
-
 const prismic = usePrismic();
 
 definePageMeta({
@@ -32,8 +27,9 @@ const Loading = defineAsyncComponent(() => import('@/components/Layouts/Loading.
 
 const BlockHeroPresentation = defineAsyncComponent(() => import("~/components/home/BlockHeroPresentation.vue"));
 const BlockTestimonial = defineAsyncComponent(() => import("~/components/home/BlockTestimonial.vue"));
-const BlockListCards = defineAsyncComponent(() => import("~/components/home/BlockListCards.vue"));
+const BlockThematics = defineAsyncComponent(() => import("~/components/home/BlockThematics.vue"));
 const BlockCta = defineAsyncComponent(() => import("~/components/home/BlockCta.vue"));
+const BlockCtaDark = defineAsyncComponent(() => import("~/components/home/BlockCtaDark.vue"));
 const BlockAgenda = defineAsyncComponent(() => import('@/components/home/BlockAgenda.vue'))
 const BlockContact = defineAsyncComponent(() => import("~/components/home/BlockContact.vue"));
 
@@ -83,6 +79,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
         "block_testimonial.link_label",
         "block_testimonial.link",
         "data.block_thematiques",
+        "block_cta.suptitle",
         "block_cta.title",
         "block_cta.subtitle",
         "block_cta.image",
@@ -90,6 +87,14 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
         "block_cta.content",
         "block_cta.display_button_link",
         "block_cta.link",
+        // "block_cta_dark.suptitle",
+        // "block_cta_dark.title",
+        // "block_cta_dark.subtitle",
+        // "block_cta_dark.image",
+        // "block_cta_dark.resume",
+        // "block_cta_dark.content",
+        // "block_cta_dark.display_button_link",
+        // "block_cta_dark.link",
         // Contact
         "block_contact.title",
         "block_contact.subtitle",
@@ -126,6 +131,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
     .block_cta as typeof response.data.block_cta & {
     data: Pick<
       BlockCtaDocument["data"],
+      | "suptitle"
       | "title"
       | "subtitle"
       | "image"
@@ -133,6 +139,21 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
       | "content"
       | "display_button_link"
       | "link"
+    >;
+  };
+
+  const relatedBlockCtaDark = response.data
+      .block_cta_dark as typeof response.data.block_cta_dark & {
+    data: Pick<
+        BlockCtaDocument["data"],
+        | "suptitle"
+        | "title"
+        | "subtitle"
+        | "image"
+        | "resume"
+        | "content"
+        | "display_button_link"
+        | "link"
     >;
   };
 
@@ -178,6 +199,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
       testimonial: relatedBlockTestimonial,
       thematics: thematics,
       cta: relatedBlockCta,
+      cta_dark: relatedBlockCtaDark,
       events: events,
       contact: relatedBlockContact,
     },
@@ -215,22 +237,14 @@ useSeo({
     <main class="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 py-24 space-y-36 text-slate-200 font-sans overflow-hidden">
       <BlockTestimonial :block="home.blocks.testimonial" />
 
-      <BlockListCards
-          :title-block="home.data.block_thematics_title"
-          :items="home.blocks.thematics"
-          :parent-item="null"
-      >
-        <template #content-block-top>
-          <p
-            v-if="home.data.bloc_thematic_text"
-            class="sm:w-3/5 leading-relaxed text-base sm:pl-10 pl-0"
-          >
-            {{ home.data.bloc_thematic_text }}
-          </p>
-        </template>
-      </BlockListCards>
+      <BlockThematics
+        :items="home.blocks.thematics"
+        :title="home.data.block_thematics_title"
+        :subtitle="home.data.bloc_thematic_text"
+      />
 
       <BlockCta :block="home.blocks.cta" />
+      <BlockCtaDark :block="home.blocks.cta_dark" />
 
       <BlockAgenda
         :title-block="home.data.block_events_title"
@@ -240,6 +254,7 @@ useSeo({
       />
 
       <BlockContact :block="home.blocks.contact" />
+
     </main>
   </div>
   <div v-else-if="error">

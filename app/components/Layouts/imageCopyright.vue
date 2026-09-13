@@ -22,8 +22,8 @@ const { image } = toRefs(props);
     </figure>
   </div>
   <figcaption
-      v-if="image.alt || image.copyright"
-      class="text-xs text-slate-500 text-center italic transition-colors duration-300 group-hover:text-slate-800"
+    v-if="image.alt || image.copyright"
+    class="text-xs text-slate-500 text-center italic transition-colors duration-300 group-hover:text-slate-800"
   >
     <span v-if="image.alt">{{ image.alt }}&nbsp;</span>
     <span v-if="image.copyright"

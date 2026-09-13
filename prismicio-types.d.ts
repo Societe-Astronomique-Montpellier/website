@@ -149,6 +149,17 @@ type BlockCtaDocumentDataSlicesSlice = never;
  */
 interface BlockCtaDocumentData {
   /**
+   * Sur-titre field in *Bloc CallTo Action*
+   *
+   * - **Field Type**: Text
+   * - **Placeholder**: *None*
+   * - **API ID Path**: block_cta.suptitle
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/text
+   */
+  suptitle: prismic.KeyTextField;
+
+  /**
    * Titre field in *Bloc CallTo Action*
    *
    * - **Field Type**: Text
@@ -1353,6 +1364,17 @@ interface HomepageDocumentData {
    * - **Documentation**: https://prismic.io/docs/fields/content-relationship
    */
   block_cta: prismic.ContentRelationshipField<"block_cta">;
+
+  /**
+   * Call to action 2 field in *Page d'accueil*
+   *
+   * - **Field Type**: Content Relationship
+   * - **Placeholder**: *None*
+   * - **API ID Path**: homepage.block_cta_dark
+   * - **Tab**: Main
+   * - **Documentation**: https://prismic.io/docs/fields/content-relationship
+   */
+  block_cta_dark: prismic.ContentRelationshipField<"block_cta">;
 
   /**
    * Titre bloc évenements field in *Page d'accueil*

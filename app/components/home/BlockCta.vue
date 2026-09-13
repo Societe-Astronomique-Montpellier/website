@@ -2,79 +2,85 @@
 import type { ComputedRef } from "vue";
 import { useRichTextSerializer } from "~/composables/useRichTextSerializer.ts";
 import type { ImageField } from "@prismicio/client";
+import type {BlockCtaDocument} from "~~/prismicio-types";
+import {isFilled} from "@prismicio/helpers";
 
 const { t } = useI18n();
-// source https://tailwindflex.com/@noah/call-to-action-card-with-image
-const ImageCopyright = defineAsyncComponent(
-  () => import("~/components/Layouts/imageCopyright.vue"),
-);
+const ImageCopyright = defineAsyncComponent(() => import("~/components/Layouts/imageCopyright.vue"));
 
 export interface Props {
-  block: any;
+  block: BlockCtaDocument;
 }
-const props = defineProps<Props>();
-const { block } = toRefs(props);
+const { block } = defineProps<Props>();
 
 // RichText serializer
 const richTextSerializer = useRichTextSerializer();
 
-const { isMobile, isDesktop } = useDevice();
-const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() =>
-  isMobile ? block?.value.data.image?.mobile : block?.value.data.image.resize,
-);
+const { isMobile } = useDevice();
+const optimizedImage: ComputedRef<ImageField> = computed<ImageField>(() => isMobile ? block?.data.image?.mobile : block?.data.image.resize);
 </script>
 
 <template>
-  <div
-    v-show="block"
-    class="dark:bg-slate-800 lg:px-2 lg:py-20 py-0 w-full flex justify-center"
+  <section
+    v-if="block"
+    class="animate-scroll-reveal animate-scroll group relative bg-gradient-to-br from-indigo-50 via-slate-50 to-indigo-100/60 rounded-3xl p-8 sm:p-14 lg:p-20 border border-indigo-200/80 hover:border-indigo-300 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/10 overflow-hidden text-slate-800"
   >
-    <div
-      class="bg-white dark:bg-slate-900 lg:mx-8 lg:flex lg:max-w-5xl lg:shadow-lg rounded-lg"
-    >
-      <div v-if="isDesktop" class="lg:w-1/2">
-        <div
-          class="lg:scale-110 lg:h-full h-100 bg-cover rounded-b-none border lg:rounded-lg"
-          :style="{ backgroundImage: `url(${optimizedImage?.url})` }"
-        ></div>
-      </div>
-      <div
-        class="py-12 px-6 lg:px-12 max-w-xl lg:max-w-5xl lg:w-1/2 rounded-t-none border lg:rounded-lg"
-      >
-        <h3 class="text-3xl text-gray-800 dark:text-slate-500 font-bold">
-          {{ block.data.title }}
-          <span class="text-indigo-600">
-            {{ block.data.subtitle }}
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+
+      <div class="lg:col-span-7 space-y-8">
+        <div class="flex flex-wrap items-center gap-4">
+          <span class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-indigo-60 text-white text-xs font-bold tracking-wider uppercase shadow-md shadow-indigo-600/20">
+            <span class="w-2.5 h-2.5 rounded-full bg-indigo-200 animate-ping"></span>
+            À la une
           </span>
-        </h3>
-        <div class="mt-4 text-gray-600">
-          <prismic-rich-text
-            :field="block.data.resume"
-            :serializer="richTextSerializer"
-          />
-          <prismic-rich-text
-            :field="block.data.content"
-            :serializer="richTextSerializer"
-          />
+          <span class="text-slate-500 text-xs font-semibold tracking-wider uppercase">
+            {{ block.data?.suptitle }}
+          </span>
         </div>
+
+        <div class="space-y-4">
+          <h2 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight group-hover:text-indigo-950 transition-colors duration-300">
+            {{ block.data.title }}
+          </h2>
+          <p v-if="isFilled.keyText(block.data?.subtitle)" class="text-xl sm:text-2xl font-bold text-indigo-700">
+            {{ block.data?.subtitle }}
+          </p>
+        </div>
+
+        <prismic-rich-text
+          :field="block.data.resume"
+          :serializer="richTextSerializer"
+        />
+        <prismic-rich-text
+          :field="block.data.content"
+          :serializer="richTextSerializer"
+        />
+
         <div
           v-if="true === block.data.display_button_link"
-          class="mt-8 flex justify-center"
+          class="pt-4 flex flex-wrap items-center gap-5"
         >
-          <NuxtLink
-            :to="block.data.link.url"
-            target="_blank"
-            data-twe-ripple-init
-            data-twe-ripple-color="light"
+
+          <prismic-link
+            :field="block.data.link"
             :aria-label="t('layout.moreInfo')"
-            type="button"
-            class="px-3 py-2.5 text-2sm font-medium text-white inline-flex items-center bg-gray-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center m-1"
+            class="inline-flex items-center gap-3 py-4 px-8 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold transition-all duration-300 shadow-lg shadow-indigo-600/20 hover:shadow-indigo-600/40 hover:-translate-y-0.5"
           >
+            <svg class="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
             {{ $t("layout.moreInfo") }}
-          </NuxtLink>
+          </prismic-link>
         </div>
       </div>
-      <ImageCopyright v-if="isMobile" :image="optimizedImage" />
+
+      <div class="lg:col-span-5 relative h-80 sm:h-[380px] rounded-2xl overflow-hidden border border-slate-200 shadow-xl bg-white p-2">
+        <div class="w-full h-full rounded-xl overflow-hidden relative">
+          <prismic-image :field="optimizedImage" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+          <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent"></div>
+        </div>
+      </div>
+
     </div>
-  </div>
+  </section>
 </template>

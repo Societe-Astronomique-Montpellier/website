@@ -14,6 +14,7 @@ import type {
 
 import defaultImg from "../../public/logo.png";
 import type { ImageField } from "@prismicio/client";
+import type {RelatedBlockHero} from "~~/types/Hero";
 
 const route = useRoute();
 const prismic = usePrismic();
@@ -32,23 +33,6 @@ const BlockCta = defineAsyncComponent(() => import("~/components/home/BlockCta.v
 const BlockCtaDark = defineAsyncComponent(() => import("~/components/home/BlockCtaDark.vue"));
 const BlockAgenda = defineAsyncComponent(() => import('@/components/home/BlockAgenda.vue'))
 const BlockContact = defineAsyncComponent(() => import("~/components/home/BlockContact.vue"));
-
-interface BlockHeroData {
-  title?: string;
-  subtitle?: string;
-  background_image?: ImageField;
-  title_part_1?: string;
-  title_part_2?: string;
-  carousel: BlockHeroDocument["data"]["carousel"];
-  button_left?: BlockHeroDocument["data"]["button_left"];
-  text_button_left?: string;
-  button_right?: BlockHeroDocument["data"]["button_right"];
-  text_button_right?: string;
-}
-
-interface RelatedBlockHero {
-  data: BlockHeroData;
-}
 
 // Prismic
 const { data: home, error, pending } = useAsyncData("home", async () => {

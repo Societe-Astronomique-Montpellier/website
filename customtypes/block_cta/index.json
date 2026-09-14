@@ -12,6 +12,13 @@
         },
         "type": "UID"
       },
+      "suptitle": {
+        "type": "Text",
+        "config": {
+          "label": "Sur-titre",
+          "placeholder": ""
+        }
+      },
       "title": {
         "type": "Text",
         "config": {

@@ -28,7 +28,7 @@ const title: ComputedRef<KeyTextField> = computed<KeyTextField>(() =>
     v-show="item"
     class="transition duration-300 ease-in-out hover:shadow-lg hover:scale-105 rounded-md h-64 overflow-hidden"
   >
-    <prismic-link :field="item" :aria-label="item.data.title">
+    <prismic-link :field="item" class="absolute bottom-6 left-6 right-6 text-xs text-slate-300 backdrop-blur-md bg-slate-900/60 p-4 rounded-xl border border-slate-700/50 transition-all duration-300 group-hover:bg-slate-900/90 group-hover:border-emerald-500/40">
       <div class="relative">
         <prismic-image
           v-if="imageVignette"

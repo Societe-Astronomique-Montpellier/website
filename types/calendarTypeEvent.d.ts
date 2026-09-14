@@ -7,6 +7,7 @@ export type CalendarTypeEvent = {
   colorName: string;
   lightColors: ColorDefinition;
   darkColors: ColorDefinition;
+  tailwind: string;
 };
 
 export type CalendarTypeEventList = CalendarTypeEvent[];

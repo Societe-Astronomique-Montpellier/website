@@ -82,6 +82,15 @@
           "customtypes": ["block_cta"]
         }
       },
+      "block_cta_dark": {
+        "type": "Link",
+        "config": {
+          "label": "Call to action 2",
+          "select": "document",
+          "repeat": false,
+          "customtypes": ["block_cta"]
+        }
+      },
       "block_events_title": {
         "type": "Text",
         "config": {

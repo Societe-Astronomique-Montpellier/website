@@ -4,9 +4,6 @@ const isDev = process.env.NODE_ENV !== 'production';
 export default defineNuxtConfig({
   ssr: true,
   devtools: { enabled: true },
-  future: {
-    compatibilityVersion: 4,
-  },
   sourcemap: { server: false, client: true },
   build: {
     analyze: true,

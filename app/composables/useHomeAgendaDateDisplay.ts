@@ -7,6 +7,7 @@ export interface ParsedDate {
     hours: string
     day: string
     month: string
+    month_str: string
     year: string
 }
 

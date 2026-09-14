@@ -15,7 +15,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const { block, hasDemo } = toRefs(props);
+const { block } = toRefs(props);
 
 const testimonialSection = ref<HTMLElement | null>(null);
 const isVisible = ref(false);

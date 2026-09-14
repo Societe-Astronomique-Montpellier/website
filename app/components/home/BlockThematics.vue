@@ -7,7 +7,7 @@ import type {KeyTextField} from "@prismicio/client";
 export interface Props {
   title: KeyTextField | undefined;
   subtitle: KeyTextField | undefined;
-  items?: Array<PageThematiqueDocument | EventDocument | PageArticleDocument>;
+  items?: PageThematiqueDocument[]
 }
 const { title, subtitle, items } = defineProps<Props>()
 

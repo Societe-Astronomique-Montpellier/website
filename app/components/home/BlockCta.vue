@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import type { ComputedRef } from "vue";
 import { useRichTextSerializer } from "~/composables/useRichTextSerializer.ts";
-import type { ImageField } from "@prismicio/client";
-import type {BlockCtaDocument} from "~~/prismicio-types";
 import {isFilled} from "@prismicio/helpers";
+import type { RelatedCtaHome } from "~~/types/Cta";
+import type { ImageField } from "@prismicio/client";
 
 const { t } = useI18n();
 const ImageCopyright = defineAsyncComponent(() => import("~/components/Layouts/imageCopyright.vue"));
 
 export interface Props {
-  block: BlockCtaDocument;
+  block: RelatedCtaHome;
 }
 const { block } = defineProps<Props>();
 

@@ -2,8 +2,6 @@
 // Layout
 import type {
   AllDocumentTypes,
-  BlockCtaDocument,
-  BlockHeroDocument,
   BlockTestimonialDocument,
   EventDocument,
   BlockContactDocument,
@@ -13,8 +11,8 @@ import type {
 } from "~~/prismicio-types";
 
 import defaultImg from "../../public/logo.png";
-import type { ImageField } from "@prismicio/client";
 import type {RelatedBlockHero} from "~~/types/Hero";
+import type { RelatedCtaHome } from "~~/types/Cta";
 
 const route = useRoute();
 const prismic = usePrismic();
@@ -92,66 +90,39 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
   /**
    * Blocks
    */
+
+
   const relatedBlockHero = response.data.block_hero as RelatedBlockHero;
+  const relatedBlockCta = response.data.block_cta as RelatedCtaHome;
+  const relatedBlockCtaDark = response.data.block_cta_dark as RelatedCtaHome;
 
+  // todo: create specific type
   const relatedBlockTestimonial = response.data
-    .block_testimonial as typeof response.data.block_testimonial & {
+      .block_testimonial as typeof response.data.block_testimonial & {
     data: Pick<
-      BlockTestimonialDocument["data"],
-      | "title"
-      | "content"
-      | "testimonial_text_1"
-      | "testimonial_text_2"
-      | "testimonial_text_3"
-      | "testimonial_vignette_1"
-      | "testimonial_vignette_2"
-      | "testimonial_vignette_3"
-      | "link_label"
-      | "link"
-    >;
-  };
-
-  const relatedBlockCta = response.data
-    .block_cta as typeof response.data.block_cta & {
-    data: Pick<
-      BlockCtaDocument["data"],
-      | "suptitle"
-      | "title"
-      | "subtitle"
-      | "image"
-      | "resume"
-      | "content"
-      | "display_button_link"
-      | "link"
-    >;
-  };
-
-  const relatedBlockCtaDark = response.data
-      .block_cta_dark as typeof response.data.block_cta_dark & {
-    data: Pick<
-        BlockCtaDocument["data"],
-        | "suptitle"
+        BlockTestimonialDocument["data"],
         | "title"
-        | "subtitle"
-        | "image"
-        | "resume"
         | "content"
-        | "display_button_link"
+        | "testimonial_text_1"
+        | "testimonial_text_2"
+        | "testimonial_text_3"
+        | "testimonial_vignette_1"
+        | "testimonial_vignette_2"
+        | "testimonial_vignette_3"
+        | "link_label"
         | "link"
     >;
   };
 
-  const relatedBlockContact = response.data
-    .block_contact as typeof response.data.block_contact & {
+
+  const relatedBlockContact = response.data.block_contact as typeof response.data.block_contact & {
     data: Pick<
       BlockContactDocument["data"],
       "title" | "subtitle" | "content" | "content_bottom" | "link"
     >;
   };
 
-  const listThematicsId: Array<string> = response.data.block_thematiques.map(
-    (block: any) => block.thematics_list.id,
-  );
+  const listThematicsId: Array<string> = response.data.block_thematiques.map((block: any) => block.thematics_list.id);
 
   /**
    * Content-types data

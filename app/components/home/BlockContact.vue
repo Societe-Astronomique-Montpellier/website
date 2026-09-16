@@ -1,13 +1,20 @@
 <script setup lang="ts">
 import { useHomeRichTextSerializer } from "~/composables/useHomeRichTextComponents.ts";
+import type {BlockContactDocument} from "~~/prismicio-types";
 
 const prismic = usePrismic();
-
+const lang = useLang();
 // -- Props
 export interface IProps {
-  block: any;
+  block: BlockContactDocument;
+  uid: string;
 }
-const { block } = defineProps<IProps>();
+const { block, uid } = defineProps<IProps>();
+
+const { data: blockContact } = useAsyncData(
+    uid,
+    async () => await prismic.client.getByUID<BlockContactDocument>('block_contact', uid, { lang: lang.value }),
+)
 
 // -- Components
 const Map = defineAsyncComponent(() => import("~/components/content/Map.vue"));
@@ -42,7 +49,7 @@ const homeRichTextSerializer = useHomeRichTextSerializer();
       <div class="lg:col-span-5 space-y-10">
         <div class="space-y-8">
           <prismic-rich-text
-            :field="block.data.content"
+            :field="blockContact.data.content_block"
             :serializer="homeRichTextSerializer"
           />
         </div>

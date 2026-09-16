@@ -34,11 +34,11 @@ const BlockContact = defineAsyncComponent(() => import("~/components/home/BlockC
 
 // Prismic
 const { data: home, error, pending } = useAsyncData("home", async () => {
-  const currentLang = useLang();
+  const lang = useLang();
   const response = await prismic.client.getSingle<HomepageDocument>(
     "homepage",
     {
-      lang: currentLang.value,
+      lang: lang.value,
       fetchLinks: [
         "block_hero.title",
         "block_hero.subtitle",
@@ -80,7 +80,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
         // Contact
         "block_contact.title",
         "block_contact.subtitle",
-        "block_contact.content",
+        "block_contact.content_block",
         "block_contact.content_bottom",
         "block_contact.link",
       ],
@@ -90,8 +90,6 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
   /**
    * Blocks
    */
-
-
   const relatedBlockHero = response.data.block_hero as RelatedBlockHero;
   const relatedBlockCta = response.data.block_cta as RelatedCtaHome;
   const relatedBlockCtaDark = response.data.block_cta_dark as RelatedCtaHome;
@@ -114,11 +112,10 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
     >;
   };
 
-
   const relatedBlockContact = response.data.block_contact as typeof response.data.block_contact & {
     data: Pick<
       BlockContactDocument["data"],
-      "title" | "subtitle" | "content" | "content_bottom" | "link"
+      "title" | "subtitle" | "content_block" | "content_bottom" | "link"
     >;
   };
 
@@ -133,7 +130,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
       listThematicsId,
     )) as PageThematiqueDocument[],
     (await prismic.client.getSingle("events", {
-      lang: currentLang.value,
+      lang: lang.value,
     })) as EventsDocument,
     (await prismic.client.getAllByType<AllDocumentTypes>("event", {
       filters: [prismic.filter.dateAfter("my.event.time_start", dateNow)],
@@ -142,7 +139,7 @@ const { data: home, error, pending } = useAsyncData("home", async () => {
         direction: "asc",
       },
       limit: 3,
-      lang: currentLang.value,
+      lang: lang.value,
     })) as EventDocument[],
   ]);
 
@@ -208,8 +205,7 @@ useSeo({
         :agenda="home.agendaHome"
       />
 
-      <BlockContact :block="home.blocks.contact" />
-
+      <BlockContact :block="home.blocks.contact" :uid="home.blocks.contact.uid" />
     </main>
   </div>
   <div v-else-if="error">

@@ -29,13 +29,13 @@
           "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,list-item,o-list-item,rtl"
         }
       },
-      "content": {
+      "content_block": {
         "type": "StructuredText",
         "config": {
           "label": "Contenu",
-          "placeholder": "Texte de contenu du bloc",
+          "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,preformatted,heading3,heading4,heading5,heading6,strong,em,image,list-item,o-list-item,rtl,hyperlink"
+          "multi": "paragraph,heading3,heading4,heading5,heading6,strong,em,hyperlink,image,list-item,o-list-item"
         }
       },
       "content_bottom": {
@@ -44,7 +44,7 @@
           "label": "Texte en bas",
           "placeholder": "",
           "allowTargetBlank": true,
-          "multi": "paragraph,strong,em,hyperlink,embed"
+          "single": "paragraph,strong,em,hyperlink"
         }
       },
       "link": {

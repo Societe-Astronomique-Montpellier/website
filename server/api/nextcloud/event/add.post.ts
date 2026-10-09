@@ -165,7 +165,7 @@ export default defineEventHandler(
 
       // Send to nextcloud
       const icalData: string = buildIcalEvent(document);
-      await sendToNextCloud(
+/**      await sendToNextCloud(
         config.nextcloudUrl,
         config.nextcloudLogin,
         config.nextcloudPassword,
@@ -173,7 +173,7 @@ export default defineEventHandler(
         document.id,
         icalData,
       );
-
+**/
       // Send email
       await sendMailNotification(config, document);
 
